@@ -1,0 +1,123 @@
+﻿@page
+@model SirooWebAPP.UI.Pages.RegisterModel
+@{
+}
+
+
+
+<form method="post">
+
+    <div class="container">
+        <div class="row">&nbsp;</div>
+        <div class="row">
+            <div class="col-2">نام</div>
+            <div class="col-4">
+                <input type="text" id="FirstName" asp-for="Person.FirstName" />    <span asp-validation-for="Person.FirstName"></span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-2">نام خانوادگی</div>
+            <div class="col-4"><input type="text" id="LastName" asp-for="Person.LastName" /></div>
+        </div>
+        <div class="row">
+            <div class="col-2">نام کاربری</div>
+            <div class="col-4">
+                <input type="text" placeholder="فقط لاتین" id="UserName" class="latinOnly" asp-for="Person.UserName" />
+                <span class="text-danger" asp-validation-for="Person.UserName"></span>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-2">تلفن همراه</div>
+            <div class="col-4">
+                <input type="text" placeholder="09121234567" id="CellPhone" class="numericOnly" asp-for="Person.CellPhone" />
+                <span class="text-danger" asp-validation-for="Person.CellPhone"></span>
+            </div>
+        </div>
+        @*        <div class="row">
+            <div class="col-2">آدرس ایمیل</div>
+            <div class="col-4">
+            <input type="text" id="Email" asp-for="Person.Email" />
+            <span class="text-danger" asp-validation-for="Person.Email"></span>
+            </div>
+            </div>*@
+        <div class="row">&nbsp;</div>
+        <div class="row">
+            <div class="col-6">
+                @{
+                    if (ViewData["InviterUserID"] != null)
+                    {
+                        <input type='hidden' value='@ViewData["InviterUserID"]' asp-for='Person.InviterUserID'/>
+                    }
+
+                }
+                <input type="submit" value="Submit" asp-page-handler="Register" />
+            </div>
+        </div>
+    </div>
+   
+</form>
+
+@section Scripts {
+<script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+
+<script type="text/javascript">
+    //Allow users to enter numbers only
+    $(".numericOnly").bind('keypress', function (e) {
+        if (e.keyCode == '9' || e.keyCode == '16') {
+            return;
+        }
+        var code;
+        if (e.keyCode) code = e.keyCode;
+        else if (e.which) code = e.which;
+        if (e.which == 46)
+            return false;
+        if (code == 8 || code == 46)
+            return true;
+        if (code < 48 || code > 57)
+            return false;
+    });
+
+    //Disable paste
+    $(".numericOnly").bind("paste", function (e) {
+        e.preventDefault();
+    });
+
+    $(".numericOnly").bind('mouseenter', function (e) {
+        var val = $(this).val();
+        if (val != '0') {
+            val = val.replace(/[^0-9]+/g, "")
+            $(this).val(val);
+        }
+    });
+    //Allow users to enter a-z only
+    $(".latinOnly").bind('keypress', function (e) {
+        if (e.keyCode == '9' || e.keyCode == '16') {
+            return;
+        }
+        var code;
+        if (e.keyCode) code = e.keyCode;
+        else if (e.which) code = e.which;
+        if (e.which == 46)
+            return false;
+        if (code == 8 || code == 46)
+            return true;
+        if (code < 97 || code > 122)
+            return false;
+    });
+
+    //Disable paste
+    $(".latinOnly").bind("paste", function (e) {
+        e.preventDefault();
+    });
+
+    $(".latinOnly").bind('mouseenter', function (e) {
+        var val = $(this)[0].value;
+        if (val != '0') {
+            val = val.replace(/[^a-z]+/g, "")
+            $(this).val(val);
+        }
+    });
+</script>
+}

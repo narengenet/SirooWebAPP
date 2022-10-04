@@ -1,0 +1,93 @@
+﻿@page
+@model SirooWebAPP.UI.Pages.Clients.AddAdvertiseModel
+@{
+    Layout = "_LayoutClients";
+}
+
+
+
+
+
+<form method="post" enctype="multipart/form-data">
+
+    <div class="container">
+        <div class="row">&nbsp;</div>
+        <div class="row">
+            <div class="col-2">کاربر صاحب تبلیغ</div>
+            <div class="col-4">
+                <select asp-items="Model.Options" asp-for="AddAds.UserID"></select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-2">نام</div>
+            <div class="col-4">
+                <input type="text" asp-for="AddAds.Name"></input>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-2">Caption</div>
+            <div class="col-4">
+                <input type="text" asp-for="AddAds.Caption"></input>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-2">ویدئو است</div>
+            <div class="col-4">
+                <input type="checkbox" asp-for="AddAds.isVideo"></input>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-2">امتیاز دیدن</div>
+            <div class="col-4">
+                <input type="number" asp-for="AddAds.ViewReward"></input>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-2">تعداد نمایش</div>
+            <div class="col-4">
+                <input type="number" asp-for="AddAds.ViewQuota"></input>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-2">امتیاز لایک</div>
+            <div class="col-4">
+                <input type="number" asp-for="AddAds.LikeReward"></input>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-2">امتیاز لایک</div>
+            <div class="col-4">
+                <input asp-for="AddAds.Upload" type="file">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                @if (!string.IsNullOrEmpty(Model.FileName) && !Model.IsVideo)
+                {
+                    <img src="~/uploads/@Model.FileName" />
+                }
+                @if (!string.IsNullOrEmpty(Model.FileName) && Model.IsVideo)
+                {
+                    <video width="640" height="480" controls>
+                        <source src="~/@Model.FileName">
+                        Your browser does not support the video tag.
+                    </video>
+                }
+            </div>
+        </div>
+
+        <div class="row">&nbsp;</div>
+        <div class="row">
+            <div class="col-6">
+                <input type="submit" value="Submit" asp-page-handler="AddAdvertisements" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-4">
+                @*@Model.ResultMessage*@
+            </div>
+        </div>
+    </div>
+
+</form>
+

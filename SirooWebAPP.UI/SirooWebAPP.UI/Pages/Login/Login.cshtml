@@ -1,0 +1,63 @@
+﻿@page
+@model SirooWebAPP.UI.Pages.LoginModel
+@{
+}
+<form method="post">
+
+    <div class="container">
+        <div class="row">&nbsp;</div>
+        <div class="row">
+            <div class="col-2">تلفن همراه</div>
+            <div class="col-4">
+                <input type="text" placeholder="09121234567" id="CellPhone" class="numericOnly" asp-for="LoginPerson.Cellphone" />
+            </div>
+        </div>
+
+        <div class="row">&nbsp;</div>
+        <div class="row">
+            <div class="col-6">
+                <input type="submit" value="Submit" asp-page-handler="Login" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-4">
+                @Model.ResultMessage
+            </div>
+        </div>
+    </div>
+   
+</form>
+
+@section Scripts {
+
+<script type="text/javascript">
+    //Allow users to enter numbers only
+    $(".numericOnly").bind('keypress', function (e) {
+        if (e.keyCode == '9' || e.keyCode == '16') {
+            return;
+        }
+        var code;
+        if (e.keyCode) code = e.keyCode;
+        else if (e.which) code = e.which;
+        if (e.which == 46)
+            return false;
+        if (code == 8 || code == 46)
+            return true;
+        if (code < 48 || code > 57)
+            return false;
+    });
+
+    //Disable paste
+    $(".numericOnly").bind("paste", function (e) {
+        e.preventDefault();
+    });
+
+    $(".numericOnly").bind('mouseenter', function (e) {
+        var val = $(this).val();
+        if (val != '0') {
+            val = val.replace(/[^0-9]+/g, "")
+            $(this).val(val);
+        }
+    });
+</script>
+}

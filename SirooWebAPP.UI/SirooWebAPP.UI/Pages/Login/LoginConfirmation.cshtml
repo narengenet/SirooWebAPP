@@ -1,0 +1,64 @@
+﻿ @page
+@model SirooWebAPP.UI.Pages.LoginConfirmationModel
+@{
+}
+<form method="post">
+
+    <div class="container">
+        <div class="row">&nbsp;</div>
+        <div class="row">
+            <div class="col-2">کد تایید</div>
+            <div class="col-4">
+                <input type="text" id="ConfirmationCode" class="numericOnly" asp-for="Confirmed.ConfirmationCode" />
+            </div>
+        </div>
+        <div class="row">&nbsp;</div>
+        <div class="row">
+            <div class="col-6">
+                <input type="hidden" value='@ViewData["userid"]' asp-for="Confirmed.UserID" />
+                <input type="submit" value="Submit" asp-page-handler="CofirmCode" />
+            </div>
+        </div>
+    </div>
+
+    <hr />
+</form>
+
+
+
+@section Scripts {
+<script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+
+<script type="text/javascript">
+    //Allow users to enter numbers only
+    $(".numericOnly").bind('keypress', function (e) {
+        if (e.keyCode == '9' || e.keyCode == '16') {
+            return;
+        }
+        var code;
+        if (e.keyCode) code = e.keyCode;
+        else if (e.which) code = e.which;
+        if (e.which == 46)
+            return false;
+        if (code == 8 || code == 46)
+            return true;
+        if (code < 48 || code > 57)
+            return false;
+    });
+
+    //Disable paste
+    $(".numericOnly").bind("paste", function (e) {
+        e.preventDefault();
+    });
+
+    $(".numericOnly").bind('mouseenter', function (e) {
+        var val = $(this).val();
+        if (val != '0') {
+            val = val.replace(/[^0-9]+/g, "")
+            $(this).val(val);
+        }
+    });
+
+</script>
+}
