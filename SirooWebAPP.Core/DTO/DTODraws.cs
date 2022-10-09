@@ -1,22 +1,23 @@
-﻿using SirooWebAPP.Core.Domain.Base;
+﻿using SirooWebAPP.Core.Domain;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SirooWebAPP.Core.Domain
+namespace SirooWebAPP.Core.DTO
 {
-    public class Draws : AuditableBaseEntity
+    public class DTODraws
     {
-
-        public string Name { get; set; }
+        public Guid DrawId { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public bool IsLottery { get; set; }
-        public Guid CreatedBy { get; set; }
+        public Users CreatedBy { get; set; }
         public bool IsActivated { get; set; }
         public bool IsFinished { get; set; }
+        public ICollection<Prizes> Prizes { get; set; }
+        public ICollection<Users> PrizeWinners { get; set; }
+
     }
 }

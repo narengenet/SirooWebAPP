@@ -10,8 +10,8 @@ namespace SirooWebAPP.Core.Domain
 {
     public class UsersRoles : AuditableBaseEntity
     {
-        public Users User { get; set; }
-        public Roles Role { get; set; }
-        public Users CreatedBy { get; set; }
+        public Guid User { get; set; }
+        public Guid Role { get; set; }
+        public Guid CreatedBy { get; set; }
     }
 }

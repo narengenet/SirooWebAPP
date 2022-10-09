@@ -1,5 +1,5 @@
 ﻿using SirooWebAPP.Core.Domain;
-using SirooWebAPP.Core.DTO;
+using SirooWebAPP.Application.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,7 +32,25 @@ namespace SirooWebAPP.Application.Interfaces
         public bool RemoveLikeFromAdvertise(Guid advertiseID, Guid UserID);
         bool DoLikeAdvertiseByUserID(Guid advertiseID, Guid UserID);
         bool LogOut(Guid UserID,string GUID);
+
         Roles AddRole(Roles roles);
+        Roles GetRole(Guid roleId);
+        List<Roles> GetAllRoles();
+        List<Roles> GetUserRoles(Guid userId);
+        Roles GetRoleByName(string Name);
+        List<UsersRoles> GetAllUsersRoles();
+        void UpdateUserRole(UsersRoles usersRoles);
+        UsersRoles AddUserToRole(UsersRoles userRole);
+        bool RemoveUserFromRole(UsersRoles userRole,Guid removedBy);
+
+        List<Draws> GetAllDraws();
+        Draws AddDraw(Draws draw);
+        bool UpdateDraw(Draws draw);
+        
+        List<Prizes> GetAllPrizes();
+        Prizes AddPrize(Prizes prize);
+        bool UpdatePrize(Prizes prize);
+        bool RemovePrize(Prizes prize, Guid removedBy);
 
     }
 }

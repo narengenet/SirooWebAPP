@@ -1,6 +1,8 @@
-﻿using SirooWebAPP.Application.Interfaces;
+﻿using AutoMapper;
+using SirooWebAPP.Application.DTO;
+using SirooWebAPP.Application.Interfaces;
 using SirooWebAPP.Core.Domain;
-using SirooWebAPP.Core.DTO;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -65,10 +67,27 @@ namespace SirooWebAPP.Infrastructure.Services
         private readonly ILikersRepository _likersRepo;
         private readonly IViewersRepository _viewersRepo;
         private readonly IRolesRepository _rolesRepo;
+        private readonly IUsersRolesRepository _usrRolesRepo;
+        private readonly IDrawsRepository _drawsRepo;
+        private readonly IPrizesRepository _prizRepo;
+
+        private readonly IMapper _mapper;
+
+
 
         public static bool IsLoggedIn = false;
 
-        public UsersServices(IUsersRepository repo, IOnlineUsersRepository onlineRepo, IAdverticeRepository adverticeRepo, ILikersRepository likersRepo, IViewersRepository viewersRepo, IRolesRepository rolesRepo)
+        public UsersServices(IUsersRepository repo,
+            IOnlineUsersRepository onlineRepo,
+            IAdverticeRepository adverticeRepo,
+            ILikersRepository likersRepo,
+            IViewersRepository viewersRepo,
+            IRolesRepository rolesRepo,
+            IUsersRolesRepository usrRolesRepo,
+            IDrawsRepository drawsRepo,
+            IPrizesRepository prizeRepo,
+            IMapper mapper
+            )
         {
             _userRepo = repo;
             _onlineRepo = onlineRepo;
@@ -76,6 +95,10 @@ namespace SirooWebAPP.Infrastructure.Services
             _likersRepo = likersRepo;
             _viewersRepo = viewersRepo;
             _rolesRepo = rolesRepo;
+            _usrRolesRepo = usrRolesRepo;
+            _drawsRepo = drawsRepo;
+            _prizRepo = prizeRepo;
+            _mapper = mapper;
         }
         public List<String> GetUsernames()
         {
@@ -111,16 +134,16 @@ namespace SirooWebAPP.Infrastructure.Services
         {
             int pageSize = 2;
             int skip = pageSize * (pageNumber - 1);
-            if (_userRepo.GetAll().Count < pageSize)
-                pageSize = _userRepo.GetAll().Count;
-            return _userRepo.GetAll()
+            if (this.GetAllUsers().Count < pageSize)
+                pageSize = this.GetAllUsers().Count;
+            return this.GetAllUsers()
               .Skip(skip)
               .Take(pageSize).ToList();
             return this.GetUsers(pageNumber);
         }
         public List<Users> GetAllUsers()
         {
-            return _userRepo.GetAll().ToList<Users>();
+            return _userRepo.GetAll().Where(u=> u.IsDeleted ==false).ToList<Users>();
         }
 
         public Guid AddUser(Users usr)
@@ -238,9 +261,12 @@ namespace SirooWebAPP.Infrastructure.Services
 
                 // map ad, likers and viewers to ad DTO
                 DTOAdvertise _dtoAds = new DTOAdvertise();
+                
+                _dtoAds= _mapper.Map<DTOAdvertise>(item);
+                
                 _dtoAds.AdvertiseID = item.Id;
-                _dtoAds.Caption = item.Caption;
-                _dtoAds.Name = item.Name;
+                //_dtoAds.Caption = item.Caption;
+                //_dtoAds.Name = item.Name;
                 _dtoAds.CreationDate = item.CreationDate.ToString();
                 _dtoAds.Likers = _likers;
                 _dtoAds.MediaSourceURL = item.MediaSourceURL;
@@ -325,6 +351,89 @@ namespace SirooWebAPP.Infrastructure.Services
             //_rolesRepo.SaveChanges();
             return _r;
 
+        }
+
+        public List<Roles> GetAllRoles()
+        {
+            return _rolesRepo.GetAll().ToList<Roles>();
+        }
+        public Roles GetRole(Guid roleId)
+        {
+            return _rolesRepo.GetById(roleId);
+        }
+
+        Roles IUserServices.GetRoleByName(string Name)
+        {
+            return GetAllRoles().Where(r => r.RoleName == Name).FirstOrDefault();
+        }
+
+        public List<UsersRoles> GetAllUsersRoles()
+        {
+            return _usrRolesRepo.GetAll().Where(ur=>ur.IsDeleted==false).ToList<UsersRoles>();
+        }
+        public UsersRoles AddUserToRole(UsersRoles userRole)
+        {
+            return _usrRolesRepo.Add(userRole);
+        }
+        bool IUserServices.RemoveUserFromRole(UsersRoles userRole, Guid removedBy)
+        {
+            userRole.IsDeleted = true;
+            userRole.LastModifiedBy = removedBy.ToString();
+            this.UpdateUserRole(userRole);
+            return true;
+        }
+        public void UpdateUserRole(UsersRoles usersRoles)
+        {
+            _usrRolesRepo.Update(usersRoles);
+        }
+
+        List<Draws> IUserServices.GetAllDraws()
+        {
+            return _drawsRepo.GetAll().ToList<Draws>();
+        }
+
+        Draws IUserServices.AddDraw(Draws draw)
+        {
+            return _drawsRepo.Add(draw);
+        }
+
+        bool IUserServices.UpdateDraw(Draws draw)
+        {
+            _drawsRepo.Update(draw);
+            return true;
+        }
+
+        public List<Prizes> GetAllPrizes()
+        {
+            return _prizRepo.GetAll().Where(p => p.IsDeleted == false).ToList<Prizes>();
+        }
+
+        public Prizes AddPrize(Prizes prize)
+        {
+            return _prizRepo.Add(prize);
+        }
+        public bool RemovePrize(Prizes prize,Guid removedBy)
+        {
+            prize.IsDeleted = true;
+            prize.LastModifiedBy = removedBy.ToString();
+            this.UpdatePrize(prize);
+            return true;
+        }
+        public bool UpdatePrize(Prizes prize)
+        {
+            _prizRepo.Update(prize);
+            return true;
+        }
+
+        public List<Roles> GetUserRoles(Guid userId)
+        {
+            List<UsersRoles> ur = GetAllUsersRoles().Where(ur => ur.User == userId).ToList<UsersRoles>();
+            List<Roles> roles = new List<Roles>();
+            foreach (UsersRoles item in ur)
+            {
+                roles.Add(GetRole(item.Role));
+            }
+            return roles;
         }
     }
 }

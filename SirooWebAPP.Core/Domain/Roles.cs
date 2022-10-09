@@ -14,5 +14,7 @@ namespace SirooWebAPP.Core.Domain
         public string RoleName { get; set; }
         public string RoleDescription { get; set; }
         public bool IsActivated { get; set; }
+        public int Priority { get; set; }
+        public Guid? CreatedBy { get; set; }
     }
 }

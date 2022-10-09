@@ -39,23 +39,23 @@
         <div class="row">
             <div class="col-2">امتیاز دیدن</div>
             <div class="col-4">
-                <input type="number" asp-for="AddAds.ViewReward"></input>
+                <input type="number" disabled value="0" asp-for="AddAds.ViewReward"></input>
             </div>
         </div>
         <div class="row">
             <div class="col-2">تعداد نمایش</div>
             <div class="col-4">
-                <input type="number" asp-for="AddAds.ViewQuota"></input>
+                <input type="number" disabled value="-1" asp-for="AddAds.ViewQuota"></input>
             </div>
         </div>
         <div class="row">
             <div class="col-2">امتیاز لایک</div>
             <div class="col-4">
-                <input type="number" asp-for="AddAds.LikeReward"></input>
+                <input type="number" disabled value="10" asp-for="AddAds.LikeReward"></input>
             </div>
         </div>
         <div class="row">
-            <div class="col-2">امتیاز لایک</div>
+            <div class="col-2">آپلود</div>
             <div class="col-4">
                 <input asp-for="AddAds.Upload" type="file">
             </div>

@@ -24,10 +24,10 @@ namespace SirooWebAPP.Infrastructure.Contexts
         public DbSet<Likers> Likers { get; set; }
         public DbSet<Viewers> Viewers { get; set; }
 
-        //public DbSet<Prizes> Prizes { get; set; }
         public DbSet<Roles> Roles { get; set; }
-        //public DbSet<Draws> Draws { get; set; }
-        //public DbSet<UsersRoles> UsersRoles { get; set; }
+        public DbSet<UsersRoles> UsersRoles { get; set; }
+        public DbSet<Draws> Draws { get; set; }
+        public DbSet<Prizes> Prizes { get; set; }
         //public DbSet<PrizesWinners> PrizesWinners { get; set; }
 
 
@@ -39,11 +39,36 @@ namespace SirooWebAPP.Infrastructure.Contexts
             modelBuilder.Entity<Users>().HasData(sina);
             modelBuilder.Entity<Users>().HasData(mohsen);
             modelBuilder.Entity<Users>().HasData(sepideh);
-            //modelBuilder.Entity<Advertise>().HasData(new Advertise { AdvertiseID=1,Owner=sina, Caption="کیش کدپولو", Name="کیش", IsVideo=true, LikeReward=2, ViewReward=4, ViewQuota=100, RemainedViewQuota=100, MediaSourceURL= "uploads/2022/9/1-56192-4_6008031941360618419.MP4"});
-            //modelBuilder.Entity<Advertise>().HasData(new Advertise { AdvertiseID=2,Owner=mohsen, Caption="کیش کدپولو", Name="کیش", IsVideo=false, LikeReward=2, ViewReward=4, ViewQuota=100, RemainedViewQuota=100, MediaSourceURL= "uploads/2022/9/1-53754-1.mp4_snapshot_01.04_[2022.05.26_09.50.52].jpg" });
-            //modelBuilder.Entity<Advertise>().HasData(new Advertise { AdvertiseID=3,Owner=sepideh, Caption="کیش کدپولو", Name="کیش", IsVideo=false, LikeReward=2, ViewReward=4, ViewQuota=100, RemainedViewQuota=100, MediaSourceURL= "uploads/2022/9/1582619178545.jpg" });
-            //modelBuilder.Entity<Advertise>().HasData(new Advertise { AdvertiseID=4,Owner=sina, Caption="کیش کدپولو", Name="کیش", IsVideo=false, LikeReward=2, ViewReward=4, ViewQuota=100, RemainedViewQuota=100, MediaSourceURL= "uploads/2022/9/1-36433-1.jpg" });
-            
+
+            Roles role_superadmin = new Roles { Id = Guid.NewGuid(), RoleName = "super", IsActivated = true, RoleDescription = "مدیر کل", Priority=0 };
+            Roles role_admin = new Roles { Id = Guid.NewGuid(), RoleName = "admin", IsActivated = true, RoleDescription = "مدیر سامانه", Priority=1 };
+            Roles role_zoneadmin = new Roles { Id = Guid.NewGuid(), RoleName = "zoneadmin", IsActivated = true, RoleDescription = "مدیر منطقه",Priority=2};
+            Roles role_marketer = new Roles { Id = Guid.NewGuid(), RoleName = "marketer", IsActivated = true, RoleDescription = "بازاریاب", Priority=3 };
+            Roles role_store = new Roles { Id = Guid.NewGuid(), RoleName = "store", IsActivated = true, RoleDescription = "فروشگاه",Priority=4 };
+            Roles role_client = new Roles { Id = Guid.NewGuid(), RoleName = "client", IsActivated = true, RoleDescription = "مشتری",Priority=5 };
+            modelBuilder.Entity<Roles>().HasData(role_superadmin);
+            modelBuilder.Entity<Roles>().HasData(role_admin);
+            modelBuilder.Entity<Roles>().HasData(role_zoneadmin);
+            modelBuilder.Entity<Roles>().HasData(role_marketer);
+            modelBuilder.Entity<Roles>().HasData(role_store);
+            modelBuilder.Entity<Roles>().HasData(role_client);
+
+            UsersRoles superadmin_sina = new UsersRoles { Id = Guid.NewGuid(), Role = role_superadmin.Id, User = sina.Id, CreatedBy = sina.Id };
+            UsersRoles admin_sina = new UsersRoles { Id = Guid.NewGuid(), Role = role_admin.Id, User = sina.Id, CreatedBy = sina.Id };
+            UsersRoles marketer_sina = new UsersRoles { Id = Guid.NewGuid(), Role = role_marketer.Id, User = sina.Id, CreatedBy = sina.Id };
+            UsersRoles marketer_sepideh = new UsersRoles { Id = Guid.NewGuid(), Role = role_marketer.Id, User = sepideh.Id, CreatedBy = sina.Id };
+            UsersRoles zoneadmin_mohsen = new UsersRoles { Id = Guid.NewGuid(), Role = role_zoneadmin.Id, User = mohsen.Id, CreatedBy = sina.Id };
+            modelBuilder.Entity<UsersRoles>().HasData(superadmin_sina);
+            modelBuilder.Entity<UsersRoles>().HasData(admin_sina);
+            modelBuilder.Entity<UsersRoles>().HasData(marketer_sina);
+            modelBuilder.Entity<UsersRoles>().HasData(marketer_sepideh);
+            modelBuilder.Entity<UsersRoles>().HasData(zoneadmin_mohsen);
+
+            modelBuilder.Entity<Advertise>().HasData(new Advertise { Id=Guid.NewGuid(),Owner=sina.Id, Caption="کیش کدپولو", Name="کیش", IsVideo=true, LikeReward=200, ViewReward=4, ViewQuota=100, RemainedViewQuota=100, MediaSourceURL= "uploads/2022/9/1-56192-4_6008031941360618419.MP4",IsAvtivated=true, CreatedBy=sina.Id, CreationDate=DateTime.Now.AddDays(-1)});
+            modelBuilder.Entity<Advertise>().HasData(new Advertise { Id = Guid.NewGuid(), Owner=mohsen.Id, Caption="ال جی", Name="کیش", IsVideo=false, LikeReward=20, ViewReward=4, ViewQuota=100, RemainedViewQuota=100, MediaSourceURL= "uploads/2022/9/1-53754-1.mp4_snapshot_01.04_[2022.05.26_09.50.52].jpg", IsAvtivated = true, CreatedBy = sina.Id, CreationDate = DateTime.Now.AddDays(-2) });
+            modelBuilder.Entity<Advertise>().HasData(new Advertise { Id = Guid.NewGuid(), Owner=sepideh.Id, Caption="سامسونگ", Name="کیش", IsVideo=false, LikeReward=50, ViewReward=4, ViewQuota=100, RemainedViewQuota=100, MediaSourceURL= "uploads/2022/9/1582619178545.jpg", IsAvtivated = true, CreatedBy = sina.Id, CreationDate = DateTime.Now.AddDays(-5) });
+            modelBuilder.Entity<Advertise>().HasData(new Advertise { Id = Guid.NewGuid(), Owner=sina.Id, Caption="دیجی کالا", Name="کیش", IsVideo=false, LikeReward=40, ViewReward=4, ViewQuota=100, RemainedViewQuota=100, MediaSourceURL= "uploads/2022/9/1-36433-1.jpg", IsAvtivated = true, CreatedBy = sina.Id, CreationDate = DateTime.Now.AddDays(-3) });
+
 
         }
 

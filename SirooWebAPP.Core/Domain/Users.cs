@@ -17,6 +17,7 @@ namespace SirooWebAPP.Core.Domain
         public bool IsActivated { get; set; }
         public string? ConfirmationCode { get; set; }
         public long Points { get; set; }
+        public long Credits { get; set; }
         public string? ProfileMediaURL { get; set; }
         public virtual Users? Inviter { get; set; }
         public ICollection<Users>? Inviteds { get; set; }

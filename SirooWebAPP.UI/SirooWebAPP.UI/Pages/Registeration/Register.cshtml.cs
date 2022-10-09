@@ -58,8 +58,15 @@ namespace SirooWebAPP.UI.Pages
                 int _confirmationCode = r.Next(1000, 9999);
                 Users inviter=(person.InviterUserID!=null)? _usersServices.GetUser(person.InviterUserID):null;
                 
+                // create new user and register as a user
                 Users _newUser = new Users { Name = person.FirstName, Family = person.LastName, Cellphone = person.CellPhone, Username = person.UserName, ConfirmationCode=_confirmationCode.ToString(), Inviter=inviter };
                 Guid result=_usersServices.AddUser(_newUser);
+
+                // get default role for new registered user
+                Roles _newRole = _usersServices.GetAllRoles().OrderByDescending(r => r.Priority).FirstOrDefault<Roles>();
+                UsersRoles _newUserRole = new UsersRoles { User = result, Role = _newRole.Id, Created = DateTime.Now, CreatedBy = (inviter != null) ? inviter.Id : result };
+                _usersServices.AddUserToRole(_newUserRole);
+
                
                 return RedirectToPage("Confirmation", "Display", new { UserID = result});
 

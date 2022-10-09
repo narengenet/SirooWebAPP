@@ -1,0 +1,61 @@
+﻿@page
+@model SirooWebAPP.UI.Pages.Superadmins.AddUserToRoleModel
+@{
+}
+
+
+@{
+    Layout = "_LayoutClients";
+}
+
+<form method="post" enctype="multipart/form-data">
+
+    <div class="container">
+        <div class="row">&nbsp;</div>
+
+
+        <div class="row">
+            <div class="col-2">نام کاربر</div>
+            <div class="col-4">
+                <select id="ddlUsers"  asp-items="@Model.UserOptions" asp-for="AddRoleUserModel.UserID">
+                    <option value="0">--انتخاب کاربر--</option>
+                </select>
+                <span asp-validation-for="AddRoleUserModel.UserID"></span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-2">نام نقش</div>
+            <div class="col-4">
+                <select asp-items="Model.RolesOptions" asp-for="AddRoleUserModel.RoleID"></select>
+                <span asp-validation-for="AddRoleUserModel.RoleID"></span>
+            </div>
+        </div>
+        <div class="row">&nbsp;</div>
+        <div class="row">
+            <div class="col-6">
+                <input type="submit" value="Add" class="form-control" asp-page-handler="AddRoleToUser" />
+                <input type="submit" value="Remove" class="form-control" asp-page-handler="RemoveRoleFromUser" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-4">
+                @Model.ResultMessage
+            </div>
+        </div>
+
+</form>
+
+
+@section Scripts {
+<script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+<link rel="stylesheet" href="~/css/select2.min.css" />
+<script type="text/javascript" src="~/js/select2.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $("#ddlUsers").select2();
+    });
+</script>
+
+}

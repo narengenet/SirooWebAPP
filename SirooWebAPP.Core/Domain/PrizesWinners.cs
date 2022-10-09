@@ -10,8 +10,9 @@ namespace SirooWebAPP.Core.Domain
 {
     public class PrizesWinners : AuditableBaseEntity
     {
-        public Prizes Prize { get; set; }
-        public Users User { get; set; }
+        public Guid Prize { get; set; }
+        public Guid User { get; set; }
+        public long WiningPoint { get; set; }
         public DateTime WiningDate { get; set; }
     }
 }

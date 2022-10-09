@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using SirooWebAPP.Application.DTO;
 using SirooWebAPP.Application.Interfaces;
 using SirooWebAPP.Core.Domain;
-using SirooWebAPP.Core.DTO;
+
 using SirooWebAPP.UI.Pages;
 using System.Security.Claims;
 using System.Text.RegularExpressions;
@@ -102,6 +103,17 @@ namespace SirooWebAPP.UI.Controllers
             Guid userId = Guid.Parse(_userid);
             bool result = _usersServices.DoLikeAdvertiseByUserID(advertiseID, userId);
             return Ok(result);
+        }
+
+        [TypeFilter(typeof(SampleAsyncActionLoginFilter))]
+        [HttpGet("draws")]
+        public IActionResult GetDraws()
+        {
+
+            string _userid = HttpContext.Request.Cookies["userid"];
+            Guid userId = Guid.Parse(_userid);
+            List<DTOAdvertise> ads = _usersServices.GetAdvertises(userId);
+            return Ok(ads);
         }
         public bool IsValidMobileNumber(string input)
         {

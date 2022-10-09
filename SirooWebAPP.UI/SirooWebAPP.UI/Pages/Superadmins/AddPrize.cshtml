@@ -1,0 +1,81 @@
+﻿@page
+@model SirooWebAPP.UI.Pages.Superadmins.AddPrizeModel
+
+@{
+    Layout = "_LayoutClients";
+}
+
+<form method="post" enctype="multipart/form-data">
+
+    <div class="container">
+        <div class="row">&nbsp;</div>
+
+
+        <div class="row">
+            <div class="col-2">* دوره</div>
+            <div class="col-4">
+                <select id="ddlDraws" asp-items="@Model.DrawsOptions" asp-for="AddPrize.DrawId">
+                    <option value="0">--انتخاب دوره--</option>
+                </select>
+                <span asp-validation-for="AddPrize.DrawId"></span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-2">نام جایزه *</div>
+            <div class="col-4">
+                <input type="text" class="form-control" asp-for="AddPrize.Name"></input> <span asp-validation-for="AddPrize.Name"></span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-2">اولویت *</div>
+            <div class="col-4">
+                <input type="number" min="0" class="form-control" asp-for="AddPrize.Priority"></input> <span asp-validation-for="AddPrize.Priority"></span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-2">تعداد برنده *</div>
+            <div class="col-4">
+                <input type="number" class="form-control" min="1" asp-for="AddPrize.WinnerCount"></input> <span asp-validation-for="AddPrize.WinnerCount"></span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-4">
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" asp-for="AddPrize.IsActivated">
+                    <label class="form-check-label" for="AddPrize.IsActivated">فعال است</label>
+                </div>
+            </div>
+        </div>
+        <div class="row">&nbsp;</div>
+        <div class="row">
+            <div class="col-6">
+                <input type="submit" value="Add" class="form-control" asp-page-handler="AddPrize" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                @foreach (string item in Model.ResultMessage)
+                {
+                    <div>@item</div>
+
+                }
+                
+            </div>
+        </div>
+
+</form>
+
+
+@section Scripts {
+<script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+<link rel="stylesheet" href="~/css/select2.min.css" />
+<script type="text/javascript" src="~/js/select2.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $("#ddlDraws").select2();
+    });
+</script>
+
+}
