@@ -15,6 +15,7 @@ namespace SirooWebAPP.Core.Domain
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public bool IsLottery { get; set; }
+        public Guid Owner { get; set; }
         public Guid CreatedBy { get; set; }
         public bool IsActivated { get; set; }
         public bool IsFinished { get; set; }

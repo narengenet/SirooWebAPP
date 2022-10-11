@@ -9,10 +9,16 @@ namespace SirooWebAPP.Application.DTO
     public class DTOUser
     {
         public Guid UserId { get; set; }
-        public string FullName { get; set; }
+        public string Name { get; set; }
+        public string Family { get; set; }
         public string Username { get; set; }
-        public string ProfileURL { get; set; }
-        public int Points { get; set; }
-        public int MyProperty { get; set; }
+        //public string Cellphone { get; set; }
+        public bool IsActivated { get; set; }
+        //public string? ConfirmationCode { get; set; }
+        //public long Points { get; set; }
+        //public long Credits { get; set; }
+        public string? ProfileMediaURL { get; set; }
+        //public virtual Users? Inviter { get; set; }
+        //public ICollection<Users>? Inviteds { get; set; }
     }
 }

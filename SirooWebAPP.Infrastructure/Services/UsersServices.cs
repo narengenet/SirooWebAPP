@@ -270,7 +270,7 @@ namespace SirooWebAPP.Infrastructure.Services
                 _dtoAds.CreationDate = item.CreationDate.ToString();
                 _dtoAds.Likers = _likers;
                 _dtoAds.MediaSourceURL = item.MediaSourceURL;
-                _dtoAds.Owner = GetUser(item.Owner);
+                _dtoAds.Owner = _mapper.Map<DTOUser>(GetUser(item.Owner));
                 _dtoAds.Viewers = _viewers;
                 _dtoAds.IsVideo = item.IsVideo;
                 _dtoAds.LikerCount = _likers.Count;
@@ -391,6 +391,35 @@ namespace SirooWebAPP.Infrastructure.Services
         {
             return _drawsRepo.GetAll().ToList<Draws>();
         }
+        public List<DTODraws> GetAllActiveDrawsByUser(Guid userId)
+        {
+            var data = _userRepo.GetAll()
+                .Join(
+                    _usrRolesRepo.GetAll(),
+                    user => user.Id,
+                    userRole => userRole.User,
+                    (user, userRole) => new { user, userRole }
+                ).ToList()
+                .GroupBy(d => d.user);
+                
+
+
+
+            List<DTODraws> _draws = _mapper.Map<List<DTODraws>>(_drawsRepo.GetAll().OrderBy(d=>d.StartDate));
+            foreach (DTODraws item in _draws)
+            {
+                List<DTOPrize> _p = _mapper.Map<List<DTOPrize>>(GetPrizesByDraw(item.DrawId));
+                item.Owner = _mapper.Map<DTOUser>(GetUser(item.OwnerId));
+                item.Prizes=(_p);
+            }
+            List<Users> allUsers = _userRepo.GetAll().ToList<Users>();
+            
+
+
+
+            return _draws;
+
+        }
 
         Draws IUserServices.AddDraw(Draws draw)
         {
@@ -423,6 +452,10 @@ namespace SirooWebAPP.Infrastructure.Services
         {
             _prizRepo.Update(prize);
             return true;
+        }
+        public List<Prizes> GetPrizesByDraw(Guid drawId)
+        {
+            return GetAllPrizes().Where(p => p.Draw == drawId).ToList<Prizes>();
         }
 
         public List<Roles> GetUserRoles(Guid userId)

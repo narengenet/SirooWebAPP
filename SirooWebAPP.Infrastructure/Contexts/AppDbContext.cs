@@ -69,6 +69,37 @@ namespace SirooWebAPP.Infrastructure.Contexts
             modelBuilder.Entity<Advertise>().HasData(new Advertise { Id = Guid.NewGuid(), Owner=sepideh.Id, Caption="سامسونگ", Name="کیش", IsVideo=false, LikeReward=50, ViewReward=4, ViewQuota=100, RemainedViewQuota=100, MediaSourceURL= "uploads/2022/9/1582619178545.jpg", IsAvtivated = true, CreatedBy = sina.Id, CreationDate = DateTime.Now.AddDays(-5) });
             modelBuilder.Entity<Advertise>().HasData(new Advertise { Id = Guid.NewGuid(), Owner=sina.Id, Caption="دیجی کالا", Name="کیش", IsVideo=false, LikeReward=40, ViewReward=4, ViewQuota=100, RemainedViewQuota=100, MediaSourceURL= "uploads/2022/9/1-36433-1.jpg", IsAvtivated = true, CreatedBy = sina.Id, CreationDate = DateTime.Now.AddDays(-3) });
 
+            Draws draw_a = new Draws { Id = Guid.NewGuid(), Name = "آبان 1401", Created = DateTime.Now, StartDate = DateTime.Now, EndDate = DateTime.Now.AddDays(15), CreatedBy = sina.Id, IsActivated = true, IsFinished = false, IsLottery = false, Owner=sina.Id };
+            Draws draw_b = new Draws { Id = Guid.NewGuid(), Name = "اذر 1401", Created = DateTime.Now, StartDate = DateTime.Now.AddDays(30), EndDate = DateTime.Now.AddDays(60), CreatedBy = sina.Id, IsActivated = true, IsFinished = false, IsLottery = false, Owner=sepideh.Id };
+            Draws draw_c = new Draws { Id = Guid.NewGuid(), Name = "شهریور 1401", Created = DateTime.Now, StartDate = DateTime.Now.AddDays(-30), EndDate = DateTime.Now.AddDays(-10), CreatedBy = sina.Id, IsActivated = true, IsFinished = true, IsLottery = false, Owner=mohsen.Id };
+            modelBuilder.Entity<Draws>().HasData(draw_a);
+            modelBuilder.Entity<Draws>().HasData(draw_b);
+            modelBuilder.Entity<Draws>().HasData(draw_c);
+
+            Prizes prize_a_one = new Prizes { Id = Guid.NewGuid(), Name = "200 هزار تومان", Draw = draw_a.Id, IsActivated = true, Priority = 0, WinnerCount = 5, Created = DateTime.Now, CreatedBy = sina.Id };
+            Prizes prize_a_two = new Prizes { Id = Guid.NewGuid(), Name = "100 هزار تومان", Draw = draw_a.Id, IsActivated = true, Priority = 1, WinnerCount = 10, Created = DateTime.Now, CreatedBy = sina.Id };
+            Prizes prize_a_three = new Prizes { Id = Guid.NewGuid(), Name = "50 هزار تومان", Draw = draw_a.Id, IsActivated = true, Priority = 2, WinnerCount = 15, Created = DateTime.Now, CreatedBy = sina.Id };
+            modelBuilder.Entity<Prizes>().HasData(prize_a_one);
+            modelBuilder.Entity<Prizes>().HasData(prize_a_two);
+            modelBuilder.Entity<Prizes>().HasData(prize_a_three);
+
+            Prizes prize_b_one = new Prizes { Id = Guid.NewGuid(), Name = "2 میلیون تومان", Draw = draw_b.Id, IsActivated = true, Priority = 0, WinnerCount = 5, Created = DateTime.Now, CreatedBy = sina.Id };
+            Prizes prize_b_two = new Prizes { Id = Guid.NewGuid(), Name = "1 میلیون تومان", Draw = draw_b.Id, IsActivated = true, Priority = 1, WinnerCount = 10, Created = DateTime.Now, CreatedBy = sina.Id };
+            Prizes prize_b_three = new Prizes { Id = Guid.NewGuid(), Name = "500 هزار تومان", Draw = draw_b.Id, IsActivated = true, Priority = 2, WinnerCount = 15, Created = DateTime.Now, CreatedBy = sina.Id };
+            modelBuilder.Entity<Prizes>().HasData(prize_b_one);
+            modelBuilder.Entity<Prizes>().HasData(prize_b_two);
+            modelBuilder.Entity<Prizes>().HasData(prize_b_three);
+            
+            Prizes prize_c_one = new Prizes { Id = Guid.NewGuid(), Name = "20 میلیون تومان", Draw = draw_c.Id, IsActivated = true, Priority = 0, WinnerCount = 5, Created = DateTime.Now, CreatedBy = sina.Id };
+            Prizes prize_c_two = new Prizes { Id = Guid.NewGuid(), Name = "10 میلیون تومان", Draw = draw_c.Id, IsActivated = true, Priority = 1, WinnerCount = 10, Created = DateTime.Now, CreatedBy = sina.Id };
+            Prizes prize_c_three = new Prizes { Id = Guid.NewGuid(), Name = "500 هزار تومان", Draw = draw_c.Id, IsActivated = true, Priority = 2, WinnerCount = 15, Created = DateTime.Now, CreatedBy = sina.Id };
+            modelBuilder.Entity<Prizes>().HasData(prize_c_one);
+            modelBuilder.Entity<Prizes>().HasData(prize_c_two);
+            modelBuilder.Entity<Prizes>().HasData(prize_c_three);
+
+
+
+
 
         }
 

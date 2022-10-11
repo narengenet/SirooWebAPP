@@ -11,10 +11,9 @@ using System.Threading.Tasks;
 namespace SirooWebAPP.Infrastructure.Repositories
 {
     public class UserRepository : GenericRepository<Users>, IUsersRepository
-    {
+    {        
         public UserRepository(AppDbContext dbContext) : base(dbContext)
         {
-
 
         }
 

@@ -44,10 +44,12 @@ namespace SirooWebAPP.Application.Interfaces
         bool RemoveUserFromRole(UsersRoles userRole,Guid removedBy);
 
         List<Draws> GetAllDraws();
+        List<DTODraws> GetAllActiveDrawsByUser(Guid userId);
         Draws AddDraw(Draws draw);
         bool UpdateDraw(Draws draw);
         
         List<Prizes> GetAllPrizes();
+        public List<Prizes> GetPrizesByDraw(Guid drawId);
         Prizes AddPrize(Prizes prize);
         bool UpdatePrize(Prizes prize);
         bool RemovePrize(Prizes prize, Guid removedBy);

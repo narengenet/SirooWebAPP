@@ -112,8 +112,8 @@ namespace SirooWebAPP.UI.Controllers
 
             string _userid = HttpContext.Request.Cookies["userid"];
             Guid userId = Guid.Parse(_userid);
-            List<DTOAdvertise> ads = _usersServices.GetAdvertises(userId);
-            return Ok(ads);
+            List<DTODraws> draws = _usersServices.GetAllActiveDrawsByUser(userId);
+            return Ok(draws);
         }
         public bool IsValidMobileNumber(string input)
         {

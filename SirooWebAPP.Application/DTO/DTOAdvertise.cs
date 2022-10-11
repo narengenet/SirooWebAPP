@@ -15,7 +15,7 @@ namespace SirooWebAPP.Application.DTO
         
         public string CreationDate { get; set; }
         public Users CreatedBy { get; set; }
-        public Users Owner { get; set; }
+        public DTOUser Owner { get; set; }
         public bool IsVideo { get; set; }
         public string MediaSourceURL { get; set; }
         public bool YouLiked { get; set; }

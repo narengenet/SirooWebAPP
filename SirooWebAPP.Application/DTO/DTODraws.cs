@@ -10,14 +10,18 @@ namespace SirooWebAPP.Application.DTO
     public class DTODraws
     {
         public Guid DrawId { get; set; }
+        public string Name { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
+        public DateTime Created { get; set; }
         public bool IsLottery { get; set; }
-        public Users CreatedBy { get; set; }
+        public Guid CreatedBy { get; set; }
         public bool IsActivated { get; set; }
         public bool IsFinished { get; set; }
-        public ICollection<Prizes> Prizes { get; set; }
-        public ICollection<Users> PrizeWinners { get; set; }
+        public Guid OwnerId { get; set; }
+        public DTOUser Owner { get; set; }
+        public ICollection<DTOPrize> Prizes { get; set; }
+        public ICollection<DTOUser> PrizeWinners { get; set; }
 
     }
 }

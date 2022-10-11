@@ -4,18 +4,18 @@
     Layout = "_LayoutClients";
 }
 <style>
-    .posts {
+    .draws {
         display: flex;
         justify-content: center;
         flex-direction: column;
         align-items: center;
     }
 
-        .posts a {
-            text-decoration: none;
-        }
+    .draw a {
+        text-decoration: none;
+    }
 
-    .post {
+    .draw {
         display: flex;
         border: 1px solid black;
         border-radius: 1rem;
@@ -28,10 +28,10 @@
         margin-bottom: 1rem;
     }
 
-        .post .header {
+        .draw .header {
             display: flex;
             flex-direction: row-reverse;
-            position: absolute;
+            /*position: absolute;*/
             right: 10px;
             top: 10px;
         }
@@ -81,9 +81,10 @@
         border-radius: 1rem;
     }
 
-    .post .contents {
+    .draw .contents {
         display: flex;
         justify-content: center;
+        direction: rtl;
     }
 
     .like-btn, .view-btn {
@@ -97,7 +98,7 @@
         font-weight: bold;
         font-size: 0.8rem;
         justify-content: center;
-        cursor:pointer;
+        cursor: pointer;
     }
 
         .like-btn.liked {
@@ -145,52 +146,39 @@
         color: gray;
         font-size: 0.7rem;
     }
-    .caption{
-        direction:rtl;
-        padding:0.5rem;
+
+    .caption {
+        direction: rtl;
+        padding: 0.5rem;
     }
 </style>
 
-<script id="adsTemplate" type="text/x-jQuery-tmpl">
-    <div class="post">
+<script id="drawTemplate" type="text/x-jQuery-tmpl">
+    <div class="draw {{if isFinished}}finished{{/if}}">
         <div class="header">
             <div class="profile-link">
                 <a class="profile-media" href="#">
                     <img src="../${owner.profileMediaURL}" />
                 </a>
                 <a href="#" class="profile-fullname">${owner.name}</a>
-                <a href="#" class="profile-date">${creationDate}</a>
+                <a href="#" class="profile-date dates">${created}</a>
             </div>
         </div>
         <div class="contents">
-    {{if isVideo==1}}
-            <div class="post-video">
-                <video width="580px" height="300px" controls>
-                    <source src="../${mediaSourceURL}">
-                    Your browser does not support the video tag.
-                </video>
-            </div>
-    {{else}}
-            <div class="post-image">
-                <img src="../${mediaSourceURL}" />
-            </div>
-    {{/if}}
+            <span>دوره:</span><span>${name}</span>
         </div>
-        <div class="footer">
-            <div class="like-btn {{if youLiked}}liked{{/if}}" onclick="_doLike('${advertiseID}')">+${likeReward}</div>
-            <div class="like-details"><b>${likerCount}</b> <i>liked</i></div>
-            <div class="view-btn">&nbsp;</div>
-            <div class="view-details"><b>${viewerCount}</b> <i>view</i></div>
+        <div class="contents">
+            <span>تاریخ شروع:</span><span class="dates">${startDate}</span>
         </div>
-        <div class="caption">
-            ${caption}
+        <div class="contents">
+            <span>تاریخ پایان:</span><span class="dates">${endDate}</span>
         </div>
 
     </div>
 
 </script>
 
-<div class="posts" id="adsContainer">
+<div class="draws" id="drawsContainer">
 </div>
 
 @section Scripts {
@@ -200,40 +188,40 @@
 <script type="text/javascript">
     $(document).ready(function () {
         $.ajax({
-            url: '/ads',
+            url: '/draws',
             type: 'GET',
             success: function (result) {
                 //var ads = jQuery.parseJSON(result);
-                sina="{ads:"+result+"}";
-                $('#adsTemplate').tmpl(result).appendTo('#adsContainer');
-                
-                var dates=$('.profile-date');
+                sina="{draws:"+result+"}";
+                $('#drawTemplate').tmpl(result).appendTo('#drawsContainer');
+
+                var dates=$('.dates');
                 for(i=0;i<dates.length;i++){
                     $(dates[i]).text(jQuery.timeago($(dates[i]).text()));
                 }
 
-                
+
             },
         });
     });
 
-    function _doLike(adv){
-        $.ajax({
-            url: '/dolike/'+adv,
-            type: 'GET',
-            success: function (result) {
-                if(result){
-                    if(result=="gologin"){
-                        window.location="/login/login";
-                    }else{
-                        alert(adv+" is liked");
-                    }
-                }else{
-                    alert("failed");
-                }
-            },
-        });
-    }
+    //function _doLike(adv){
+    //    $.ajax({
+    //        url: '/dolike/'+adv,
+    //        type: 'GET',
+    //        success: function (result) {
+    //            if(result){
+    //                if(result=="gologin"){
+    //                    window.location="/login/login";
+    //                }else{
+    //                    alert(adv+" is liked");
+    //                }
+    //            }else{
+    //                alert("failed");
+    //            }
+    //        },
+    //    });
+    //}
 </script>
 
 }

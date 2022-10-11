@@ -6,7 +6,7 @@ using SirooWebAPP.Core.Domain;
 using SirooWebAPP.Infrastructure.Security;
 using SirooWebAPP.UI.Helpers;
 
-namespace SirooWebAPP.UI.Pages.Superadmins
+namespace SirooWebAPP.UI.Pages.Clients
 {
     public class AddUserToRoleModel : PageModel
     {

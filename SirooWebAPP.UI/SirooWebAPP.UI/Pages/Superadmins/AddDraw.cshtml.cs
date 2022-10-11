@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using SirooWebAPP.Application.Interfaces;
 using SirooWebAPP.Core.Domain;
 using SirooWebAPP.Infrastructure.Security;
@@ -23,7 +24,7 @@ namespace SirooWebAPP.UI.Pages.Superadmins
         }
 
         //public List<SelectListItem> Options { get; set; }
-        //public List<SelectListItem> UserOptions { get; set; }
+        public List<SelectListItem> OwnerOptions { get; set; }
 
         [BindProperty]
         public AddDraw? AddDraw { get; set; }
@@ -33,6 +34,14 @@ namespace SirooWebAPP.UI.Pages.Superadmins
         public void OnGet()
         {
             //this.Users = new SelectList(this._usersServices.GetAllUsers(), "Id", "UserName");
+
+            OwnerOptions = _usersServices.GetAllUsers().Select(a =>
+                new SelectListItem
+                {
+                    Value = a.Id.ToString(),
+                    Text = a.Username
+                }
+            ).ToList();
 
             //UserOptions = _usersServices.GetAllUsers().Select(a =>
             //    new SelectListItem
@@ -60,7 +69,7 @@ namespace SirooWebAPP.UI.Pages.Superadmins
                 Guid creatorID = Guid.Parse(_creatorId);
                 DateTime startD = HelperFunctions.JavaTimeStampToDateTime(Convert.ToDouble(addDraw.StartDate));
                 DateTime endD = HelperFunctions.JavaTimeStampToDateTime(Convert.ToDouble(addDraw.EndDate));
-                if (endD>startD)
+                if (endD > startD)
                 {
                     Draws _d = _usersServices.GetAllDraws().Where(d => d.Name == addDraw.Name).FirstOrDefault<Draws>();
                     if (_d == null)
@@ -73,7 +82,9 @@ namespace SirooWebAPP.UI.Pages.Superadmins
                             Name = addDraw.Name,
                             StartDate = startD,
                             EndDate = endD,
-                            IsLottery = addDraw.IsLottery
+                            IsLottery = addDraw.IsLottery,
+                            Owner = addDraw.OwnerId
+
                         };
                         _usersServices.AddDraw(draw);
                         ResultMessage = "دوره جدید ایحاد شد.";
@@ -90,6 +101,14 @@ namespace SirooWebAPP.UI.Pages.Superadmins
 
 
             }
+
+            OwnerOptions = _usersServices.GetAllUsers().Select(a =>
+                new SelectListItem
+                {
+                    Value = a.Id.ToString(),
+                    Text = a.Username
+                }
+            ).ToList();
 
             return Page();
 
