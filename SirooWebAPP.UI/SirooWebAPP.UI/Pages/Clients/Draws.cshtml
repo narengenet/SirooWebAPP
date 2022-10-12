@@ -173,6 +173,17 @@
         <div class="contents">
             <span>تاریخ پایان:</span><span class="dates">${endDate}</span>
         </div>
+        {{each prizes}}
+            <div class="contents">
+                ${$index + 1}: ${name}، ${winnerCount} نفر
+            </div>
+        {{/each}}
+        {{each prizeWinners}}
+            <div class="contents">
+                ${$index + 1}: ${username}، ${points} امتیاز
+            </div>
+        {{/each}}
+
 
     </div>
 
@@ -191,14 +202,17 @@
             url: '/draws',
             type: 'GET',
             success: function (result) {
-                //var ads = jQuery.parseJSON(result);
-                sina="{draws:"+result+"}";
-                $('#drawTemplate').tmpl(result).appendTo('#drawsContainer');
+                    if(result=="gologin"){
+                        window.location="/login/login";
+                    }else{
+                        sina="{draws:"+result+"}";
+                        $('#drawTemplate').tmpl(result).appendTo('#drawsContainer');
 
-                var dates=$('.dates');
-                for(i=0;i<dates.length;i++){
-                    $(dates[i]).text(jQuery.timeago($(dates[i]).text()));
-                }
+                        var dates=$('.dates');
+                        for(i=0;i<dates.length;i++){
+                            $(dates[i]).text(jQuery.timeago($(dates[i]).text()));
+                        }
+                    }
 
 
             },

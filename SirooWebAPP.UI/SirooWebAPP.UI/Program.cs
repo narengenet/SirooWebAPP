@@ -29,12 +29,7 @@ builder.Services.AddEndpointsApiExplorer();
 // Registering Inversion Of Control
 builder.Services.AddIoCService();
 
-//builder.Services.AddScoped<IUsersRepository, UserRepository>();
-//builder.Services.AddScoped<IUserServices, UsersServices>();
-//builder.Services.AddScoped<IOnlineUsersRepository, OnlineUsersRepository>();
-//builder.Services.AddScoped<IAdverticeRepository, AdvertiseRepository>();
-//builder.Services.AddScoped<ILikersRepository, LikersRepository>();
-//builder.Services.AddScoped<IViewersRepository, ViewersRepository>();
+
 
 builder.Services.AddSingleton<UniqueCode>();
 builder.Services.AddSingleton<CustomIDataProtection>();
@@ -42,27 +37,7 @@ builder.Services.AddSingleton<CustomIDataProtection>();
 builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer("name=ConnectionStrings:DefaultConnection"));
 
 
-//builder.Services.AddAutoMapper(config =>
-//{
-//    config.CreateMap<Advertise, DTOAdvertise>()
-//    .ForMember(dest => dest.AdvertiseID, opt => opt.MapFrom(src => src.Id))
-//    .ForMember(dest => dest.Caption, opt => opt.MapFrom(src => src.Caption))
-//    .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
-//    .ForMember(dest => dest.MediaSourceURL, opt => opt.MapFrom(src => src.MediaSourceURL))
-//    .ForMember(dest => dest.IsVideo, opt => opt.MapFrom(src => src.IsVideo))
-//    .ForMember(dest => dest.CreationDate, opt => opt.Ignore())
-//    .ForMember(dest => dest.CreatedBy, opt => opt.Ignore())
-//    .ForMember(dest => dest.Likers, opt => opt.Ignore())
-//    .ForMember(dest => dest.Owner, opt => opt.Ignore())
-//    .ForMember(dest => dest.Viewers, opt => opt.Ignore())
-//    .ForMember(dest => dest.LikerCount, opt => opt.Ignore())
-//    .ForMember(dest => dest.ViewerCount, opt => opt.Ignore())
-//    .ForMember(dest => dest.LikeReward, opt => opt.Ignore())
-//    .ForMember(dest => dest.ViewReward, opt => opt.Ignore())
-//    .ForMember(dest => dest.YouLiked, opt => opt.Ignore())
-//    .ForMember(dest => dest.IsAvtivated, opt => opt.Ignore());
-//}, AppDomain.CurrentDomain.GetAssemblies());
-//builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
+
 builder.Services.AddApplicationLayer();
 
 builder.Services.AddRazorPages(options =>
@@ -75,7 +50,13 @@ builder.Services.AddRazorPages(options =>
 {
     options.Conventions.AddFolderApplicationModelConvention(
         "/Superadmins",
-        model => model.Filters.Add(new TypeFilterAttribute(typeof(SampleAsyncSuperAdminsActionLoginFilter))));
+        model => model.Filters.Add(new TypeFilterAttribute(typeof(SampleAsyncSuperAdminsLoginFilter))));
+});
+builder.Services.AddRazorPages(options =>
+{
+    options.Conventions.AddFolderApplicationModelConvention(
+        "/Stores",
+        model => model.Filters.Add(new TypeFilterAttribute(typeof(SampleAsyncStoresLoginFilter))));
 });
 
 //.AddMvcOptions(options =>

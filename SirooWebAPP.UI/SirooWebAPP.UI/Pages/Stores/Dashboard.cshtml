@@ -1,0 +1,17 @@
+﻿@page
+@model SirooWebAPP.UI.Pages.Stores.DashboardModel
+@addTagHelper "*, QRCode"  
+
+@{
+}
+
+
+
+A library which supports decoding and generating of barcodes (like QR Code, PDF 417, EAN, UPC, Aztec, Data Matrix, Codabar) within images.  
+   
+
+<qrcode alt="QR Code" content="https://barnamenevisan.org/" />  
+ https://barnamenevisan.org/ 
+
+
+ <img src="@Model.QrText" />

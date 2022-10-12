@@ -1,4 +1,5 @@
 ﻿@addTagHelper*, Microsoft.AspNetCore.Mvc.TagHelpers
+@using Microsoft.AspNetCore.Http
 <!DOCTYPE html>
 
 <html>
@@ -12,9 +13,16 @@
 
         @RenderBody()
         <div style="display:flex;flex-direction:row;">
-            <div style="background-color:red;">A</div>
-            <div style="background-color:blue;">B</div>
-            <div style="background-color:green;">
+            <div style="border:solid 1px black;border-radius:1rem;">
+                @Context.Session.GetString("userfullname")<br />
+                @Context.Session.GetString("userrolename")<br />
+                @Context.Session.GetString("userprofileurl")<br />
+            </div>
+            <div style="border:solid 1px black;border-radius:1rem;">
+                @Context.Session.GetString("userpoints")<br />
+                @Context.Session.GetString("usercredits")<br />
+            </div>
+            <div style="border:solid 1px black;border-radius:1rem;">
                 <a href="~/Clients/Draws">دوره ها</a>
             </div>
         </div>

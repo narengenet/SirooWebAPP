@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Primitives;
 using SirooWebAPP.Application.Interfaces;
+using SirooWebAPP.Core.Domain;
 using SirooWebAPP.UI.Helpers;
 
 namespace SirooWebAPP.UI.Pages
@@ -31,8 +32,10 @@ namespace SirooWebAPP.UI.Pages
                 }
                 catch (Exception e)
                 {
+                    HelperFunctions.RemoveCookie("userid", context.HttpContext.Request, context.HttpContext.Response);
+                    HelperFunctions.RemoveCookie("usertoken", context.HttpContext.Request, context.HttpContext.Response);
                     context.HttpContext.Session.SetString("userid", "00000000-0000-0000-0000-000000000000");
-                    throw;
+                    
                 }
 
                 if (usrid.ToString() != "00000000-0000-0000-0000-000000000000")
@@ -40,8 +43,17 @@ namespace SirooWebAPP.UI.Pages
                     // check online status of user with his user ID and token in his device cookies
                     if (_usersServices.CheckUserLogin(usrid, tmpUserToken))
                     {
+                        // set user details in session
+                        Users _currentUser = _usersServices.GetUser(usrid);
+                        Roles _currentRole = _usersServices.GetUserRoles(usrid).OrderBy(r => r.Priority).First();
                         // user is valid and have online record in DB then set his session
                         context.HttpContext.Session.SetString("userid", usrid.ToString());
+                        context.HttpContext.Session.SetString("username", _currentUser.Username);
+                        context.HttpContext.Session.SetString("userfullname", _currentUser.FullName());
+                        context.HttpContext.Session.SetString("userrolename", _currentRole.RoleName);
+                        context.HttpContext.Session.SetString("userprofileurl", _currentUser.ProfileMediaURL);
+                        context.HttpContext.Session.SetString("userpoints", _currentUser.Points.ToString());
+                        context.HttpContext.Session.SetString("usercredits", _currentUser.Credits.ToString());
 
                     }
                     else
@@ -60,7 +72,8 @@ namespace SirooWebAPP.UI.Pages
                 //context.HttpContext.Session.SetString("userid", "-1");
                 HelperFunctions.RemoveCookie("userid", context.HttpContext.Request, context.HttpContext.Response);
                 HelperFunctions.RemoveCookie("usertoken", context.HttpContext.Request, context.HttpContext.Response);
-                context.HttpContext.Response.Redirect("/Login/Login");
+                //context.HttpContext.Response.Redirect("/Login/Login");
+                context.Result = new RedirectResult("/Login/Login");
             }
         }
     }

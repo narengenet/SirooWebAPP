@@ -2,15 +2,16 @@
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Primitives;
 using SirooWebAPP.Application.Interfaces;
+using SirooWebAPP.Core.Domain;
 using SirooWebAPP.UI.Helpers;
 
 namespace SirooWebAPP.UI.Pages
 {
-    public class SampleAsyncSuperAdminsActionLoginFilter : IAuthorizationFilter
+    public class SampleAsyncStoresLoginFilter : IAuthorizationFilter
     {
         private readonly IUserServices _usersServices;
 
-        public SampleAsyncSuperAdminsActionLoginFilter(IUserServices userServices)
+        public SampleAsyncStoresLoginFilter(IUserServices userServices)
         {
             _usersServices = userServices;
         }
@@ -32,6 +33,8 @@ namespace SirooWebAPP.UI.Pages
                 }
                 catch (Exception e)
                 {
+                    HelperFunctions.RemoveCookie("userid", context.HttpContext.Request, context.HttpContext.Response);
+                    HelperFunctions.RemoveCookie("usertoken", context.HttpContext.Request, context.HttpContext.Response);
                     context.HttpContext.Session.SetString("userid", "00000000-0000-0000-0000-000000000000");
                     throw;
                 }
@@ -43,6 +46,25 @@ namespace SirooWebAPP.UI.Pages
                     {
                         // user is valid and have online record in DB then set his session
                         context.HttpContext.Session.SetString("userid", usrid.ToString());
+                        // check if user role is super admin or not
+                        string usrRoleName = _usersServices.GetUserRoles(usrid).OrderBy(u => u.Priority).First().RoleName;
+
+                        // set user details in session
+                        Users _currentUser = _usersServices.GetUser(usrid);
+                        // user is valid and have online record in DB then set his session
+                        context.HttpContext.Session.SetString("userid", usrid.ToString());
+                        context.HttpContext.Session.SetString("username", _currentUser.Username);
+                        context.HttpContext.Session.SetString("userfullname", _currentUser.FullName());
+                        context.HttpContext.Session.SetString("userrolename", usrRoleName);
+                        context.HttpContext.Session.SetString("userprofileurl", _currentUser.ProfileMediaURL);
+                        context.HttpContext.Session.SetString("userpoints", _currentUser.Points.ToString());
+                        context.HttpContext.Session.SetString("usercredits", _currentUser.Credits.ToString());
+
+                        if (usrRoleName != "store")
+                        {
+                            context.Result = new RedirectResult("/Clients/Main");
+                        }
+
 
                     }
                     else

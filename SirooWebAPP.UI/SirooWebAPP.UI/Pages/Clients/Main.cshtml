@@ -97,7 +97,7 @@
         font-weight: bold;
         font-size: 0.8rem;
         justify-content: center;
-        cursor:pointer;
+        cursor: pointer;
     }
 
         .like-btn.liked {
@@ -145,9 +145,10 @@
         color: gray;
         font-size: 0.7rem;
     }
-    .caption{
-        direction:rtl;
-        padding:0.5rem;
+
+    .caption {
+        direction: rtl;
+        padding: 0.5rem;
     }
 </style>
 
@@ -203,16 +204,19 @@
             url: '/ads',
             type: 'GET',
             success: function (result) {
-                //var ads = jQuery.parseJSON(result);
-                sina="{ads:"+result+"}";
-                $('#adsTemplate').tmpl(result).appendTo('#adsContainer');
-                
-                var dates=$('.profile-date');
-                for(i=0;i<dates.length;i++){
-                    $(dates[i]).text(jQuery.timeago($(dates[i]).text()));
+                if(result=="gologin"){
+                    window.location="/login/login";
+                }else{
+                    //var ads = jQuery.parseJSON(result);
+                    sina="{ads:"+result+"}";
+                    $('#adsTemplate').tmpl(result).appendTo('#adsContainer');
+
+                    var dates=$('.profile-date');
+                    for(i=0;i<dates.length;i++){
+                        $(dates[i]).text(jQuery.timeago($(dates[i]).text()));
+                    }
                 }
 
-                
             },
         });
     });

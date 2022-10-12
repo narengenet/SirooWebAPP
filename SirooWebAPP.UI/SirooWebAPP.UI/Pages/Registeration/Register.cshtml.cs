@@ -64,7 +64,8 @@ namespace SirooWebAPP.UI.Pages
 
                 // get default role for new registered user
                 Roles _newRole = _usersServices.GetAllRoles().OrderByDescending(r => r.Priority).FirstOrDefault<Roles>();
-                UsersRoles _newUserRole = new UsersRoles { User = result, Role = _newRole.Id, Created = DateTime.Now, CreatedBy = (inviter != null) ? inviter.Id : result };
+                //UsersRoles _newUserRole = new UsersRoles { User = result, Role = _newRole.Id, Created = DateTime.Now, CreatedBy = (inviter != null) ? inviter.Id : result };
+                UsersRoles _newUserRole = new UsersRoles { User = result, Role = _newRole.Id, Created = DateTime.Now, CreatedBy = result };
                 _usersServices.AddUserToRole(_newUserRole);
 
                

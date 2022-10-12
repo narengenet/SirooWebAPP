@@ -14,10 +14,12 @@ namespace SirooWebAPP.Application.Interfaces
 
         List<String> GetUsernames();
         Users GetUser(Guid id);
+        Users GetNotDeletedUser(Guid id);
         Users GetUserByUsername(string username);
         Users GetUserByCellphone(string cellphone);
         List<Users> GetUsers(int pageNumber);
         List<Users> GetAllUsers();
+        List<DTOUserSmall> GetAllLesserPriorityUsers(Guid requesterUserId);
 
         List<string> GetCellphones();
         Guid AddUser(Users usr);
@@ -53,6 +55,15 @@ namespace SirooWebAPP.Application.Interfaces
         Prizes AddPrize(Prizes prize);
         bool UpdatePrize(Prizes prize);
         bool RemovePrize(Prizes prize, Guid removedBy);
+
+
+        List<ConstantDictionaries> GetAllConstantDictionaries();
+        ConstantDictionaries GetConstantDictionary(string key);
+
+
+        List<PointUsages> GetAllPointUsages();
+        List<PointUsages> GetAllUsedPointByDonner(Guid donnerId);
+        bool UsePoint(Guid donnerId, Guid receiverId, long point, bool isCredit);
 
     }
 }

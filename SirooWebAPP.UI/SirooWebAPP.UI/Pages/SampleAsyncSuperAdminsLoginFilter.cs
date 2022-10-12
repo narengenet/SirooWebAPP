@@ -7,11 +7,11 @@ using SirooWebAPP.UI.Helpers;
 
 namespace SirooWebAPP.UI.Pages
 {
-    public class SampleAsyncActionLoginFilter : IAuthorizationFilter
+    public class SampleAsyncSuperAdminsLoginFilter : IAuthorizationFilter
     {
         private readonly IUserServices _usersServices;
 
-        public SampleAsyncActionLoginFilter(IUserServices userServices)
+        public SampleAsyncSuperAdminsLoginFilter(IUserServices userServices)
         {
             _usersServices = userServices;
         }
@@ -46,18 +46,25 @@ namespace SirooWebAPP.UI.Pages
                     {
                         // user is valid and have online record in DB then set his session
                         context.HttpContext.Session.SetString("userid", usrid.ToString());
+                        // check if user role is super admin or not
+                        string usrRoleName = _usersServices.GetUserRoles(usrid).OrderBy(u => u.Priority).First().RoleName;
 
                         // set user details in session
                         Users _currentUser = _usersServices.GetUser(usrid);
-                        Roles _currentRole = _usersServices.GetUserRoles(usrid).OrderBy(r => r.Priority).First();
                         // user is valid and have online record in DB then set his session
                         context.HttpContext.Session.SetString("userid", usrid.ToString());
                         context.HttpContext.Session.SetString("username", _currentUser.Username);
                         context.HttpContext.Session.SetString("userfullname", _currentUser.FullName());
-                        context.HttpContext.Session.SetString("userrolename", _currentRole.RoleName);
+                        context.HttpContext.Session.SetString("userrolename", usrRoleName);
                         context.HttpContext.Session.SetString("userprofileurl", _currentUser.ProfileMediaURL);
                         context.HttpContext.Session.SetString("userpoints", _currentUser.Points.ToString());
                         context.HttpContext.Session.SetString("usercredits", _currentUser.Credits.ToString());
+
+
+                        if (usrRoleName != "super")
+                        {
+                            context.Result = new RedirectResult("/Clients/Main");
+                        }
 
                     }
                     else
@@ -81,3 +88,6 @@ namespace SirooWebAPP.UI.Pages
         }
     }
 }
+
+
+

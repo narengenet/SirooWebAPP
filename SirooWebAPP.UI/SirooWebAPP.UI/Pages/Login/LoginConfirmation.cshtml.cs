@@ -34,7 +34,7 @@ namespace SirooWebAPP.UI.Pages
         public IActionResult OnPostCofirmCode(Confirmed confirmed)
         {
 
-            Users user = _usersServices.GetUser(confirmed.UserID);
+            Users user = _usersServices.GetNotDeletedUser(confirmed.UserID);
             if (confirmed.ConfirmationCode == user.ConfirmationCode /*&& user.IsActivated*/)
             {
                 string guid = Guid.NewGuid().ToString();

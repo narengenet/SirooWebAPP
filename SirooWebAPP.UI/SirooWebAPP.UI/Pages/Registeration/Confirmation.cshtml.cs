@@ -54,11 +54,12 @@ namespace SirooWebAPP.UI.Pages
                     HelperFunctions.RemoveCookie("userid", Request, Response);
                     HelperFunctions.SetCookie("userid", user.Id.ToString(), 365, Response);
                     HelperFunctions.SetCookie("usertoken", guid, 365, Response);
+                    return RedirectToPage("/Clients/Main");
                 }
 
             }
             ViewData["userid"] = confirmed.UserID;
-            return null;
+            return Page();
         }
     }
 }
