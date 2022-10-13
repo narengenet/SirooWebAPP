@@ -25,23 +25,25 @@ namespace SirooWebAPP.UI.Pages.Public
         }
         public void OnGet()
         {
-            string inviter = Request.Query["store"].ToString();
-            if (inviter!=null)
+            string ticket = Request.Query["ticket"].ToString();
+            if (ticket!=null)
             {
-                Guid storeId = Guid.Parse(inviter);
-                Users storeUser= _usersServices.GetUser(storeId);
-                if (storeUser!=null)
+                Guid ticketId = Guid.Parse(ticket);
+                DonnationTickets theTicket= _usersServices.GetDonnationTicket(ticketId);
+                if (theTicket!=null)
                 {
-                    Roles storeRole= _usersServices.GetUserRoles(storeId).OrderBy(r => r.Priority).First();
+                    Roles storeRole= _usersServices.GetUserRoles(theTicket.Donner).OrderBy(r => r.Priority).First();
                     if (storeRole.RoleName=="store")
                     {
-                        this.session.SetString("store_donate", inviter);
+                        this.session.SetString("store_donate", theTicket.Donner.ToString());
+                        this.session.SetString("ticket_donate", ticket);
 
-                        HelperFunctions.SetCookie("store_donate", inviter, 1, HttpContext.Response);
+                        HelperFunctions.SetCookie("store_donate", theTicket.Donner.ToString(), 1, HttpContext.Response);
+                        HelperFunctions.SetCookie("ticket_donate", ticket, 1, HttpContext.Response);
                     }
                 }
             }
-            RedirectToPage("~/Client/Main");
+            Response.Redirect("../Clients/Main");
         }
     }
 }

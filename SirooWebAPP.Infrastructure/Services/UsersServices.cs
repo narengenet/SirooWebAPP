@@ -72,6 +72,7 @@ namespace SirooWebAPP.Infrastructure.Services
         private readonly IPrizesRepository _prizRepo;
         private readonly IConstantDictionariesRepository _constRepo;
         private readonly IPointUsagesRepository _pointUsageRepo;
+        private readonly IDonnationTickets _donnationTicketRepo;
 
         private readonly IMapper _mapper;
 
@@ -90,6 +91,7 @@ namespace SirooWebAPP.Infrastructure.Services
             IPrizesRepository prizeRepo,
             IConstantDictionariesRepository constRepo,
             IPointUsagesRepository pointUsageRepo,
+            IDonnationTickets donnationTicketRepo,
             IMapper mapper
             )
         {
@@ -104,6 +106,7 @@ namespace SirooWebAPP.Infrastructure.Services
             _prizRepo = prizeRepo;
             _constRepo = constRepo;
             _pointUsageRepo = pointUsageRepo;
+            _donnationTicketRepo = donnationTicketRepo;
 
             _mapper = mapper;
         }
@@ -183,6 +186,7 @@ namespace SirooWebAPP.Infrastructure.Services
                         Priority = roles.Priority
                     }
                 )
+                //.Where(fullEntry => fullEntry.Priority==5)
                 .Where(fullEntry => fullEntry.Priority > requestedUserHighestRole.Priority)
                 .Select(x => new DTOUserSmall { UserId = x.UserId, Username = x.Username })
                 .DistinctBy(x => x.Username)
@@ -262,6 +266,7 @@ namespace SirooWebAPP.Infrastructure.Services
             {
                 advertise.RemainedViewQuota = advertise.ViewQuota;
             }
+            
 
             return _adverticeRepo.Add(advertise).Id;
         }
@@ -548,12 +553,26 @@ namespace SirooWebAPP.Infrastructure.Services
         {
             return GetAllPointUsages().Where(p => p.Donner == donnerId).ToList<PointUsages>();
         }
-        public bool UsePoint(Guid donnerId, Guid receiverId, long point, bool isCredit)
+        public bool UsePoint(Guid donnationTicketId, Guid donnerId, Guid receiverId, long point, bool isCredit)
         {
-            _pointUsageRepo.Add(new PointUsages { Donner = donnerId, Receiver = receiverId, Value = point, IsUsed = true, Created = DateTime.Now, IsCredit = isCredit });
+            _pointUsageRepo.Add(new PointUsages {DonnationTicket=donnationTicketId,  Donner = donnerId, Receiver = receiverId, Value = point, IsUsed = true, Created = DateTime.Now, IsCredit = isCredit });
             return true;
         }
 
+        public List<DonnationTickets> GetAllDonnationTickets()
+        {
+            return _donnationTicketRepo.GetAll().Where(t=>t.IsDeleted==false).ToList<DonnationTickets>();
+        }
 
+        public DonnationTickets GetDonnationTicket(Guid ticketId)
+        {
+            return GetAllDonnationTickets().Where(t => t.Id == ticketId).FirstOrDefault();
+        }
+
+        public bool UpdateDonnationTicket(DonnationTickets donnationTicket)
+        {
+            _donnationTicketRepo.Update(donnationTicket);
+            return true;
+        }
     }
 }

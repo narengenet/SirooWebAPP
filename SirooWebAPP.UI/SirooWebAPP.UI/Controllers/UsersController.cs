@@ -33,10 +33,10 @@ namespace SirooWebAPP.UI.Controllers
             roles.RoleDescription = "dessssss";
             roles.Created = DateTime.Now;
             //roles.CreatedBy = Guid.NewGuid().ToString();
-            roles.LastModifiedBy= Guid.NewGuid().ToString();
+            roles.LastModifiedBy = Guid.NewGuid().ToString();
             return Ok(_usersServices.AddRole(roles));
-            
-            
+
+
         }
 
         [HttpGet("sina/{userId:int}")]
@@ -80,7 +80,7 @@ namespace SirooWebAPP.UI.Controllers
         {
             //List<Users> result = _usersServices.GetUsers(userId);
             //_usersServices.GetInviterUsername(userId);
-            Guid reslt=_usersServices.AddUser(new Users { Name = "Rahman", Family = "Dabouei" });
+            Guid reslt = _usersServices.AddUser(new Users { Name = "Rahman", Family = "Dabouei" });
             return Ok(reslt);
         }
 
@@ -90,7 +90,7 @@ namespace SirooWebAPP.UI.Controllers
         public IActionResult GetAdvertisements()
         {
 
-            string _userid= HttpContext.Request.Cookies["userid"];
+            string _userid = HttpContext.Request.Cookies["userid"];
             Guid userId = Guid.Parse(_userid);
             List<DTOAdvertise> ads = _usersServices.GetAdvertises(userId);
             return Ok(ads);
@@ -102,6 +102,27 @@ namespace SirooWebAPP.UI.Controllers
             string _userid = HttpContext.Request.Cookies["userid"];
             Guid userId = Guid.Parse(_userid);
             bool result = _usersServices.DoLikeAdvertiseByUserID(advertiseID, userId);
+            return Ok(result);
+        }
+
+        [TypeFilter(typeof(SampleAsyncActionLoginFilter))]
+        [HttpGet("getticketusages")]
+        public IActionResult GetTicketUsagesByDonnerID()
+        {
+            string _userid = HttpContext.Request.Cookies["userid"];
+            Guid donnerId = Guid.Parse(_userid);
+            List<object> result = _usersServices.GetAllUsedPointByDonner(donnerId).OrderByDescending(u => u.Created).ToList<PointUsages>()
+                .Join(
+                        _usersServices.GetAllUsers(),
+                        usages => usages.Receiver,
+                        users => users.Id,
+                        (usages, users) => new
+                            {
+                                uname = users.Username,
+                                points = usages.Value,
+                                date = usages.Created
+                            }
+                    ).ToList<object>();
             return Ok(result);
         }
 
@@ -127,7 +148,7 @@ namespace SirooWebAPP.UI.Controllers
             {
                 return new JsonResult($"{Phone} is not valid");
             }
-            
+
             var phones = _usersServices.GetCellphones();
             if (phones.Contains(Phone))
             {

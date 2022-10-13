@@ -63,7 +63,12 @@ namespace SirooWebAPP.Application.Interfaces
 
         List<PointUsages> GetAllPointUsages();
         List<PointUsages> GetAllUsedPointByDonner(Guid donnerId);
-        bool UsePoint(Guid donnerId, Guid receiverId, long point, bool isCredit);
+        bool UsePoint(Guid donnationTicketId, Guid donnerId, Guid receiverId, long point, bool isCredit);
+
+
+        List<DonnationTickets> GetAllDonnationTickets();
+        DonnationTickets GetDonnationTicket(Guid ticketId);
+        bool UpdateDonnationTicket(DonnationTickets donnationTicket);
 
     }
 }

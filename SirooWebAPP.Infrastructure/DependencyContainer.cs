@@ -25,6 +25,7 @@ namespace SirooWebAPP.Infrastructure
             services.AddScoped<IPrizesRepository, PrizesRepository>();
             services.AddScoped<IConstantDictionariesRepository, ConstantDictionariesRepository>();
             services.AddScoped<IPointUsagesRepository, PointUsagesRepository>();
+            services.AddScoped<IDonnationTickets, DonnationTicketsRepository>();
 
             services.AddScoped<IUserServices, UsersServices>();
         }

@@ -30,79 +30,127 @@ namespace SirooWebAPP.UI.Pages
         void CheckDonationStatus()
         {
             string? storeDonation = session.GetString("store_donate");
+            string? ticketDonation = session.GetString("ticket_donate");
             if (storeDonation == null)
             {
                 storeDonation = HelperFunctions.GetCookie("store_donate", Request);
+                ticketDonation = HelperFunctions.GetCookie("ticket_donate", Request);
             }
-            if (storeDonation != null)
+            if (storeDonation != null && ticketDonation != null)
             {
                 Guid storeId = Guid.Parse(storeDonation);
+                Guid ticketId = Guid.Parse(ticketDonation);
                 Users storeUser = _usersServices.GetUser(storeId);
-                if (storeUser != null)
+                DonnationTickets storeTicket = _usersServices.GetDonnationTicket(ticketId);
+                if (storeUser != null && storeTicket != null)
                 {
                     if (!storeUser.DonnationActive)
                     {
                         ResultMessage = "قابلیت دریافت امتیاز توسط فروشگاه غیر فعال است.";
+                        clearTicketFootPrint();
                         return;
                     }
 
                     // get current user
                     string _creatorId = HelperFunctions.GetCookie("userid", Request);
                     Guid creatorID = Guid.Parse(_creatorId);
-                    if (storeId==creatorID)
+                    if (storeId == creatorID)
                     {
                         ResultMessage = "امکان استفاده از امتیاز برای خود وجود ندارد.";
+                        clearTicketFootPrint();
+                        return;
+                    }
+
+
+                    //check if ticket has capacity
+                    if (storeTicket.IsDeleted)
+                    {
+                        ResultMessage = "کارت هدیه توسط هدیه دهنده حذف شده است.";
+                        clearTicketFootPrint();
                         return;
                     }
 
                     // check if donner is a store or not
                     Roles storeRole = _usersServices.GetUserRoles(storeId).OrderBy(r => r.Priority).First();
-                    if (storeRole.RoleName!="store")
+                    if (storeRole.RoleName != "store")
                     {
                         ResultMessage = "امکان استفاده از امتیاز وجود ندارد.";
+                        clearTicketFootPrint();
+                        return;
+                    }
+
+
+
+                    //check if ticket has capacity
+                    if (storeTicket.RemainedCapacity == 0)
+                    {
+                        ResultMessage = "ظرفیت استفاده از این کارت هدیه به اتمام رسیده است.";
+                        clearTicketFootPrint();
                         return;
                     }
 
                     // check if store has enough credit to donate of not
-                    if (storeUser.DefaultCredit>storeUser.Credits)
+                    if (storeTicket.Value > storeUser.Credits)
                     {
                         ResultMessage = "فروشگاه مورد نظر اعتبار کافی برای هدیه به شما را ندارد.";
+                        clearTicketFootPrint();
                         return;
                     }
 
-                    int usagePerDay= Convert.ToInt32(_usersServices.GetConstantDictionary("store_point_usage_per_day").ConstantValue);
-                    int maxStoreDonationPoint= Convert.ToInt32(_usersServices.GetConstantDictionary("stores_max_donnation_point").ConstantValue);
-                    if (storeUser.DefaultCredit>maxStoreDonationPoint)
+                    int usagePerDay = Convert.ToInt32(_usersServices.GetConstantDictionary("store_point_usage_per_day").ConstantValue);
+                    int maxStoreDonationPoint = Convert.ToInt32(_usersServices.GetConstantDictionary("stores_max_donnation_point").ConstantValue);
+
+                    if (storeTicket.Value >= maxStoreDonationPoint)
                     {
                         ResultMessage = "امتیاز تایین شده توسط فروشگاه بیشتر از حداکثر امتیاز تایین شده برای هدیه است.";
+                        clearTicketFootPrint();
                         return;
                     }
 
-                    List<PointUsages> todayClientUsageFromDonner= _usersServices.GetAllUsedPointByDonner(storeId).Where(p => p.Receiver == creatorID && p.Created.Value.DayOfYear == DateTime.Now.DayOfYear && p.Created.Value.Year==DateTime.Now.Year).ToList<PointUsages>();
+                    List<PointUsages> todayClientUsageFromDonner = _usersServices.GetAllUsedPointByDonner(storeId).Where(p => p.Receiver == creatorID && p.Created.Value.DayOfYear == DateTime.Now.DayOfYear && p.Created.Value.Year == DateTime.Now.Year).ToList<PointUsages>();
                     if (todayClientUsageFromDonner.Count > usagePerDay)
                     {
                         ResultMessage = "تعداد دفعات مجاز استفاده از این هدیه برای امروز تمام شده است.";
+                        clearTicketFootPrint();
                         return;
                     }
 
                     // subtract donner's default credit than donner's credit 
-                    storeUser.Credits -= storeUser.DefaultCredit;
+                    storeUser.Credits -= storeTicket.Value;
                     _usersServices.UpdateUser(storeUser);
                     // add usage point to history
-                    _usersServices.UsePoint(storeId, creatorID, storeUser.DefaultCredit, false);
+                    _usersServices.UsePoint(storeTicket.Id, storeId, creatorID, storeTicket.Value, false);
                     // get current user
                     Users currentUser = _usersServices.GetUser(creatorID);
                     // add donnation points to current user
-                    currentUser.Points += storeUser.DefaultCredit;
+                    currentUser.Points += storeTicket.Value;
                     _usersServices.UpdateUser(currentUser);
+                    // subtract donner's ticket capacity
+                    storeTicket.RemainedCapacity -= 1;
+                    _usersServices.UpdateDonnationTicket(storeTicket);
 
-                    session.Remove("store_donate");
-                    HelperFunctions.RemoveCookie("store_donate", Request, Response);
+                    string? _usrPoints= session.GetString("userpoints");
+                    if (_usrPoints!=null)
+                    {
+                        double usrPoints = Convert.ToDouble(_usrPoints);
+                        usrPoints += storeTicket.Value;
+                        session.SetString("userpoints", usrPoints.ToString());
+                    }
 
 
                 }
             }
 
+            clearTicketFootPrint();
+
+
+        }
+        private void clearTicketFootPrint()
+        {
+            session.Remove("store_donate");
+            session.Remove("ticket_donate");
+            HelperFunctions.RemoveCookie("store_donate", Request, Response);
+            HelperFunctions.RemoveCookie("ticket_donate", Request, Response);
         }
     }
 }

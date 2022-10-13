@@ -7,13 +7,11 @@ using System.Threading.Tasks;
 
 namespace SirooWebAPP.Core.Domain
 {
-    public class PointUsages : AuditableBaseEntity
+    public class DonnationTickets : AuditableBaseEntity
     {
         public Guid Donner { get; set; }
-        public Guid Receiver { get; set; }
-        public Guid DonnationTicket { get; set; }
-        public bool IsUsed { get; set; }
         public long Value { get; set; }
+        public int RemainedCapacity { get; set; }
         public bool IsCredit { get; set; }
     }
 }

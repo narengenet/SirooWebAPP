@@ -1,17 +1,128 @@
 ﻿@page
 @model SirooWebAPP.UI.Pages.Stores.DashboardModel
-@addTagHelper "*, QRCode"  
-
 @{
+    Layout = "_LayoutClients";
 }
 
+<style>
+    .tickets{
+        display:flex;
+        flex-direction:column;
+        align-content:center;
+        justify-content:center;
+        align-items:center;
+        justify-items:center;
+    }
+    .row{
+        display:flex;
+        flex-direction:row;
+    }
+    .contents{
+        width:33%;
+        display:flex;
+        flex-direction:column;
+    }
+    .theQR{
+        visibility:hidden;
+    }
+    .qrFrame{
+        border:solid 1px black;
+    }
+    .tgleQR{
+        cursor:pointer;
+    }
+</style>
 
+<script id="ticketTemplate" type="text/x-jQuery-tmpl">
+    <div class="row">
+        <div class="contents qrFrame">
+            <span class="tgleQR" onclick="tglQR(this);" >نمایش QR</span>
+            <img class="theQR" src="${qRsrc}" />
+            ${ticketURL}
+        </div>
+        <div class="contents">
+            <div class="data">
+                <label>تعداد اسکن باقیمانده:</label>
+                <span>${capacity}</span>
+            </div>
+            <div class="data">
+                <label>امتیاز هر اسکن:</label>
+                <span>${val}</span>
+            </div>
+        </div>
+    </div>
 
-A library which supports decoding and generating of barcodes (like QR Code, PDF 417, EAN, UPC, Aztec, Data Matrix, Codabar) within images.  
-   
+</script>
+<script id="usageTemplate" type="text/x-jQuery-tmpl">
+    <div class="row">
+        <div class="contents">
+            ${uname} : ${points} امتیاز <span class="item-date">${date}</span>
+        </div>
 
-<qrcode alt="QR Code" content="https://barnamenevisan.org/" />  
- https://barnamenevisan.org/ 
+    </div>
 
+</script>
 
- <img src="@Model.QrText" />
+<div class="tickets" id="ticketContainer">
+</div>
+<div class="usages" id="usageContainer">
+</div>
+
+@section Scripts {
+<script src="~/js/jquery.tmpl.min.js"></script>
+<script src="~/js/jquery.timeago.js"></script>
+
+<script type="text/javascript">
+
+        function tglQR(e){
+            $('img.theQR').css('visibility','hidden');
+            $(e).next().css('visibility','visible');
+        };
+
+    $(document).ready(function () {
+        var json = @Html.Raw(Json.Serialize(@Model.QrCodes));
+        $('#ticketTemplate').tmpl(json).appendTo('#ticketContainer');
+    });
+
+    function _getTicketUsageHistory(){
+        $.ajax({
+            url: '/getticketusages',
+            type: 'GET',
+            success: function (result) {
+                if(result=="gologin"){
+                    window.location="/login/login";
+                }else{
+                    //var ads = jQuery.parseJSON(result);
+                    sina="{ads:"+result+"}";
+                    $('#usageTemplate').tmpl(result).appendTo('#usageContainer');
+
+                    var dates=$('.item-date');
+                    for(i=0;i<dates.length;i++){
+                        $(dates[i]).text(jQuery.timeago($(dates[i]).text()));
+                    }
+                }
+
+            },
+        });
+    }
+
+    //function _doLike(adv){
+    //    $.ajax({
+    //        url: '/dolike/'+adv,
+    //        type: 'GET',
+    //        success: function (result) {
+    //            if(result){
+    //                if(result=="gologin"){
+    //                    window.location="/login/login";
+    //                }else{
+    //                    alert(adv+" is liked");
+    //                }
+    //            }else{
+    //                alert("failed");
+    //            }
+    //        },
+    //    });
+    //}
+</script>
+
+}

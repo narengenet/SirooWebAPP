@@ -11,13 +11,16 @@ namespace SirooWebAPP.UI.Pages
         private readonly IUserServices _usersServices;
         private readonly CustomIDataProtection protector;
         private IWebHostEnvironment _environment;
+        private readonly ISession session;
 
 
-        public LogOutModel(CustomIDataProtection customIDataProtection, IUserServices services, IWebHostEnvironment environment)
+        public LogOutModel(CustomIDataProtection customIDataProtection, IUserServices services, IWebHostEnvironment environment,IHttpContextAccessor httpContextAccessor)
         {
             _usersServices = services;
             protector = customIDataProtection;
             _environment = environment;
+            session = httpContextAccessor.HttpContext.Session;
+
 
         }
         public void OnGet()
@@ -31,8 +34,12 @@ namespace SirooWebAPP.UI.Pages
             }
             HelperFunctions.RemoveCookie("userid",Request, Response);
             HelperFunctions.RemoveCookie("usertoken", Request, Response);
-            
-            
+            session.Remove("store_donate");
+            session.Remove("ticket_donate");
+            HelperFunctions.RemoveCookie("store_donate", Request, Response);
+            HelperFunctions.RemoveCookie("ticket_donate", Request, Response);
+
+
         }
     }
 }

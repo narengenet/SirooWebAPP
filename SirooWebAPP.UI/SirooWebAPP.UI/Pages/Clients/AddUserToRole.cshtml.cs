@@ -62,32 +62,15 @@ namespace SirooWebAPP.UI.Pages.Clients
                         ResultMessage = "شما اجازه اضافه کردن نقش به این کاربر را ندارید.";
                     }
 
-                    //// check if new role is client or not
-                    //if (_newRole.Priority == 5 && permitToAdd)
-                    //{
-                    //    // user with role or roles other than client can not be as client
-                    //    List<UsersRoles> _beforeUserRoles = _usersServices.GetAllUsersRoles().Where(ur => ur.User == addRoleUserModel.UserID).ToList<UsersRoles>();
-                    //    if (_beforeUserRoles.Count > 0)
-                    //    {
-                    //        permitToAdd = false;
-                    //        ResultMessage = "این کاربر قبلا نقش دیگری داشته و نمیتواند مشتری شود.";
-                    //    }
-                    //}
-
-                    // user with role or roles other than client can not be changed with non super or non admin user
-                    UsersRoles _beforeUserRoles = _usersServices.GetAllUsersRoles().Where(ur => ur.User == addRoleUserModel.UserID).FirstOrDefault();
-                    if (_beforeUserRoles.CreatedBy != _beforeUserRoles.User)
+                    // only super admin and admins can change role of a user which is not client
+                    if (_requestedUserHighestRole.RoleName != "client" && permitToAdd)
                     {
-                        //if (_beforeUserRoles.CreatedBy != creatorID)
-                        //{
+
                         if (_creatorHighestRole.RoleName != "super" || _creatorHighestRole.RoleName != "admin")
                         {
                             permitToAdd = false;
                             ResultMessage = "شما اجازه تغییر نقش این کاربر را ندارید.";
                         }
-
-                        //}
-
                     }
 
 
