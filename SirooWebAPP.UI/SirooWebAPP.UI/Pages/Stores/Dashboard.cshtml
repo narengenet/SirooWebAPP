@@ -5,78 +5,139 @@
 }
 
 <style>
-    .tickets{
-        display:flex;
-        flex-direction:column;
-        align-content:center;
-        justify-content:center;
-        align-items:center;
-        justify-items:center;
+    .tickets {
+        display: flex;
+        flex-direction: column;
+        align-content: center;
+        justify-content: center;
+        align-items: center;
+        justify-items: center;
     }
-    .row{
-        display:flex;
-        flex-direction:row;
+
+    .row {
+        display: flex;
+        flex-direction: row;
     }
-    .contents{
-        width:33%;
-        display:flex;
-        flex-direction:column;
+
+    .contents {
+        width: 33%;
+        display: flex;
+        flex-direction: column;
     }
-    .theQR{
-        visibility:hidden;
+
+    .theQR {
+        /*visibility:hidden;*/
+        display: none;
     }
-    .qrFrame{
-        border:solid 1px black;
+
+    .qrFrame {
+        border: solid 1px black;
     }
-    .tgleQR{
-        cursor:pointer;
+
+    .tgleQR.row{
+        cursor: pointer;
+    }
+    #usageContainer .row{
+        border:1px solid black;
+        background-color:lightgrey;
     }
 </style>
 
-<script id="ticketTemplate" type="text/x-jQuery-tmpl">
-    <div class="row">
-        <div class="contents qrFrame">
-            <span class="tgleQR" onclick="tglQR(this);" >نمایش QR</span>
-            <img class="theQR" src="${qRsrc}" />
-            ${ticketURL}
-        </div>
-        <div class="contents">
-            <div class="data">
-                <label>تعداد اسکن باقیمانده:</label>
-                <span>${capacity}</span>
+@if (Model.ResultMessage.Length > 1)
+{
+    <div class="alert alert-@Model.ResultMessageSuccess fade show" role="alert">
+        @Model.ResultMessage
+        <button type="button" class="close" data-dismiss="alert" onclick="closeAlert();" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+
+<form method="post" enctype="multipart/form-data">
+
+    <div class="container p-3" style="border:1px solid black;border-radius:1rem;margin-bottom:1rem;">
+        <div class="row">ایجاد QR جدید</div>
+
+        <div class="row">
+            <div class="col-2">امتیاز هر اسکن</div>
+            <div class="col-4">
+                <input type="number" value="50" min="1" max="200" asp-for="AddQRModel.Points"></input>
+                <span asp-validation-for="AddQRModel.Points"></span>
             </div>
-            <div class="data">
-                <label>امتیاز هر اسکن:</label>
-                <span>${val}</span>
+        </div>
+        <div class="row">
+            <div class="col-2">تعداد اسکن مجاز</div>
+            <div class="col-4">
+                <input type="number" value="2" min="1" asp-for="AddQRModel.Capacity"></input>
+                <span asp-validation-for="AddQRModel.Capacity"></span>
+            </div>
+        </div>
+        <div class="row">&nbsp;</div>
+        <div class="row">
+            <div class="col-6">
+                <input class="btn btn-primary rounded" type="submit" value="تولید QR جدید" class="form-control" asp-page-handler="AddQR" />
             </div>
         </div>
     </div>
 
+
+</form>
+
+
+
+<script id="ticketTemplate" type="text/x-jQuery-tmpl">
+        <div class="row">
+            <div class="contents qrFrame">
+                <span class="tgleQR" onclick="tglQR(this);" >نمایش QR</span>
+                <img class="theQR" src="${qRsrc}" />
+                <hr/>
+                <div style="font-size:0.6rem;">
+                    ${ticketURL}
+                </div>
+            </div>
+            <div class="contents">
+                <div class="data">
+                    <label>تعداد اسکن باقیمانده:</label>
+                    <span>${capacity}</span>
+                </div>
+                <div class="data">
+                    <label>امتیاز هر اسکن:</label>
+                    <span>${val}</span>
+                </div>
+            </div>
+        </div>
 </script>
+
 <script id="usageTemplate" type="text/x-jQuery-tmpl">
     <div class="row">
         <div class="contents">
             ${uname} : ${points} امتیاز <span class="item-date">${date}</span>
         </div>
-
     </div>
-
 </script>
 
-<div class="tickets" id="ticketContainer">
+<div class="container tickets" id="ticketContainer">
 </div>
-<div class="usages" id="usageContainer">
+<hr />
+<a onclick="_getTicketUsageHistory();">نمایش اسکن های موفق</a>
+<div class="container usages" id="usageContainer">
 </div>
+
 
 @section Scripts {
 <script src="~/js/jquery.tmpl.min.js"></script>
 <script src="~/js/jquery.timeago.js"></script>
 
+<script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+
 <script type="text/javascript">
 
         function tglQR(e){
-            $('img.theQR').css('visibility','hidden');
-            $(e).next().css('visibility','visible');
+            //$('img.theQR').css('visibility','hidden');
+            $('img.theQR').hide();
+            //$(e).next().css('visibility','visible');
+            $(e).next().show();
         };
 
     $(document).ready(function () {
@@ -94,6 +155,7 @@
                 }else{
                     //var ads = jQuery.parseJSON(result);
                     sina="{ads:"+result+"}";
+                    $('#usageContainer').html('');
                     $('#usageTemplate').tmpl(result).appendTo('#usageContainer');
 
                     var dates=$('.item-date');

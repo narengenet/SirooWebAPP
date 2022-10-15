@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SirooWebAPP.Application.DTO
 {
-    public class DTOUser
+    public class DTOUserProfile
     {
         public Guid UserId { get; set; }
         public string Name { get; set; }
@@ -20,7 +20,9 @@ namespace SirooWebAPP.Application.DTO
         public string? ProfileMediaURL { get; set; }
         public string? InviterUsername { get; set; }
         public List<string> Inviteds { get; set; }
-        //public virtual Users? Inviter { get; set; }
-        //public ICollection<Users>? Inviteds { get; set; }
+        public string CellPhone { get; set; }
+        public string Address { get; set; }
+        public long Credits { get; set; }
+        public DateTime CreationDate { get; set; }
     }
 }

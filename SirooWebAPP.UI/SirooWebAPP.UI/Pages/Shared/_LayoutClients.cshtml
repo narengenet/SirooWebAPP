@@ -7,30 +7,126 @@
     <meta name="viewport" content="width=device-width" />
     <title>@ViewBag.Title</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container">
+                <a class="navbar-brand" asp-area="" asp-page="/Index">SirooWebAPP.UI</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        @if (Context.Session.GetString("userrolename") != "anonymous")
+                        {
+                            <li class="nav-item for-clients">
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Clients/Main">خانه</a>
+                            </li>
+                            <li class="nav-item for-clients">
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Clients/Profile">پروفایل</a>
+                            </li>
+                            <li class="nav-item for-clients">
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Clients/MyPosts">پُست های من</a>
+                            </li>
+                        }
+                        @if (Context.Session.GetString("userrolename") == "store")
+                        {
+                            <li class="nav-item for-stores">
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Stores/Dashboard">فروشگاه</a>
+                            </li>
+                        }
+                        @if (Context.Session.GetString("userrolename") != "anonymous" && Context.Session.GetString("userrolename") != "client" && Context.Session.GetString("userrolename") != "store")
+                        {
+                            <li class="nav-item for-up-stores">
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Clients/AddUserToRole">تغییر نقش کاربر</a>
+                            </li>
+                        }
+                        @if (Context.Session.GetString("userrolename") != "anonymous")
+                        {
+                            <li class="nav-item for-clients">
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Clients/AddAdvertise">ایجاد پُست جدید</a>
+                            </li>
+                            <li class="nav-item for-clients">
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Clients/Draws">دوره ها</a>
+                            </li>
+                        }
+                        @if (Context.Session.GetString("userrolename") == "admin" || Context.Session.GetString("userrolename") == "super")
+                        {
+                            <li class="nav-item for-admins">
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Superadmins/AddDraw">تعریف دوره</a>
+                            </li>
+                            <li class="nav-item for-admins">
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Superadmins/AddPrize">تعریف جایزه</a>
+                            </li>
+                        }
+                        @if (Context.Session.GetString("userrolename") == "anonymous")
+                        {
+                            <li class="nav-item for-anonymous">
+                                <a class="nav-link text-dark" asp-area="" asp-page="Registeration/Register">ثبت نام</a>
+                            </li>
+
+                            <li class="nav-item for-anonymous">
+                                <a class="nav-link text-dark" asp-area="" asp-page="Login/Login">ورود</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item for-clients">
+                                <a class="nav-link text-dark" asp-area="" asp-page="Logout">خروج</a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
     <div>
 
         @RenderBody()
-        <div style="display:flex;flex-direction:row;">
-            <div style="border:solid 1px black;border-radius:1rem;">
-                @Context.Session.GetString("userfullname")<br />
-                @Context.Session.GetString("userrolename")<br />
-                @Context.Session.GetString("userprofileurl")<br />
-            </div>
-            <div style="border:solid 1px black;border-radius:1rem;">
-                @Context.Session.GetString("userpoints")<br />
-                @Context.Session.GetString("usercredits")<br />
-            </div>
-            <div style="border:solid 1px black;border-radius:1rem;">
-                <a href="~/Clients/Draws">دوره ها</a>
+
+        <div class="container" style="margin-top:2rem;">
+            <div class="row">
+                <div class="col-4" style="border:1px solid black;border-radius:1rem;padding:1rem;">
+                    @Context.Session.GetString("userfullname")<br />
+                    @Context.Session.GetString("userrolename")<br />
+                    <a class="profile-media" href="~/Clients/MyPosts">
+                        <img src='../@Context.Session.GetString("userprofileurl")' />
+                    </a>
+                </div>
+                <div class="col-4" style="border:1px solid black;border-radius:1rem;padding:1rem;">
+                    <span id="currentPoint">@Context.Session.GetString("userpoints")</span><br />
+                    @Context.Session.GetString("usercredits")<br />
+                </div>
+                <div class="col-4" style="border:1px solid black;border-radius:1rem;padding:1rem;">
+                    <a href="~/Clients/Draws">دوره ها</a>
+                </div>
             </div>
         </div>
+
     </div>
+
+
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
+
+    <script>
+        function closeAlert(){
+            $('.alert').alert('close');
+        }
+        function pointUpdated(val){
+            newval=parseInt(val);
+            oldval=parseInt($('#currentPoint').text());
+            if(newval!=oldval){
+                alert('Congrat!!');
+                $('#currentPoint').text(newval+oldval);
+            }
+        }
+    </script>
 
 </body>
 </html>

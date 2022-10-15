@@ -25,7 +25,8 @@ namespace SirooWebAPP.UI.Pages
         {
             CheckDonationStatus();
         }
-        public string ResultMessage = "";
+        public string? ResultMessage = "";
+        public string ResultMessageSuccess = "danger";
 
         void CheckDonationStatus()
         {
@@ -136,6 +137,9 @@ namespace SirooWebAPP.UI.Pages
                         usrPoints += storeTicket.Value;
                         session.SetString("userpoints", usrPoints.ToString());
                     }
+
+                    ResultMessage = "امتیاز هدیه دریافت شد.";
+                    ResultMessageSuccess = "success";
 
 
                 }

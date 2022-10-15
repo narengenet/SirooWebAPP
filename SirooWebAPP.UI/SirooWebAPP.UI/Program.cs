@@ -20,6 +20,7 @@ using SirooWebAPP.Application;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddSignalR();
@@ -99,6 +100,7 @@ app.MapControllerRoute(
 app.UseAuthorization();
 app.MapRazorPages();
 app.MapHub<ChatHub>("/chatHub");
+
 
 
 app.Run();

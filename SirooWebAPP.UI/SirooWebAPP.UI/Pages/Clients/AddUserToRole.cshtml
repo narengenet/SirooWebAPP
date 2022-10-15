@@ -7,6 +7,15 @@
 @{
     Layout = "_LayoutClients";
 }
+    @if (Model.ResultMessage.Length > 1)
+    {
+        <div class="alert alert-@Model.ResultMessageSuccess fade show" role="alert">
+            @Model.ResultMessage
+        <button type="button" class="close" data-dismiss="alert" onclick="closeAlert();" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    }
 
 <form method="post" enctype="multipart/form-data">
 
@@ -38,11 +47,11 @@
                 @*<input type="submit" value="Remove" class="form-control" asp-page-handler="RemoveRoleFromUser" />*@
             </div>
         </div>
-        <div class="row">
+@*        <div class="row">
             <div class="col-4">
                 @Model.ResultMessage
             </div>
-        </div>
+        </div>*@
 
 </form>
 

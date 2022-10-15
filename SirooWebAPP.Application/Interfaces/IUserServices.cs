@@ -18,6 +18,7 @@ namespace SirooWebAPP.Application.Interfaces
         Users GetUserByUsername(string username);
         Users GetUserByCellphone(string cellphone);
         List<Users> GetUsers(int pageNumber);
+        DTOUserProfile GetUserProfile(Guid userId);
         List<Users> GetAllUsers();
         List<DTOUserSmall> GetAllLesserPriorityUsers(Guid requesterUserId);
 
@@ -27,12 +28,16 @@ namespace SirooWebAPP.Application.Interfaces
         public bool RegisterdSuccessfullyAndLogin(OnlineUsers onlineUsers);
         public bool LoginSuccessfully(OnlineUsers onlineUsers);
         bool CheckUserLogin(Guid userId, string token);
+
+
         public Guid AddAvertise(Advertise advertise,Guid userId);
         public List<DTOAdvertise> GetAdvertises(Guid userID);
+        public List<DTOAdvertise> GetMyAdvertises(Guid userID);
         //string GetInviterUsername(int ID);
         public Likers AddLikeToAdvertise(Guid advertiseID, Guid userID);
         public bool RemoveLikeFromAdvertise(Guid advertiseID, Guid UserID);
-        bool DoLikeAdvertiseByUserID(Guid advertiseID, Guid UserID);
+        int DoLikeAdvertiseByUserID(Guid advertiseID, Guid UserID);
+        bool DeleteAdvertise(Guid postID,Guid userId);
         bool LogOut(Guid UserID,string GUID);
 
         Roles AddRole(Roles roles);
@@ -68,7 +73,12 @@ namespace SirooWebAPP.Application.Interfaces
 
         List<DonnationTickets> GetAllDonnationTickets();
         DonnationTickets GetDonnationTicket(Guid ticketId);
+        Guid AddDonnationTicket(DonnationTickets donnationTicket);
         bool UpdateDonnationTicket(DonnationTickets donnationTicket);
+
+        List<DTOUser> GetAllPrizeWinnersByDrawId(Guid drawId);
+        bool AddPrizeWinner(Guid drawId);
+
 
     }
 }

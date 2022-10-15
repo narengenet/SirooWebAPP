@@ -96,12 +96,82 @@ namespace SirooWebAPP.UI.Controllers
             return Ok(ads);
         }
         [TypeFilter(typeof(SampleAsyncActionLoginFilter))]
+        [HttpGet("myads")]
+        public IActionResult GetMyAdvertisements()
+        {
+
+            string _userid = HttpContext.Request.Cookies["userid"];
+            Guid userId = Guid.Parse(_userid);
+            List<DTOAdvertise> ads = _usersServices.GetMyAdvertises(userId);
+            return Ok(ads);
+        }
+        [TypeFilter(typeof(SampleAsyncActionLoginFilter))]
         [HttpGet("dolike/{advertiseID:guid}")]
         public IActionResult DoLikeAdvertisementByUser(Guid advertiseID)
         {
             string _userid = HttpContext.Request.Cookies["userid"];
             Guid userId = Guid.Parse(_userid);
-            bool result = _usersServices.DoLikeAdvertiseByUserID(advertiseID, userId);
+            int result = _usersServices.DoLikeAdvertiseByUserID(advertiseID, userId);
+            return Ok(result);
+        }
+        [TypeFilter(typeof(SampleAsyncActionLoginFilter))]
+        [HttpGet("delPost/{postID:guid}")]
+        public IActionResult DeletePost(Guid postID)
+        {
+            string _userid = HttpContext.Request.Cookies["userid"];
+            Guid userId = Guid.Parse(_userid);
+            bool result = _usersServices.DeleteAdvertise(postID, userId);
+            return Ok(result);
+        }
+        [TypeFilter(typeof(SampleAsyncActionLoginFilter))]
+        [HttpGet("finishDraw/{drawID:guid}")]
+        public IActionResult finishDraw(Guid drawID)
+        {
+            bool result = false;
+            string _userid = HttpContext.Request.Cookies["userid"];
+            Guid userId = Guid.Parse(_userid);
+            Roles role = _usersServices.GetUserRoles(userId).OrderBy(u => u.Priority).First();
+            if (role != null)
+            {
+                if (role.RoleName == "super" || role.RoleName == "admin")
+                {
+                    Draws draw = _usersServices.GetAllDraws().Where(d => d.Id == drawID).FirstOrDefault();
+                    if (draw != null)
+                    {
+                        _usersServices.AddPrizeWinner(drawID);
+                        draw.IsFinished = true;
+                        result = _usersServices.UpdateDraw(draw);
+                    }
+
+                }
+            }
+
+            return Ok(result);
+        }
+        [TypeFilter(typeof(SampleAsyncActionLoginFilter))]
+        [HttpGet("deactiveDraw/{drawID:guid}")]
+        public IActionResult deactiveDraw(Guid drawID)
+        {
+            bool result=false;
+            string _userid = HttpContext.Request.Cookies["userid"];
+            Guid userId = Guid.Parse(_userid);
+            Roles role=_usersServices.GetUserRoles(userId).OrderBy(u => u.Priority).First();
+            if (role!=null)
+            {
+                if (role.RoleName=="super" || role.RoleName=="admin")
+                {
+                    Draws draw = _usersServices.GetAllDraws().Where(d => d.Id == drawID).FirstOrDefault();
+                    if (draw!=null)
+                    {
+                        _usersServices.AddPrizeWinner(drawID);
+                        draw.IsActivated = false;
+                        draw.IsFinished = true;
+                        result = _usersServices.UpdateDraw(draw);
+                    }
+                    
+                }
+            }
+            
             return Ok(result);
         }
 

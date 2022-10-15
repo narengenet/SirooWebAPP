@@ -96,7 +96,7 @@ namespace SirooWebAPP.UI.Pages
                 }
 
                 // create new user and register as a user
-                Users _newUser = new Users { Name = person.FirstName, Family = person.LastName, Cellphone = person.CellPhone, Username = person.UserName, ConfirmationCode = _confirmationCode.ToString(), Inviter = inviter };
+                Users _newUser = new Users { Name = person.FirstName, Family = person.LastName, Cellphone = person.CellPhone, Username = person.UserName, ConfirmationCode = _confirmationCode.ToString(), Inviter = inviter.Id};
                 Guid result = _usersServices.AddUser(_newUser);
 
                 UsersRoles _newUserRole = new UsersRoles { User = result, Role = _newRole.Id, Created = DateTime.Now, CreatedBy = result };

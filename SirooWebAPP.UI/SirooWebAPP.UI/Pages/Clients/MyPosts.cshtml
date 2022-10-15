@@ -42,7 +42,18 @@
         align-items: center;
     }
 
+    .profile-media {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+    }
 
+        .profile-media img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 2px solid white;
+        }
 
     .post-image {
         <!-- background-image: url(6.jpg); -->
@@ -141,16 +152,6 @@
     }
 </style>
 
-    @if (Model.ResultMessage.Length > 1)
-    {
-        <div class="alert alert-@Model.ResultMessageSuccess fade show" role="alert">
-            @Model.ResultMessage
-        <button type="button" class="close" data-dismiss="alert" onclick="closeAlert();" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-    }
-
 <script id="adsTemplate" type="text/x-jQuery-tmpl">
     <div class="post ${advertiseID}">
         <div class="header">
@@ -165,7 +166,7 @@
         <div class="contents">
     {{if isVideo==1}}
             <div class="post-video">
-                <video width="580px" height="300px" controls onended="_doLike(this,'${advertiseID}')">
+                <video width="580px" height="300px" controls>
                     <source src="../${mediaSourceURL}">
                     Your browser does not support the video tag.
                 </video>
@@ -177,10 +178,13 @@
     {{/if}}
         </div>
         <div class="footer">
-            <div class="like-btn {{if youLiked}}liked{{/if}}" {{if isVideo==1}} onclick="_dobLike(this,'${advertiseID}')" {{else}} onclick="_doLike(this,'${advertiseID}')" {{/if}} >+${likeReward}</div>
+            <div class="like-btn {{if youLiked}}liked{{/if}}" onclick="_doLike('${advertiseID}')">+${likeReward}</div>
             <div class="like-details"><b>${likerCount}</b> <i>liked</i></div>
             <div class="view-btn">&nbsp;</div>
             <div class="view-details"><b>${viewerCount}</b> <i>view</i></div>
+            <button type="button" class="btn btn-danger m-2 p-2" data-toggle="modal" onclick="delId='${advertiseID}';$('#deletePostModal').modal('toggle');" data-target="#deletePostModal">
+              حذف پست
+            </button>
         </div>
         <div class="caption">
             ${caption}
@@ -189,6 +193,27 @@
     </div>
 
 </script>
+
+<!-- Modal -->
+<div class="modal fade" id="deletePostModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">حذف پست</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="بازگشت">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                مطمئن هستید؟
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="$('#deletePostModal').modal('toggle');" data-dismiss="modal">خیر</button>
+                <button type="button" class="btn btn-danger" onclick="_deletePost();">بلی</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <div class="posts" id="adsContainer">
 </div>
@@ -200,7 +225,7 @@
 <script type="text/javascript">
     $(document).ready(function () {
         $.ajax({
-            url: '/ads',
+            url: '/myads',
             type: 'GET',
             success: function (result) {
                 if(result=="gologin"){
@@ -219,17 +244,36 @@
             },
         });
     });
-    function _dobLike(obj,adv){
-        if($('.'+adv+' .like-btn').hasClass('liked')){
+    var delId=-1;
+    function _deletePost(){
+        adv=delId;
+        if(adv==-1){
             return;
         }
-        alert('باید ویدئو را تا انتها ملاحظه بفرمایید تا امتیاز لایک این ویدئو را دریافت نمایید.');
+        $.ajax({
+            url: '/delPost/'+adv,
+            type: 'GET',
+            success: function (result) {
+                if(result){
+                    if(result=="gologin"){
+                        window.location="/login/login";
+                    }else{
+                        $('.post.'+adv).fadeOut(300, function() { $(this).remove(); });
+                        $('#deletePostModal').modal('toggle');
+                        //$('.post.'+adv).fadeOut();
+                        //$('.post.'+adv).remove();
+                    }
+                }else{
+                    alert("failed");
+                }
+            },
+        });
+
+     return;
 
     }
-    function _doLike(obj,adv){
-        if($(this).hasClass('liked')){
-            return;
-        }
+
+    function _doLike(adv){
         $.ajax({
             url: '/dolike/'+adv,
             type: 'GET',
@@ -238,14 +282,7 @@
                     if(result=="gologin"){
                         window.location="/login/login";
                     }else{
-                        $('.'+adv+' .like-btn').addClass('liked');
-                        
-                        _result=parseInt(result);
-                        if(_result>0){
-                            $('.'+adv+' .like-details b').text(parseInt($('.'+adv+' .like-details b').text())+1);
-                            pointUpdated(result);
-                        }
-                        //alert(adv+" is liked");
+                        alert(adv+" is liked");
                     }
                 }else{
                     alert("failed");

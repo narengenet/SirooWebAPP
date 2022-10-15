@@ -79,8 +79,10 @@ namespace SirooWebAPP.UI.Pages
                         if (user.Inviter!=null)
                         {
                             long def_points_for_client_invitation = Convert.ToInt64(_usersServices.GetConstantDictionary("def_points_for_client_invitation").ConstantValue);
-                            user.Inviter.Points += def_points_for_client_invitation;
-                            _usersServices.UpdateUser(user.Inviter);
+                            Guid _inviterId = Guid.Parse(user.Inviter.ToString());
+                            Users _inviter = _usersServices.GetUser(_inviterId);
+                            _inviter.Points += def_points_for_client_invitation;
+                            _usersServices.UpdateUser(_inviter);
                         }
                     }
                     

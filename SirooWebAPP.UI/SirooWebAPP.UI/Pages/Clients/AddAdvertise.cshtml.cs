@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using SirooWebAPP.Application.Interfaces;
@@ -30,15 +30,37 @@ namespace SirooWebAPP.UI.Pages.Clients
         public string FileName { get; set; }
         public bool IsVideo { get; set; }
 
+        public string ResultMessage = "";
+        public bool ResultMessageSuccess = false;
+
         public void OnGet()
         {
-            Options = _usersServices.GetAllUsers().Select(a =>
-                new SelectListItem
+            CreateOptionList();
+
+        }
+
+        private void CreateOptionList()
+        {
+            Options = new List<SelectListItem>();
+            List<Users> theUsers = _usersServices.GetAllUsers();
+            bool isSelected = false;
+            string _creatorId = HelperFunctions.GetCookie("userid", Request);
+            Guid creatorID = Guid.Parse(_creatorId);
+            foreach (var item in theUsers)
+            {
+                isSelected = false;
+                if (item.Id == creatorID)
                 {
-                    Value = a.Id.ToString(),
-                    Text = a.Username
+                    isSelected = true;
                 }
-            ).ToList();
+                Options.Add(new SelectListItem
+                {
+                    Value = item.Id.ToString(),
+                    Text = item.Username,
+                    Selected = isSelected
+                });
+
+            }
         }
 
         public IActionResult OnPostAddAdvertisements(AddAds addAds)
@@ -92,15 +114,11 @@ namespace SirooWebAPP.UI.Pages.Clients
 
 
 
+            CreateOptionList();
 
-            Options = _usersServices.GetAllUsers().Select(a =>
-                                                            new SelectListItem
-                                                            {
-                                                                Value = a.Id.ToString(),
-                                                                Text = a.Username
-                                                            }
-                                                        ).ToList();
             IsVideo = ads.IsVideo;
+            ResultMessage = "پَست جدید ارسال شد. لطفا منتظر تایید بمانید.";
+            ResultMessageSuccess = true;
             return Page();
 
         }

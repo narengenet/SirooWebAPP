@@ -5,53 +5,63 @@
 }
 
 
-
+    @if (Model.ResultMessage.Length > 1)
+    {
+        <div class="alert alert-success fade show" role="alert">
+            @Model.ResultMessage
+        <button type="button" class="close" data-dismiss="alert" onclick="closeAlert();" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    }
 
 
 <form method="post" enctype="multipart/form-data">
 
     <div class="container">
         <div class="row">&nbsp;</div>
-        <div class="row">
+        <div class="row" style="display:none;">
             <div class="col-2">کاربر صاحب تبلیغ</div>
             <div class="col-4">
-                <select asp-items="Model.Options" asp-for="AddAds.UserID"></select>
+                <select asp-items="Model.Options"  asp-for="AddAds.UserID"></select>
             </div>
         </div>
-        <div class="row">
+        <div class="row" style="display:none;">
             <div class="col-2">نام</div>
             <div class="col-4">
-                <input type="text" asp-for="AddAds.Name"></input>
+                <input type="text" value="تبلیغ" asp-for="AddAds.Name"></input>
             </div>
         </div>
         <div class="row">
-            <div class="col-2">Caption</div>
+            <div class="col-2">متن پُست</div>
             <div class="col-4">
                 <input type="text" asp-for="AddAds.Caption"></input>
             </div>
         </div>
         <div class="row">
-            <div class="col-2">ویدئو است</div>
             <div class="col-4">
-                <input type="checkbox" asp-for="AddAds.isVideo"></input>
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" asp-for="AddAds.isVideo">
+                    <label class="form-check-label" for="AddAds.isVideo">ویدئو است</label>
+                </div>
             </div>
         </div>
-        <div class="row">
+        <div class="row" style="display:none;">
             <div class="col-2">امتیاز دیدن</div>
             <div class="col-4">
-                <input type="number" disabled value="0" asp-for="AddAds.ViewReward"></input>
+                <input type="number"  value="0" asp-for="AddAds.ViewReward"></input>
             </div>
         </div>
-        <div class="row">
+        <div class="row" style="display:none;">
             <div class="col-2">تعداد نمایش</div>
             <div class="col-4">
-                <input type="number" disabled value="-1" asp-for="AddAds.ViewQuota"></input>
+                <input type="number"  value="-1" asp-for="AddAds.ViewQuota"></input>
             </div>
         </div>
-        <div class="row">
+        <div class="row" style="display:none;">
             <div class="col-2">امتیاز لایک</div>
             <div class="col-4">
-                <input type="number" disabled value="10" asp-for="AddAds.LikeReward"></input>
+                <input type="number"  value="10" asp-for="AddAds.LikeReward"></input>
             </div>
         </div>
         <div class="row">
@@ -64,7 +74,7 @@
             <div class="col-6">
                 @if (!string.IsNullOrEmpty(Model.FileName) && !Model.IsVideo)
                 {
-                    <img src="~/uploads/@Model.FileName" />
+                    <img src="~/@Model.FileName" />
                 }
                 @if (!string.IsNullOrEmpty(Model.FileName) && Model.IsVideo)
                 {
@@ -79,7 +89,7 @@
         <div class="row">&nbsp;</div>
         <div class="row">
             <div class="col-6">
-                <input type="submit" value="Submit" asp-page-handler="AddAdvertisements" />
+                <input type="submit" value="ارسال" asp-page-handler="AddAdvertisements" />
             </div>
         </div>
         <div class="row">
@@ -88,6 +98,7 @@
             </div>
         </div>
     </div>
+
 
 </form>
 

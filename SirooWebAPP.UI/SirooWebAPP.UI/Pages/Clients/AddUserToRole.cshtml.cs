@@ -37,14 +37,15 @@ namespace SirooWebAPP.UI.Pages.Clients
             CreateOptions();
         }
 
-        public string? ResultMessage;
-
+        public string? ResultMessage="";
+        public string ResultMessageSuccess = "danger";
 
         public IActionResult OnPostAddRoleToUser(AddRoleUserModel addRoleUserModel)
         {
+            bool permitToAdd = true;
             if (ModelState.IsValid)
             {
-                bool permitToAdd = true;
+                
                 string _creatorId = HelperFunctions.GetCookie("userid", Request);
                 Guid creatorID = Guid.Parse(_creatorId);
 
@@ -63,7 +64,7 @@ namespace SirooWebAPP.UI.Pages.Clients
                     }
 
                     // only super admin and admins can change role of a user which is not client
-                    if (_requestedUserHighestRole.RoleName != "client" && permitToAdd)
+                    if (_creatorHighestRole.Priority>1 && _requestedUserHighestRole.RoleName != "client" && permitToAdd)
                     {
 
                         if (_creatorHighestRole.RoleName != "super" || _creatorHighestRole.RoleName != "admin")
@@ -107,12 +108,16 @@ namespace SirooWebAPP.UI.Pages.Clients
                 }
                 else if (permitToAdd)
                 {
+                    permitToAdd = false;
                     ResultMessage = "قبلا این نقش به این کاربر اضافه شده بود.";
                 }
 
             }
 
-
+            if (permitToAdd)
+            {
+                ResultMessageSuccess = "success";
+            }
             CreateOptions();
             return Page();
 
@@ -196,16 +201,33 @@ namespace SirooWebAPP.UI.Pages.Clients
             Guid creatorID = Guid.Parse(_creatorId);
             Roles highestPriorityRoleOfCreator = _usersServices.GetUserRoles(creatorID).OrderBy(r => r.Priority).FirstOrDefault<Roles>();
 
-            RolesOptions = _usersServices.GetAllRoles()
-                .Where(r => r.Priority > highestPriorityRoleOfCreator.Priority)
-                .OrderBy(r => r.Priority)
-                .Select(a =>
-                new SelectListItem
-                {
-                    Value = a.Id.ToString(),
-                    Text = a.RoleDescription
-                }
-            ).ToList();
+            if (highestPriorityRoleOfCreator.Priority==0 || highestPriorityRoleOfCreator.Priority == 1)
+            {
+                RolesOptions = _usersServices.GetAllRoles()
+                    .Where(r => r.Priority >= highestPriorityRoleOfCreator.Priority)
+                    .OrderBy(r => r.Priority)
+                    .Select(a =>
+                    new SelectListItem
+                    {
+                        Value = a.Id.ToString(),
+                        Text = a.RoleDescription
+                    }
+                ).ToList();
+            }
+            else
+            {
+                RolesOptions = _usersServices.GetAllRoles()
+                    .Where(r => r.Priority > highestPriorityRoleOfCreator.Priority && r.Priority != 5)
+                    .OrderBy(r => r.Priority)
+                    .Select(a =>
+                    new SelectListItem
+                    {
+                        Value = a.Id.ToString(),
+                        Text = a.RoleDescription
+                    }
+                ).ToList();
+            }
+
         }
     }
 }

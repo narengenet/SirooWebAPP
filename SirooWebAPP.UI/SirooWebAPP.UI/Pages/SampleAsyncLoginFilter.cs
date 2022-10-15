@@ -35,7 +35,8 @@ namespace SirooWebAPP.UI.Pages
                     HelperFunctions.RemoveCookie("userid", context.HttpContext.Request, context.HttpContext.Response);
                     HelperFunctions.RemoveCookie("usertoken", context.HttpContext.Request, context.HttpContext.Response);
                     context.HttpContext.Session.SetString("userid", "00000000-0000-0000-0000-000000000000");
-                    
+                    context.HttpContext.Session.SetString("userrolename", "anonymous");
+
                 }
 
                 if (usrid.ToString() != "00000000-0000-0000-0000-000000000000")
@@ -55,14 +56,18 @@ namespace SirooWebAPP.UI.Pages
                         context.HttpContext.Session.SetString("userpoints", _currentUser.Points.ToString());
                         context.HttpContext.Session.SetString("usercredits", _currentUser.Credits.ToString());
 
+
                     }
                     else
                     {
                         // user hasn't any valid online record in DB, then remove his/her current cookies record from current device
                         HelperFunctions.RemoveCookie("userid", context.HttpContext.Request, context.HttpContext.Response);
                         HelperFunctions.RemoveCookie("usertoken", context.HttpContext.Request, context.HttpContext.Response);
+                        context.HttpContext.Session.SetString("userrolename", "anonymous");
+
                         context.HttpContext.Session.SetString("userid", "00000000-0000-0000-0000-000000000000");
-                        context.HttpContext.Response.Redirect("/Login/Login");
+                        //context.HttpContext.Response.Redirect("/Login/Login");
+                        context.Result = new RedirectResult("/Login/Login");
                     }
                 }
             }
@@ -72,6 +77,8 @@ namespace SirooWebAPP.UI.Pages
                 //context.HttpContext.Session.SetString("userid", "-1");
                 HelperFunctions.RemoveCookie("userid", context.HttpContext.Request, context.HttpContext.Response);
                 HelperFunctions.RemoveCookie("usertoken", context.HttpContext.Request, context.HttpContext.Response);
+                context.HttpContext.Session.SetString("userrolename", "anonymous");
+
                 //context.HttpContext.Response.Redirect("/Login/Login");
                 context.Result = new RedirectResult("/Login/Login");
             }

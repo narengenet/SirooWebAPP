@@ -1,0 +1,74 @@
+﻿@page
+@model SirooWebAPP.UI.Pages.Clients.ProfileModel
+@{
+    Layout = "_LayoutClients";
+}
+
+
+<div class="container">
+    <div class="row">&nbsp;</div>
+    <div class="row">
+        <div class="col-2">نام و نام خانوادگی</div>
+        <div class="col-4">@Model._currentUser.Name @Model._currentUser.Family</div>
+    </div>
+    <div class="row">
+        <div class="col-2">نام کاربری</div>
+        <div class="col-4">@Model._currentUser.Username</div>
+    </div>
+    <div class="row">
+        <div class="col-2">شماره تلفن همراه</div>
+        <div class="col-4">@Model._currentUser.CellPhone</div>
+    </div>
+    <div class="row">
+        <div class="col-2">تاریخ ثبت نام</div>
+        <div class="col-4 item-date">@Model._currentUser.CreationDate</div>
+    </div>
+    <div class="row">
+        <div class="col-2">نقش شما</div>
+        <div class="col-4">@Model.roleName</div>
+    </div>
+    <div class="row">
+        <div class="col-4">امتیاز شما (برای رتبه شما در دوره ها)</div>
+        <div class="col-4">@Model._currentUser.Points</div>
+    </div>
+    <div class="row">
+        <div class="col-4">اعتبار شما (برای دریافت خدمات سیرو)</div>
+        <div class="col-4">@Model._currentUser.Credits</div>
+    </div>
+    <div class="row">&nbsp;</div>
+    @if (Model._currentUser.InviterUsername != null)
+    {
+        <div class="row">
+            <div class="col-2">دعوت شده توسط</div>
+            <div class="col-4">@Model._currentUser.InviterUsername</div>
+        </div>
+    }
+
+    @if (Model._currentUser.Inviteds.Count > 0)
+    {
+        <div class="row">
+
+            <div class="col-2">دعوت شدگان شما: (@Model._currentUser.Inviteds.Count نفر)</div>
+            @foreach (string d in Model._currentUser.Inviteds)
+            {
+                <div class="col-12">@d</div>
+
+            }
+        </div>
+    }
+</div>
+
+
+
+
+@section Scripts {
+<script src="~/js/jquery.timeago.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var dates=$('.item-date');
+        for(i=0;i<dates.length;i++){
+            $(dates[i]).text(jQuery.timeago($(dates[i]).text()));
+        }
+    });
+</script>
+}

@@ -73,6 +73,7 @@ namespace SirooWebAPP.Infrastructure.Services
         private readonly IConstantDictionariesRepository _constRepo;
         private readonly IPointUsagesRepository _pointUsageRepo;
         private readonly IDonnationTickets _donnationTicketRepo;
+        private readonly IPrizesWinnersRepository _prizeWinnersRepo;
 
         private readonly IMapper _mapper;
 
@@ -92,6 +93,7 @@ namespace SirooWebAPP.Infrastructure.Services
             IConstantDictionariesRepository constRepo,
             IPointUsagesRepository pointUsageRepo,
             IDonnationTickets donnationTicketRepo,
+            IPrizesWinnersRepository prizesWinnersRepository,
             IMapper mapper
             )
         {
@@ -107,6 +109,7 @@ namespace SirooWebAPP.Infrastructure.Services
             _constRepo = constRepo;
             _pointUsageRepo = pointUsageRepo;
             _donnationTicketRepo = donnationTicketRepo;
+            _prizeWinnersRepo = prizesWinnersRepository;
 
             _mapper = mapper;
         }
@@ -134,8 +137,9 @@ namespace SirooWebAPP.Infrastructure.Services
         }
         public Users GetUser(Guid id)
         {
-            Users user = _userRepo.GetById(id);
-            return (user.IsActivated && user.IsDeleted == false) ? user : null;
+            return GetAllUsers().Where(u => u.Id == id).FirstOrDefault();
+
+
         }
         public Users GetNotDeletedUser(Guid id)
         {
@@ -158,7 +162,38 @@ namespace SirooWebAPP.Infrastructure.Services
         }
         public List<Users> GetAllUsers()
         {
-            return _userRepo.GetAll().Where(u => u.IsDeleted == false && u.IsActivated==true).ToList<Users>();
+            return _userRepo.GetAll().Where(u => u.IsDeleted == false && u.IsActivated == true).ToList<Users>();
+        }
+        public DTOUserProfile GetUserProfile(Guid userId)
+        {
+            Users usr = _userRepo.GetById(userId);
+            DTOUserProfile dtoUser = _mapper.Map<DTOUserProfile>(usr);
+            if (usr != null)
+            {
+                if (usr.Inviter != null)
+                {
+                    Guid inviterId = Guid.Parse(usr.Inviter.ToString());
+                    Users _inviter = _userRepo.GetById(inviterId);
+                    dtoUser.InviterUsername = _inviter.Username;
+                }
+
+                List<Users> _inviteds = _userRepo.GetAll().Where(u => u.Inviter == userId).ToList<Users>();
+                dtoUser.Inviteds = new List<string>();
+                if (_inviteds.Count != 0)
+                {
+                    foreach (Users item in _inviteds)
+                    {
+                        dtoUser.Inviteds.Add(item.Username);
+                    }
+
+                }
+                dtoUser.CreationDate = Convert.ToDateTime(usr.Created.ToString());
+                dtoUser.CellPhone = usr.Cellphone;
+
+
+
+            }
+            return dtoUser;
         }
         public List<DTOUserSmall> GetAllLesserPriorityUsers(Guid requesterUserId)
         {
@@ -233,7 +268,7 @@ namespace SirooWebAPP.Infrastructure.Services
         public bool CheckUserLogin(Guid userId, string token)
         {
             // check if user is exist or not
-            Users usr = _userRepo.GetById(userId);
+            Users usr = GetUser(userId);
             if (usr != null)
             {
                 // check if user is activated or not
@@ -266,7 +301,7 @@ namespace SirooWebAPP.Infrastructure.Services
             {
                 advertise.RemainedViewQuota = advertise.ViewQuota;
             }
-            
+
 
             return _adverticeRepo.Add(advertise).Id;
         }
@@ -280,13 +315,13 @@ namespace SirooWebAPP.Infrastructure.Services
             // get all ads if owner quota is not ended and ads is not expired
             List<Advertise> result = _adverticeRepo.GetAll()
                 .Join(
-                    _userRepo.GetAll().Where(u=>u.IsActivated==true && u.IsDeleted==false).ToList<Users>(),
-                    ads=>ads.Owner,
-                    users=>users.Id,
-                    (ads,users)=>ads
+                    _userRepo.GetAll().Where(u => u.IsActivated == true && u.IsDeleted == false).ToList<Users>(),
+                    ads => ads.Owner,
+                    users => users.Id,
+                    (ads, users) => ads
                     //new Advertise { Id=ads.Id, Name=ads.Name, Owner=ads.Owner, Caption=ads.Caption, Created=ads.Created, CreatedBy=ads.CreatedBy, CreationDate=ads.CreationDate, Expiracy=ads.Expiracy, IsAvtivated=ads.IsAvtivated, IsDeleted=ads.IsDeleted, IsSpecial=ads.IsSpecial, IsVideo=ads.IsVideo, LastModified=ads.LastModified, LastModifiedBy=ads.LastModifiedBy, LikeReward=ads.LikeReward, MediaSourceURL=ads.MediaSourceURL, RemainedViewQuota=ads.RemainedViewQuota, ViewQuota=ads.ViewQuota, ViewReward=ads.ViewReward}
                 )
-                .Where(a => a.RemainedViewQuota != -1 && a.Expiracy <= DateTime.Now && a.IsAvtivated)
+                .Where(a => a.RemainedViewQuota != -1 && a.Expiracy <= DateTime.Now && a.IsAvtivated && a.IsDeleted==false)
                 .OrderByDescending(l => l.CreationDate)
                 .ToList<Advertise>();
 
@@ -343,6 +378,76 @@ namespace SirooWebAPP.Infrastructure.Services
             return dTOAdvertise;
         }
 
+        public List<DTOAdvertise> GetMyAdvertises(Guid userID)
+        {
+
+            // get current user
+            Users user = _userRepo.GetById(userID);
+
+
+            // get all ads if owner quota is not ended and ads is not expired
+            List<Advertise> result = _adverticeRepo.GetAll()
+                .Join(
+                    _userRepo.GetAll().Where(u => u.IsActivated == true && u.IsDeleted == false).ToList<Users>(),
+                    ads => ads.Owner,
+                    users => users.Id,
+                    (ads, users) => ads
+                    //new Advertise { Id=ads.Id, Name=ads.Name, Owner=ads.Owner, Caption=ads.Caption, Created=ads.Created, CreatedBy=ads.CreatedBy, CreationDate=ads.CreationDate, Expiracy=ads.Expiracy, IsAvtivated=ads.IsAvtivated, IsDeleted=ads.IsDeleted, IsSpecial=ads.IsSpecial, IsVideo=ads.IsVideo, LastModified=ads.LastModified, LastModifiedBy=ads.LastModifiedBy, LikeReward=ads.LikeReward, MediaSourceURL=ads.MediaSourceURL, RemainedViewQuota=ads.RemainedViewQuota, ViewQuota=ads.ViewQuota, ViewReward=ads.ViewReward}
+                )
+                .Where(a => a.Owner == userID && a.IsDeleted==false)
+                .OrderByDescending(l => l.CreationDate)
+                .ToList<Advertise>();
+
+            // create return data model object
+            List<DTOAdvertise> dTOAdvertise = new List<DTOAdvertise>();
+
+            // prepare returning ads
+            foreach (Advertise item in result)
+            {
+
+                // prepare likers of current ad
+                IList<Likers> _likers = _likersRepo.GetAll().Where(l => l.Advertise == item.Id).ToList<Likers>();
+                IList<Viewers> _viewers = _viewersRepo.GetAll().Where(v => v.Advertise == item.Id).ToList<Viewers>();
+
+                // map ad, likers and viewers to ad DTO
+                DTOAdvertise _dtoAds = new DTOAdvertise();
+
+                _dtoAds = _mapper.Map<DTOAdvertise>(item);
+
+                _dtoAds.AdvertiseID = item.Id;
+                //_dtoAds.Caption = item.Caption;
+                //_dtoAds.Name = item.Name;
+                _dtoAds.CreationDate = item.CreationDate.ToString();
+                _dtoAds.Likers = _likers;
+                _dtoAds.MediaSourceURL = item.MediaSourceURL;
+                _dtoAds.Owner = _mapper.Map<DTOUser>(GetUser(item.Owner));
+                _dtoAds.Viewers = _viewers;
+                _dtoAds.IsVideo = item.IsVideo;
+                _dtoAds.LikerCount = _likers.Count;
+                _dtoAds.ViewerCount = _viewers.Count;
+                _dtoAds.LikeReward = item.LikeReward;
+                _dtoAds.ViewReward = item.ViewReward;
+                _dtoAds.YouLiked = (_likersRepo.GetAll().Where(l => l.Advertise == item.Id && l.LikedBy == userID).ToList<Likers>().Count == 0) ? false : true;
+
+                dTOAdvertise.Add(_dtoAds);
+            }
+
+
+            return dTOAdvertise;
+        }
+
+        public bool DeleteAdvertise(Guid postID,Guid userId)
+        {
+            Advertise ads= _adverticeRepo.GetAll().Where(a => a.Id == postID && a.Owner == userId && a.IsDeleted == false).FirstOrDefault();
+            if (ads!=null)
+            {
+                ads.IsDeleted = true;
+                _adverticeRepo.Update(ads);
+                return true;
+            }
+            return false;
+        }
+
         public Likers AddLikeToAdvertise(Guid advertiseID, Guid userID)
         {
             //Advertise ad = _adverticeRepo.GetById(advertiseID);
@@ -359,7 +464,7 @@ namespace SirooWebAPP.Infrastructure.Services
             return true;
         }
 
-        bool IUserServices.DoLikeAdvertiseByUserID(Guid advertiseID, Guid UserID)
+        int IUserServices.DoLikeAdvertiseByUserID(Guid advertiseID, Guid UserID)
         {
             // get liked ads
             Advertise _ad = _adverticeRepo.GetById(advertiseID);
@@ -384,12 +489,13 @@ namespace SirooWebAPP.Infrastructure.Services
                         // then add ads like reward to liker
                         _liker.Points += _ad.LikeReward;
                         _userRepo.Update(_liker);
+                        return _ad.LikeReward;
                     }
 
-                    return true;
+                    return 0;
                 }
             }
-            return false;
+            return -1;
         }
 
         bool IUserServices.LogOut(Guid UserID, string GUID)
@@ -458,7 +564,7 @@ namespace SirooWebAPP.Infrastructure.Services
                     users => users.Id,
                     (draws, users) => draws
                 )
-                .Where(d=>d.IsActivated==true && d.IsDeleted==false)
+                .Where(d => d.IsActivated == true && d.IsDeleted == false)
                 .OrderBy(d => d.StartDate)
                 .ToList<Draws>();
 
@@ -467,13 +573,22 @@ namespace SirooWebAPP.Infrastructure.Services
 
             //List<DTODraws> _draws = _mapper.Map<List<DTODraws>>(_drawsRepo.GetAll().OrderBy(d => d.StartDate));
             List<DTODraws> _draws = _mapper.Map<List<DTODraws>>(result);
-            List<Users> allUsers = _userRepo.GetAll().Where(u=>u.IsDeleted==false && u.IsActivated==true).OrderByDescending(u => u.Points).ToList<Users>();
+            List<DTOUser> allUsers = _mapper.Map<List<DTOUser>>(_userRepo.GetAll().Where(u => u.IsDeleted == false && u.IsActivated == true).OrderByDescending(u => u.Points).ToList<Users>());
+            
             foreach (DTODraws item in _draws)
             {
                 List<DTOPrize> _p = _mapper.Map<List<DTOPrize>>(GetPrizesByDraw(item.DrawId).OrderBy(p => p.Priority));
                 item.Owner = _mapper.Map<DTOUser>(GetUser(item.OwnerId));
                 item.Prizes = (_p);
-                item.PrizeWinners = _mapper.Map<List<DTOUser>>(allUsers);
+                if (item.IsFinished)
+                {
+                    item.PrizeWinners = GetAllPrizeWinnersByDrawId(item.DrawId);
+                }
+                else
+                {
+                    item.PrizeWinners = allUsers;
+                }
+                
             }
 
 
@@ -555,13 +670,13 @@ namespace SirooWebAPP.Infrastructure.Services
         }
         public bool UsePoint(Guid donnationTicketId, Guid donnerId, Guid receiverId, long point, bool isCredit)
         {
-            _pointUsageRepo.Add(new PointUsages {DonnationTicket=donnationTicketId,  Donner = donnerId, Receiver = receiverId, Value = point, IsUsed = true, Created = DateTime.Now, IsCredit = isCredit });
+            _pointUsageRepo.Add(new PointUsages { DonnationTicket = donnationTicketId, Donner = donnerId, Receiver = receiverId, Value = point, IsUsed = true, Created = DateTime.Now, IsCredit = isCredit });
             return true;
         }
 
         public List<DonnationTickets> GetAllDonnationTickets()
         {
-            return _donnationTicketRepo.GetAll().Where(t=>t.IsDeleted==false).ToList<DonnationTickets>();
+            return _donnationTicketRepo.GetAll().Where(t => t.IsDeleted == false).ToList<DonnationTickets>();
         }
 
         public DonnationTickets GetDonnationTicket(Guid ticketId)
@@ -572,6 +687,68 @@ namespace SirooWebAPP.Infrastructure.Services
         public bool UpdateDonnationTicket(DonnationTickets donnationTicket)
         {
             _donnationTicketRepo.Update(donnationTicket);
+            return true;
+        }
+
+        Guid IUserServices.AddDonnationTicket(DonnationTickets donnationTicket)
+        {
+            _donnationTicketRepo.Add(donnationTicket);
+            return donnationTicket.Id;
+        }
+
+        public List<DTOUser> GetAllPrizeWinnersByDrawId(Guid drawId)
+        {
+            return _prizeWinnersRepo.GetAll().Where(p => p.Draw == drawId)
+                .Join(
+                    GetAllUsers(),
+                    prizes => prizes.User,
+                    usr => usr.Id,
+                    (prizes, usr) => new DTOUser
+                    {
+                        Name = usr.Name,
+                        Family = usr.Family,
+                        UserId = usr.Id,
+                        Points = prizes.WiningPoint,
+                        Username=usr.Username,
+                        IsActivated=usr.IsActivated,
+                        ProfileMediaURL=usr.ProfileMediaURL
+                    }
+                ).OrderByDescending(u=>u.Points)
+                .ToList<DTOUser>();
+        }
+
+        bool IUserServices.AddPrizeWinner(Guid drawId)
+        {
+            List<Prizes> prizes = GetAllPrizes().Where(p => p.Draw == drawId).OrderBy(p => p.Priority).ToList<Prizes>();
+            int prizesWinnersCount = 0;
+            foreach (Prizes item in prizes)
+            {
+                prizesWinnersCount += item.WinnerCount;
+            }
+
+            List<Users> winners = GetAllUsers().OrderByDescending(u => u.Points).ToList<Users>();
+
+            int indx = 0;
+
+            //for (int i = 0; i < prizesWinnersCount; i++)
+            //{
+            do
+            {
+                foreach (Prizes item in prizes)
+                {
+                    for (int j = 0; j < item.WinnerCount; j++)
+                    {
+
+                        PrizesWinners _pw = new PrizesWinners { Prize = item.Id, User = winners[indx].Id, WiningPoint = winners[indx].Points, WiningDate = DateTime.Now, Draw = drawId };
+                        _prizeWinnersRepo.Add(_pw);
+                        //winners[indx].Points = 0;
+                        //_userRepo.Update(winners[indx]);
+                        indx += 1;
+                    }
+                }
+            } while (indx<prizesWinnersCount);
+            //}
+            _userRepo.GetAll().ToList().ForEach(u=>u.Points=0);
             return true;
         }
     }
