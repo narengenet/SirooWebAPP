@@ -40,6 +40,7 @@ namespace SirooWebAPP.Application.Mappers
                 .ForMember(dest => dest.CreationDate, opt => opt.MapFrom(src => src.Created))
                 .ForMember(dest => dest.CellPhone, opt => opt.Ignore())
                 .ForMember(dest => dest.Address, opt => opt.Ignore())
+                .ForMember(dest => dest.RoleName, opt => opt.Ignore())
                 .ReverseMap();
 
             CreateMap<Advertise, DTOAdvertise>()

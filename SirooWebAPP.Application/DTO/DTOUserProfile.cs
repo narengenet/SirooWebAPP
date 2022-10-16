@@ -19,10 +19,11 @@ namespace SirooWebAPP.Application.DTO
         //public long Credits { get; set; }
         public string? ProfileMediaURL { get; set; }
         public string? InviterUsername { get; set; }
-        public List<string> Inviteds { get; set; }
+        public List<DTOUserProfile> Inviteds { get; set; }
         public string CellPhone { get; set; }
         public string Address { get; set; }
         public long Credits { get; set; }
         public DateTime CreationDate { get; set; }
+        public string RoleName { get; set; }
     }
 }

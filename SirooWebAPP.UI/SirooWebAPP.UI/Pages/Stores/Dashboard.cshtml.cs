@@ -18,13 +18,16 @@ namespace SirooWebAPP.UI.Pages.Stores
         private readonly IUserServices _usersServices;
         private readonly CustomIDataProtection protector;
         private IWebHostEnvironment _environment;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
 
-        public DashboardModel(CustomIDataProtection customIDataProtection, IUserServices services, IWebHostEnvironment environment)
+        public DashboardModel(CustomIDataProtection customIDataProtection, IUserServices services, IWebHostEnvironment environment, IHttpContextAccessor httpContextAccessor)
         {
             _usersServices = services;
             protector = customIDataProtection;
             _environment = environment;
+            _httpContextAccessor = httpContextAccessor;
+
 
         }
 
@@ -89,8 +92,10 @@ namespace SirooWebAPP.UI.Pages.Stores
             List<DonnationTickets> tickets = _usersServices.GetAllDonnationTickets().Where(t => t.Donner == creatorID && t.RemainedCapacity > 0).ToList<DonnationTickets>();
             foreach (DonnationTickets item in tickets)
             {
-                string qrText = HelperFunctions.CreateQR("https://localhost:7051/Public/AddPoints?ticket=" + item.Id.ToString());
-                TicketsModel _t = new TicketsModel { QRsrc = qrText, Capacity = item.RemainedCapacity, Val = item.Value, TicketURL = "https://localhost:7051/Public/AddPoints?ticket=" + item.Id.ToString() };
+                //string qrText = HelperFunctions.CreateQR("https://localhost:7051/Public/AddPoints?ticket=" + item.Id.ToString());
+                string qrText = HelperFunctions.CreateQR(_httpContextAccessor.HttpContext.Request.Scheme+"://"+ _httpContextAccessor.HttpContext.Request.Host.Value+"/Public/AddPoints?ticket=" + item.Id.ToString());
+                //TicketsModel _t = new TicketsModel { QRsrc = qrText, Capacity = item.RemainedCapacity, Val = item.Value, TicketURL = "https://localhost:7051/Public/AddPoints?ticket=" + item.Id.ToString() };
+                TicketsModel _t = new TicketsModel { QRsrc = qrText, Capacity = item.RemainedCapacity, Val = item.Value, TicketURL = _httpContextAccessor.HttpContext.Request.Scheme + "://" + _httpContextAccessor.HttpContext.Request.Host.Value + "/Public/AddPoints?ticket=" + item.Id.ToString() };
                 QrCodes.Add(_t);
             }
         }

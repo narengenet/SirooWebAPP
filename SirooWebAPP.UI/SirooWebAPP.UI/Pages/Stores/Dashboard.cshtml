@@ -34,12 +34,13 @@
         border: solid 1px black;
     }
 
-    .tgleQR.row{
+    .tgleQR.row {
         cursor: pointer;
     }
-    #usageContainer .row{
-        border:1px solid black;
-        background-color:lightgrey;
+
+    #usageContainer .row {
+        border: 1px solid black;
+        background-color: lightgrey;
     }
 </style>
 
@@ -86,26 +87,26 @@
 
 
 <script id="ticketTemplate" type="text/x-jQuery-tmpl">
-        <div class="row">
-            <div class="contents qrFrame">
-                <span class="tgleQR" onclick="tglQR(this);" >نمایش QR</span>
-                <img class="theQR" src="${qRsrc}" />
-                <hr/>
-                <div style="font-size:0.6rem;">
-                    ${ticketURL}
-                </div>
-            </div>
-            <div class="contents">
-                <div class="data">
-                    <label>تعداد اسکن باقیمانده:</label>
-                    <span>${capacity}</span>
-                </div>
-                <div class="data">
-                    <label>امتیاز هر اسکن:</label>
-                    <span>${val}</span>
-                </div>
+    <div class="row">
+        <div class="contents qrFrame">
+            <span class="tgleQR" onclick="tglQR(this);" >نمایش QR</span>
+            <img class="theQR" src="${qRsrc}" />
+            <hr/>
+            <div style="font-size:0.6rem;">
+                ${ticketURL}
             </div>
         </div>
+        <div class="contents">
+            <div class="data">
+                <label>تعداد اسکن باقیمانده:</label>
+                <span>${capacity}</span>
+            </div>
+            <div class="data">
+                <label>امتیاز هر اسکن:</label>
+                <span>${val}</span>
+            </div>
+        </div>
+    </div>
 </script>
 
 <script id="usageTemplate" type="text/x-jQuery-tmpl">
@@ -119,7 +120,11 @@
 <div class="container tickets" id="ticketContainer">
 </div>
 <hr />
-<a onclick="_getTicketUsageHistory();">نمایش اسکن های موفق</a>
+<div class="container">
+    <div class="row justify-content-center">
+        <a class="btn-primary rounded col-6 text-center" onclick="_getTicketUsageHistory();">نمایش اسکن های موفق</a>
+    </div>
+</div>
 <div class="container usages" id="usageContainer">
 </div>
 

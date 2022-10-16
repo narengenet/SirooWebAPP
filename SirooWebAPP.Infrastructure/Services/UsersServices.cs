@@ -178,12 +178,19 @@ namespace SirooWebAPP.Infrastructure.Services
                 }
 
                 List<Users> _inviteds = _userRepo.GetAll().Where(u => u.Inviter == userId).ToList<Users>();
-                dtoUser.Inviteds = new List<string>();
+                dtoUser.Inviteds = new List<DTOUserProfile>();
                 if (_inviteds.Count != 0)
                 {
                     foreach (Users item in _inviteds)
                     {
-                        dtoUser.Inviteds.Add(item.Username);
+                        Roles _r= GetUserRoles(item.Id).OrderBy(u => u.Priority).First();
+                        DTOUserProfile _u = new DTOUserProfile();
+                        _u.Username = item.Username;
+                        if (_r!=null)
+                        {
+                            _u.RoleName = _r.RoleName;
+                        }
+                        dtoUser.Inviteds.Add(_u);
                     }
 
                 }
