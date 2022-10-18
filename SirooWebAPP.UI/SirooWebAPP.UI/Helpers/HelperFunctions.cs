@@ -1,4 +1,5 @@
-﻿using ZXing.QrCode;
+﻿using System.Text;
+using ZXing.QrCode;
 
 namespace SirooWebAPP.UI.Helpers
 {
@@ -105,6 +106,15 @@ namespace SirooWebAPP.UI.Helpers
 
             }
             return QrText;
+        }
+        public static string SanitizeQuery(string dirtyString)
+        {
+            HashSet<char> removeChars = new HashSet<char>(" ?&^$#@!()+-,:;<>’\'-_*=");
+            StringBuilder result = new StringBuilder(dirtyString.Length);
+            foreach (char c in dirtyString)
+                if (!removeChars.Contains(c))
+                    result.Append(c);
+            return result.ToString();
         }
     }
 }

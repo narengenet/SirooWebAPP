@@ -5,7 +5,7 @@
 
 
 
-<form method="post">
+<form method="post" id="registerForm">
 
     <div class="container">
         <div class="row">&nbsp;</div>
@@ -47,15 +47,15 @@
                 @{
                     if (ViewData["InviterUserID"] != null)
                     {
-                        <input type='hidden' value='@ViewData["InviterUserID"]' asp-for='Person.InviterUserID'/>
+                        <input type='hidden' value='@ViewData["InviterUserID"]' asp-for='Person.InviterUserID' />
                     }
 
                 }
-                <input type="submit" value="Submit" asp-page-handler="Register" />
+                <input type="submit" id="btnRegister" value="ثبت نام" asp-page-handler="Register" />
             </div>
         </div>
     </div>
-   
+
 </form>
 
 @section Scripts {
@@ -63,61 +63,76 @@
 <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
 
 <script type="text/javascript">
-    //Allow users to enter numbers only
-    $(".numericOnly").bind('keypress', function (e) {
-        if (e.keyCode == '9' || e.keyCode == '16') {
-            return;
-        }
-        var code;
-        if (e.keyCode) code = e.keyCode;
-        else if (e.which) code = e.which;
-        if (e.which == 46)
-            return false;
-        if (code == 8 || code == 46)
-            return true;
-        if (code < 48 || code > 57)
-            return false;
-    });
 
-    //Disable paste
-    $(".numericOnly").bind("paste", function (e) {
-        e.preventDefault();
-    });
 
-    $(".numericOnly").bind('mouseenter', function (e) {
-        var val = $(this).val();
-        if (val != '0') {
-            val = val.replace(/[^0-9]+/g, "")
-            $(this).val(val);
-        }
-    });
-    //Allow users to enter a-z only
-    $(".latinOnly").bind('keypress', function (e) {
-        if (e.keyCode == '9' || e.keyCode == '16') {
-            return;
-        }
-        var code;
-        if (e.keyCode) code = e.keyCode;
-        else if (e.which) code = e.which;
-        if (e.which == 46)
-            return false;
-        if (code == 8 || code == 46)
-            return true;
-        if (code < 97 || code > 122)
-            return false;
-    });
 
-    //Disable paste
-    $(".latinOnly").bind("paste", function (e) {
-        e.preventDefault();
-    });
 
-    $(".latinOnly").bind('mouseenter', function (e) {
-        var val = $(this)[0].value;
-        if (val != '0') {
-            val = val.replace(/[^a-z]+/g, "")
-            $(this).val(val);
+    $('#btnRegister').on('click',function() {
+      //$('#btnRegister').attr('disabled','true');
+        $('form').removeData("validator").removeData("unobtrusiveValidation");
+        $.validator.unobtrusive.parse($('form'));
+        if ($('form').valid()) {
+          $('#btnRegister').attr('disabled','true');
+          $('#registerForm').attr("action",$('#btnRegister').attr('formaction'));
+          $('#registerForm').submit();
         }
+
     });
+        //Allow users to enter numbers only
+        $(".numericOnly").bind('keypress', function (e) {
+            if (e.keyCode == '9' || e.keyCode == '16') {
+                return;
+            }
+            var code;
+            if (e.keyCode) code = e.keyCode;
+            else if (e.which) code = e.which;
+            if (e.which == 46)
+                return false;
+            if (code == 8 || code == 46)
+                return true;
+            if (code < 48 || code > 57)
+                return false;
+        });
+
+        //Disable paste
+        $(".numericOnly").bind("paste", function (e) {
+            e.preventDefault();
+        });
+
+        $(".numericOnly").bind('mouseenter', function (e) {
+            var val = $(this).val();
+            if (val != '0') {
+                val = val.replace(/[^0-9]+/g, "")
+                $(this).val(val);
+            }
+        });
+        //Allow users to enter a-z only
+        $(".latinOnly").bind('keypress', function (e) {
+            if (e.keyCode == '9' || e.keyCode == '16') {
+                return;
+            }
+            var code;
+            if (e.keyCode) code = e.keyCode;
+            else if (e.which) code = e.which;
+            if (e.which == 46)
+                return false;
+            if (code == 8 || code == 46)
+                return true;
+            if (code < 97 || code > 122)
+                return false;
+        });
+
+        //Disable paste
+        $(".latinOnly").bind("paste", function (e) {
+            e.preventDefault();
+        });
+
+        $(".latinOnly").bind('mouseenter', function (e) {
+            var val = $(this)[0].value;
+            if (val != '0') {
+                val = val.replace(/[^a-z]+/g, "")
+                $(this).val(val);
+            }
+        });
 </script>
 }

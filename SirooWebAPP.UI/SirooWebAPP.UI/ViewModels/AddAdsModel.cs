@@ -6,7 +6,7 @@ namespace SirooWebAPP.UI.Pages
     {
         [Required]
         public Guid UserID { get; set; }
-        public string Name { get; set; }
+        public string? Notes { get; set; }
         public string Caption { get; set; }
         public string MediaURL { get; set; }
         public bool isVideo { get; set; }

@@ -2,6 +2,15 @@
 @model SirooWebAPP.UI.Pages.ConfirmationModel
 @{
 }
+    @if (Model.ResultMessage.Length > 1)
+    {
+        <div class="alert alert-@Model.ResultMessageSuccess fade show" role="alert">
+            @Model.ResultMessage
+        <button type="button" class="close" data-dismiss="alert" onclick="closeAlert();" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    }
 <form method="post">
 
     <div class="container">
@@ -16,7 +25,7 @@
         <div class="row">
             <div class="col-6">
                 <input type="hidden" value='@ViewData["userid"]' asp-for="Confirmed.UserID" />
-                <input type="submit" value="Submit" asp-page-handler="CofirmCode" />
+                <input type="submit" value="تایید" asp-page-handler="CofirmCode" />
             </div>
         </div>
     </div>

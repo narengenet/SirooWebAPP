@@ -17,7 +17,7 @@ namespace SirooWebAPP.Core.Domain
         public int LikeReward { get; set; }
         public int ViewReward { get; set; }
         public DateTime Expiracy { get; set; }
-        public string Name { get; set; }
+        public string? Notes { get; set; }
         public string Caption { get; set; }
         public int ViewQuota { get; set; }
         public int RemainedViewQuota { get; set; }
@@ -26,6 +26,7 @@ namespace SirooWebAPP.Core.Domain
         public Guid CreatedBy { get; set; }
         public string MediaSourceURL { get; set; }
         public bool IsAvtivated { get; set; }
+        public bool IsRejected { get; set; }
         public Guid Owner { get; set; }
 
 

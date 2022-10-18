@@ -8,6 +8,9 @@
     <title>@ViewBag.Title</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
 </head>
 <body>
     <header>
@@ -61,6 +64,9 @@
                             <li class="nav-item for-admins">
                                 <a class="nav-link text-dark" asp-area="" asp-page="/Superadmins/AddPrize">تعریف جایزه</a>
                             </li>
+                            <li class="nav-item for-admins">
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Superadmins/PendingPosts">تایید پُست های جدید</a>
+                            </li>
                         }
                         @if (Context.Session.GetString("userrolename") == "anonymous")
                         {
@@ -75,7 +81,7 @@
                         else
                         {
                             <li class="nav-item for-clients">
-                                <a class="nav-link text-dark" asp-area="" asp-page="Logout">خروج</a>
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Logout">خروج</a>
                             </li>
                         }
                     </ul>
@@ -91,14 +97,14 @@
             <div class="row">
                 <div class="col-4" style="border:1px solid black;border-radius:1rem;padding:1rem;">
                     @Context.Session.GetString("userfullname")<br />
-                    @Context.Session.GetString("userrolename")<br />
+                    نقش شما: @Context.Session.GetString("userrolename")<br />
                     <a class="profile-media" href="~/Clients/MyPosts">
                         <img src='../@Context.Session.GetString("userprofileurl")' />
                     </a>
                 </div>
                 <div class="col-4" style="border:1px solid black;border-radius:1rem;padding:1rem;">
-                    <span id="currentPoint">@Context.Session.GetString("userpoints")</span><br />
-                    @Context.Session.GetString("usercredits")<br />
+                    <div><b>امتیاز:</b><h3 id="currentPoint">@Context.Session.GetString("userpoints")</h3></div><br />
+                    <div><b>اعتبار:</b><h3 id="currentCredit">@Context.Session.GetString("usercredits")</h3></div><br />
                 </div>
                 <div class="col-4" style="border:1px solid black;border-radius:1rem;padding:1rem;">
                     <a href="~/Clients/Draws">دوره ها</a>

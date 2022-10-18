@@ -4,6 +4,7 @@ using SirooWebAPP.Application.Interfaces;
 using SirooWebAPP.Core.Domain;
 using SirooWebAPP.Infrastructure.Contexts;
 using SirooWebAPP.Infrastructure.Security;
+using SirooWebAPP.UI.Helpers;
 using System.ComponentModel.DataAnnotations;
 
 namespace SirooWebAPP.UI.Pages
@@ -26,14 +27,23 @@ namespace SirooWebAPP.UI.Pages
         }
         public void OnGet()
         {
-            string sin = "sina";
-            string q=protector.Decode("sss");
+            //string sin = "sina";
+            //string q=protector.Decode("sss");
+
+            // read inviter from query
             string inviter = Request.Query["inviter"].ToString();
+            // sanitize inviter query
+            inviter = HelperFunctions.SanitizeQuery(inviter);
+            // reset confirmation count session
+            session.SetInt32("confirmationCount",0);
+            
+            // check if inviter exist 
             if (inviter!="")
             {
-                Users inviterUsr= _usersServices.GetUserByUsername(inviter);
+                Users inviterUsr= _usersServices.GetUserByUsername(inviter.ToLower());
                 if (inviterUsr!=null)
                 {
+                    // set inviter
                     ViewData["InviterUserID"]= inviterUsr.Id;
                 }
                 
@@ -67,7 +77,7 @@ namespace SirooWebAPP.UI.Pages
                 // get default role for new registered user
                 Roles _newRole = _usersServices.GetAllRoles().OrderByDescending(r => r.Priority).FirstOrDefault<Roles>();
                 
-                // check if donation is used recently or not
+                // check if donation is used recently
                 // and check if inviter is exist or not
                 string? storeDonation = session.GetString("store_donate");
                 if (storeDonation!=null && inviter==null)
@@ -94,9 +104,18 @@ namespace SirooWebAPP.UI.Pages
                         session.Remove("store_donate");
                     }
                 }
-
+                Guid? inviter_id = (inviter == null) ? null : inviter.Id;
                 // create new user and register as a user
-                Users _newUser = new Users { Name = person.FirstName, Family = person.LastName, Cellphone = person.CellPhone, Username = person.UserName, ConfirmationCode = _confirmationCode.ToString(), Inviter = inviter.Id};
+                Users _newUser = new Users { 
+                    Name = HelperFunctions.SanitizeQuery(person.FirstName), 
+                    Family = HelperFunctions.SanitizeQuery(person.LastName), 
+                    Cellphone = HelperFunctions.SanitizeQuery(person.CellPhone), 
+                    Username = HelperFunctions.SanitizeQuery(person.UserName.ToLower()), 
+                    ConfirmationCode = _confirmationCode.ToString(), 
+                    Inviter = inviter_id, 
+                    ProfileMediaURL= "uploads/assets/profile.jpg",
+                    Created=DateTime.Now
+                };
                 Guid result = _usersServices.AddUser(_newUser);
 
                 UsersRoles _newUserRole = new UsersRoles { User = result, Role = _newRole.Id, Created = DateTime.Now, CreatedBy = result };

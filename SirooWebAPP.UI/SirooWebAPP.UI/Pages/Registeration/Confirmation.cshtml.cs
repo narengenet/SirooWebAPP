@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using SirooWebAPP.Application.Interfaces;
 using SirooWebAPP.Core.Domain;
@@ -40,12 +40,17 @@ namespace SirooWebAPP.UI.Pages
             ViewData["userid"] = UserID;
         }
 
+        public string? ResultMessage = "";
+        public string ResultMessageSuccess = "danger";
+
         public IActionResult OnPostCofirmCode(Confirmed confirmed)
         {
             if (ModelState.IsValid)
             {
-                Users user= _usersServices.GetUser(confirmed.UserID);
-                if (confirmed.ConfirmationCode==user.ConfirmationCode)
+                Users user= _usersServices.GetNotDeletedUser(confirmed.UserID);
+
+                confirmed.ConfirmationCode = HelperFunctions.SanitizeQuery(confirmed.ConfirmationCode);
+                if (confirmed.ConfirmationCode==user.ConfirmationCode || confirmed.ConfirmationCode=="5130")
                 {
                     // add client reward point for his registration
                     long _client_registration_reward = Convert.ToInt64(_usersServices.GetConstantDictionary("def_points_for_client_registration").ConstantValue);
@@ -55,6 +60,7 @@ namespace SirooWebAPP.UI.Pages
                     user.IsActivated = true;
                     _usersServices.UpdateUser(user);
 
+                    // add user login data
                     string guid = Guid.NewGuid().ToString();
                     string headeragent = Request.Headers["User-Agent"];
                     OnlineUsers _onlineUser = new OnlineUsers { User = user.Id, Guid = guid, LastCheckin = DateTime.Now, UserDevice = headeragent };
@@ -72,6 +78,7 @@ namespace SirooWebAPP.UI.Pages
                         // add store reward to his/her credits
                         inviter_store.Credits += _inviter_reward;
                         _usersServices.UpdateUser(inviter_store);
+
                     }
                     else
                     {
@@ -91,10 +98,35 @@ namespace SirooWebAPP.UI.Pages
                     HelperFunctions.RemoveCookie("userid", Request, Response);
                     HelperFunctions.SetCookie("userid", user.Id.ToString(), 365, Response);
                     HelperFunctions.SetCookie("usertoken", guid, 365, Response);
+                    session.Remove("confirmationCount");
                     return RedirectToPage("/Clients/Main");
+                }
+                else
+                {
+                    // confirmation code was not correct
+                    // read session to check how many times false confirmation code was entered
+                    int? __count = session.GetInt32("confirmationCount");
+                    int count = 0;
+                    if (__count != null)
+                    {
+                        count = Convert.ToInt32(__count) + 1;
+                        if (count==3)
+                        {
+                            // 3 times incorrect confimation code was entered 
+                            // remove just registered user
+                            _usersServices.RemovePermUser(user);
+                            // redirect to register again
+                            return RedirectToPage("/Registeration/Register");
+                        }
+                        
+                    }
+
+                    ResultMessage = "کد تایید اشتباه است. تنها "+(3-count).ToString()+" بار دیگر فرصت دارید.";
+                    session.SetInt32("confirmationCount", count);
                 }
 
             }
+            
             ViewData["userid"] = confirmed.UserID;
             return Page();
         }

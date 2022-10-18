@@ -1,21 +1,22 @@
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
 }
+
 .profile-media {
     width: 50px;
     height: 50px;
@@ -28,3 +29,52 @@ body {
         border-radius: 50%;
         border: 2px solid white;
     }
+
+.like-btn, .view-btn {
+    width: 2rem;
+    height: 2rem;
+    background-image: url(../uploads/assets/like.png);
+    background-size: cover;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+    .like-btn.liked {
+        background-image: url(../uploads/assets/liked.png);
+    }
+
+.liked-btn {
+    background-image: url(../uploads/assets/liked.png);
+}
+
+.view-btn {
+    background-image: url(../uploads/assets/view.png);
+}
+
+.profile-fullname, .profile-date {
+    margin-right: 0.5rem;
+}
+
+.profile-fullname {
+    font-weight: bold;
+    background-color: rgba(0,0,0,0.5);
+    padding: 0rem 1rem 0rem 1rem;
+    border-radius: 0.5rem;
+    color: white;
+}
+
+.profile-date {
+    direction: rtl;
+    color: gray;
+    font-size: 0.7rem;
+}
+
+.caption {
+    direction: rtl;
+    padding: 0.5rem;
+}
+.profile-data-section{
+    align-items:center;
+    text-align:right;
+}

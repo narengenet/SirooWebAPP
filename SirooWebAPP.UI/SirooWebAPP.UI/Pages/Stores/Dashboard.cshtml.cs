@@ -95,7 +95,13 @@ namespace SirooWebAPP.UI.Pages.Stores
                 //string qrText = HelperFunctions.CreateQR("https://localhost:7051/Public/AddPoints?ticket=" + item.Id.ToString());
                 string qrText = HelperFunctions.CreateQR(_httpContextAccessor.HttpContext.Request.Scheme+"://"+ _httpContextAccessor.HttpContext.Request.Host.Value+"/Public/AddPoints?ticket=" + item.Id.ToString());
                 //TicketsModel _t = new TicketsModel { QRsrc = qrText, Capacity = item.RemainedCapacity, Val = item.Value, TicketURL = "https://localhost:7051/Public/AddPoints?ticket=" + item.Id.ToString() };
-                TicketsModel _t = new TicketsModel { QRsrc = qrText, Capacity = item.RemainedCapacity, Val = item.Value, TicketURL = _httpContextAccessor.HttpContext.Request.Scheme + "://" + _httpContextAccessor.HttpContext.Request.Host.Value + "/Public/AddPoints?ticket=" + item.Id.ToString() };
+                TicketsModel _t = new TicketsModel { 
+                    QRsrc = qrText,
+                    Capacity = item.RemainedCapacity,
+                    Val = item.Value, 
+                    QRID=item.Id,
+                    TicketURL = _httpContextAccessor.HttpContext.Request.Scheme + "://" + _httpContextAccessor.HttpContext.Request.Host.Value + "/Public/AddPoints?ticket=" + item.Id.ToString() 
+                };
                 QrCodes.Add(_t);
             }
         }

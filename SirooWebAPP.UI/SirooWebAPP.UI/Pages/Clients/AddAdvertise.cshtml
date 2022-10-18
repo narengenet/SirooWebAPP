@@ -7,7 +7,7 @@
 
     @if (Model.ResultMessage.Length > 1)
     {
-        <div class="alert alert-success fade show" role="alert">
+        <div class="alert alert-@Model.ResultMessageSuccess fade show" role="alert">
             @Model.ResultMessage
         <button type="button" class="close" data-dismiss="alert" onclick="closeAlert();" aria-label="Close">
             <span aria-hidden="true">&times;</span>
@@ -16,89 +16,92 @@
     }
 
 
-<form method="post" enctype="multipart/form-data">
 
-    <div class="container">
-        <div class="row">&nbsp;</div>
-        <div class="row" style="display:none;">
-            <div class="col-2">کاربر صاحب تبلیغ</div>
-            <div class="col-4">
-                <select asp-items="Model.Options"  asp-for="AddAds.UserID"></select>
+@if (Model.ResultMessageSuccess=="danger")
+{
+
+    <form method="post" enctype="multipart/form-data">
+
+        <div class="container">
+            <div class="row">&nbsp;</div>
+            <div class="row" style="display:none;">
+                <div class="col-2">کاربر صاحب تبلیغ</div>
+                <div class="col-4">
+                    <select asp-items="Model.Options"  asp-for="AddAds.UserID"></select>
+                </div>
             </div>
-        </div>
-        <div class="row" style="display:none;">
-            <div class="col-2">نام</div>
-            <div class="col-4">
-                <input type="text" value="تبلیغ" asp-for="AddAds.Name"></input>
+            <div class="row">
+                <div class="col-2">متن پُست</div>
+                <div class="col-4">
+                    <input type="text" asp-for="AddAds.Caption"/>
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-2">متن پُست</div>
-            <div class="col-4">
-                <input type="text" asp-for="AddAds.Caption"></input>
+            <div class="row">
+                <div class="col-4">
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" asp-for="AddAds.isVideo">
+                        <label class="form-check-label" for="AddAds.isVideo">ویدئو است</label>
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-4">
-                <div class="form-check form-switch">
-                    <input class="form-check-input" type="checkbox" asp-for="AddAds.isVideo">
-                    <label class="form-check-label" for="AddAds.isVideo">ویدئو است</label>
+            <div class="row" style="display:none;">
+                <div class="col-2">امتیاز دیدن</div>
+                <div class="col-4">
+                    <input type="number"  value="0" asp-for="AddAds.ViewReward"/>
+                </div>
+            </div>
+            <div class="row" style="display:none;">
+                <div class="col-2">تعداد نمایش</div>
+                <div class="col-4">
+                    <input type="number"  value="-1" asp-for="AddAds.ViewQuota"/>
+                </div>
+            </div>
+            <div class="row" style="display:none;">
+                <div class="col-2">امتیاز لایک</div>
+                <div class="col-4">
+                    <input type="number"  value="10" asp-for="AddAds.LikeReward"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-2">آپلود</div>
+                <div class="col-4">
+                    <input asp-for="AddAds.Upload" type="file">
+                </div>
+            </div>
+
+
+            <div class="row">&nbsp;</div>
+            <div class="row">
+                <div class="col-6">
+                    <input type="submit" value="ارسال" asp-page-handler="AddAdvertisements" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4">
+                    @*@Model.ResultMessage*@
                 </div>
             </div>
         </div>
-        <div class="row" style="display:none;">
-            <div class="col-2">امتیاز دیدن</div>
-            <div class="col-4">
-                <input type="number"  value="0" asp-for="AddAds.ViewReward"></input>
-            </div>
-        </div>
-        <div class="row" style="display:none;">
-            <div class="col-2">تعداد نمایش</div>
-            <div class="col-4">
-                <input type="number"  value="-1" asp-for="AddAds.ViewQuota"></input>
-            </div>
-        </div>
-        <div class="row" style="display:none;">
-            <div class="col-2">امتیاز لایک</div>
-            <div class="col-4">
-                <input type="number"  value="10" asp-for="AddAds.LikeReward"></input>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-2">آپلود</div>
-            <div class="col-4">
-                <input asp-for="AddAds.Upload" type="file">
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-6">
+
+
+    </form>
+}
+else
+{
+
+            <div class="d-flex justify-content-center row">
                 @if (!string.IsNullOrEmpty(Model.FileName) && !Model.IsVideo)
                 {
-                    <img src="~/@Model.FileName" />
+                    <img class="col-10 rounded-3" src="~/@Model.FileName" />
                 }
                 @if (!string.IsNullOrEmpty(Model.FileName) && Model.IsVideo)
                 {
-                    <video width="640" height="480" controls>
+                    <video class="col-10 rounded-3" controls>
                         <source src="~/@Model.FileName">
                         Your browser does not support the video tag.
                     </video>
                 }
             </div>
-        </div>
-
-        <div class="row">&nbsp;</div>
-        <div class="row">
-            <div class="col-6">
-                <input type="submit" value="ارسال" asp-page-handler="AddAdvertisements" />
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-4">
-                @*@Model.ResultMessage*@
-            </div>
-        </div>
-    </div>
-
-
-</form>
+  
+}
 

@@ -10,7 +10,7 @@ namespace SirooWebAPP.Application.DTO
     public class DTOAdvertise
     {
         public Guid AdvertiseID { get; set; }
-        public string Name { get; set; }
+        public string? Notes { get; set; }
         public string Caption { get; set; }
         
         public string CreationDate { get; set; }
@@ -23,6 +23,7 @@ namespace SirooWebAPP.Application.DTO
         public int ViewerCount { get; set; }
         public int LikeReward { get; set; }
         public int ViewReward { get; set; }
+        public bool IsRejected { get; set; }
         public bool IsAvtivated { get; set; }
 
         public ICollection<Likers>  Likers{ get; set; }

@@ -54,6 +54,27 @@
     </div>
 }
 
+<!-- Modal -->
+<div class="modal fade" id="deleteQRModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">حذف QR</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="بازگشت">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                مطمئن هستید؟
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="$('#deleteQRModal').modal('toggle');" data-dismiss="modal">خیر</button>
+                <button type="button" class="btn btn-danger" onclick="_deleteQR();">بلی</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <form method="post" enctype="multipart/form-data">
 
     <div class="container p-3" style="border:1px solid black;border-radius:1rem;margin-bottom:1rem;">
@@ -87,7 +108,7 @@
 
 
 <script id="ticketTemplate" type="text/x-jQuery-tmpl">
-    <div class="row">
+    <div class="row qr ${qrid}">
         <div class="contents qrFrame">
             <span class="tgleQR" onclick="tglQR(this);" >نمایش QR</span>
             <img class="theQR" src="${qRsrc}" />
@@ -104,6 +125,9 @@
             <div class="data">
                 <label>امتیاز هر اسکن:</label>
                 <span>${val}</span>
+            </div>
+            <div class="data">
+                <input value="حذف" type="button" onclick="_removeQR('${qrid}')" class="btn-danger col-6" />
             </div>
         </div>
     </div>
@@ -173,6 +197,32 @@
         });
     }
 
+    function _removeQR(qr){
+        delitingQR=qr;
+        $('#deleteQRModal').modal('toggle');
+    }
+    var delitingQR="-1";
+    function _deleteQR(){
+        if(delitingQR=="-1"){
+            return;
+        }
+        $.ajax({
+            url: '/delqr/'+delitingQR,
+            type: 'GET',
+            success: function (result) {
+                if(result){
+                    if(result=="gologin"){
+                        window.location="/login/login";
+                    }else{
+                        $('.qr.'+delitingQR).fadeOut(300, function() { $(this).remove(); });
+                        $('#deleteQRModal').modal('toggle');
+                    }
+                }else{
+                    alert("failed");
+                }
+            },
+        });
+    }
     //function _doLike(adv){
     //    $.ajax({
     //        url: '/dolike/'+adv,

@@ -49,14 +49,19 @@
     {
         <div class="row">
 
-            <div class="col-2">دعوت شدگان شما: (@Model._currentUser.Inviteds.Count نفر)</div>
+            <div class="col-8">دعوت شدگان شما (@Model._currentUser.Inviteds.Count نفر)</div>
             @foreach (DTOUserProfile d in Model._currentUser.Inviteds)
             {
-                <div class="col-12">@d.Username ( @d.RoleName )</div>
+                <div class="col-8 border">@d.Username ( @d.RoleName )</div>
 
             }
         </div>
     }
+
+        <div class="row">
+            <div class="col-12">لینک دعوت (برای دعوت از دوستانتان به سیرو)</div>
+            <a href="@Model.InvitationLink" class="col-12">@Model.InvitationLink</a>
+        </div>
 </div>
 
 

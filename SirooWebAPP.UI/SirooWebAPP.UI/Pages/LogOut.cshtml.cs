@@ -38,7 +38,11 @@ namespace SirooWebAPP.UI.Pages
             session.Remove("ticket_donate");
             HelperFunctions.RemoveCookie("store_donate", Request, Response);
             HelperFunctions.RemoveCookie("ticket_donate", Request, Response);
-
+            foreach (var cookie in Request.Cookies.Keys)
+            {
+                Response.Cookies.Delete(cookie);
+            }
+            session.Clear();
 
         }
     }

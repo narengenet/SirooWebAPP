@@ -17,11 +17,13 @@ namespace SirooWebAPP.UI.Controllers
     public class UsersController : Controller
     {
         private readonly IUserServices _usersServices;
-        private readonly ISession session;
+        private readonly ISession _session;
 
-        public UsersController(IUserServices userServices)
+        public UsersController(IUserServices userServices, IHttpContextAccessor httpContextAccessor)
         {
             _usersServices = userServices;
+            _session = httpContextAccessor.HttpContext.Session;
+
         }
 
         [HttpGet("rooli")]
@@ -106,12 +108,31 @@ namespace SirooWebAPP.UI.Controllers
             return Ok(ads);
         }
         [TypeFilter(typeof(SampleAsyncActionLoginFilter))]
+        [HttpGet("pendingads")]
+        public IActionResult GetPendingAdvertisements()
+        {
+
+            string _userid = HttpContext.Request.Cookies["userid"];
+            Guid userId = Guid.Parse(_userid);
+            List<DTOAdvertise> ads = _usersServices.GetPendingAdvertises(userId);
+            return Ok(ads);
+        }
+        [TypeFilter(typeof(SampleAsyncActionLoginFilter))]
         [HttpGet("dolike/{advertiseID:guid}")]
         public IActionResult DoLikeAdvertisementByUser(Guid advertiseID)
         {
             string _userid = HttpContext.Request.Cookies["userid"];
             Guid userId = Guid.Parse(_userid);
             int result = _usersServices.DoLikeAdvertiseByUserID(advertiseID, userId);
+            return Ok(result);
+        }
+        [TypeFilter(typeof(SampleAsyncActionLoginFilter))]
+        [HttpGet("delqr/{qrID:guid}")]
+        public IActionResult DelQR(Guid qrID)
+        {
+            string _userid = HttpContext.Request.Cookies["userid"];
+            Guid userId = Guid.Parse(_userid);
+            bool result = _usersServices.removeDonnationTicket(qrID, userId);
             return Ok(result);
         }
         [TypeFilter(typeof(SampleAsyncActionLoginFilter))]
@@ -206,9 +227,65 @@ namespace SirooWebAPP.UI.Controllers
             List<DTODraws> draws = _usersServices.GetAllActiveDrawsByUser(userId);
             return Ok(draws);
         }
+
+        public class Post
+        {
+            public string adId { get; set; }
+            public string adNote { get; set; }
+        }
+
+        [TypeFilter(typeof(SampleAsyncActionLoginFilter))]
+        [HttpPost("acceptPost")]
+        public IActionResult AcceptAds([FromBody] Post post)
+        {
+
+            string _userid = HttpContext.Request.Cookies["userid"];
+            Guid userId = Guid.Parse(_userid);
+            if (_session.GetString("userrolename") == "super" || _session.GetString("userrolename") == "admin")
+            {
+                Guid adId = Guid.Parse(post.adId);
+                Advertise ad = _usersServices.GetAdvertise(adId);
+                if (ad != null)
+                {
+                    ad.IsAvtivated = true;
+                    ad.LastModified = DateTime.Now;
+                    ad.LastModifiedBy = userId.ToString();
+                    ad.Notes = post.adNote;
+                    _usersServices.UpdateAdvertisement(ad);
+                    return Ok(true);
+                }
+            }
+            //List<DTODraws> draws = _usersServices.GetAllActiveDrawsByUser(userId);
+            return Ok(false);
+        }
+        [TypeFilter(typeof(SampleAsyncActionLoginFilter))]
+        [HttpPost("rejectPost")]
+        public IActionResult RejectAds([FromBody] Post post)
+        {
+
+            string _userid = HttpContext.Request.Cookies["userid"];
+            Guid userId = Guid.Parse(_userid);
+            if (_session.GetString("userrolename")=="super"||_session.GetString("userrolename")=="admin")
+            {
+                Guid adId = Guid.Parse(post.adId);
+                Advertise ad = _usersServices.GetAdvertise(adId);
+                if (ad != null)
+                {
+                    ad.IsAvtivated = true;
+                    ad.LastModified = DateTime.Now;
+                    ad.LastModifiedBy = userId.ToString();
+                    ad.Notes = post.adNote;
+                    ad.IsRejected = true;
+                    _usersServices.UpdateAdvertisement(ad);
+                    return Ok(true);
+                }
+            }
+
+            return Ok(false);
+        }
         public bool IsValidMobileNumber(string input)
         {
-            const string pattern = @"^09[0|1|2|3][0-9]{8}$";
+            const string pattern = @"^09[0-9][0-9]{8}$";
             Regex reg = new Regex(pattern);
             return reg.IsMatch(input);
         }

@@ -43,6 +43,8 @@ namespace SirooWebAPP.UI.Pages.Clients
         public IActionResult OnPostAddRoleToUser(AddRoleUserModel addRoleUserModel)
         {
             bool permitToAdd = true;
+            string _newRoleName = "";
+            Guid _newRoleId = new Guid();
             if (ModelState.IsValid)
             {
                 
@@ -53,10 +55,14 @@ namespace SirooWebAPP.UI.Pages.Clients
                 Roles _newRole = _usersServices.GetRole(addRoleUserModel.RoleID);
                 if (_newRole != null)
                 {
+                    _newRoleName = _newRole.RoleName;
+                    _newRoleId = _newRole.Id;
+
                     // check creator role
                     Roles _creatorHighestRole = _usersServices.GetUserRoles(creatorID).OrderBy(r => r.Priority).First();
                     // check requested client's highest role
                     Roles _requestedUserHighestRole = _usersServices.GetUserRoles(AddRoleUserModel.UserID).OrderBy(r => r.Priority).First();
+
                     if (_creatorHighestRole.Priority > _requestedUserHighestRole.Priority)
                     {
                         permitToAdd = false;
@@ -93,6 +99,28 @@ namespace SirooWebAPP.UI.Pages.Clients
                         Created = DateTime.Now,
                         CreatedBy = creatorID
                     };
+
+
+                    // check if the store is a new store, add default credit of the stores to him/her
+                    if (_newRoleName=="store")
+                    {
+                        List<UsersRoles> oldStoreUserRoles= _usersServices.GetAllPermenantUserRoles(addRoleUserModel.UserID).Where(r => r.Role == _newRoleId).ToList<UsersRoles>();
+                        // user hasn't any old store role record
+                        if (oldStoreUserRoles.Count==0)
+                        {
+                            Users _theUser= _usersServices.GetUser(addRoleUserModel.UserID);
+                            if (_theUser!=null)
+                            {
+                                // add stores default credit to his/her current credit
+                                _theUser.Credits += Convert.ToInt64(_usersServices.GetConstantDictionary("store_def_credit_reg").ConstantValue);
+                                _theUser.DonnationActive = true;
+                                _usersServices.UpdateUser(_theUser);
+
+                            }
+
+                        }
+
+                    }
 
                     // remove previous role for this user
                     UsersRoles _previousUserRole = _usersServices.GetAllUsersRoles().Where(u => u.User == addRoleUserModel.UserID).FirstOrDefault();

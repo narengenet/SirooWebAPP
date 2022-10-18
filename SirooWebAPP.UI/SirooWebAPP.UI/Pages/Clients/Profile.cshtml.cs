@@ -13,6 +13,8 @@ namespace SirooWebAPP.UI.Pages.Clients
         private readonly CustomIDataProtection protector;
         private IWebHostEnvironment _environment;
         private readonly ISession session;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+
 
 
 
@@ -22,11 +24,13 @@ namespace SirooWebAPP.UI.Pages.Clients
             protector = customIDataProtection;
             _environment = environment;
             session = httpContextAccessor.HttpContext.Session;
+            _httpContextAccessor = httpContextAccessor;
 
 
         }
         public DTOUserProfile _currentUser = new DTOUserProfile();
         public string roleName = "anonymous";
+        public string InvitationLink = "";
 
         public void OnGet()
         {
@@ -34,6 +38,7 @@ namespace SirooWebAPP.UI.Pages.Clients
             Guid creatorID = Guid.Parse(_creatorId);
             _currentUser = _usersServices.GetUserProfile(creatorID);
             roleName= session.GetString("userrolename");
+            InvitationLink = _httpContextAccessor.HttpContext.Request.Scheme + "://" + _httpContextAccessor.HttpContext.Request.Host.Value + "/Registeration/Register?inviter=" + _currentUser.Username;
 
         }
     }

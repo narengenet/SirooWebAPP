@@ -7,6 +7,9 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/SirooWebAPP.UI.styles.css" asp-append-version="true" />
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
 </head>
 <body>
     <header>
@@ -20,19 +23,13 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Clients/Main">Home</a>
+                            <a class="nav-link text-dark" asp-area="" asp-page="/Login/Login">ورود </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Clients/Profile">Profile</a>
+                            <a class="nav-link text-dark" asp-area="" asp-page="/Clients/Main">ورود به بخش کاربران</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Stores/Dashboard">Store Dashboard</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Clients/AddUserToRole">AddUserToRole</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="Registeration/Register">Register</a>
+                            <a class="nav-link text-dark" asp-area="" asp-page="/Registeration/Register">ثبت نام</a>
                         </li>
                     </ul>
                 </div>
@@ -54,7 +51,19 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-
+    <script>
+        function closeAlert(){
+            $('.alert').alert('close');
+        }
+        function pointUpdated(val){
+            newval=parseInt(val);
+            oldval=parseInt($('#currentPoint').text());
+            if(newval!=oldval){
+                alert('Congrat!!');
+                $('#currentPoint').text(newval+oldval);
+            }
+        }
+    </script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

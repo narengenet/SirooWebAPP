@@ -4,189 +4,64 @@
     Layout = "_LayoutClients";
 }
 <style>
-    .posts {
-        display: flex;
-        justify-content: center;
-        flex-direction: column;
-        align-items: center;
-    }
-
-        .posts a {
-            text-decoration: none;
-        }
-
-    .post {
-        display: flex;
-        border: 1px solid black;
-        border-radius: 1rem;
-        justify-content: flex-end;
-        flex-direction: row;
-        flex-direction: column;
-        width: 580px;
-        padding: 2px;
-        position: relative;
-        margin-bottom: 1rem;
-    }
-
-        .post .header {
-            display: flex;
-            flex-direction: row-reverse;
-            position: absolute;
-            right: 10px;
-            top: 10px;
-        }
-
-    .profile-link {
-        display: flex;
-        flex-direction: row-reverse;
-        align-items: center;
-    }
 
 
-
-    .post-image {
-        <!-- background-image: url(6.jpg); -->
-        height: 300px;
-        width: 100%;
-        border-radius: 1rem;
-    }
-
-        .post-image img {
-            width: 100%;
-            height: 300px;
-            border-radius: 1rem;
-        }
-
-    .post-video {
-        height: 300px;
-        width: 100%;
-        background-position: center center;
-        background-size: cover;
-        border-radius: 1rem;
-        padding-top: 5px;
-    }
-
-    .post-image video {
-        border-radius: 1rem;
-    }
-
-    .post .contents {
-        display: flex;
-        justify-content: center;
-    }
-
-    .like-btn, .view-btn {
-        width: 30px;
-        height: 30px;
-        background-image: url(../uploads/assets/like.png);
-        background-size: cover;
-        display: flex;
-        align-items: center;
-        color: red;
-        font-weight: bold;
-        font-size: 0.8rem;
-        justify-content: center;
-        cursor: pointer;
-    }
-
-        .like-btn.liked {
-            background-image: url(../uploads/assets/liked.png);
-        }
-
-    .liked-btn {
-        background-image: url(../uploads/assets/liked.png);
-    }
-
-    .view-btn {
-        background-image: url(../uploads/assets/view.png);
-        margin-left: 1rem;
-    }
-
-    .footer {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-    }
-
-    .like-details, .view-details {
-        margin-left: 0.5rem;
-        margin-top: 0.5rem;
-    }
-
-    .hidden {
-        display: none;
-    }
-
-    .profile-fullname, .profile-date {
-        margin-right: 0.5rem;
-    }
-
-    .profile-fullname {
-        font-weight: bold;
-        background-color: rgba(0,0,0,0.5);
-        padding: 0rem 1rem 0rem 1rem;
-        border-radius: 0.5rem;
-        color: white;
-    }
-
-    .profile-date {
-        direction: rtl;
-        color: gray;
-        font-size: 0.7rem;
-    }
-
-    .caption {
-        direction: rtl;
-        padding: 0.5rem;
-    }
 </style>
 
-    @if (Model.ResultMessage.Length > 1)
-    {
-        <div class="alert alert-@Model.ResultMessageSuccess fade show" role="alert">
-            @Model.ResultMessage
+@if (Model.ResultMessage.Length > 1)
+{
+    <div class="alert alert-@Model.ResultMessageSuccess fade show" role="alert">
+        @Model.ResultMessage
         <button type="button" class="close" data-dismiss="alert" onclick="closeAlert();" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
-    }
+}
 
 <script id="adsTemplate" type="text/x-jQuery-tmpl">
-    <div class="post ${advertiseID}">
-        <div class="header">
-            <div class="profile-link">
-                <a class="profile-media" href="#">
+
+    <div class="container border shadow-lg p-1 mb-5 bg-white rounded post ${advertiseID}">
+        <div class="d-flex flex-row-reverse profile-data-section">
+                <a class="profile-media col-2" href="#">
                     <img src="../${owner.profileMediaURL}" />
                 </a>
-                <a href="#" class="profile-fullname">${owner.name}</a>
-                <a href="#" class="profile-date">${creationDate}</a>
+                <a href="#" class="col-3 profile-fullname">${owner.name}</a>
+                <a href="#" class="col-2 profile-date">${creationDate}</a>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                {{if isVideo==1}}
+                    <video class="col-12" controls onended="_doLike(this,'${advertiseID}')">
+                                <source src="../${mediaSourceURL}">
+                                Your browser does not support the video tag.
+                    </video>
+                {{else}}
+                    <img class="col-12" src="../${mediaSourceURL}" />
+                {{/if}}
             </div>
         </div>
-        <div class="contents">
-    {{if isVideo==1}}
-            <div class="post-video">
-                <video width="580px" height="300px" controls onended="_doLike(this,'${advertiseID}')">
-                    <source src="../${mediaSourceURL}">
-                    Your browser does not support the video tag.
-                </video>
-            </div>
-    {{else}}
-            <div class="post-image">
-                <img src="../${mediaSourceURL}" />
-            </div>
-    {{/if}}
+        <div class="row m-2">
+                <div class="col-3 like-btn {{if youLiked}}liked{{/if}}" {{if isVideo==1}} onclick="_dobLike(this,'${advertiseID}')" {{else}} onclick="_doLike(this,'${advertiseID}')" {{/if}} >+${likeReward}</div>
+                <div class="col-3 like-details"><b>${likerCount}</b> <i>liked</i></div>
+                <div class="col-3 view-btn">&nbsp;</div>
+                <div class="col-3 view-details"><b>${viewerCount}</b> <i>view</i></div>
         </div>
-        <div class="footer">
-            <div class="like-btn {{if youLiked}}liked{{/if}}" {{if isVideo==1}} onclick="_dobLike(this,'${advertiseID}')" {{else}} onclick="_doLike(this,'${advertiseID}')" {{/if}} >+${likeReward}</div>
-            <div class="like-details"><b>${likerCount}</b> <i>liked</i></div>
-            <div class="view-btn">&nbsp;</div>
-            <div class="view-details"><b>${viewerCount}</b> <i>view</i></div>
+        <div class="d-flex flex-row-reverse">
+                ${caption}
         </div>
-        <div class="caption">
-            ${caption}
-        </div>
-
     </div>
+
+
+
+
+
+
+
+
+
+
+
+
 
 </script>
 
@@ -199,8 +74,9 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
+
         $.ajax({
-            url: '/ads',
+            url: '/ads?rnd='+Math.random(),
             type: 'GET',
             success: function (result) {
                 if(result=="gologin"){
@@ -239,7 +115,7 @@
                         window.location="/login/login";
                     }else{
                         $('.'+adv+' .like-btn').addClass('liked');
-                        
+
                         _result=parseInt(result);
                         if(_result>0){
                             $('.'+adv+' .like-details b').text(parseInt($('.'+adv+' .like-details b').text())+1);
