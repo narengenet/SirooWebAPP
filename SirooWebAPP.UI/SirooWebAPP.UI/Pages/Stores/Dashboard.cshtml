@@ -82,14 +82,14 @@
 
         <div class="row">
             <div class="col-2">امتیاز هر اسکن</div>
-            <div class="col-4">
+            <div class="col-4 Textbox">
                 <input type="number" value="50" min="1" max="200" asp-for="AddQRModel.Points"></input>
                 <span asp-validation-for="AddQRModel.Points"></span>
             </div>
         </div>
         <div class="row">
             <div class="col-2">تعداد اسکن مجاز</div>
-            <div class="col-4">
+            <div class="col-4 Textbox">
                 <input type="number" value="2" min="1" asp-for="AddQRModel.Capacity"></input>
                 <span asp-validation-for="AddQRModel.Capacity"></span>
             </div>

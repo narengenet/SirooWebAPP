@@ -1,0 +1,197 @@
+﻿@page
+@model SirooWebAPP.UI.Pages.Clients.WalletModel
+@{
+    Layout = "_LayoutClients";
+}
+@if (Model.ResultMessage.Length > 1)
+{
+    <div class="alert alert-@Model.ResultMessageSuccess fade show" role="alert">
+        @Model.ResultMessage
+        <button type="button" class="close" data-dismiss="alert" onclick="closeAlert();" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+
+
+<div class="SirooRightBlockContainer">
+    <div class="mb-5 SirooRightBlock  col-12">
+        <div class="d-flex flex-row-reverse SirooRightBlockHeader">
+            <a class="profile-media col-2" href="#">
+                <img src="~/uploads/assets/profile.jpg" />
+            </a>
+            <a href="#" class="col-6 profile-fullname">کیف پول من</a>
+            <a href="#" class="col-2 profile-date">@Model.Amount <span>ریال</span></a>
+        </div>
+        <div class="d-flex flex-column justify-content-center SirooContainer">
+            <div class="SirooItems">
+                <div class="row justify-content-center mb-3">
+                    <div class="col-12 siroo-header">کیف پول من</div>
+                </div>
+                <div class="row">&nbsp;</div>
+
+                <div class="row justify-content-center">
+                    <div class="col-12 siroo-label">موجودی کیف پول شما</div>
+                </div>
+                <div class="row col-12 mb-3">
+                    <div class="col-12">
+                        <input type="text" class="col-12" disabled value="@Model.Amount ریال">
+                    </div>
+                </div>
+                <form method="post" class="row justify-content-center" enctype="multipart/form-data">
+                    <div class="row justify-content-center">
+                        <div class="col-12 siroo-label">افزایش موجودی (ریال)</div>
+                    </div>
+                    <div class="row col-12 mb-2">
+                        <div class="col-12 Textbox fa fa-dollar">
+                            <input type="number" value="500000" min="500000" class="col-12" asp-for="AddMoney.NewAmount" />
+                            <span asp-validation-for="AddMoney.NewAmount"></span>
+                        </div>
+                    </div>
+                    <div class="row col-12 mb-3 justify-content-center">
+                        <div class="col-6 SirooBtn">
+                            <input id="myInput" type="submit" class="col-12" asp-page-handler="AddMoney" value="پرداخت">
+                        </div>
+                    </div>
+                </form>
+
+                <div class="row justify-content-center mt-5 mb-3">
+                    <div class="col-12 siroo-header">تراکنش های قبلی شما</div>
+                </div>
+
+                <div class="row justify-content-center col-12 direction-rtl">
+                    <div class="row bg-warning rounded-top text-center">
+                        <div class="col-3 text-dark pt-2 pb-2 siroo-label">تاریخ</div>
+                        <div class="col-3 text-dark pt-2 pb-2 siroo-label">مبلغ <span>ریال</span></div>
+                        <div class="col-3 text-dark pt-2 pb-2 siroo-label">شناسه پرداخت</div>
+                        <div class="col-3 text-dark pt-2 pb-2 siroo-label">وضعیت</div>
+                    </div>
+                </div>
+                <div id="transactionsContainer" class="container">
+                </div>
+
+                <div class="row justify-content-center col-12 mt-2">
+                    <div class="row justify-content-center col-12 text-center">
+                        <div class="col-6 SirooBtn">
+                            <input type="submit" class="btn-primary" onclick="_getTransactions();" value="بروزرسانی تراکنش ها" />
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="justify-content-center mb-2">&nbsp;</div>
+        </div>
+    </div>
+</div>
+
+
+@*<div class="container">
+    <div class="row">&nbsp;</div>
+    <div class="row">
+    <div class="col-2">موجودی کیف پول شما</div>
+    <div class="col-4">@Model.Amount <span>ریال</span></div>
+    </div>
+    </div>
+    <form method="post" class="col-12" enctype="multipart/form-data">
+    <div class="container">
+    <div class="row">&nbsp;</div>
+    <div class="row">
+    <div class="col-2">افزایش موجودی (ریال)</div>
+    <div class="col-4 Textbox">
+    <input type="number" value="500000" min="500000" class="col-12" asp-for="AddMoney.NewAmount" />
+    <span asp-validation-for="AddMoney.NewAmount"></span>
+    </div>
+    <div class="col-4">
+    <input class="btn btn-primary rounded" type="submit" value="پرداخت" class="form-control" asp-page-handler="AddMoney" />
+    </div>
+    </div>
+    </div>
+    </form>*@
+
+
+<div class="container">
+    <div class="row">&nbsp;</div>
+</div>
+
+@*<div class="container">
+    <div class="row text-center">
+    <h3>تراکنش های قبلی شما</h3>
+    </div>
+    </div>
+    <div class="container">
+    <div class="row">&nbsp;</div>
+    <div class="row bg-warning rounded-top text-center">
+    <div class="col-4 ">تاریخ</div>
+    <div class="col-4 ">مبلغ <span>ریال</span></div>
+    <div class="col-4 ">وضعیت</div>
+    </div>
+    </div>
+    <div id="transactionsContainer" class="container">
+    </div>
+
+    <div class="container">
+    <div class="row">&nbsp;</div>
+    <div class="row text-center">
+    <div class="col-12">
+    <input type="button" class="btn-primary" onclick="_getTransactions();" value="بروزرسانی تراکنش ها" />
+    </div>
+    </div>
+    </div>*@
+<script id="transactionTemplate" type="text/x-jQuery-tmpl">
+    <div class="row text-center border direction-rtl transaction-row">
+        <div class="col-3 siroo-small-label item-date">${created}</div>
+        <div class="col-3 siroo-label">${amount} <span>ریال</span></div>
+        <div id="trans-${id}" onclick="copyToClipboard('trans-${id}');" class="col-3 siroo-label siroo-text-shadow">${referenceID}</div>
+        <div class="col-3 siroo-label {{if isSuccessfull}} bg-light text-success {{else}} bg-light text-danger {{/if}}">${status}</div>
+    </div>
+</script>
+
+@section Scripts {
+<script src="~/js/jquery.tmpl.min.js"></script>
+<script src="~/js/jquery.timeago.js"></script>
+
+<script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        _getTransactions();
+    });
+
+    function _getTransactions(){
+        $.ajax({
+            url: '/gettransactions',
+            type: 'GET',
+            success: function (result) {
+                if(result=="gologin"){
+                    window.location="/login/login";
+                }else{
+                    //var ads = jQuery.parseJSON(result);
+                    sina="{ads:"+result+"}";
+                    $('#transactionsContainer').html('');
+                    $('#transactionTemplate').tmpl(result).appendTo('#transactionsContainer');
+
+                    var dates=$('.item-date');
+                    for(i=0;i<dates.length;i++){
+                        $(dates[i]).text(jQuery.timeago($(dates[i]).text()));
+                    }
+                }
+
+            },
+        });
+    }
+
+                    function copyToClipboard(obj) {
+                      // Get the text field
+                      var copyText = document.getElementById(obj);
+
+                       // Copy the text inside the text field
+                      navigator.clipboard.writeText($(copyText).text());
+
+                      // Alert the copied text
+                      alert("کپی شد.");
+                }
+</script>
+
+}

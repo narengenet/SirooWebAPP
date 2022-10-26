@@ -69,6 +69,10 @@ builder.Services.AddScoped<SampleAsyncLoginFilter>();
 
 builder.Services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddSession(s => s.IdleTimeout = TimeSpan.FromMinutes(30));
+builder.Services.AddWebOptimizer(pipeline =>
+{
+    pipeline.CompileScssFiles();
+});
 
 
 
@@ -91,6 +95,8 @@ if (!app.Environment.IsDevelopment())
 }
 app.UseSession();
 app.UseHttpsRedirection();
+app.UseWebOptimizer();
+
 app.UseStaticFiles();
 app.MapControllers();
 app.UseRouting();

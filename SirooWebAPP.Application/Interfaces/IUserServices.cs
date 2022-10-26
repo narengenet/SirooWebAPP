@@ -86,5 +86,13 @@ namespace SirooWebAPP.Application.Interfaces
         bool AddPrizeWinner(Guid drawId);
 
 
+
+        List<Transactions> GetAllTransactions();
+        List<Transactions> GetTransactionsByUser(Guid userId);
+        Guid AddTransaction(Transactions transaction);
+        bool UpdateTransaction(Transactions transaction);
+
+
+
     }
 }

@@ -7,30 +7,31 @@
 
 <form method="post" id="registerForm">
 
-    <div class="container">
+    <div class="d-flex flex-column justify-content-center SirooContainer">
         <div class="row">&nbsp;</div>
-        <div class="row">
-            <div class="col-2">نام</div>
-            <div class="col-4">
-                <input type="text" id="FirstName" asp-for="Person.FirstName" />    <span asp-validation-for="Person.FirstName"></span>
+        <div class="row justify-content-center mb-3">
+            <div class="col-12 siroo-header">ثبت نام</div>
+        </div>
+        <div class="row justify-content-center mb-3">
+            <div class="col-8 Textbox fa fa-pencil">
+                <input type="text" class="col-12" id="FirstName" placeholder="نام" asp-for="Person.FirstName" />    <span asp-validation-for="Person.FirstName"></span>
             </div>
         </div>
-        <div class="row">
-            <div class="col-2">نام خانوادگی</div>
-            <div class="col-4"><input type="text" id="LastName" asp-for="Person.LastName" /></div>
+        <div class="row justify-content-center mb-3">
+            <div class="col-8 Textbox fa fa-pencil">
+                <input type="text" id="LastName" class="col-12" placeholder="نام خانوادگی" asp-for="Person.LastName" />
+            </div>
         </div>
-        <div class="row">
-            <div class="col-2">نام کاربری</div>
-            <div class="col-4">
-                <input type="text" placeholder="فقط لاتین" id="UserName" class="latinOnly" asp-for="Person.UserName" />
+        <div class="row justify-content-center mb-3">
+            <div class="col-8 Textbox fa fa-user">
+                <input type="text" id="UserName" placeholder="نام کاربری (فقط لاتین)" class="latinOnly col-12" asp-for="Person.UserName" />
                 <span class="text-danger" asp-validation-for="Person.UserName"></span>
 
             </div>
         </div>
-        <div class="row">
-            <div class="col-2">تلفن همراه</div>
-            <div class="col-4">
-                <input type="text" placeholder="09121234567" id="CellPhone" class="numericOnly" asp-for="Person.CellPhone" />
+        <div class="row justify-content-center mb-3">
+            <div class="col-8 Textbox fa fa-mobile">
+                <input type="text" placeholder="تلفن همراه 0912123456" id="CellPhone" class="numericOnly col-12" asp-for="Person.CellPhone" />
                 <span class="text-danger" asp-validation-for="Person.CellPhone"></span>
             </div>
         </div>
@@ -42,8 +43,8 @@
             </div>
             </div>*@
         <div class="row">&nbsp;</div>
-        <div class="row">
-            <div class="col-6">
+        <div class="row justify-content-center">
+            <div class="col-6 SirooBtn">
                 @{
                     if (ViewData["InviterUserID"] != null)
                     {
@@ -54,6 +55,8 @@
                 <input type="submit" id="btnRegister" value="ثبت نام" asp-page-handler="Register" />
             </div>
         </div>
+        <div class="row mb-2">&nbsp;</div>
+        <div class="row mb-2">&nbsp;</div>
     </div>
 
 </form>

@@ -5,76 +5,193 @@
     Layout = "_LayoutClients";
 }
 
+<div class="SirooRightBlockContainer">
+    <div class="mb-5 SirooRightBlock  col-12">
+        <div class="d-flex flex-row-reverse SirooRightBlockHeader">
+            <a class="profile-media col-2" href="#">
+                <img src="~/uploads/assets/profile.jpg" />
+            </a>
+            <a href="#" class="col-8 profile-fullname siroo-text-shadow">@Model._currentUser.Name @Model._currentUser.Family</a>
+            <a href="#" class="col-2 profile-date">@Model._currentUser.Username</a>
+        </div>
+        <div class="d-flex flex-column justify-content-center SirooContainer">
+            <div class="SirooItems">
+                <div class="row justify-content-center mb-3">
+                    <div class="col-12 siroo-header">پروفایل شما</div>
+                </div>
+                <div class="row">&nbsp;</div>
+
+                <div class="row justify-content-center">
+                    <div class="col-12 siroo-label siroo-text-shadow">نام و نام خانوادگی</div>
+                </div>
+                <div class="row col-12 mb-3">
+                    <div class="col-12 Textbox">
+                        <input type="text" class="col-12" value="@Model._currentUser.Name @Model._currentUser.Family">
+                    </div>
+                </div>
+
+                <div class="row justify-content-center">
+                    <div class="col-12 siroo-label siroo-text-shadow">نام کاربری</div>
+                </div>
+                <div class="row col-12 mb-3">
+                    <div class="col-12 Textbox">
+                        <input type="text" class="col-12" value="@Model._currentUser.Username">
+                    </div>
+                </div>
+
+                <div class="row justify-content-center">
+                    <div class="col-12 siroo-label siroo-text-shadow">شماره تلفن همراه</div>
+                </div>
+                <div class="row col-12 mb-3">
+                    <div class="col-12 Textbox">
+                        <input type="text" class="col-12" value="@Model._currentUser.CellPhone">
+                    </div>
+                </div>
+
+                <div class="row justify-content-center">
+                    <div class="col-12 siroo-label siroo-text-shadow">تاریخ ثبت نام</div>
+                </div>
+                <div class="row col-12 mb-3">
+                    <div class="col-12">
+                        <input type="text" class="col-12 item-date" disabled value="@Model._currentUser.CreationDate">
+                    </div>
+                </div>
+
+                <div class="row justify-content-center">
+                    <div class="col-12 siroo-label siroo-text-shadow">نقش شما</div>
+                </div>
+                <div class="row col-12 mb-3">
+                    <div class="col-12">
+                        <input type="text" class="col-12" disabled value="@Model.roleName">
+                    </div>
+                </div>
+
+                <div class="row justify-content-center">
+                    <div class="col-12 siroo-label siroo-text-shadow">امتیاز شما (برای رتبه شما در دوره ها)</div>
+                </div>
+                <div class="row col-12 mb-3">
+                    <div class="col-12">
+                        <input type="text" class="col-12" disabled value="@Model._currentUser.Points">
+                    </div>
+                </div>
+
+                <div class="row justify-content-center">
+                    <div class="col-12 siroo-label siroo-text-shadow">اعتبار شما (برای دریافت خدمات سیرو)</div>
+                </div>
+                <div class="row col-12 mb-3">
+                    <div class="col-12">
+                        <input type="text" class="col-12" disabled value="@Model._currentUser.Credits">
+                    </div>
+                </div>
+                @if (Model._currentUser.InviterUsername != null)
+                {
+                    <div class="row justify-content-center">
+                        <div class="col-12 siroo-label siroo-text-shadow">دعوت شده توسط</div>
+                    </div>
+                    <div class="row col-12 mb-3">
+                        <div class="col-12">
+                            <input type="text" class="col-12" disabled value="@Model._currentUser.InviterUsername">
+                        </div>
+                    </div>
+                }
+
+                @if (Model._currentUser.Inviteds.Count > 0)
+                {
+                    <div class="row justify-content-center">
+                        <div class="col-12 siroo-label siroo-text-shadow">دعوت شدگان توسط شما</div>
+                    </div>
+                    @foreach (DTOUserProfile d in Model._currentUser.Inviteds)
+                    {
+                        <div class="row col-12 mb-3">
+                            <div class="col-12">
+                                <input type="text" class="col-12" disabled value="@d.Username ( @d.RoleName )">
+                            </div>
+                        </div>
+                    }
+
+                }
+
+                <div class="row justify-content-center">
+                    <div class="col-12 siroo-label siroo-text-shadow">لینک دعوت (برای دعوت از دوستانتان به سیرو)</div>
+                </div>
+                <div class="row col-12 mb-1">
+                    <div class="col-12 ">
+                        <input id="myInput" type="text" class="col-12" disabled value="@Model.InvitationLink">
+                    </div>
+                </div>
+                <div class="row col-12 mb-3 justify-content-center">
+                    <div class="col-6 SirooBtn">
+                        <input id="myInput" type="submit" class="col-12" onclick="copyToClipboard();" value="کپی لینک دعوت">
+                    </div>
+                </div>
+
+            </div>
+            <div class="justify-content-center mb-2">&nbsp;</div>
+        </div>
+    </div>
+</div>
 
 <div class="container">
-    <div class="row">&nbsp;</div>
-    <div class="row">
-        <div class="col-2">نام و نام خانوادگی</div>
-        <div class="col-4">@Model._currentUser.Name @Model._currentUser.Family</div>
-    </div>
-    <div class="row">
-        <div class="col-2">نام کاربری</div>
-        <div class="col-4">@Model._currentUser.Username</div>
-    </div>
-    <div class="row">
-        <div class="col-2">شماره تلفن همراه</div>
-        <div class="col-4">@Model._currentUser.CellPhone</div>
-    </div>
-    <div class="row">
-        <div class="col-2">تاریخ ثبت نام</div>
-        <div class="col-4 item-date">@Model._currentUser.CreationDate</div>
-    </div>
-    <div class="row">
-        <div class="col-2">نقش شما</div>
-        <div class="col-4">@Model.roleName</div>
-    </div>
-    <div class="row">
-        <div class="col-4">امتیاز شما (برای رتبه شما در دوره ها)</div>
-        <div class="col-4">@Model._currentUser.Points</div>
-    </div>
-    <div class="row">
-        <div class="col-4">اعتبار شما (برای دریافت خدمات سیرو)</div>
-        <div class="col-4">@Model._currentUser.Credits</div>
-    </div>
-    <div class="row">&nbsp;</div>
-    @if (Model._currentUser.InviterUsername != null)
-    {
-        <div class="row">
-            <div class="col-2">دعوت شده توسط</div>
-            <div class="col-4">@Model._currentUser.InviterUsername</div>
-        </div>
-    }
-
-    @if (Model._currentUser.Inviteds.Count > 0)
-    {
-        <div class="row">
-
-            <div class="col-8">دعوت شدگان شما (@Model._currentUser.Inviteds.Count نفر)</div>
-            @foreach (DTOUserProfile d in Model._currentUser.Inviteds)
-            {
-                <div class="col-8 border">@d.Username ( @d.RoleName )</div>
-
-            }
-        </div>
-    }
-
-        <div class="row">
-            <div class="col-12">لینک دعوت (برای دعوت از دوستانتان به سیرو)</div>
-            <a href="@Model.InvitationLink" class="col-12">@Model.InvitationLink</a>
-        </div>
 </div>
 
 
 
 
 @section Scripts {
-<script src="~/js/jquery.timeago.js"></script>
+<script src="~/js/persian-date.min.js"></script>
 <script type="text/javascript">
-    $(document).ready(function () {
-        var dates=$('.item-date');
-        for(i=0;i<dates.length;i++){
-            $(dates[i]).text(jQuery.timeago($(dates[i]).text()));
+                    $(document).ready(function () {
+                        var dates=$('.item-date');
+                        for(i=0;i<dates.length;i++){
+                            //$(dates[i]).text(new persianDate($(dates[i]).val()).format());
+                            $(dates[i]).val(milToShamsi($(dates[i]).val()));
+                        }
+                    });
+
+
+                    function copyToClipboard() {
+                      // Get the text field
+                      var copyText = document.getElementById("myInput");
+
+                      // Select the text field
+                      copyText.select();
+                      copyText.setSelectionRange(0, 99999); // For mobile devices
+
+                       // Copy the text inside the text field
+                      navigator.clipboard.writeText(copyText.value);
+
+                      // Alert the copied text
+                      alert("کپی شد.");
+                }
+
+                function milToShamsi(mysql_timestamp){
+
+                    let date_convert_y = parseInt(mysql_timestamp.substr(6, 4));
+                    let date_convert_m = parseInt(mysql_timestamp.substr(0, 2));
+                    let date_convert_d = parseInt(mysql_timestamp.substr(3, 2));
+                    return miladi_be_shamsi(date_convert_y, date_convert_m, date_convert_d);
+                }
+    function miladi_be_shamsi(gy, gm, gd) {
+        var g_d_m, jy, jm, jd, gy2, days;
+        g_d_m = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334];
+        gy2 = (gm > 2) ? (gy + 1) : gy;
+        days = 355666 + (365 * gy) + ~~((gy2 + 3) / 4) - ~~((gy2 + 99) / 100) + ~~((gy2 + 399) / 400) + gd + g_d_m[gm - 1];
+        jy = -1595 + (33 * ~~(days / 12053));
+        days %= 12053;
+        jy += 4 * ~~(days / 1461);
+        days %= 1461;
+        if (days > 365) {
+            jy += ~~((days - 1) / 365);
+            days = (days - 1) % 365;
         }
-    });
+        if (days < 186) {
+            jm = 1 + ~~(days / 31);
+            jd = 1 + (days % 31);
+        } else {
+            jm = 7 + ~~((days - 186) / 30);
+            jd = 1 + ((days - 186) % 30);
+        }
+        return [jy + '/' + jm + '/' + jd];
+    }
 </script>
 }

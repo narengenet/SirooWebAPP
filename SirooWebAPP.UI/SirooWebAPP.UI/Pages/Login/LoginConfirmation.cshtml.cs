@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using SirooWebAPP.Application.Interfaces;
 using SirooWebAPP.Core.Domain;
@@ -11,13 +11,13 @@ namespace SirooWebAPP.UI.Pages
     {
         private readonly IUserServices _usersServices;
         private readonly CustomIDataProtection protector;
+        private readonly ISession session;
 
-
-        public LoginConfirmationModel(CustomIDataProtection customIDataProtection, IUserServices services)
+        public LoginConfirmationModel(CustomIDataProtection customIDataProtection, IUserServices services, IHttpContextAccessor httpContextAccessor)
         {
             _usersServices = services;
             protector = customIDataProtection;
-
+            session = httpContextAccessor.HttpContext.Session;
         }
 
         [BindProperty(Name = "UserID", SupportsGet = true)]
@@ -30,6 +30,8 @@ namespace SirooWebAPP.UI.Pages
             var sina = UserID;
             ViewData["userid"] = UserID;
         }
+        public string? ResultMessage = "";
+        public string ResultMessageSuccess = "danger";
 
         public IActionResult OnPostCofirmCode(Confirmed confirmed)
         {
@@ -54,6 +56,28 @@ namespace SirooWebAPP.UI.Pages
                 HelperFunctions.SetCookie("usertoken", guid, 365, Response);
                 return RedirectToPage("/Clients/Main");
 
+            }
+            else
+            {
+                // confirmation code was not correct
+                // read session to check how many times false confirmation code was entered
+                int? __count = session.GetInt32("confirmationCount");
+                int count = 0;
+                if (__count != null)
+                {
+                    count = Convert.ToInt32(__count) + 1;
+                    if (count == 3)
+                    {
+                        // 3 times incorrect confimation code was entered 
+                        session.Remove("confirmationCount");
+                        // redirect to register again
+                        return RedirectToPage("/Login/Login");
+                    }
+
+                }
+
+                ResultMessage = "کد تایید اشتباه است. تنها " + (3 - count).ToString() + " بار دیگر فرصت دارید.";
+                session.SetInt32("confirmationCount", count);
             }
 
 

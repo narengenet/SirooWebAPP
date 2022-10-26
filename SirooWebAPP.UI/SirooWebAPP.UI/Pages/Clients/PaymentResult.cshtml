@@ -1,0 +1,22 @@
+﻿@page
+@model SirooWebAPP.UI.Pages.Clients.PaymentResultModel
+@{
+    Layout = "_LayoutClients";
+}
+@if (Model.ResultMessage.Length > 1)
+{
+    <div class="alert alert-@Model.ResultMessageSuccess fade show direction-rtl" role="alert">
+        @Model.ResultMessage
+        <button type="button" class="close" data-dismiss="alert" onclick="closeAlert();" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+
+
+
+<div class="row col-12 mb-2 justify-content-center">
+    <div class="col-6 SirooBtn">
+        <input id="myInput" type="submit" class="col-12" onclick="window.location='/Clients/Wallet'" value="بازگشت به کیف پول">
+    </div>
+</div>

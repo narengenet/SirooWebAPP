@@ -18,6 +18,7 @@ namespace SirooWebAPP.Core.Domain
         public string? ConfirmationCode { get; set; }
         public long Points { get; set; }
         public long Credits { get; set; }
+        public long Money { get; set; }
         public long DefaultCredit { get; set; }
         public bool DonnationActive { get; set; }
         public string? ProfileMediaURL { get; set; }

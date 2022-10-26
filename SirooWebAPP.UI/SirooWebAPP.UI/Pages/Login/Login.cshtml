@@ -2,30 +2,34 @@
 @model SirooWebAPP.UI.Pages.LoginModel
 @{
 }
+
 <form method="post">
 
-    <div class="container">
+    <div class="d-flex flex-column justify-content-center SirooContainer">
         <div class="row">&nbsp;</div>
-        <div class="row">
-            <div class="col-2">تلفن همراه</div>
-            <div class="col-4">
-                <input type="text" placeholder="09121234567" id="CellPhone" class="numericOnly" asp-for="LoginPerson.Cellphone" />
+        <div class="row justify-content-center mb-3">
+            <div class="row justify-content-center mb-3">
+                <div class="col-12 siroo-header">ورود</div>
+            </div>
+            <div class="col-8 Textbox  fa fa-mobile">
+                <input type="text" placeholder="تلفن همراه 0912123456" id="CellPhone" class="numericOnly col-12" asp-for="LoginPerson.Cellphone" />
             </div>
         </div>
 
         <div class="row">&nbsp;</div>
-        <div class="row">
-            <div class="col-6">
+        <div class="row justify-content-center mb-3">
+            <div class="col-6 SirooBtn ">
                 <input type="submit" value="ورود" asp-page-handler="Login" />
             </div>
         </div>
-        <div class="row">
-            <div class="col-4">
+        <div class="row justify-content-center mb-3">
+            <div class="col-10 errore-result-message">
                 @Model.ResultMessage
             </div>
         </div>
+        <div class="row mb-2">&nbsp;</div>
     </div>
-   
+
 </form>
 
 @section Scripts {

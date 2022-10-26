@@ -74,6 +74,7 @@ namespace SirooWebAPP.Infrastructure.Services
         private readonly IPointUsagesRepository _pointUsageRepo;
         private readonly IDonnationTickets _donnationTicketRepo;
         private readonly IPrizesWinnersRepository _prizeWinnersRepo;
+        private readonly ITransactionsRepository _transactionsRepo;
 
         private readonly IMapper _mapper;
 
@@ -94,6 +95,7 @@ namespace SirooWebAPP.Infrastructure.Services
             IPointUsagesRepository pointUsageRepo,
             IDonnationTickets donnationTicketRepo,
             IPrizesWinnersRepository prizesWinnersRepository,
+            ITransactionsRepository transactionsRepository,
             IMapper mapper
             )
         {
@@ -110,6 +112,7 @@ namespace SirooWebAPP.Infrastructure.Services
             _pointUsageRepo = pointUsageRepo;
             _donnationTicketRepo = donnationTicketRepo;
             _prizeWinnersRepo = prizesWinnersRepository;
+            _transactionsRepo = transactionsRepository;
 
             _mapper = mapper;
         }
@@ -405,7 +408,7 @@ namespace SirooWebAPP.Infrastructure.Services
                     (ads, users) => ads
                     //new Advertise { Id=ads.Id, Name=ads.Name, Owner=ads.Owner, Caption=ads.Caption, Created=ads.Created, CreatedBy=ads.CreatedBy, CreationDate=ads.CreationDate, Expiracy=ads.Expiracy, IsAvtivated=ads.IsAvtivated, IsDeleted=ads.IsDeleted, IsSpecial=ads.IsSpecial, IsVideo=ads.IsVideo, LastModified=ads.LastModified, LastModifiedBy=ads.LastModifiedBy, LikeReward=ads.LikeReward, MediaSourceURL=ads.MediaSourceURL, RemainedViewQuota=ads.RemainedViewQuota, ViewQuota=ads.ViewQuota, ViewReward=ads.ViewReward}
                 )
-                .OrderByDescending(l => l.CreationDate)
+                .OrderByDescending(l => l.LastModified)
                 .ToList<Advertise>();
 
             // create return data model object
@@ -875,6 +878,28 @@ namespace SirooWebAPP.Infrastructure.Services
             } while (indx < prizesWinnersCount);
             //}
             _userRepo.GetAll().ToList().ForEach(u => u.Points = 0);
+            return true;
+        }
+
+        public List<Transactions> GetAllTransactions()
+        {
+            return _transactionsRepo.GetAll().Where(t => t.IsDeleted == false).ToList<Transactions>();
+        }
+
+        public List<Transactions> GetTransactionsByUser(Guid userId)
+        {
+            return GetAllTransactions().Where(t => t.User == userId).ToList<Transactions>();
+        }
+
+        public Guid AddTransaction(Transactions transaction)
+        {
+            _transactionsRepo.Add(transaction);
+            return transaction.Id;
+        }
+
+        public bool UpdateTransaction(Transactions transaction)
+        {
+            _transactionsRepo.Update(transaction);
             return true;
         }
     }

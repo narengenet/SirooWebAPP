@@ -1,11 +1,16 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using RestSharp;
 using SirooWebAPP.Application.DTO;
 using SirooWebAPP.Application.Interfaces;
 using SirooWebAPP.Core.Domain;
 
 using SirooWebAPP.UI.Pages;
+using SirooWebAPP.UI.ViewModels;
 using System.Security.Claims;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
@@ -118,6 +123,24 @@ namespace SirooWebAPP.UI.Controllers
             return Ok(ads);
         }
         [TypeFilter(typeof(SampleAsyncActionLoginFilter))]
+        [HttpGet("gettransactions")]
+        public IActionResult GetTransactions()
+        {
+
+            string _userid = HttpContext.Request.Cookies["userid"];
+            Guid userId = Guid.Parse(_userid);
+            List<Transactions> transactions = _usersServices.GetTransactionsByUser(userId).OrderByDescending(t => t.Created).ToList<Transactions>();
+            foreach (Transactions item in transactions)
+            {
+                if (item.ReferenceID!=null)
+                {
+                    item.ReferenceID = item.ReferenceID.Replace("A00000000000000000000000000", "");
+
+                }
+            }
+            return Ok(transactions);
+        }
+        [TypeFilter(typeof(SampleAsyncActionLoginFilter))]
         [HttpGet("dolike/{advertiseID:guid}")]
         public IActionResult DoLikeAdvertisementByUser(Guid advertiseID)
         {
@@ -173,26 +196,26 @@ namespace SirooWebAPP.UI.Controllers
         [HttpGet("deactiveDraw/{drawID:guid}")]
         public IActionResult deactiveDraw(Guid drawID)
         {
-            bool result=false;
+            bool result = false;
             string _userid = HttpContext.Request.Cookies["userid"];
             Guid userId = Guid.Parse(_userid);
-            Roles role=_usersServices.GetUserRoles(userId).OrderBy(u => u.Priority).First();
-            if (role!=null)
+            Roles role = _usersServices.GetUserRoles(userId).OrderBy(u => u.Priority).First();
+            if (role != null)
             {
-                if (role.RoleName=="super" || role.RoleName=="admin")
+                if (role.RoleName == "super" || role.RoleName == "admin")
                 {
                     Draws draw = _usersServices.GetAllDraws().Where(d => d.Id == drawID).FirstOrDefault();
-                    if (draw!=null)
+                    if (draw != null)
                     {
                         _usersServices.AddPrizeWinner(drawID);
                         draw.IsActivated = false;
                         draw.IsFinished = true;
                         result = _usersServices.UpdateDraw(draw);
                     }
-                    
+
                 }
             }
-            
+
             return Ok(result);
         }
 
@@ -208,11 +231,11 @@ namespace SirooWebAPP.UI.Controllers
                         usages => usages.Receiver,
                         users => users.Id,
                         (usages, users) => new
-                            {
-                                uname = users.Username,
-                                points = usages.Value,
-                                date = usages.Created
-                            }
+                        {
+                            uname = users.Username,
+                            points = usages.Value,
+                            date = usages.Created
+                        }
                     ).ToList<object>();
             return Ok(result);
         }
@@ -265,7 +288,7 @@ namespace SirooWebAPP.UI.Controllers
 
             string _userid = HttpContext.Request.Cookies["userid"];
             Guid userId = Guid.Parse(_userid);
-            if (_session.GetString("userrolename")=="super"||_session.GetString("userrolename")=="admin")
+            if (_session.GetString("userrolename") == "super" || _session.GetString("userrolename") == "admin")
             {
                 Guid adId = Guid.Parse(post.adId);
                 Advertise ad = _usersServices.GetAdvertise(adId);
@@ -314,6 +337,354 @@ namespace SirooWebAPP.UI.Controllers
             }
             return new JsonResult(true);
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        //string merchant = "218dd966-3888-4324-921d-84bb0726f3b5";
+        string merchant = "218dd966-3888-4324-921d-84bb0726f3b5";
+        string amount = "1100";
+        string authority;
+        string description = "خرید تستی ";
+        //string callbackurl = "https://sirooapp.ir/VerifyByHttpClient";
+        string callbackurl = "https://localhost:7051/VerifyByHttpClient";
+
+
+
+
+
+
+        [HttpGet("Payment")]
+        public IActionResult Payment(string theAmount, string theDescription)
+        {
+
+            amount = theAmount;
+            
+            description = theDescription;
+            try
+            {
+                RequestParameters Parameters = new RequestParameters(merchant, theAmount, theDescription, callbackurl, "", "");
+
+
+
+                //be dalil in ke metadata be sorate araye ast va do meghdare mobile va email dar metadata gharar mmigirad
+                //shoma mitavanid in maghadir ra az kharidar begirid va set konid dar gheir in sorat khali ersal konid
+
+                var client = new RestClient(URLs.requestUrl);
+
+                Method method = Method.Post;
+
+                var request = new RestRequest("", method);
+
+                request.AddHeader("accept", "application/json");
+
+                request.AddHeader("content-type", "application/json");
+
+                request.AddJsonBody(Parameters);
+
+                var requestresponse = client.ExecuteAsync(request);
+
+                JObject jo = JObject.Parse(requestresponse.Result.Content);
+
+                string errorscode = jo["errors"].ToString();
+
+                JObject jodata = JObject.Parse(requestresponse.Result.Content);
+
+                string dataauth = jodata["data"].ToString();
+
+
+                if (dataauth != "[]")
+                {
+
+
+                    authority = jodata["data"]["authority"].ToString();
+
+                    string gatewayUrl = URLs.gateWayUrl + authority;
+                    Guid _transcId = Guid.Parse(theDescription);
+                    Transactions transac = _usersServices.GetAllTransactions().Where(t => t.Id == _transcId).FirstOrDefault();
+                    transac.ReferenceID = authority;
+                    _usersServices.UpdateTransaction(transac);
+                    _session.SetString(authority, theAmount);
+                    return Redirect(gatewayUrl);
+
+                }
+                else
+                {
+
+
+                    return BadRequest("error " + errorscode);
+
+
+                }
+
+
+            }
+
+            catch (Exception ex)
+            {
+                //    throw new Exception(ex.Message);
+
+
+            }
+            return null;
+        }
+        [HttpGet("VerifyPayment")]
+        public IActionResult VerifyPayment()
+        {
+
+            // string authorityverify;
+
+            try
+            {
+                VerifyParameters parameters = new VerifyParameters();
+
+
+                if (HttpContext.Request.Query["Authority"] != "")
+                {
+                    authority = HttpContext.Request.Query["Authority"];
+                }
+
+                parameters.authority = authority;
+                parameters.amount = _session.GetString(authority);
+                parameters.merchant_id = merchant;
+
+
+                var client = new RestClient(URLs.verifyUrl);
+                Method method = Method.Post;
+                var request = new RestRequest("", method);
+
+                request.AddHeader("accept", "application/json");
+
+                request.AddHeader("content-type", "application/json");
+                request.AddJsonBody(parameters);
+
+                var response = client.ExecuteAsync(request);
+
+
+                JObject jodata = JObject.Parse(response.Result.Content);
+
+                string data = jodata["data"].ToString();
+
+                JObject jo = JObject.Parse(response.Result.Content);
+
+                string errors = jo["errors"].ToString();
+
+                if (data != "[]")
+                {
+                    string refid = jodata["data"]["ref_id"].ToString();
+
+                    ViewBag.code = refid;
+
+                    return View();
+                }
+                else if (errors != "[]")
+                {
+
+                    string errorscode = jo["errors"]["code"].ToString();
+
+
+                    return BadRequest($"error code {errorscode}");
+
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception(ex.Message);
+            }
+            return NotFound();
+        }
+        [HttpGet("PaymenBytHttpClient")]
+        public async Task<IActionResult> PaymenBytHttpClient()
+        {
+
+            try
+            {
+
+                using (var client = new HttpClient())
+                {
+                    RequestParameters parameters = new RequestParameters(merchant, amount, description, callbackurl, "", "");
+
+                    var json = JsonConvert.SerializeObject(parameters);
+
+                    HttpContent content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                    HttpResponseMessage response = await client.PostAsync(URLs.requestUrl, content);
+
+                    string responseBody = await response.Content.ReadAsStringAsync();
+
+                    JObject jo = JObject.Parse(responseBody);
+                    string errorscode = jo["errors"].ToString();
+
+                    JObject jodata = JObject.Parse(responseBody);
+                    string dataauth = jodata["data"].ToString();
+
+
+                    
+                    if (dataauth != "[]")
+                    {
+                        
+
+                        authority = jodata["data"]["authority"].ToString();
+
+                        string gatewayUrl = URLs.gateWayUrl + authority;
+
+                        return Redirect(gatewayUrl);
+
+                    }
+                    else
+                    {
+
+                        return BadRequest("error " + errorscode);
+
+
+                    }
+
+                }
+
+
+            }
+
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+
+
+            }
+            return NotFound();
+        }
+        [HttpGet("VerifyByHttpClient")]
+        public async Task<IActionResult> VerifyByHttpClient()
+        {
+            try
+            {
+
+                VerifyParameters parameters = new VerifyParameters();
+
+
+                if (HttpContext.Request.Query["Authority"] != "")
+                {
+                    authority = HttpContext.Request.Query["Authority"];
+                }
+
+                parameters.authority = authority;
+
+                parameters.amount = _session.GetString(authority);
+
+                parameters.merchant_id = merchant;
+
+
+                using (HttpClient client = new HttpClient())
+                {
+
+                    var json = JsonConvert.SerializeObject(parameters);
+
+                    HttpContent content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                    HttpResponseMessage response = await client.PostAsync(URLs.verifyUrl, content);
+
+                    string responseBody = await response.Content.ReadAsStringAsync();
+
+                    JObject jodata = JObject.Parse(responseBody);
+
+                    string data = jodata["data"].ToString();
+
+                    JObject jo = JObject.Parse(responseBody);
+
+                    string errors = jo["errors"].ToString();
+
+                    Transactions transac = _usersServices.GetAllTransactions().Where(t => t.ReferenceID == authority).FirstOrDefault();
+
+                    if (data != "[]")
+                    {
+                        string refid = jodata["data"]["ref_id"].ToString();
+
+                        ViewBag.code = refid;
+                        transac.Status = "موفقیت آمیز";
+                        transac.IsSuccessfull = true;
+
+                        // update transaction in db
+                        _usersServices.UpdateTransaction(transac);
+
+                        // get user and add money to his/her current money deposite
+                        Users theUser = _usersServices.GetUser(transac.User);
+                        theUser.Money += transac.Amount;
+                        _usersServices.UpdateUser(theUser);
+
+
+                        _session.Remove(authority);
+                        return RedirectToPage("/Clients/PaymentResult","Display", new { RefId= authority, Status=true, Code="success" });
+                        
+
+                        //return View();
+                    }
+                    else if (errors != "[]")
+                    {
+
+                        string errorscode = jo["errors"]["code"].ToString();
+                        transac.Status= jo["errors"]["code"].ToString();
+                        transac.IsSuccessfull = false;
+                        _usersServices.UpdateTransaction(transac);
+                        _session.Remove(authority);
+                        return RedirectToPage("/Clients/PaymentResult", "Display", new { RefId = authority, Status = false, Code = transac.Status });
+                        //return BadRequest($"error code {errorscode}");
+
+                    }
+                }
+
+
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            return NotFound();
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     }
 }

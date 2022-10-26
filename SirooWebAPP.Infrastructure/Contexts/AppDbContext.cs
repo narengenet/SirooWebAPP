@@ -33,19 +33,20 @@ namespace SirooWebAPP.Infrastructure.Contexts
         public DbSet<PointUsages> PointUsages { get; set; }
         //public DbSet<RoleChangeRequests> RoleChangeRequests{ get; set; }
         public DbSet<PrizesWinners> PrizesWinners { get; set; }
+        public DbSet<Transactions> Transactions { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            Users dabouei = new Users { Id = Guid.NewGuid(), Name = "عبدالرحمن", Family = "دابویی مشک آبادی", Cellphone = "09901069557", Username = "dabooei", ProfileMediaURL = "uploads/2022/9/photo.jpg", DonnationActive = true, Credits = 1000,IsActivated=true, Created = DateTime.Now, Points=100 };
-            Users sina = new Users { Id = Guid.NewGuid(), Name = "Sina", Family = "Jouybari", Cellphone = "09394125130", Username = "sinful", ProfileMediaURL = "uploads/2022/9/sina2.jpg", Inviter = dabouei.Id, IsActivated = true, Created = DateTime.Now, Points=90 };
-            Users mohsen = new Users { Id = Guid.NewGuid(), Name = "محسن", Family = "پردلان", Cellphone = "09111769591", Username = "vinona", ProfileMediaURL = "uploads/2022/9/99.jpg", Inviter = dabouei.Id, IsActivated=true, Created = DateTime.Now,Points=80 };
-            Users sepideh = new Users { Id = Guid.NewGuid(), Name = "سامان", Family = "احمدی", Cellphone = "09161234567", Username = "saman", ProfileMediaURL = "uploads/2022/9/photo.jpg", Inviter = dabouei.Id, IsActivated = true, Created = DateTime.Now, Points=70 };
-            Users abdolah = new Users { Id = Guid.NewGuid(), Name = "عبداله", Family = "سرپرست", Cellphone = "09112281237", Username = "abdolah", ProfileMediaURL = "uploads/2022/9/photo.jpg", IsActivated=true, Created=DateTime.Now, Points=60 };
-            Users amir = new Users { Id = Guid.NewGuid(), Name = "امیر", Family = "شفایی", Cellphone = "09181650151", Username = "amirsh", ProfileMediaURL = "uploads/2022/9/photo.jpg", IsActivated=true, Created=DateTime.Now, Points=50 };
-            Users maryam = new Users { Id = Guid.NewGuid(), Name = "مریم", Family = "سرپرست", Cellphone = "09181616196", Username = "pari", ProfileMediaURL = "uploads/2022/9/photo.jpg", IsActivated=true, Created=DateTime.Now, Points=40 };
-            Users haji = new Users { Id = Guid.NewGuid(), Name = "رجبعلی", Family = "سرپرست", Cellphone = "09111291908", Username = "haji", ProfileMediaURL = "uploads/2022/9/photo.jpg", IsActivated=true, Created=DateTime.Now, Points=30 };
-            
+            Users dabouei = new Users { Id = Guid.NewGuid(), Name = "عبدالرحمن", Family = "دابویی مشک آبادی", Cellphone = "09901069557", Username = "dabooei", ProfileMediaURL = "uploads/2022/9/photo.jpg", DonnationActive = true, Credits = 1000, IsActivated = true, Created = DateTime.Now, Points = 100 };
+            Users sina = new Users { Id = Guid.NewGuid(), Name = "Sina", Family = "Jouybari", Cellphone = "09394125130", Username = "sinful", ProfileMediaURL = "uploads/2022/9/sina2.jpg", Inviter = dabouei.Id, IsActivated = true, Created = DateTime.Now, Points = 90 };
+            Users mohsen = new Users { Id = Guid.NewGuid(), Name = "محسن", Family = "پردلان", Cellphone = "09111769591", Username = "vinona", ProfileMediaURL = "uploads/2022/9/99.jpg", Inviter = dabouei.Id, IsActivated = true, Created = DateTime.Now, Points = 80 };
+            Users sepideh = new Users { Id = Guid.NewGuid(), Name = "سامان", Family = "احمدی", Cellphone = "09161234567", Username = "saman", ProfileMediaURL = "uploads/2022/9/photo.jpg", Inviter = dabouei.Id, IsActivated = true, Created = DateTime.Now, Points = 70 };
+            Users abdolah = new Users { Id = Guid.NewGuid(), Name = "عبداله", Family = "سرپرست", Cellphone = "09112281237", Username = "abdolah", ProfileMediaURL = "uploads/2022/9/photo.jpg", IsActivated = true, Created = DateTime.Now, Points = 60 };
+            Users amir = new Users { Id = Guid.NewGuid(), Name = "امیر", Family = "شفایی", Cellphone = "09181650151", Username = "amirsh", ProfileMediaURL = "uploads/2022/9/photo.jpg", IsActivated = true, Created = DateTime.Now, Points = 50 };
+            Users maryam = new Users { Id = Guid.NewGuid(), Name = "مریم", Family = "سرپرست", Cellphone = "09181616196", Username = "pari", ProfileMediaURL = "uploads/2022/9/photo.jpg", IsActivated = true, Created = DateTime.Now, Points = 40 };
+            Users haji = new Users { Id = Guid.NewGuid(), Name = "رجبعلی", Family = "سرپرست", Cellphone = "09111291908", Username = "haji", ProfileMediaURL = "uploads/2022/9/photo.jpg", IsActivated = true, Created = DateTime.Now, Points = 30 };
+
             modelBuilder.Entity<Users>().HasData(sina);
             modelBuilder.Entity<Users>().HasData(mohsen);
             modelBuilder.Entity<Users>().HasData(sepideh);
@@ -87,10 +88,10 @@ namespace SirooWebAPP.Infrastructure.Contexts
 
 
 
-            modelBuilder.Entity<Advertise>().HasData(new Advertise { Id = Guid.NewGuid(), Owner = sina.Id, Caption = "کیش کدپولو",  IsVideo = true, LikeReward = 4, ViewReward = 4, ViewQuota = 100, RemainedViewQuota = 100, MediaSourceURL = "uploads/2022/9/1-56192-4_6008031941360618419.MP4", IsAvtivated = true, CreatedBy = sina.Id, CreationDate = DateTime.Now.AddDays(-1) });
-            modelBuilder.Entity<Advertise>().HasData(new Advertise { Id = Guid.NewGuid(), Owner = mohsen.Id, Caption = "ال جی",  IsVideo = false, LikeReward = 2, ViewReward = 4, ViewQuota = 100, RemainedViewQuota = 100, MediaSourceURL = "uploads/2022/9/1-53754-1.mp4_snapshot_01.04_[2022.05.26_09.50.52].jpg", IsAvtivated = true, CreatedBy = sina.Id, CreationDate = DateTime.Now.AddDays(-2) });
-            modelBuilder.Entity<Advertise>().HasData(new Advertise { Id = Guid.NewGuid(), Owner = sepideh.Id, Caption = "سامسونگ",  IsVideo = false, LikeReward = 2, ViewReward = 4, ViewQuota = 100, RemainedViewQuota = 100, MediaSourceURL = "uploads/2022/9/1582619178545.jpg", IsAvtivated = true, CreatedBy = sina.Id, CreationDate = DateTime.Now.AddDays(-5) });
-            modelBuilder.Entity<Advertise>().HasData(new Advertise { Id = Guid.NewGuid(), Owner = sina.Id, Caption = "دیجی کالا",  IsVideo = false, LikeReward = 2, ViewReward = 4, ViewQuota = 100, RemainedViewQuota = 100, MediaSourceURL = "uploads/2022/9/1-36433-1.jpg", IsAvtivated = true, CreatedBy = sina.Id, CreationDate = DateTime.Now.AddDays(-3) });
+            modelBuilder.Entity<Advertise>().HasData(new Advertise { Id = Guid.NewGuid(), Owner = sina.Id, Caption = "کیش کدپولو", IsVideo = true, LikeReward = 4, ViewReward = 4, ViewQuota = 100, RemainedViewQuota = 100, MediaSourceURL = "uploads/2022/9/1-56192-4_6008031941360618419.MP4", IsAvtivated = true, CreatedBy = sina.Id, CreationDate = DateTime.Now.AddDays(-1), LastModified = DateTime.Now.AddDays(-1) });
+            modelBuilder.Entity<Advertise>().HasData(new Advertise { Id = Guid.NewGuid(), Owner = mohsen.Id, Caption = "ال جی", IsVideo = false, LikeReward = 2, ViewReward = 4, ViewQuota = 100, RemainedViewQuota = 100, MediaSourceURL = "uploads/2022/9/1-53754-1.mp4_snapshot_01.04_[2022.05.26_09.50.52].jpg", IsAvtivated = true, CreatedBy = sina.Id, CreationDate = DateTime.Now.AddDays(-2), LastModified = DateTime.Now.AddDays(-2) });
+            modelBuilder.Entity<Advertise>().HasData(new Advertise { Id = Guid.NewGuid(), Owner = sepideh.Id, Caption = "سامسونگ", IsVideo = false, LikeReward = 2, ViewReward = 4, ViewQuota = 100, RemainedViewQuota = 100, MediaSourceURL = "uploads/2022/9/1582619178545.jpg", IsAvtivated = true, CreatedBy = sina.Id, CreationDate = DateTime.Now.AddDays(-5), LastModified = DateTime.Now.AddDays(-5) });
+            modelBuilder.Entity<Advertise>().HasData(new Advertise { Id = Guid.NewGuid(), Owner = sina.Id, Caption = "دیجی کالا", IsVideo = false, LikeReward = 2, ViewReward = 4, ViewQuota = 100, RemainedViewQuota = 100, MediaSourceURL = "uploads/2022/9/1-36433-1.jpg", IsAvtivated = true, CreatedBy = sina.Id, CreationDate = DateTime.Now.AddDays(-3), LastModified = DateTime.Now.AddDays(-3) });
 
             Draws draw_a = new Draws { Id = Guid.NewGuid(), Name = "آبان 1401", Created = DateTime.Now, StartDate = DateTime.Now, EndDate = DateTime.Now.AddDays(15), CreatedBy = sina.Id, IsActivated = true, IsFinished = false, IsLottery = false, Owner = sina.Id };
             Draws draw_b = new Draws { Id = Guid.NewGuid(), Name = "اذر 1401", Created = DateTime.Now, StartDate = DateTime.Now.AddDays(30), EndDate = DateTime.Now.AddDays(60), CreatedBy = sina.Id, IsActivated = true, IsFinished = false, IsLottery = false, Owner = sepideh.Id };
@@ -129,7 +130,7 @@ namespace SirooWebAPP.Infrastructure.Contexts
             ConstantDictionaries credit_for_client_registration_by_store_invitation = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "credit_for_client_registration_by_store_invitation", ConstantValue = "50", IsActive = true, Description = "اعتبار برای فروشنده ای که باعث ثبت نام مشتری شد", Created = DateTime.Now, CreatedBy = sina.Id };
             ConstantDictionaries def_points_for_client_registration = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "def_points_for_client_registration", ConstantValue = "100", IsActive = true, Description = "اعتبار برای فروشنده ای که باعث ثبت نام مشتری شد", Created = DateTime.Now, CreatedBy = sina.Id };
             ConstantDictionaries def_points_for_client_invitation = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "def_points_for_client_invitation", ConstantValue = "50", IsActive = true, Description = "اعتبار برای فروشنده ای که باعث ثبت نام مشتری شد", Created = DateTime.Now, CreatedBy = sina.Id };
-            ConstantDictionaries def_points_for_image_like = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "def_points_for_image_like", ConstantValue = "2", IsActive = true, Description = "امتیاز پیش فرض برای لایک پست تصویری", Created = DateTime.Now, CreatedBy = sina.Id };
+            ConstantDictionaries def_points_for_image_like = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "def_points_for_image_like", ConstantValue = "1", IsActive = true, Description = "امتیاز پیش فرض برای لایک پست تصویری", Created = DateTime.Now, CreatedBy = sina.Id };
             ConstantDictionaries def_points_for_video_like = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "def_points_for_video_like", ConstantValue = "4", IsActive = true, Description = "امتیاز پیش فرض برای لایک پست ویدئویی", Created = DateTime.Now, CreatedBy = sina.Id };
 
 

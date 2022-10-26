@@ -10,12 +10,16 @@ namespace SirooWebAPP.UI.Pages
     {
         private readonly IUserServices _usersServices;
         private readonly CustomIDataProtection protector;
+        private readonly ISession session;
 
 
-        public LoginModel(CustomIDataProtection customIDataProtection, IUserServices services)
+
+        public LoginModel(CustomIDataProtection customIDataProtection, IUserServices services, IHttpContextAccessor httpContextAccessor)
         {
             _usersServices = services;
             protector = customIDataProtection;
+            session = httpContextAccessor.HttpContext.Session;
+
 
         }
         public void OnGet()
@@ -35,12 +39,15 @@ namespace SirooWebAPP.UI.Pages
             {
                 //if (_loginUser.IsActivated)
                 //{
-                    Random r = new Random();
-                    int _confirmationCode = r.Next(1000, 9999);
-                    _loginUser.ConfirmationCode = _confirmationCode.ToString();
-                    _usersServices.UpdateUser(_loginUser);
+                Random r = new Random();
+                int _confirmationCode = r.Next(1000, 9999);
+                _loginUser.ConfirmationCode = _confirmationCode.ToString();
+                _usersServices.UpdateUser(_loginUser);
 
-                    return RedirectToPage("LoginConfirmation", "Display", new { UserID = _loginUser.Id });
+                // reset confirmation count session
+                session.SetInt32("confirmationCount", 0);
+
+                return RedirectToPage("LoginConfirmation", "Display", new { UserID = _loginUser.Id });
                 //}
                 //else
                 //{

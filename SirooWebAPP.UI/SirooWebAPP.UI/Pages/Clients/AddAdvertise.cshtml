@@ -26,14 +26,14 @@
             <div class="row">&nbsp;</div>
             <div class="row" style="display:none;">
                 <div class="col-2">کاربر صاحب تبلیغ</div>
-                <div class="col-4">
-                    <select asp-items="Model.Options"  asp-for="AddAds.UserID"></select>
+                <div class="col-4  Textbox">
+                    <select asp-items="Model.Options" class="col-12"  asp-for="AddAds.UserID"></select>
                 </div>
             </div>
             <div class="row">
                 <div class="col-2">متن پُست</div>
-                <div class="col-4">
-                    <input type="text" asp-for="AddAds.Caption"/>
+                <div class="col-4  Textbox">
+                    <input type="text" class="col-12" asp-for="AddAds.Caption"/>
                 </div>
             </div>
             <div class="row">
@@ -46,20 +46,20 @@
             </div>
             <div class="row" style="display:none;">
                 <div class="col-2">امتیاز دیدن</div>
-                <div class="col-4">
-                    <input type="number"  value="0" asp-for="AddAds.ViewReward"/>
+                <div class="col-4  Textbox">
+                    <input type="number" class="col-12"  value="0" asp-for="AddAds.ViewReward"/>
                 </div>
             </div>
             <div class="row" style="display:none;">
                 <div class="col-2">تعداد نمایش</div>
-                <div class="col-4">
-                    <input type="number"  value="-1" asp-for="AddAds.ViewQuota"/>
+                <div class="col-4  Textbox">
+                    <input type="number" class="col-12"  value="-1" asp-for="AddAds.ViewQuota"/>
                 </div>
             </div>
             <div class="row" style="display:none;">
                 <div class="col-2">امتیاز لایک</div>
-                <div class="col-4">
-                    <input type="number"  value="10" asp-for="AddAds.LikeReward"/>
+                <div class="col-4 Textbox">
+                    <input type="number" class="col-12"  value="10" asp-for="AddAds.LikeReward"/>
                 </div>
             </div>
             <div class="row">

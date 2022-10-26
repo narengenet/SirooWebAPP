@@ -30,13 +30,18 @@ namespace SirooWebAPP.UI.Pages
 
         void CheckDonationStatus()
         {
+            // check session for donnation data
             string? storeDonation = session.GetString("store_donate");
             string? ticketDonation = session.GetString("ticket_donate");
+            
+            // if session was null check cookies for donnation data
             if (storeDonation == null)
             {
                 storeDonation = HelperFunctions.GetCookie("store_donate", Request);
                 ticketDonation = HelperFunctions.GetCookie("ticket_donate", Request);
             }
+
+            // if donnation was applicable
             if (storeDonation != null && ticketDonation != null)
             {
                 Guid storeId = Guid.Parse(storeDonation);
@@ -109,9 +114,9 @@ namespace SirooWebAPP.UI.Pages
                     }
 
                     List<PointUsages> todayClientUsageFromDonner = _usersServices.GetAllUsedPointByDonner(storeId).Where(p => p.Receiver == creatorID && p.Created.Value.DayOfYear == DateTime.Now.DayOfYear && p.Created.Value.Year == DateTime.Now.Year).ToList<PointUsages>();
-                    if (todayClientUsageFromDonner.Count > usagePerDay)
+                    if (todayClientUsageFromDonner.Count >= usagePerDay)
                     {
-                        ResultMessage = "تعداد دفعات مجاز استفاده از این هدیه برای امروز تمام شده است.";
+                        ResultMessage = "تعداد دفعات مجاز استفاده از هدایای این فروشگاه برای امروز تمام شده است.";
                         clearTicketFootPrint();
                         return;
                     }

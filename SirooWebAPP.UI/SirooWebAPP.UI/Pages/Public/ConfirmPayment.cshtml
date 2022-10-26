@@ -1,0 +1,72 @@
+﻿@page
+@model SirooWebAPP.UI.Pages.Public.ConfirmPaymentModel
+@{
+    Layout = "_LayoutClients";
+}
+@if (Model.ResultMessage.Length > 1)
+{
+    <div class="alert alert-@Model.ResultMessageSuccess fade show" role="alert">
+        @Model.ResultMessage
+        <button type="button" class="close" data-dismiss="alert" onclick="closeAlert();" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+
+
+@if (Model.IsSuccessfull)
+{
+    <div class="container">
+        <div class="row">&nbsp;</div>
+        <div class="row">
+            <div class="col-2 bg-success">تایید پرداخت شما</div>
+            <div class="col-4">@Model.Amount <span>ریال</span></div>
+        </div>
+        <div class="row">
+            <div class="col-2">وضعیت پرداخت ارسالی درگاه</div>
+            <div class="col-4 text-success">@Model.Status</div>
+        </div>
+        <div class="row">
+            <div class="col-2">کد ارجاع شما</div>
+            <div class="col-4">@Model.RefCode <span>ریال</span></div>
+        </div>
+    </div>
+    <form method="post" enctype="multipart/form-data">
+        <div class="container">
+            <div class="row">&nbsp;</div>
+            <div class="row">
+                <div class="col-2"></div>
+                <div class="col-4">
+                    <input class="btn btn-primary rounded" type="submit" value="پرداخت" class="form-control" asp-page-handler="GoOKWallet" />
+                </div>
+            </div>
+        </div>
+    </form>
+}else{
+    <div class="container">
+        <div class="row">&nbsp;</div>
+        <div class="row">
+            <div class="col-2 bg-danger">اشکال در پرداخت شما</div>
+            <div class="col-4">@Model.Amount <span>ریال</span></div>
+        </div>
+        <div class="row">
+            <div class="col-2">وضعیت پرداخت ارسالی درگاه</div>
+            <div class="col-4 text-danger">@Model.Status</div>
+        </div>
+        <div class="row">
+            <div class="col-2">کد ارجاع شما</div>
+            <div class="col-4">@Model.RefCode <span>ریال</span></div>
+        </div>
+    </div>
+    <form method="post" enctype="multipart/form-data">
+        <div class="container">
+            <div class="row">&nbsp;</div>
+            <div class="row">
+                <div class="col-2"></div>
+                <div class="col-4">
+                    <input class="btn btn-primary rounded" type="submit" value="پرداخت" class="form-control" asp-page-handler="GoFailedWallet" />
+                </div>
+            </div>
+        </div>
+    </form>
+}

@@ -1,24 +1,33 @@
-﻿ @page
+﻿@page
 @model SirooWebAPP.UI.Pages.LoginConfirmationModel
 @{
 }
 <form method="post">
 
-    <div class="container">
+    <div class="d-flex flex-column justify-content-center SirooContainer">
         <div class="row">&nbsp;</div>
-        <div class="row">
-            <div class="col-2">کد تایید</div>
-            <div class="col-4">
-                <input type="text" id="ConfirmationCode" class="numericOnly" asp-for="Confirmed.ConfirmationCode" />
+        <div class="row justify-content-center mb-3">
+            <div class="row justify-content-center mb-3">
+                <div class="col-12 siroo-header">کد تایید</div>
+            </div>
+
+            <div class="col-8 Textbox fa fa-lock">
+                <input type="text" id="ConfirmationCode" class="numericOnly col-12" asp-for="Confirmed.ConfirmationCode" />
             </div>
         </div>
         <div class="row">&nbsp;</div>
-        <div class="row">
-            <div class="col-6">
+        <div class="row justify-content-center mb-3">
+            <div class="col-6 SirooBtn">
                 <input type="hidden" value='@ViewData["userid"]' asp-for="Confirmed.UserID" />
                 <input type="submit" value="تایید" asp-page-handler="CofirmCode" />
             </div>
         </div>
+        <div class="row justify-content-center mb-3">
+            <div class="col-10 errore-result-message">
+                @Model.ResultMessage
+            </div>
+        </div>
+        <div class="row mb-2">&nbsp;</div>
     </div>
 
     <hr />

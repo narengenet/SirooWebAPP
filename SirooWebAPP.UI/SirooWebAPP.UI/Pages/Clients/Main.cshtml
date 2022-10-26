@@ -20,34 +20,44 @@
 
 <script id="adsTemplate" type="text/x-jQuery-tmpl">
 
-    <div class="container border shadow-lg p-1 mb-5 bg-white rounded post ${advertiseID}">
+    <div class="container mb-5 post ${advertiseID} {{if isVideo!=1}}finished {{/if}} SirooPost">
         <div class="d-flex flex-row-reverse profile-data-section">
                 <a class="profile-media col-2" href="#">
                     <img src="../${owner.profileMediaURL}" />
                 </a>
-                <a href="#" class="col-3 profile-fullname">${owner.name}</a>
+                <a href="#" class="col-8 profile-fullname">${owner.name}</a>
                 <a href="#" class="col-2 profile-date">${creationDate}</a>
         </div>
         <div class="row">
             <div class="col-12">
                 {{if isVideo==1}}
-                    <video class="col-12" controls onended="_doLike(this,'${advertiseID}')">
+                    <video class="col-12" onclick="toggleMute('video_${advertiseID}');" id="video_${advertiseID}"  onended="_dobLike(this,'${advertiseID}')">
                                 <source src="../${mediaSourceURL}">
                                 Your browser does not support the video tag.
                     </video>
                 {{else}}
-                    <img class="col-12" src="../${mediaSourceURL}" />
+                    <img class="col-12 finished" src="../${mediaSourceURL}" />
                 {{/if}}
             </div>
+
         </div>
-        <div class="row m-2">
-                <div class="col-3 like-btn {{if youLiked}}liked{{/if}}" {{if isVideo==1}} onclick="_dobLike(this,'${advertiseID}')" {{else}} onclick="_doLike(this,'${advertiseID}')" {{/if}} >+${likeReward}</div>
-                <div class="col-3 like-details"><b>${likerCount}</b> <i>liked</i></div>
-                <div class="col-3 view-btn">&nbsp;</div>
-                <div class="col-3 view-details"><b>${viewerCount}</b> <i>view</i></div>
-        </div>
-        <div class="d-flex flex-row-reverse">
-                ${caption}
+        <div class="d-flex flex-row-reverse post-data-section">
+                <div class="col-12 post-caption">
+                        ${caption}
+                </div>
+                <div class="col-1 like-btn ${advertiseID} {{if youLiked}}liked{{/if}}" {{if isVideo==1}} onclick="_doLike(this,'${advertiseID}')" {{else}} onclick="_doLike(this,'${advertiseID}')" {{/if}} >+${likeReward}</div>
+                <div class="col-2 like-details ${advertiseID}"><b>${likerCount}</b> <i>liked</i></div>
+                <div class="col-1 view-btn">&nbsp;</div>
+                <div class="col-2 view-details"><b>${viewerCount}</b> <i>view</i></div>
+                <div class="col-5 like-points">
+                    <div class="pics">
+                        <img class="col-8" src="../images/points.png" />
+                        ${likeReward}
+                    </div>
+                    <div class="points-texts">
+                        امتیاز لایک این پست
+                    </div>
+                </div>
         </div>
     </div>
 
@@ -71,63 +81,92 @@
 @section Scripts {
 <script src="~/js/jquery.tmpl.min.js"></script>
 <script src="~/js/jquery.timeago.js"></script>
+<script src="~/js/isInViewport.min.js"></script>
 
 <script type="text/javascript">
-    $(document).ready(function () {
+        $(document).ready(function () {
 
-        $.ajax({
-            url: '/ads?rnd='+Math.random(),
-            type: 'GET',
-            success: function (result) {
-                if(result=="gologin"){
-                    window.location="/login/login";
-                }else{
-                    //var ads = jQuery.parseJSON(result);
-                    sina="{ads:"+result+"}";
-                    $('#adsTemplate').tmpl(result).appendTo('#adsContainer');
-
-                    var dates=$('.profile-date');
-                    for(i=0;i<dates.length;i++){
-                        $(dates[i]).text(jQuery.timeago($(dates[i]).text()));
-                    }
-                }
-
-            },
-        });
-    });
-    function _dobLike(obj,adv){
-        if($('.'+adv+' .like-btn').hasClass('liked')){
-            return;
-        }
-        alert('باید ویدئو را تا انتها ملاحظه بفرمایید تا امتیاز لایک این ویدئو را دریافت نمایید.');
-
-    }
-    function _doLike(obj,adv){
-        if($(this).hasClass('liked')){
-            return;
-        }
-        $.ajax({
-            url: '/dolike/'+adv,
-            type: 'GET',
-            success: function (result) {
-                if(result){
+            $.ajax({
+                url: '/ads?rnd='+Math.random(),
+                type: 'GET',
+                success: function (result) {
                     if(result=="gologin"){
                         window.location="/login/login";
                     }else{
-                        $('.'+adv+' .like-btn').addClass('liked');
+                        //var ads = jQuery.parseJSON(result);
+                        sina="{ads:"+result+"}";
+                        $('#adsTemplate').tmpl(result).appendTo('#adsContainer');
 
-                        _result=parseInt(result);
-                        if(_result>0){
-                            $('.'+adv+' .like-details b').text(parseInt($('.'+adv+' .like-details b').text())+1);
-                            pointUpdated(result);
+                        var dates=$('.profile-date');
+                        for(i=0;i<dates.length;i++){
+                            $(dates[i]).text(jQuery.timeago($(dates[i]).text()));
                         }
-                        //alert(adv+" is liked");
                     }
-                }else{
-                    alert("failed");
-                }
-            },
+
+                },
+            });
         });
+        function _dobLike(obj,adv){
+            if($('.'+adv+' .like-btn').hasClass('liked')){
+                return;
+            }
+            if($('.post.'+adv).hasClass('finished')){
+                //_doLike(obj,adv);
+                return;
+            }
+            $('.post.'+adv).addClass('finished');
+            
+
+        }
+        function _doLike(obj,adv){
+            if($(' .like-btn.'+adv).hasClass('liked')){
+                return;
+            }
+            if($('.post.'+adv).hasClass('finished')){
+                $.ajax({
+                    url: '/dolike/'+adv,
+                    type: 'GET',
+                    success: function (result) {
+
+                            if(result=="gologin"){
+                                window.location="/login/login";
+                            }else{
+                                $('.'+adv+' .like-btn').addClass('liked');
+
+                                _result=parseInt(result);
+                                if(_result>-1){
+                                    $('.like-details.'+adv+' b').text(parseInt($('.like-details.'+adv+' b').text())+1);
+                                    pointUpdated(result);
+                                }
+                                //alert(adv+" is liked");
+                            }
+                    },
+                });
+            }else{
+                alert('باید ویدئو را تا انتها ملاحظه بفرمایید تا امتیاز لایک این ویدئو را دریافت نمایید.');
+            }
+        }
+
+
+
+    $(window).scroll(function() {
+        $('video').each(function(){
+            if ($(this).is(":in-viewport")) {
+                $(this)[0].muted=mute;
+                $(this)[0].play();
+            } else {
+                $(this)[0].pause();
+            }
+        })
+    });
+
+
+    var mute=false;
+    function toggleMute(obj){
+        mute=!mute;
+
+        var vid = document.getElementById(obj);
+        vid.muted = mute;
     }
 </script>
 
