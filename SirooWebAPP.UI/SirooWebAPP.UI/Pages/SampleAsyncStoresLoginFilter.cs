@@ -48,7 +48,8 @@ namespace SirooWebAPP.UI.Pages
                         // user is valid and have online record in DB then set his session
                         context.HttpContext.Session.SetString("userid", usrid.ToString());
                         // check if user role is super admin or not
-                        string usrRoleName = _usersServices.GetUserRoles(usrid).OrderBy(u => u.Priority).First().RoleName;
+                        Roles usrRole = _usersServices.GetUserRoles(usrid).OrderBy(u => u.Priority).First();
+                        
 
                         // set user details in session
                         Users _currentUser = _usersServices.GetUser(usrid);
@@ -56,12 +57,14 @@ namespace SirooWebAPP.UI.Pages
                         context.HttpContext.Session.SetString("userid", usrid.ToString());
                         context.HttpContext.Session.SetString("username", _currentUser.Username);
                         context.HttpContext.Session.SetString("userfullname", _currentUser.FullName());
-                        context.HttpContext.Session.SetString("userrolename", usrRoleName);
+                        context.HttpContext.Session.SetString("userrolename", usrRole.RoleName);
+                        context.HttpContext.Session.SetString("userroledescription", usrRole.RoleDescription);
+
                         context.HttpContext.Session.SetString("userprofileurl", _currentUser.ProfileMediaURL);
                         context.HttpContext.Session.SetString("userpoints", _currentUser.Points.ToString());
                         context.HttpContext.Session.SetString("usercredits", _currentUser.Credits.ToString());
 
-                        if (usrRoleName != "store")
+                        if (usrRole.RoleName != "store")
                         {
                             context.Result = new RedirectResult("/Clients/Main");
                         }

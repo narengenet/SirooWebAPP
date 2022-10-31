@@ -70,8 +70,9 @@ body {
 .profile-date {
     direction: rtl;
     color: white;
-    font-size: 0.7rem;
+    font-size: 1rem;
     text-decoration:none;
+    font-family:'Yekan';
 }
 .profile-data-section {
     align-items: center;
@@ -102,6 +103,18 @@ body {
     padding-bottom: 1rem;
     
 }
+.post video {
+    max-height: 65vh;
+    background-color: rgba(0,0,0,0.5);
+    backdrop-filter: blur(10px);
+}
+.post .profile-date {
+    font-size: 0.4rem!important;
+    margin-right: 0px!important;
+}
+.post img.finished{
+    max-height:65vh;
+}
 .points-texts {
     font-size: .8rem;
 }
@@ -117,6 +130,7 @@ body {
 div#adsContainer {
     margin-right: 1rem;
     margin-left: 1rem;
+    margin-bottom:26vh;
 }
 .like-points .pics {
     display: flex;

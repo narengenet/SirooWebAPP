@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using SirooWebAPP.Application.Interfaces;
 using SirooWebAPP.Infrastructure.Security;
+using SirooWebAPP.UI.Helpers;
 
 namespace SirooWebAPP.UI.Pages.Clients
 {
@@ -19,9 +20,13 @@ namespace SirooWebAPP.UI.Pages.Clients
 
         }
         public string? RoleName { get; set; }
+        public string? MyUsername { get; set; }
+        public string? MyPoints { get; set; }
         public void OnGet()
         {
             RoleName = session.GetString("userrolename");
+            MyUsername = session.GetString("username");
+            MyPoints = session.GetString("userpoints");
         }
     }
 }

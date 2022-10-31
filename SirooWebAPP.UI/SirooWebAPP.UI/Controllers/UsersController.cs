@@ -140,6 +140,29 @@ namespace SirooWebAPP.UI.Controllers
             }
             return Ok(transactions);
         }
+        
+        [TypeFilter(typeof(SampleAsyncActionLoginFilter))]
+        [HttpGet("getincometransactions")]
+        public IActionResult GetIncomeTransactions()
+        {
+
+            string _userid = HttpContext.Request.Cookies["userid"];
+            Guid userId = Guid.Parse(_userid);
+            List<TransactionPercents> transactions = _usersServices.GetAllTransactionPercents().Where(tp => tp.ToUser == userId).OrderByDescending(t=>t.Created).ToList<TransactionPercents>();
+                
+            foreach (TransactionPercents item in transactions)
+            {
+                if (item.ReferenceID!=null)
+                {
+                    item.ReferenceID = item.ReferenceID.Replace("A00000000000000000000000000", "");
+
+                }
+            }
+            return Ok(transactions);
+        }
+
+
+
         [TypeFilter(typeof(SampleAsyncActionLoginFilter))]
         [HttpGet("dolike/{advertiseID:guid}")]
         public IActionResult DoLikeAdvertisementByUser(Guid advertiseID)
@@ -369,8 +392,8 @@ namespace SirooWebAPP.UI.Controllers
         string amount = "1100";
         string authority;
         string description = "خرید تستی ";
-        //string callbackurl = "https://sirooapp.ir/VerifyByHttpClient";
-        string callbackurl = "https://localhost:7051/VerifyByHttpClient";
+        string callbackurl = "https://sirooapp.ir/VerifyByHttpClient";
+        //string callbackurl = "https://localhost:7051/VerifyByHttpClient";
 
 
 
@@ -380,7 +403,7 @@ namespace SirooWebAPP.UI.Controllers
         [HttpGet("Payment")]
         public IActionResult Payment(string theAmount, string theDescription)
         {
-
+            //theAmount = "10000";
             amount = theAmount;
             
             description = theDescription;
@@ -638,7 +661,7 @@ namespace SirooWebAPP.UI.Controllers
 
 
                         _session.Remove(authority);
-                        return RedirectToPage("/Clients/PaymentResult","Display", new { RefId= authority, Status=true, Code="success" });
+                        return RedirectToPage("/Clients/PaymentResult","Display", new {TransactionId=transac.Id ,  RefId= authority, Status=true, Code="success" });
                         
 
                         //return View();

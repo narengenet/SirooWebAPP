@@ -12,6 +12,7 @@
         justify-content: center;
         align-items: center;
         justify-items: center;
+        font-family: 'Yekan';
     }
 
     .row {
@@ -20,9 +21,14 @@
     }
 
     .contents {
-        width: 33%;
+        /*width: 50%;*/
         display: flex;
         flex-direction: column;
+        justify-content: center;
+    }
+
+    .data {
+        text-align: center;
     }
 
     .theQR {
@@ -30,8 +36,17 @@
         display: none;
     }
 
+    .tgleQR {
+        text-align: center;
+        padding: 0.5rem;
+        border-radius: 1rem;
+        direction: rtl;
+        margin-top: 1rem;
+    }
+
     .qrFrame {
-        border: solid 1px black;
+        border: solid 1px white;
+        border-radius: 1rem;
     }
 
     .tgleQR.row {
@@ -40,7 +55,11 @@
 
     #usageContainer .row {
         border: 1px solid black;
-        background-color: lightgrey;
+        background-color: orange;
+        color: black;
+        font-family: 'Yekan';
+        font-weight: bold;
+        direction: rtl;
     }
 </style>
 
@@ -75,49 +94,112 @@
     </div>
 </div>
 
-<form method="post" enctype="multipart/form-data">
 
-    <div class="container p-3" style="border:1px solid black;border-radius:1rem;margin-bottom:1rem;">
-        <div class="row">ایجاد QR جدید</div>
 
-        <div class="row">
-            <div class="col-2">امتیاز هر اسکن</div>
-            <div class="col-4 Textbox">
-                <input type="number" value="50" min="1" max="200" asp-for="AddQRModel.Points"></input>
-                <span asp-validation-for="AddQRModel.Points"></span>
-            </div>
+
+
+
+<div class="SirooRightBlockContainer">
+    <div class="mb-5 SirooRightBlock  col-12">
+        <div class="d-flex flex-row-reverse SirooRightBlockHeader">
+            <a class="profile-media col-2" href="#">
+                <img src="~/uploads/assets/profile.jpg" />
+            </a>
+            <a href="#" class="col-6 profile-fullname direction-rtl">فروشگاه من</a>
+            <a href="#" class="col-2 profile-date">@Model.Credit <span>اعتبار</span></a>
         </div>
-        <div class="row">
-            <div class="col-2">تعداد اسکن مجاز</div>
-            <div class="col-4 Textbox">
-                <input type="number" value="2" min="1" asp-for="AddQRModel.Capacity"></input>
-                <span asp-validation-for="AddQRModel.Capacity"></span>
+        <div class="d-flex flex-column justify-content-center SirooContainer">
+            <div class="justify-content-center mb-3 mt-4">
+                <div class="col-12 siroo-header direction-rtl">تبدیل موجودی به اعتبار</div>
             </div>
-        </div>
-        <div class="row">&nbsp;</div>
-        <div class="row">
-            <div class="col-6">
-                <input class="btn btn-primary rounded" type="submit" value="تولید QR جدید" class="form-control" asp-page-handler="AddQR" />
+
+            <form method="post" enctype="multipart/form-data" class="mb-4">
+                <div class="justify-content-center">
+                    <div class="col-12 siroo-label direction-rtl">موجودی (ریال)</div>
+                </div>
+                <div class="col-12 mb-2  justify-content-center row">
+                    <div class="col-10 Textbox fa fa-dollar">
+                        <input type="number" value="@Model.Money" disabled />
+                    </div>
+                </div>
+                <div class=" row col-12 mb-3 justify-content-center">
+                    <div class="col-6 SirooBtn">
+                        <input class="col-12 direction-rtl" type="submit" value="تبدیل موجودی به اعتبار" class="form-control" asp-page-handler="ChangeMoneyToCredit" />
+                    </div>
+                </div>
+            </form>
+
+
+
+
+
+            <div class="justify-content-center mb-3 mt-4">
+                <div class="col-12 siroo-header direction-rtl">ایجاد QR جدید</div>
             </div>
+            <form method="post" enctype="multipart/form-data" class="mb-4">
+                <div class="justify-content-center">
+                    <div class="col-12 siroo-label">امتیاز هر اسکن</div>
+                </div>
+                <div class="col-12 mb-2  justify-content-center row">
+                    <div class="col-10 Textbox fa fa-dollar">
+                        <input type="number" value="50" min="1" max="200" asp-for="AddQRModel.Points"></input>
+                        <span asp-validation-for="AddQRModel.Points"></span>
+                    </div>
+                </div>
+                <div class="justify-content-center">
+                    <div class="col-12 siroo-label">تعداد اسکن مجاز</div>
+                </div>
+                <div class="col-12 mb-2 row  justify-content-center">
+                    <div class="col-10 Textbox fa fa-dollar">
+                        <input type="number" value="2" min="1" asp-for="AddQRModel.Capacity"></input>
+                        <span asp-validation-for="AddQRModel.Capacity"></span>
+                    </div>
+                </div>
+                <div class=" row col-12 mb-3 justify-content-center">
+                    <div class="col-6 SirooBtn">
+                        <input class="col-12 direction-rtl" type="submit" value="تولید QR جدید" class="form-control" asp-page-handler="AddQR" />
+                    </div>
+                </div>
+            </form>
+
+            <div class="justify-content-center mb-3 mt-4">
+                <div class="col-12 siroo-header direction-rtl">QRهای من</div>
+            </div>
+            <div class="container tickets mt-1 direction-rtl" id="ticketContainer">
+            </div>
+
+            <div class="justify-content-center mb-3 mt-4">
+                <div class="col-12 siroo-header direction-rtl">اسکن های موفق</div>
+            </div>
+
+            <div class="container mb-3">
+                <div class="row justify-content-center">
+                    <a class="btn-primary col-6 text-center SirooSimpleBtn" onclick="_getTicketUsageHistory();">نمایش اسکن های موفق</a>
+                </div>
+            </div>
+            <div class="usages d-flex usages justify-content-center" id="usageContainer">
+            </div>
+
+
         </div>
     </div>
+</div>
 
 
-</form>
 
 
 
 <script id="ticketTemplate" type="text/x-jQuery-tmpl">
-    <div class="row qr ${qrid}">
-        <div class="contents qrFrame">
-            <span class="tgleQR" onclick="tglQR(this);" >نمایش QR</span>
-            <img class="theQR" src="${qRsrc}" />
+    <div class="row col-12 mb-3 justify-content-center qr ${qrid}">
+        <div class="contents col-7 qrFrame">
+            <span class="tgleQR btn-success" onclick="tglQR(this);" >نمایش QR</span>
+            <img class="theQR col-12" src="${qRsrc}" />
             <hr/>
             <div style="font-size:0.6rem;">
                 ${ticketURL}
             </div>
         </div>
-        <div class="contents">
+        <div class="contents col-5">
             <div class="data">
                 <label>تعداد اسکن باقیمانده:</label>
                 <span>${capacity}</span>
@@ -126,31 +208,76 @@
                 <label>امتیاز هر اسکن:</label>
                 <span>${val}</span>
             </div>
-            <div class="data">
-                <input value="حذف" type="button" onclick="_removeQR('${qrid}')" class="btn-danger col-6" />
+            <div class="data mt-2">
+                <input value="حذف" type="button" onclick="_removeQR('${qrid}')" class="btn-danger col-6 rounded-2" />
             </div>
         </div>
     </div>
 </script>
 
-<script id="usageTemplate" type="text/x-jQuery-tmpl">
+
+
+
+
+
+
+
+
+
+
+
+@*
+    <form method="post" enctype="multipart/form-data">
+
+    <div class="container p-3" style="border:1px solid black;border-radius:1rem;margin-bottom:1rem;">
+    <div class="row">ایجاد QR جدید</div>
+
     <div class="row">
-        <div class="contents">
-            ${uname} : ${points} امتیاز <span class="item-date">${date}</span>
+    <div class="col-2">امتیاز هر اسکن</div>
+    <div class="col-4 Textbox">
+    <input type="number" value="50" min="1" max="200" asp-for="AddQRModel.Points"></input>
+    <span asp-validation-for="AddQRModel.Points"></span>
+    </div>
+    </div>
+    <div class="row">
+    <div class="col-2">تعداد اسکن مجاز</div>
+    <div class="col-4 Textbox">
+    <input type="number" value="2" min="1" asp-for="AddQRModel.Capacity"></input>
+    <span asp-validation-for="AddQRModel.Capacity"></span>
+    </div>
+    </div>
+    <div class="row">&nbsp;</div>
+    <div class="row">
+    <div class="col-6">
+    <input class="btn btn-primary rounded" type="submit" value="تولید QR جدید" class="form-control" asp-page-handler="AddQR" />
+    </div>
+    </div>
+    </div>
+
+
+    </form>*@
+
+
+
+
+
+<script id="usageTemplate" type="text/x-jQuery-tmpl">
+    <div class="row col-10 mb-3">
+        <div class="col-4">
+            ${uname}
+        </div>
+        <div class="col-4">
+           ${points} امتیاز
+        </div>
+        <div class="col-4">
+            <span class="item-date">${date}</span>
         </div>
     </div>
 </script>
 
-<div class="container tickets" id="ticketContainer">
-</div>
+
 <hr />
-<div class="container">
-    <div class="row justify-content-center">
-        <a class="btn-primary rounded col-6 text-center" onclick="_getTicketUsageHistory();">نمایش اسکن های موفق</a>
-    </div>
-</div>
-<div class="container usages" id="usageContainer">
-</div>
+
 
 
 @section Scripts {

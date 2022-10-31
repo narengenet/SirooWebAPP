@@ -7,53 +7,97 @@
 @{
     Layout = "_LayoutClients";
 }
-    @if (Model.ResultMessage.Length > 1)
-    {
-        <div class="alert alert-@Model.ResultMessageSuccess fade show" role="alert">
-            @Model.ResultMessage
+@if (Model.ResultMessage.Length > 1)
+{
+    <div class="alert alert-@Model.ResultMessageSuccess fade show" role="alert">
+        @Model.ResultMessage
         <button type="button" class="close" data-dismiss="alert" onclick="closeAlert();" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
-    }
+}
 
-<form method="post" enctype="multipart/form-data">
+
+
+
+
+
+<div class="SirooRightBlockContainer">
+    <div class="mb-5 SirooRightBlock  col-12">
+        <div class="d-flex flex-row-reverse SirooRightBlockHeader">
+            <a class="profile-media col-2" href="#">
+                <img src="~/uploads/assets/profile.jpg" />
+            </a>
+            <a href="#" class="col-8 profile-fullname siroo-text-shadow">تغییر نقش</a>
+            <a href="#" class="col-2 profile-date"></a>
+        </div>
+        <div class="d-flex flex-column justify-content-center SirooContainer">
+            <div class="SirooItems">
+                <form method="post" class="row justify-content-center" enctype="multipart/form-data">
+                    <div class="row justify-content-center">
+                        <div class="col-12 siroo-label">نام کاربر</div>
+                    </div>
+                    <div class="row col-10 mb-2">
+                        <div class="col-12 Textbox">
+                            <select id="ddlUsers" asp-items="@Model.UserOptions" asp-for="AddRoleUserModel.UserID">
+                                <option value="0">--انتخاب کاربر--</option>
+                            </select>
+                            <span asp-validation-for="AddRoleUserModel.UserID"></span>
+                        </div>
+                    </div>
+                    <div class="row justify-content-center mt-3">
+                        <div class="col-12 siroo-label">نام نقش</div>
+                    </div>
+                    <div class="row col-10 mb-2">
+                        <div class="col-12 Textbox">
+                            <select asp-items="Model.RolesOptions" asp-for="AddRoleUserModel.RoleID">
+                                <option value="0">--انتخاب نقش--</option>
+                            </select>
+                            <span asp-validation-for="AddRoleUserModel.RoleID"></span>
+                        </div>
+                    </div>
+                    <div class="row col-12 mb-3 justify-content-center mt-3">
+                        <div class="col-6 SirooBtn">
+                            <input type="submit" value="تغییر نقش" class="form-control" asp-page-handler="AddRoleToUser" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@*<form method="post" enctype="multipart/form-data">
 
     <div class="container">
-        <div class="row">&nbsp;</div>
+    <div class="row">&nbsp;</div>
 
 
-        <div class="row">
-            <div class="col-2">نام کاربر</div>
-            <div class="col-4">
-                <select id="ddlUsers"  asp-items="@Model.UserOptions" asp-for="AddRoleUserModel.UserID">
-                    <option value="0">--انتخاب کاربر--</option>
-                </select>
-                <span asp-validation-for="AddRoleUserModel.UserID"></span>
-            </div>
-        </div>
+    <div class="row">
+    <div class="col-2">نام کاربر</div>
+    <div class="col-4">
+    <select id="ddlUsers" asp-items="@Model.UserOptions" asp-for="AddRoleUserModel.UserID">
+    <option value="0">--انتخاب کاربر--</option>
+    </select>
+    <span asp-validation-for="AddRoleUserModel.UserID"></span>
+    </div>
+    </div>
 
-        <div class="row">
-            <div class="col-2">نام نقش</div>
-            <div class="col-4">
-                <select asp-items="Model.RolesOptions" asp-for="AddRoleUserModel.RoleID"></select>
-                <span asp-validation-for="AddRoleUserModel.RoleID"></span>
-            </div>
-        </div>
-        <div class="row">&nbsp;</div>
-        <div class="row">
-            <div class="col-6">
-                <input type="submit" value="Add" class="form-control" asp-page-handler="AddRoleToUser" />
-                @*<input type="submit" value="Remove" class="form-control" asp-page-handler="RemoveRoleFromUser" />*@
-            </div>
-        </div>
-@*        <div class="row">
-            <div class="col-4">
-                @Model.ResultMessage
-            </div>
-        </div>*@
+    <div class="row">
+    <div class="col-2">نام نقش</div>
+    <div class="col-4">
+    <select asp-items="Model.RolesOptions" asp-for="AddRoleUserModel.RoleID"></select>
+    <span asp-validation-for="AddRoleUserModel.RoleID"></span>
+    </div>
+    </div>
+    <div class="row">&nbsp;</div>
+    <div class="row">
+    <div class="col-6">
+    <input type="submit" value="Add" class="form-control" asp-page-handler="AddRoleToUser" />
+    </div>
+    </div>
 
-</form>
+
+    </form>*@
 
 
 @section Scripts {
@@ -67,4 +111,4 @@
     });
 </script>
 
-}
+    }

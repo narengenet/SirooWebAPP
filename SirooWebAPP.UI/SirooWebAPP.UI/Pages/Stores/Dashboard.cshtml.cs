@@ -38,10 +38,44 @@ namespace SirooWebAPP.UI.Pages.Stores
         public void OnGet()
         {
             PrepareQRs();
+
+
         }
 
         public string? ResultMessage = "";
         public string ResultMessageSuccess = "danger";
+        public long Credit = 0;
+        public long Money = 0;
+
+
+
+        public IActionResult OnPostChangeMoneyToCredit()
+        {
+            string _creatorId = HelperFunctions.GetCookie("userid", Request);
+            Guid creatorID = Guid.Parse(_creatorId);
+            Users usr = _usersServices.GetUser(creatorID);
+
+            if (usr.Money > 0)
+            {
+                int ratio = Convert.ToInt32(_usersServices.GetConstantDictionary("money_to_credit_ratio").ConstantValue);
+                int addedCredit = Convert.ToInt32(usr.Money / ratio);
+                long paidMoney = usr.Money;
+                usr.Money = 0;
+                usr.Credits += addedCredit;
+                _usersServices.UpdateUser(usr);
+                Money = 0;
+                Credit = usr.Credits;
+                ResultMessageSuccess = "success";
+                ResultMessage = "موجودی ریالی شما تبدیل به اعتبار شد.";
+                _usersServices.AddPurchaseCredit(new Purchases { Created = DateTime.Now, User = creatorID, MoneyPaied = paidMoney, PurchasedCredit = addedCredit });
+            }
+            else
+            {
+                ResultMessage = "شما موجودی ریالی کافی برای تبدیل به اعتبار ندارید.";
+            }
+            PrepareQRs();
+            return Page();
+        }
 
         public IActionResult OnPostAddQR(AddQRModel addQRModel)
         {
@@ -93,17 +127,24 @@ namespace SirooWebAPP.UI.Pages.Stores
             foreach (DonnationTickets item in tickets)
             {
                 //string qrText = HelperFunctions.CreateQR("https://localhost:7051/Public/AddPoints?ticket=" + item.Id.ToString());
-                string qrText = HelperFunctions.CreateQR(_httpContextAccessor.HttpContext.Request.Scheme+"://"+ _httpContextAccessor.HttpContext.Request.Host.Value+"/Public/AddPoints?ticket=" + item.Id.ToString());
+                string qrText = HelperFunctions.CreateQR(_httpContextAccessor.HttpContext.Request.Scheme + "://" + _httpContextAccessor.HttpContext.Request.Host.Value + "/Public/AddPoints?ticket=" + item.Id.ToString());
                 //TicketsModel _t = new TicketsModel { QRsrc = qrText, Capacity = item.RemainedCapacity, Val = item.Value, TicketURL = "https://localhost:7051/Public/AddPoints?ticket=" + item.Id.ToString() };
-                TicketsModel _t = new TicketsModel { 
+                TicketsModel _t = new TicketsModel
+                {
                     QRsrc = qrText,
                     Capacity = item.RemainedCapacity,
-                    Val = item.Value, 
-                    QRID=item.Id,
-                    TicketURL = _httpContextAccessor.HttpContext.Request.Scheme + "://" + _httpContextAccessor.HttpContext.Request.Host.Value + "/Public/AddPoints?ticket=" + item.Id.ToString() 
+                    Val = item.Value,
+                    QRID = item.Id,
+                    TicketURL = _httpContextAccessor.HttpContext.Request.Scheme + "://" + _httpContextAccessor.HttpContext.Request.Host.Value + "/Public/AddPoints?ticket=" + item.Id.ToString()
                 };
                 QrCodes.Add(_t);
             }
+
+
+
+            Users usr = _usersServices.GetUser(creatorID);
+            Money = usr.Money;
+            Credit = usr.Credits;
         }
     }
 }

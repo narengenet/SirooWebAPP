@@ -37,7 +37,7 @@ namespace SirooWebAPP.UI.Pages.Clients
             string _creatorId = HelperFunctions.GetCookie("userid", Request);
             Guid creatorID = Guid.Parse(_creatorId);
             _currentUser = _usersServices.GetUserProfile(creatorID);
-            roleName= session.GetString("userrolename");
+            roleName= session.GetString("userroledescription");
             InvitationLink = _httpContextAccessor.HttpContext.Request.Scheme + "://" + _httpContextAccessor.HttpContext.Request.Host.Value + "/Registeration/Register?inviter=" + _currentUser.Username;
 
         }

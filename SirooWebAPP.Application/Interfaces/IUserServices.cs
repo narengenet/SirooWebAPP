@@ -91,7 +91,11 @@ namespace SirooWebAPP.Application.Interfaces
         List<Transactions> GetTransactionsByUser(Guid userId);
         Guid AddTransaction(Transactions transaction);
         bool UpdateTransaction(Transactions transaction);
+        bool AddPurchaseCredit(Purchases purchase);
 
+
+        bool AddTransactionPercent(TransactionPercents transactionPercent);
+        List<TransactionPercents> GetAllTransactionPercents();
 
 
     }

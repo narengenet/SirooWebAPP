@@ -34,6 +34,8 @@ namespace SirooWebAPP.Infrastructure.Contexts
         //public DbSet<RoleChangeRequests> RoleChangeRequests{ get; set; }
         public DbSet<PrizesWinners> PrizesWinners { get; set; }
         public DbSet<Transactions> Transactions { get; set; }
+        public DbSet<Purchases> Purchases { get; set; }
+        public DbSet<TransactionPercents>  TransactionPercents{ get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -43,8 +45,8 @@ namespace SirooWebAPP.Infrastructure.Contexts
             Users mohsen = new Users { Id = Guid.NewGuid(), Name = "محسن", Family = "پردلان", Cellphone = "09111769591", Username = "vinona", ProfileMediaURL = "uploads/2022/9/99.jpg", Inviter = dabouei.Id, IsActivated = true, Created = DateTime.Now, Points = 80 };
             Users sepideh = new Users { Id = Guid.NewGuid(), Name = "سامان", Family = "احمدی", Cellphone = "09161234567", Username = "saman", ProfileMediaURL = "uploads/2022/9/photo.jpg", Inviter = dabouei.Id, IsActivated = true, Created = DateTime.Now, Points = 70 };
             Users abdolah = new Users { Id = Guid.NewGuid(), Name = "عبداله", Family = "سرپرست", Cellphone = "09112281237", Username = "abdolah", ProfileMediaURL = "uploads/2022/9/photo.jpg", IsActivated = true, Created = DateTime.Now, Points = 60 };
-            Users amir = new Users { Id = Guid.NewGuid(), Name = "امیر", Family = "شفایی", Cellphone = "09181650151", Username = "amirsh", ProfileMediaURL = "uploads/2022/9/photo.jpg", IsActivated = true, Created = DateTime.Now, Points = 50 };
-            Users maryam = new Users { Id = Guid.NewGuid(), Name = "مریم", Family = "سرپرست", Cellphone = "09181616196", Username = "pari", ProfileMediaURL = "uploads/2022/9/photo.jpg", IsActivated = true, Created = DateTime.Now, Points = 40 };
+            Users amir = new Users { Id = Guid.NewGuid(), Name = "امیر", Family = "شفایی", Cellphone = "09181650111", Username = "amirsh", ProfileMediaURL = "uploads/2022/9/photo.jpg", IsActivated = true, Created = DateTime.Now, Points = 50 };
+            Users maryam = new Users { Id = Guid.NewGuid(), Name = "مریم", Family = "سرپرست", Cellphone = "09181616111", Username = "pari", ProfileMediaURL = "uploads/2022/9/photo.jpg", IsActivated = true, Created = DateTime.Now, Points = 40 };
             Users haji = new Users { Id = Guid.NewGuid(), Name = "رجبعلی", Family = "سرپرست", Cellphone = "09111291908", Username = "haji", ProfileMediaURL = "uploads/2022/9/photo.jpg", IsActivated = true, Created = DateTime.Now, Points = 30 };
 
             modelBuilder.Entity<Users>().HasData(sina);
@@ -58,12 +60,14 @@ namespace SirooWebAPP.Infrastructure.Contexts
 
             Roles role_superadmin = new Roles { Id = Guid.NewGuid(), RoleName = "super", IsActivated = true, RoleDescription = "مدیر کل", Priority = 0 };
             Roles role_admin = new Roles { Id = Guid.NewGuid(), RoleName = "admin", IsActivated = true, RoleDescription = "مدیر سامانه", Priority = 1 };
-            Roles role_zoneadmin = new Roles { Id = Guid.NewGuid(), RoleName = "zoneadmin", IsActivated = true, RoleDescription = "مدیر منطقه", Priority = 2 };
-            Roles role_marketer = new Roles { Id = Guid.NewGuid(), RoleName = "marketer", IsActivated = true, RoleDescription = "بازاریاب", Priority = 3 };
-            Roles role_store = new Roles { Id = Guid.NewGuid(), RoleName = "store", IsActivated = true, RoleDescription = "فروشگاه", Priority = 4 };
-            Roles role_client = new Roles { Id = Guid.NewGuid(), RoleName = "client", IsActivated = true, RoleDescription = "مشتری", Priority = 5 };
+            Roles role_countryadmin = new Roles { Id = Guid.NewGuid(), RoleName = "countryadmin", IsActivated = true, RoleDescription = "مدیر کل مناطق", Priority = 2 };
+            Roles role_zoneadmin = new Roles { Id = Guid.NewGuid(), RoleName = "zoneadmin", IsActivated = true, RoleDescription = "مدیر منطقه", Priority = 3 };
+            Roles role_marketer = new Roles { Id = Guid.NewGuid(), RoleName = "marketer", IsActivated = true, RoleDescription = "بازاریاب", Priority = 4 };
+            Roles role_store = new Roles { Id = Guid.NewGuid(), RoleName = "store", IsActivated = true, RoleDescription = "فروشگاه", Priority = 5 };
+            Roles role_client = new Roles { Id = Guid.NewGuid(), RoleName = "client", IsActivated = true, RoleDescription = "مشتری", Priority = 6 };
             modelBuilder.Entity<Roles>().HasData(role_superadmin);
             modelBuilder.Entity<Roles>().HasData(role_admin);
+            modelBuilder.Entity<Roles>().HasData(role_countryadmin);
             modelBuilder.Entity<Roles>().HasData(role_zoneadmin);
             modelBuilder.Entity<Roles>().HasData(role_marketer);
             modelBuilder.Entity<Roles>().HasData(role_store);
@@ -95,7 +99,7 @@ namespace SirooWebAPP.Infrastructure.Contexts
 
             Draws draw_a = new Draws { Id = Guid.NewGuid(), Name = "آبان 1401", Created = DateTime.Now, StartDate = DateTime.Now, EndDate = DateTime.Now.AddDays(15), CreatedBy = sina.Id, IsActivated = true, IsFinished = false, IsLottery = false, Owner = sina.Id };
             Draws draw_b = new Draws { Id = Guid.NewGuid(), Name = "اذر 1401", Created = DateTime.Now, StartDate = DateTime.Now.AddDays(30), EndDate = DateTime.Now.AddDays(60), CreatedBy = sina.Id, IsActivated = true, IsFinished = false, IsLottery = false, Owner = sepideh.Id };
-            Draws draw_c = new Draws { Id = Guid.NewGuid(), Name = "شهریور 1401", Created = DateTime.Now, StartDate = DateTime.Now.AddDays(-30), EndDate = DateTime.Now.AddDays(-10), CreatedBy = sina.Id, IsActivated = true, IsFinished = true, IsLottery = false, Owner = mohsen.Id };
+            Draws draw_c = new Draws { Id = Guid.NewGuid(), Name = "شهریور 1401", Created = DateTime.Now, StartDate = DateTime.Now.AddDays(-30), EndDate = DateTime.Now.AddDays(-10), CreatedBy = sina.Id, IsActivated = true, IsFinished = false, IsLottery = false, Owner = mohsen.Id };
             modelBuilder.Entity<Draws>().HasData(draw_a);
             modelBuilder.Entity<Draws>().HasData(draw_b);
             modelBuilder.Entity<Draws>().HasData(draw_c);
@@ -124,7 +128,7 @@ namespace SirooWebAPP.Infrastructure.Contexts
             ConstantDictionaries store_default_credits_registration = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "store_def_credit_reg", ConstantValue = "1000", IsActive = true, Description = "اعتبار اولیه فروشگاه برای ثبت نام اولین بار", Created = DateTime.Now, CreatedBy = sina.Id };
             ConstantDictionaries store_point_usage_per_day = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "store_point_usage_per_day", ConstantValue = "2", IsActive = true, Description = "تعداد دفعات استفاده از کارت تخفیف هر مغازه در روز برای یک مشتری", Created = DateTime.Now, CreatedBy = sina.Id };
             ConstantDictionaries stores_max_donnation_point = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "stores_max_donnation_point", ConstantValue = "500", IsActive = true, Description = "حداکثر امتیازی که فروشگاه میتواند در هر نوتب هدیه بدهد", Created = DateTime.Now, CreatedBy = sina.Id };
-            ConstantDictionaries money_to_credit_ratio = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "money_to_credit_ratio", ConstantValue = "50", IsActive = true, Description = "نسبت هر اعتبار به تومان", Created = DateTime.Now, CreatedBy = sina.Id };
+            ConstantDictionaries money_to_credit_ratio = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "money_to_credit_ratio", ConstantValue = "500", IsActive = true, Description = "نسبت هر اعتبار به تومان", Created = DateTime.Now, CreatedBy = sina.Id };
             ConstantDictionaries credit_for_image_ads = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "credit_for_image_ads", ConstantValue = "500", IsActive = true, Description = "اعتبار لازم برای ثبت آگهی تصویری", Created = DateTime.Now, CreatedBy = sina.Id };
             ConstantDictionaries credit_for_video_ads = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "credit_for_video_ads", ConstantValue = "1000", IsActive = true, Description = "اعتبار لازم برای ثبت آگهی ویدئویی", Created = DateTime.Now, CreatedBy = sina.Id };
             ConstantDictionaries credit_for_client_registration_by_store_invitation = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "credit_for_client_registration_by_store_invitation", ConstantValue = "50", IsActive = true, Description = "اعتبار برای فروشنده ای که باعث ثبت نام مشتری شد", Created = DateTime.Now, CreatedBy = sina.Id };
@@ -132,6 +136,9 @@ namespace SirooWebAPP.Infrastructure.Contexts
             ConstantDictionaries def_points_for_client_invitation = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "def_points_for_client_invitation", ConstantValue = "50", IsActive = true, Description = "اعتبار برای فروشنده ای که باعث ثبت نام مشتری شد", Created = DateTime.Now, CreatedBy = sina.Id };
             ConstantDictionaries def_points_for_image_like = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "def_points_for_image_like", ConstantValue = "1", IsActive = true, Description = "امتیاز پیش فرض برای لایک پست تصویری", Created = DateTime.Now, CreatedBy = sina.Id };
             ConstantDictionaries def_points_for_video_like = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "def_points_for_video_like", ConstantValue = "4", IsActive = true, Description = "امتیاز پیش فرض برای لایک پست ویدئویی", Created = DateTime.Now, CreatedBy = sina.Id };
+            ConstantDictionaries def_percent_for_marketer = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "def_percent_for_marketer", ConstantValue = "10", IsActive = true, Description = "درصد بازاریاب", Created = DateTime.Now, CreatedBy = sina.Id };
+            ConstantDictionaries def_percent_for_zoneadmin = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "def_percent_for_zoneadmin", ConstantValue = "6", IsActive = true, Description = "درصد مدیر منطقه", Created = DateTime.Now, CreatedBy = sina.Id };
+            ConstantDictionaries def_percent_for_countryadmin = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "def_percent_for_countryadmin", ConstantValue = "4", IsActive = true, Description = "درصد مدیر مناطق", Created = DateTime.Now, CreatedBy = sina.Id };
 
 
             modelBuilder.Entity<ConstantDictionaries>().HasData(store_default_credits_registration);
@@ -145,6 +152,9 @@ namespace SirooWebAPP.Infrastructure.Contexts
             modelBuilder.Entity<ConstantDictionaries>().HasData(def_points_for_client_invitation);
             modelBuilder.Entity<ConstantDictionaries>().HasData(def_points_for_image_like);
             modelBuilder.Entity<ConstantDictionaries>().HasData(def_points_for_video_like);
+            modelBuilder.Entity<ConstantDictionaries>().HasData(def_percent_for_marketer);
+            modelBuilder.Entity<ConstantDictionaries>().HasData(def_percent_for_zoneadmin);
+            modelBuilder.Entity<ConstantDictionaries>().HasData(def_percent_for_countryadmin);
 
 
 

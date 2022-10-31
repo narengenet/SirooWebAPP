@@ -75,6 +75,8 @@ namespace SirooWebAPP.Infrastructure.Services
         private readonly IDonnationTickets _donnationTicketRepo;
         private readonly IPrizesWinnersRepository _prizeWinnersRepo;
         private readonly ITransactionsRepository _transactionsRepo;
+        private readonly IPurchasesRepository _purchasesRepository;
+        private readonly ITransactionPercentsRepository _transactionPercentsRepository;
 
         private readonly IMapper _mapper;
 
@@ -96,6 +98,8 @@ namespace SirooWebAPP.Infrastructure.Services
             IDonnationTickets donnationTicketRepo,
             IPrizesWinnersRepository prizesWinnersRepository,
             ITransactionsRepository transactionsRepository,
+            IPurchasesRepository purchasesRepository,
+            ITransactionPercentsRepository transactionPercentsRepository,
             IMapper mapper
             )
         {
@@ -113,6 +117,8 @@ namespace SirooWebAPP.Infrastructure.Services
             _donnationTicketRepo = donnationTicketRepo;
             _prizeWinnersRepo = prizesWinnersRepository;
             _transactionsRepo = transactionsRepository;
+            _purchasesRepository = purchasesRepository;
+            _transactionPercentsRepository = transactionPercentsRepository;
 
             _mapper = mapper;
         }
@@ -673,7 +679,7 @@ namespace SirooWebAPP.Infrastructure.Services
                     (draws, users) => draws
                 )
                 .Where(d => d.IsActivated == true && d.IsDeleted == false)
-                .OrderBy(d => d.StartDate)
+                .OrderByDescending(d => d.StartDate)
                 .ToList<Draws>();
 
 
@@ -865,15 +871,26 @@ namespace SirooWebAPP.Infrastructure.Services
             {
                 foreach (Prizes item in prizes)
                 {
+                    if (indx == winners.Count - 1)
+                    {
+                        break;
+                    }
                     for (int j = 0; j < item.WinnerCount; j++)
                     {
-
+                        if (indx==winners.Count-1)
+                        {
+                            break;
+                        }
                         PrizesWinners _pw = new PrizesWinners { Prize = item.Id, User = winners[indx].Id, WiningPoint = winners[indx].Points, WiningDate = DateTime.Now, Draw = drawId };
                         _prizeWinnersRepo.Add(_pw);
                         //winners[indx].Points = 0;
                         //_userRepo.Update(winners[indx]);
                         indx += 1;
                     }
+                }
+                if (indx == winners.Count - 1)
+                {
+                    break;
                 }
             } while (indx < prizesWinnersCount);
             //}
@@ -901,6 +918,24 @@ namespace SirooWebAPP.Infrastructure.Services
         {
             _transactionsRepo.Update(transaction);
             return true;
+        }
+
+        public bool AddPurchaseCredit(Purchases purchase)
+        {
+            _purchasesRepository.Add(purchase);
+            return true;
+
+        }
+
+        public bool AddTransactionPercent(TransactionPercents transactionPercent)
+        {
+            _transactionPercentsRepository.Add(transactionPercent);
+            return true;
+        }
+
+        public List<TransactionPercents> GetAllTransactionPercents()
+        {
+            return _transactionPercentsRepository.GetAll().Where(tp => tp.IsDeleted == false).ToList<TransactionPercents>();
         }
     }
 }

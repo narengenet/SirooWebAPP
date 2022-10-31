@@ -245,7 +245,7 @@ namespace SirooWebAPP.UI.Pages.Clients
             else
             {
                 RolesOptions = _usersServices.GetAllRoles()
-                    .Where(r => r.Priority > highestPriorityRoleOfCreator.Priority && r.Priority != 5)
+                    .Where(r => r.Priority > highestPriorityRoleOfCreator.Priority && r.RoleName != "client")
                     .OrderBy(r => r.Priority)
                     .Select(a =>
                     new SelectListItem

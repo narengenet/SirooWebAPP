@@ -3,239 +3,363 @@
 @{
     Layout = "_LayoutClients";
 }
-<style>
+@*<style>
     .draws {
-        display: flex;
-        justify-content: center;
-        flex-direction: column;
-        align-items: center;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
     }
 
     .draw a {
-        text-decoration: none;
+    text-decoration: none;
     }
 
     .draw {
-        display: flex;
-        border: 1px solid black;
-        border-radius: 1rem;
-        justify-content: flex-end;
-        flex-direction: row;
-        flex-direction: column;
-        width: 100%;
-        padding: 2px;
-        position: relative;
-        margin-bottom: 1rem;
-        color:white;
+    display: flex;
+    border: 1px solid black;
+    border-radius: 1rem;
+    justify-content: flex-end;
+    flex-direction: row;
+    flex-direction: column;
+    width: 100%;
+    padding: 2px;
+    position: relative;
+    margin-bottom: 1rem;
+    color:white;
     }
 
-        .draw .header {
-            display: flex;
-            flex-direction: row-reverse;
-            /*position: absolute;*/
-            right: 10px;
-            top: 10px;
-        }
+    .draw .header {
+    display: flex;
+    flex-direction: row-reverse;
+    /*position: absolute;*/
+    right: 10px;
+    top: 10px;
+    }
 
     .profile-link {
-        display: flex;
-        flex-direction: row-reverse;
-        align-items: center;
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
     }
 
     .profile-media {
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
     }
 
-        .profile-media img {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            border: 2px solid white;
-        }
+    .profile-media img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 2px solid white;
+    }
 
     .post-image {
-        <!-- background-image: url(6.jpg); -->
-        height: 300px;
-        width: 100%;
-        border-radius: 1rem;
+    <!-- background-image: url(6.jpg); -->
+    height: 300px;
+    width: 100%;
+    border-radius: 1rem;
     }
 
-        .post-image img {
-            width: 100%;
-            height: 300px;
-            border-radius: 1rem;
-        }
+    .post-image img {
+    width: 100%;
+    height: 300px;
+    border-radius: 1rem;
+    }
 
     .post-video {
-        height: 300px;
-        width: 100%;
-        background-position: center center;
-        background-size: cover;
-        border-radius: 1rem;
-        padding-top: 5px;
+    height: 300px;
+    width: 100%;
+    background-position: center center;
+    background-size: cover;
+    border-radius: 1rem;
+    padding-top: 5px;
     }
 
     .post-image video {
-        border-radius: 1rem;
+    border-radius: 1rem;
     }
 
     .draw .contents {
-        display: flex;
-        justify-content: center;
-        direction: rtl;
+    display: flex;
+    justify-content: center;
+    direction: rtl;
     }
 
     .like-btn, .view-btn {
-        width: 30px;
-        height: 30px;
-        background-image: url(../uploads/assets/like.png);
-        background-size: cover;
-        display: flex;
-        align-items: center;
-        color: red;
-        font-weight: bold;
-        font-size: 0.8rem;
-        justify-content: center;
-        cursor: pointer;
+    width: 30px;
+    height: 30px;
+    background-image: url(../uploads/assets/like.png);
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    color: red;
+    font-weight: bold;
+    font-size: 0.8rem;
+    justify-content: center;
+    cursor: pointer;
     }
 
-        .like-btn.liked {
-            background-image: url(../uploads/assets/liked.png);
-        }
+    .like-btn.liked {
+    background-image: url(../uploads/assets/liked.png);
+    }
 
     .liked-btn {
-        background-image: url(../uploads/assets/liked.png);
+    background-image: url(../uploads/assets/liked.png);
     }
 
     .view-btn {
-        background-image: url(../uploads/assets/view.png);
-        margin-left: 1rem;
+    background-image: url(../uploads/assets/view.png);
+    margin-left: 1rem;
     }
 
     .footer {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
     }
 
     .like-details, .view-details {
-        margin-left: 0.5rem;
-        margin-top: 0.5rem;
+    margin-left: 0.5rem;
+    margin-top: 0.5rem;
     }
 
     .hidden {
-        display: none;
+    display: none;
     }
 
     .profile-fullname, .profile-date {
-        margin-right: 0.5rem;
+    margin-right: 0.5rem;
     }
 
     .profile-fullname {
-        font-weight: bold;
-        background-color: rgba(0,0,0,0.5);
-        padding: 0rem 1rem 0rem 1rem;
-        border-radius: 0.5rem;
-        color: white;
+    font-weight: bold;
+    background-color: rgba(0,0,0,0.5);
+    padding: 0rem 1rem 0rem 1rem;
+    border-radius: 0.5rem;
+    color: white;
     }
 
     .profile-date {
-        direction: rtl;
-        color: gray;
-        font-size: 0.7rem;
+    direction: rtl;
+    color: gray;
+    font-size: 0.7rem;
     }
 
     .caption {
-        direction: rtl;
-        padding: 0.5rem;
+    direction: rtl;
+    padding: 0.5rem;
     }
-</style>
+    </style>*@
+
 
 <script id="drawTemplate" type="text/x-jQuery-tmpl">
-    <div class="draw {{if isFinished}}finished{{/if}}">
-        <div class="header">
-            <div class="profile-link">
-                <a class="profile-media" href="#">
-                    <img src="../${owner.profileMediaURL}" />
-                </a>
-                <a href="#" class="profile-fullname">${owner.name}</a>
-                <a href="#" class="profile-date dates">${created}</a>
+        <div class="draw {{if isFinished}}finished{{/if}}">
+            <div class="header mb-3">
+                <div class="profile-link">
+                    <a class="profile-media" href="#">
+                        <img src="../${owner.profileMediaURL}" />
+                    </a>
+                    <a href="#" class="profile-fullname">${owner.name}</a>
+                    <a href="#" class="profile-date dates">${created}</a>
+                </div>
+                <div class="status">
+                    <span>وضعیت دوره: </span>{{if isFinished}}<span class="inactiveDraw"> غیر فعال </span>{{else}}<span class="activeDraw"> فعال </span>{{/if}}
+                </div>
+                {{if isFinished==false}}
+                <div class="col-12 d-flex justify-content-center">
+                    <div class="col-10 justify-content-center mt-3 mb-3" style="height:2rem;">
+                        <div class="flipper myFlipper" data-reverse="true" data-datetime="${endDate}" data-template="dd|HH|ii|ss" data-labels="روز|ساعت|دقیقه|ثانیه" ></div>
+                    </div>
+                </div>
+                {{/if}}
             </div>
-        </div>
-        <div class="contents">
-            <span>دوره:</span><span>${name}</span>
-        </div>
-        <div class="contents">
-            <span>تاریخ شروع:</span><span class="dates">${startDate}</span>
-        </div>
-        <div class="contents">
-            <span>تاریخ پایان:</span><span class="dates">${endDate}</span>
-        </div>
-        <hr/>
-
-        <div class="contents">
-            <div class="row">
-                <h3>جوایز</h3>
+            <div class="contents mt-2">
+                <span>دوره: </span><span>${name}</span>
             </div>
-        </div>
-
-        {{each prizes}}
-            <div class="contents">
-                <span>${$index + 1}:</span> <span>${name}</span>، <span>${winnerCount} نفر</span>
+            <div class="contents mt-2">
+                <span>تاریخ شروع: </span><span class="dates">${startDate}</span>
             </div>
-        {{/each}}
-
-        <hr/>
-        {{if isFinished}}
-            <div class="contents">
-                <div class="row">
-                    <h3>برنده شدگان</h3>
+            <div class="contents mt-2">
+                <span>تاریخ پایان: </span><span class="dates">${endDate}</span>
+            </div>
+            <div class="row mt-3 justify-content-center mb-3">
+                <div class="SirooBtn col-8">
+                    {{if isFinished}}
+                        <input type="submit" value="برندگان" onclick="$('.prizeWinners.${drawId}').css('display','flex');window.scrollTo(0,0);" />
+                    {{else}}
+                        <input type="submit" value="جوایز" onclick="$('.prizeWinners.${drawId}').css('display','flex');window.scrollTo(0,0);" />
+                    {{/if}}
                 </div>
             </div>
-        {{else}}
-            <div class="contents">
-                <div class="row">
-                    <h3>تاکنون</h3>
-                </div>
-            </div>
-        {{/if}}
 
-        {{each prizeWinners}}
-            <div class="contents">
-                <span>${$index + 1}:</span> <span>${username}</span>، <span>${points} امتیاز</span>
-            </div>
-        {{/each}}
-
-        <hr/>
     @if (Model.RoleName == "super" || Model.RoleName == "admin")
     {
-        <div class="contents">
-            <div class="row">
-                <a class="btn-warning m-2  col-8 text-center rounded-3 {{if isFinished}}hidden{{/if}}" onclick="finishDraw('${drawId}');">اتمام دوره</a>
-                <a class="btn-danger m-2  col-8 text-center rounded-3" onclick="deactiveDraw('${drawId}');">غیرفعالسازی دوره</a>
-            </div>
-        </div>
+                                                <div class="buttons mt-2">
+                                                        <a class="btn-warning m-2  col-8 text-center SirooSimpleBtn {{if isFinished}}hidden{{/if}}" onclick="finishDraw('${drawId}');">اتمام دوره</a>
+                                                        <a class="btn-danger m-2  col-8 text-center SirooSimpleBtn" onclick="deactiveDraw('${drawId}');">غیرفعالسازی دوره</a>
+                                                </div>
     }
 
+        </div>
+
+    <div class="prizeWinners justify-content-center ${drawId}">
+        <div class="drawDetails d-flex col-12">
+            <div class="col-6">${name}</div>
+            <div class="col-6">
+                {{if isFinished}}<span class="inactiveDraw"> غیر فعال </span>{{else}}<span class="activeDraw"> فعال </span>{{/if}}
+            </div>
+        </div>
+            <div class="theWinners col-12 ${drawId} direction-rtl">
+
+            </div>
+        <div class="SirooBtn row mt-3 mb-3">
+            <input type="submit" onclick="$('.prizeWinners').css('display','none');" value="بازگشت" />
+        </div>
     </div>
 
 </script>
 
+
+
+@*<script id="drawTemplate" type="text/x-jQuery-tmpl">
+    <div class="draw {{if isFinished}}finished{{/if}}">
+    <div class="header">
+    <div class="profile-link">
+    <a class="profile-media" href="#">
+    <img src="../${owner.profileMediaURL}" />
+    </a>
+    <a href="#" class="profile-fullname">${owner.name}</a>
+    <a href="#" class="profile-date dates">${created}</a>
+    </div>
+    </div>
+    <div class="contents">
+    <span>دوره:</span><span>${name}</span>
+    </div>
+    <div class="contents">
+    <span>تاریخ شروع:</span><span class="dates">${startDate}</span>
+    </div>
+    <div class="contents">
+    <span>تاریخ پایان:</span><span class="dates">${endDate}</span>
+    </div>
+    <hr/>
+
+    <div class="contents">
+    <div class="row">
+    <h3>جوایز</h3>
+    </div>
+    </div>
+
+    {{each prizes}}
+    <div class="contents">
+    <span>${$index + 1}:</span> <span>${name}</span>، <span>${winnerCount} نفر</span>
+    </div>
+    {{/each}}
+
+    <hr/>
+    {{if isFinished}}
+    <div class="contents">
+    <div class="row">
+    <h3>برنده شدگان</h3>
+    </div>
+    </div>
+    {{else}}
+    <div class="contents">
+    <div class="row">
+    <h3>تاکنون</h3>
+    </div>
+    </div>
+    {{/if}}
+
+    {{each prizeWinners}}
+    <div class="contents">
+    <span>${$index + 1}:</span> <span>${username}</span>، <span>${points} امتیاز</span>
+    </div>
+    {{/each}}
+
+    <hr/>
+    @if (Model.RoleName == "super" || Model.RoleName == "admin")
+    {
+    <div class="contents">
+    <div class="row">
+    <a class="btn-warning m-2  col-8 text-center rounded-3 {{if isFinished}}hidden{{/if}}" onclick="finishDraw('${drawId}');">اتمام دوره</a>
+    <a class="btn-danger m-2  col-8 text-center rounded-3" onclick="deactiveDraw('${drawId}');">غیرفعالسازی دوره</a>
+    </div>
+    </div>
+    }
+
+    </div>
+
+    </script>*@
+
 <div class="draws" id="drawsContainer">
 </div>
+
+<div class="winnerTemplate" style="display:none;">
+    <div class="Textbox col-10 mb-3">
+        <div class="d-flex winner">
+            <div class="col-3 winnerRank">
+                1
+            </div>
+            <div class="col-6">
+                <div class="winningPrize">&nbsp;</div>
+                <div class="winnerUsername">&nbsp;</div>
+            </div>
+            <div class="col-3 winningPoints">
+                &nbsp;
+            </div>
+        </div>
+    </div>
+</div>
+<div class="threeDots" style="display:none;">
+    <div class="col-10 mb-2 theThreeDots">
+        &#9679; &#9679; &#9679;
+    </div>
+</div>
+
+
+
+@*<div class="prizeWinners justify-content-center">
+    <div class="drawName">نام دوره</div>
+    <div class="theWinners col-12">
+    <div class="Textbox col-10 mb-2">
+    <div class="d-flex winner">
+    <div class="col-2">
+    1
+    </div>
+    <div class="col-7">
+    <div class="winnerUsername">سینا سرپرست</div>
+    <div class="winningPrize">150 هزار تومان</div>
+    </div>
+    <div class="col-3 winningPoints">
+    3000 امتیاز
+    </div>
+    </div>
+    </div>
+    </div>
+    <div class="SirooBtn row mt-3 mb-3">
+    <input type="submit" onclick="$('.prizeWinners').css('display','none');" value="بازگشت" />
+    </div>
+    </div>*@
 
 @section Scripts {
 <script src="~/js/jquery.tmpl.min.js"></script>
 <script src="~/js/jquery.timeago.js"></script>
+<script src="~/js/draws.js"></script>
+<script src="~/js/popper.min.js"></script>
+<script src="~/js/jquery.flipper-responsive.js"></script>
 
 <script type="text/javascript">
     $(document).ready(function () {
         getDraws();
+
     });
 
+    var alldraws='';
+    var myUsername='@Model.MyUsername';
+    var myPoint='@Model.MyPoints';
     function getDraws(){
         $.ajax({
             url: '/draws',
@@ -245,13 +369,69 @@
                         window.location="/login/login";
                     }else{
                         sina="{draws:"+result+"}";
+                        alldraws=result;
                         $('#drawsContainer').html('');
                         $('#drawTemplate').tmpl(result).appendTo('#drawsContainer');
+                        var myflippers=$('.myFlipper');
+                        for(i=0;i<myflippers.length;i++){
+                            var enddate=new Date($(myflippers[i]).attr('data-datetime'));
+                            $(myflippers[i]).attr('data-datetime',enddate.getFullYear()+'-'+(enddate.getMonth()+1)+'-'+enddate.getDate()+" 00:00:00");
+                            $(myflippers[i]).flipper('init');
+                        }
+                        
 
                         var dates=$('.dates');
                         for(i=0;i<dates.length;i++){
                             $(dates[i]).text(jQuery.timeago($(dates[i]).text()));
                         }
+                        theCounter=0;
+                        meInvolved=false;
+                        winnerTmpl=$('.winnerTemplate');
+                        for(i=0;i<alldraws.length;i++){
+                            theCounter=0;
+                            meInvolved=false;
+                            for(j=0;j<alldraws[i].prizes.length;j++){
+                                for(k=0;k<alldraws[i].prizes[j].winnerCount;k++){
+                                    if(theCounter<alldraws[i].prizeWinners.length){
+                                        theCounter+=1;
+                                        $(winnerTmpl).attr('count',theCounter);
+                                        $(winnerTmpl).find('.winnerRank').html(theCounter);
+                                        $(winnerTmpl).find('.winnerUsername').html(alldraws[i].prizeWinners[theCounter-1].username);
+                                        $(winnerTmpl).find('.winningPoints').html(alldraws[i].prizeWinners[theCounter-1].points+' امتیاز');
+                                        $(winnerTmpl).find('.winningPrize').html(alldraws[i].prizes[j].name);
+                                        if(myUsername==alldraws[i].prizeWinners[theCounter-1].username){
+                                            $(winnerTmpl).find('.Textbox').addClass('me');
+                                            $(winnerTmpl).find('.winner').addClass('me');
+                                            meInvolved=true;
+                                        }else{
+                                            $(winnerTmpl).find('.Textbox').removeClass('me');
+                                            $(winnerTmpl).find('.winner').removeClass('me');
+                                        }
+                                        $('.theWinners.'+alldraws[i].drawId).append(winnerTmpl.html());
+                                    }
+                                }
+                            }
+
+                             if(meInvolved==false && alldraws[i].isFinished==false){
+                                                myRank=0;
+                                                for(x=0;x<alldraws[i].prizeWinners.length;x++){
+                                                    myRank+=1;
+                                                    if(alldraws[i].prizeWinners[x].username==myUsername){
+                                                        $(winnerTmpl).find('.winnerRank').html(myRank);
+                                                        $(winnerTmpl).find('.winnerUsername').html(myUsername);
+                                                        $(winnerTmpl).find('.winningPoints').html(myPoint+' امتیاز');
+                                                        $(winnerTmpl).find('.winningPrize').html('---');
+                                                        $(winnerTmpl).find('.Textbox').addClass('me');
+                                                        $(winnerTmpl).find('.winner').addClass('me');
+
+                                                        $('.theWinners.'+alldraws[i].drawId).append($('.threeDots').html());
+                                                        $('.theWinners.'+alldraws[i].drawId).append(winnerTmpl.html());
+                                                    }
+                                                }
+                             }
+                        }
+
+
                     }
 
 

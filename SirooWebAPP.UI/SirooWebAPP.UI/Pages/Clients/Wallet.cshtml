@@ -44,7 +44,7 @@
                     </div>
                     <div class="row col-12 mb-2">
                         <div class="col-12 Textbox fa fa-dollar">
-                            <input type="number" value="500000" min="500000" class="col-12" asp-for="AddMoney.NewAmount" />
+                            <input type="number" value="500000" min="500000" step="10000" class="col-12" asp-for="AddMoney.NewAmount" />
                             <span asp-validation-for="AddMoney.NewAmount"></span>
                         </div>
                     </div>
@@ -56,7 +56,7 @@
                 </form>
 
                 <div class="row justify-content-center mt-5 mb-3">
-                    <div class="col-12 siroo-header">تراکنش های قبلی شما</div>
+                    <div class="col-12 siroo-header">تراکنش های پرداختی شما</div>
                 </div>
 
                 <div class="row justify-content-center col-12 direction-rtl">
@@ -74,6 +74,28 @@
                     <div class="row justify-content-center col-12 text-center">
                         <div class="col-6 SirooBtn">
                             <input type="submit" class="btn-primary" onclick="_getTransactions();" value="بروزرسانی تراکنش ها" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row justify-content-center mt-5 mb-3">
+                    <div class="col-12 siroo-header">مبالغ دریافتی شما</div>
+                </div>
+                <div class="row justify-content-center col-12 direction-rtl">
+                    <div class="row bg-primary rounded-top text-center">
+                        <div class="col-3 text-light pt-2 pb-2 siroo-label">تاریخ</div>
+                        <div class="col-3 text-light pt-2 pb-2 siroo-label">مبلغ <span>ریال</span></div>
+                        <div class="col-3 text-light pt-2 pb-2 siroo-label">شناسه پرداخت</div>
+                        <div class="col-3 text-light pt-2 pb-2 siroo-label">توضیحات</div>
+                    </div>
+                </div>
+                <div id="inTransactionsContainer" class="container">
+                </div>
+
+                <div class="row justify-content-center col-12 mt-2">
+                    <div class="row justify-content-center col-12 text-center">
+                        <div class="col-6 SirooBtn">
+                            <input type="submit" class="btn-primary" onclick="_getInTransactions();" value="بروزرسانی دریافتی ها" />
                         </div>
                     </div>
                 </div>
@@ -146,6 +168,15 @@
     </div>
 </script>
 
+<script id="inTransactionTemplate" type="text/x-jQuery-tmpl">
+    <div class="row text-center border direction-rtl transaction-row">
+        <div class="col-3 siroo-small-label item-date">${created}</div>
+        <div class="col-3 siroo-label">${toAmount} <span>ریال</span></div>
+        <div id="intrans-${id}" onclick="copyToClipboard('intrans-${id}');" class="col-3 siroo-label siroo-text-shadow">${referenceID}</div>
+        <div class="col-3 siroo-label bg-success text-light">${percentage} درصد ${description}</div>
+    </div>
+</script>
+
 @section Scripts {
 <script src="~/js/jquery.tmpl.min.js"></script>
 <script src="~/js/jquery.timeago.js"></script>
@@ -176,6 +207,31 @@
                     for(i=0;i<dates.length;i++){
                         $(dates[i]).text(jQuery.timeago($(dates[i]).text()));
                     }
+                    _getInTransactions();
+                }
+
+            },
+        });
+    }
+
+
+    function _getInTransactions(){
+        $.ajax({
+            url: '/getincometransactions',
+            type: 'GET',
+            success: function (result) {
+                if(result=="gologin"){
+                    window.location="/login/login";
+                }else{
+                    //var ads = jQuery.parseJSON(result);
+                    sina="{ads:"+result+"}";
+                    $('#inTransactionsContainer').html('');
+                    $('#inTransactionTemplate').tmpl(result).appendTo('#inTransactionsContainer');
+
+                    var dates=$('.item-date');
+                    for(i=0;i<dates.length;i++){
+                        $(dates[i]).text(jQuery.timeago($(dates[i]).text()));
+                    }
                 }
 
             },
@@ -189,8 +245,18 @@
                        // Copy the text inside the text field
                       navigator.clipboard.writeText($(copyText).text());
 
+
+                        navigator.clipboard
+                              .writeText($(copyText).text())
+                              .then(() => {
+                                alert("کپی شد.");
+                              })
+                              .catch(() => {
+                                alert("مشکلی پیش آمده.");
+                              });
+
                       // Alert the copied text
-                      alert("کپی شد.");
+                      //alert("کپی شد.");
                 }
 </script>
 
