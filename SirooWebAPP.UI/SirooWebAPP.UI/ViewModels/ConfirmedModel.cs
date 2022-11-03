@@ -7,6 +7,6 @@ namespace SirooWebAPP.UI.Pages
     {
         [Required]
         public Guid UserID { get; set; }
-        public string? ConfirmationCode { get; set; }
+        public string ConfirmationCode { get; set; }
     }
 }

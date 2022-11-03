@@ -2,7 +2,7 @@
 @model SirooWebAPP.UI.Pages.ConfirmationModel
 @{
 }
-    @if (Model.ResultMessage.Length > 1)
+@*    @if (Model.ResultMessage.Length > 1)
     {
         <div class="alert alert-@Model.ResultMessageSuccess fade show" role="alert">
             @Model.ResultMessage
@@ -10,7 +10,45 @@
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
-    }
+    }*@
+
+<form method="post">
+
+    <div class="d-flex flex-column justify-content-center SirooContainer">
+        <div class="row">&nbsp;</div>
+        <div class="row justify-content-center mb-3">
+            <div class="row justify-content-center mb-3">
+                <div class="col-12 siroo-header">کد تایید</div>
+            </div>
+
+            <div class="col-8 Textbox fa fa-lock">
+                <input type="text" id="ConfirmationCode" autocomplete="off" class="numericOnly col-12" asp-for="Confirmed.ConfirmationCode" />
+            </div>
+        </div>
+        <div class="row">&nbsp;</div>
+        <div class="row justify-content-center mb-3">
+            <div class="col-6 SirooBtn">
+                <input type="hidden" value='@ViewData["userid"]' asp-for="Confirmed.UserID" />
+                <input type="submit" value="تایید" asp-page-handler="CofirmCode" />
+            </div>
+        </div>
+        <div class="row justify-content-center mb-3">
+            <div class="col-10 errore-result-message">
+                @Model.ResultMessage
+            </div>
+        </div>
+        <div class="row mb-2">&nbsp;</div>
+    </div>
+
+    <hr />
+</form>
+
+
+
+
+
+@*
+
 <form method="post">
 
     <div class="container">
@@ -31,7 +69,7 @@
     </div>
 
     <hr />
-</form>
+</form>*@
 
 
 

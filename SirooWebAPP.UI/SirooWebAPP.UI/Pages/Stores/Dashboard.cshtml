@@ -88,7 +88,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" onclick="$('#deleteQRModal').modal('toggle');" data-dismiss="modal">خیر</button>
-                <button type="button" class="btn btn-danger" onclick="_deleteQR();">بلی</button>
+                <button type="button" class="btn btn-danger" onclick="_deleteQR();$('#deleteQRModal').modal('toggle');">بلی</button>
             </div>
         </div>
     </div>
@@ -226,37 +226,6 @@
 
 
 
-@*
-    <form method="post" enctype="multipart/form-data">
-
-    <div class="container p-3" style="border:1px solid black;border-radius:1rem;margin-bottom:1rem;">
-    <div class="row">ایجاد QR جدید</div>
-
-    <div class="row">
-    <div class="col-2">امتیاز هر اسکن</div>
-    <div class="col-4 Textbox">
-    <input type="number" value="50" min="1" max="200" asp-for="AddQRModel.Points"></input>
-    <span asp-validation-for="AddQRModel.Points"></span>
-    </div>
-    </div>
-    <div class="row">
-    <div class="col-2">تعداد اسکن مجاز</div>
-    <div class="col-4 Textbox">
-    <input type="number" value="2" min="1" asp-for="AddQRModel.Capacity"></input>
-    <span asp-validation-for="AddQRModel.Capacity"></span>
-    </div>
-    </div>
-    <div class="row">&nbsp;</div>
-    <div class="row">
-    <div class="col-6">
-    <input class="btn btn-primary rounded" type="submit" value="تولید QR جدید" class="form-control" asp-page-handler="AddQR" />
-    </div>
-    </div>
-    </div>
-
-
-    </form>*@
-
 
 
 
@@ -342,7 +311,7 @@
                         window.location="/login/login";
                     }else{
                         $('.qr.'+delitingQR).fadeOut(300, function() { $(this).remove(); });
-                        $('#deleteQRModal').modal('toggle');
+                        //$('#deleteQRModal').modal('toggle');
                     }
                 }else{
                     alert("failed");
@@ -350,23 +319,7 @@
             },
         });
     }
-    //function _doLike(adv){
-    //    $.ajax({
-    //        url: '/dolike/'+adv,
-    //        type: 'GET',
-    //        success: function (result) {
-    //            if(result){
-    //                if(result=="gologin"){
-    //                    window.location="/login/login";
-    //                }else{
-    //                    alert(adv+" is liked");
-    //                }
-    //            }else{
-    //                alert("failed");
-    //            }
-    //        },
-    //    });
-    //}
+
 </script>
 
 }

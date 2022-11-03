@@ -59,9 +59,9 @@ namespace SirooWebAPP.UI.Pages.Clients
                     _newRoleId = _newRole.Id;
 
                     // check creator role
-                    Roles _creatorHighestRole = _usersServices.GetUserRoles(creatorID).OrderBy(r => r.Priority).First();
+                    Roles _creatorHighestRole = _usersServices.GetUserRoles(creatorID).OrderBy(r => r.Priority).FirstOrDefault();
                     // check requested client's highest role
-                    Roles _requestedUserHighestRole = _usersServices.GetUserRoles(AddRoleUserModel.UserID).OrderBy(r => r.Priority).First();
+                    Roles _requestedUserHighestRole = _usersServices.GetUserRoles(AddRoleUserModel.UserID).OrderBy(r => r.Priority).FirstOrDefault();
 
                     if (_creatorHighestRole.Priority > _requestedUserHighestRole.Priority)
                     {

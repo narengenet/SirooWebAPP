@@ -192,7 +192,7 @@ namespace SirooWebAPP.Infrastructure.Services
                 {
                     foreach (Users item in _inviteds)
                     {
-                        Roles _r = GetUserRoles(item.Id).OrderBy(u => u.Priority).First();
+                        Roles _r = GetUserRoles(item.Id).OrderBy(u => u.Priority).FirstOrDefault();
                         DTOUserProfile _u = new DTOUserProfile();
                         _u.Username = item.Username;
                         if (_r != null)
@@ -213,7 +213,7 @@ namespace SirooWebAPP.Infrastructure.Services
         }
         public List<DTOUserSmall> GetAllLesserPriorityUsers(Guid requesterUserId)
         {
-            Roles requestedUserHighestRole = GetUserRoles(requesterUserId).OrderBy(r => r.Priority).First();
+            Roles requestedUserHighestRole = GetUserRoles(requesterUserId).OrderBy(r => r.Priority).FirstOrDefault();
             List<DTOUserSmall> fullEntries = GetAllUsers()
                 .Join(
                     GetAllUsersRoles(),
@@ -529,7 +529,7 @@ namespace SirooWebAPP.Infrastructure.Services
                 // does deleter is owner ?
                 if (ads.Owner != userId)
                 {
-                    Roles deleterRole = GetUserRoles(userId).OrderBy(r => r.Priority).First();
+                    Roles deleterRole = GetUserRoles(userId).OrderBy(r => r.Priority).FirstOrDefault();
                     // deleter is not owner but is deleter admin or super?
                     if (deleterRole.RoleName == "admin" || deleterRole.RoleName == "super")
                     {

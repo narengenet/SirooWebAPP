@@ -174,9 +174,13 @@
 
                 function milToShamsi(mysql_timestamp){
 
-                    let date_convert_y = parseInt(mysql_timestamp.substr(6, 4));
-                    let date_convert_m = parseInt(mysql_timestamp.substr(0, 2));
-                    let date_convert_d = parseInt(mysql_timestamp.substr(3, 2));
+                    //let date_convert_y = parseInt(mysql_timestamp.substr(6, 4));
+                    //let date_convert_m = parseInt(mysql_timestamp.substr(0, 2));
+                    //let date_convert_d = parseInt(mysql_timestamp.substr(3, 2));
+                    
+                    let date_convert_y = new Date(mysql_timestamp).getFullYear();
+                    let date_convert_m = (new Date(mysql_timestamp).getMonth()+1);
+                    let date_convert_d = new Date(mysql_timestamp).getDate();
                     return miladi_be_shamsi(date_convert_y, date_convert_m, date_convert_d);
                 }
     function miladi_be_shamsi(gy, gm, gd) {

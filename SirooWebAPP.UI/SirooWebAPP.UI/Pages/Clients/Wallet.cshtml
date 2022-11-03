@@ -59,15 +59,15 @@
                     <div class="col-12 siroo-header">تراکنش های پرداختی شما</div>
                 </div>
 
-                <div class="row justify-content-center col-12 direction-rtl">
-                    <div class="row bg-warning rounded-top text-center">
+                <div class="justify-content-center col-12 direction-rtl">
+                    <div class="d-flex  bg-warning rounded-top text-center">
                         <div class="col-3 text-dark pt-2 pb-2 siroo-label">تاریخ</div>
                         <div class="col-3 text-dark pt-2 pb-2 siroo-label">مبلغ <span>ریال</span></div>
                         <div class="col-3 text-dark pt-2 pb-2 siroo-label">شناسه پرداخت</div>
                         <div class="col-3 text-dark pt-2 pb-2 siroo-label">وضعیت</div>
                     </div>
                 </div>
-                <div id="transactionsContainer" class="container">
+                <div id="transactionsContainer" class="col-12">
                 </div>
 
                 <div class="row justify-content-center col-12 mt-2">
@@ -79,23 +79,23 @@
                 </div>
 
                 <div class="row justify-content-center mt-5 mb-3">
-                    <div class="col-12 siroo-header">مبالغ دریافتی شما</div>
+                    <div class="col-12 siroo-header">کارمزدهای محاسبه شده شما</div>
                 </div>
-                <div class="row justify-content-center col-12 direction-rtl">
-                    <div class="row bg-primary rounded-top text-center">
+                <div class="justify-content-center col-12 direction-rtl">
+                    <div class="d-flex bg-primary rounded-top text-center">
                         <div class="col-3 text-light pt-2 pb-2 siroo-label">تاریخ</div>
                         <div class="col-3 text-light pt-2 pb-2 siroo-label">مبلغ <span>ریال</span></div>
                         <div class="col-3 text-light pt-2 pb-2 siroo-label">شناسه پرداخت</div>
                         <div class="col-3 text-light pt-2 pb-2 siroo-label">توضیحات</div>
                     </div>
                 </div>
-                <div id="inTransactionsContainer" class="container">
+                <div id="inTransactionsContainer" class="col-12">
                 </div>
 
                 <div class="row justify-content-center col-12 mt-2">
                     <div class="row justify-content-center col-12 text-center">
                         <div class="col-6 SirooBtn">
-                            <input type="submit" class="btn-primary" onclick="_getInTransactions();" value="بروزرسانی دریافتی ها" />
+                            <input type="submit" class="btn-primary" onclick="_getInTransactions();" value="بروزرسانی کارمزد ها" />
                         </div>
                     </div>
                 </div>
@@ -107,60 +107,14 @@
 </div>
 
 
-@*<div class="container">
-    <div class="row">&nbsp;</div>
-    <div class="row">
-    <div class="col-2">موجودی کیف پول شما</div>
-    <div class="col-4">@Model.Amount <span>ریال</span></div>
-    </div>
-    </div>
-    <form method="post" class="col-12" enctype="multipart/form-data">
-    <div class="container">
-    <div class="row">&nbsp;</div>
-    <div class="row">
-    <div class="col-2">افزایش موجودی (ریال)</div>
-    <div class="col-4 Textbox">
-    <input type="number" value="500000" min="500000" class="col-12" asp-for="AddMoney.NewAmount" />
-    <span asp-validation-for="AddMoney.NewAmount"></span>
-    </div>
-    <div class="col-4">
-    <input class="btn btn-primary rounded" type="submit" value="پرداخت" class="form-control" asp-page-handler="AddMoney" />
-    </div>
-    </div>
-    </div>
-    </form>*@
-
 
 <div class="container">
     <div class="row">&nbsp;</div>
 </div>
 
-@*<div class="container">
-    <div class="row text-center">
-    <h3>تراکنش های قبلی شما</h3>
-    </div>
-    </div>
-    <div class="container">
-    <div class="row">&nbsp;</div>
-    <div class="row bg-warning rounded-top text-center">
-    <div class="col-4 ">تاریخ</div>
-    <div class="col-4 ">مبلغ <span>ریال</span></div>
-    <div class="col-4 ">وضعیت</div>
-    </div>
-    </div>
-    <div id="transactionsContainer" class="container">
-    </div>
 
-    <div class="container">
-    <div class="row">&nbsp;</div>
-    <div class="row text-center">
-    <div class="col-12">
-    <input type="button" class="btn-primary" onclick="_getTransactions();" value="بروزرسانی تراکنش ها" />
-    </div>
-    </div>
-    </div>*@
 <script id="transactionTemplate" type="text/x-jQuery-tmpl">
-    <div class="row text-center border direction-rtl transaction-row">
+    <div class="d-flex text-center border direction-rtl transaction-row">
         <div class="col-3 siroo-small-label item-date">${created}</div>
         <div class="col-3 siroo-label">${amount} <span>ریال</span></div>
         <div id="trans-${id}" onclick="copyToClipboard('trans-${id}');" class="col-3 siroo-label siroo-text-shadow">${referenceID}</div>
@@ -169,7 +123,7 @@
 </script>
 
 <script id="inTransactionTemplate" type="text/x-jQuery-tmpl">
-    <div class="row text-center border direction-rtl transaction-row">
+    <div class="d-flex text-center border direction-rtl transaction-row">
         <div class="col-3 siroo-small-label item-date">${created}</div>
         <div class="col-3 siroo-label">${toAmount} <span>ریال</span></div>
         <div id="intrans-${id}" onclick="copyToClipboard('intrans-${id}');" class="col-3 siroo-label siroo-text-shadow">${referenceID}</div>

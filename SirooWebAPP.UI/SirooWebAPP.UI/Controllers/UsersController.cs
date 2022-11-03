@@ -197,7 +197,7 @@ namespace SirooWebAPP.UI.Controllers
             bool result = false;
             string _userid = HttpContext.Request.Cookies["userid"];
             Guid userId = Guid.Parse(_userid);
-            Roles role = _usersServices.GetUserRoles(userId).OrderBy(u => u.Priority).First();
+            Roles role = _usersServices.GetUserRoles(userId).OrderBy(u => u.Priority).FirstOrDefault();
             if (role != null)
             {
                 if (role.RoleName == "super" || role.RoleName == "admin")
@@ -222,7 +222,7 @@ namespace SirooWebAPP.UI.Controllers
             bool result = false;
             string _userid = HttpContext.Request.Cookies["userid"];
             Guid userId = Guid.Parse(_userid);
-            Roles role = _usersServices.GetUserRoles(userId).OrderBy(u => u.Priority).First();
+            Roles role = _usersServices.GetUserRoles(userId).OrderBy(u => u.Priority).FirstOrDefault();
             if (role != null)
             {
                 if (role.RoleName == "super" || role.RoleName == "admin")

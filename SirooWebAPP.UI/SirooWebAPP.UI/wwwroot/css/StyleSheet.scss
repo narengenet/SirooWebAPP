@@ -51,6 +51,16 @@ span.select2{
 div.winner.me {
     background-image: linear-gradient(to left,#20A338,#25DC56);
 }
+.winningPoints {
+    font-size: 0.8rem;
+}
+.winningPrize {
+    font-size: 1.3rem;
+    text-shadow: 2px 2px 2px black;
+}
+.winnerUsername {
+    font-size: 1rem;
+}
 .input-validation-error {
     color: red !important;
 }
@@ -385,6 +395,7 @@ body {
 .transaction-row div {
     display: flex;
     align-items: center;
+    justify-content: center;
 }
 
 .MainDashboard {

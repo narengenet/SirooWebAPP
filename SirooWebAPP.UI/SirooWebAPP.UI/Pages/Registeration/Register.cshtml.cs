@@ -88,7 +88,7 @@ namespace SirooWebAPP.UI.Pages
                     {
 
                         // check if donner is a store or not
-                        Roles storeRole = _usersServices.GetUserRoles(storeId).OrderBy(r => r.Priority).First();
+                        Roles storeRole = _usersServices.GetUserRoles(storeId).OrderBy(r => r.Priority).FirstOrDefault();
                         if (storeRole.RoleName != "store")
                         {
                             session.Remove("store_donate");

@@ -86,7 +86,7 @@ namespace SirooWebAPP.UI.Pages.Stores
             {
                 string _creatorId = HelperFunctions.GetCookie("userid", Request);
                 Guid creatorID = Guid.Parse(_creatorId);
-                Roles role = _usersServices.GetUserRoles(creatorID).OrderBy(u => u.Priority).First();
+                Roles role = _usersServices.GetUserRoles(creatorID).OrderBy(u => u.Priority).FirstOrDefault();
                 if (role != null)
                 {
                     if (role.RoleName == "store")
