@@ -1,4 +1,4 @@
-﻿input[type=text], input[type=submit], input[type=search], textarea, input[type=number], span.select2, span.select2-selection__rendered, span.InputText , div.winner, select {
+﻿input[type=text], input[type=submit], input[type=button], input[type=search], textarea, input[type=number], span.select2, span.select2-selection__rendered, span.InputText, div.winner, select {
     border: none;
     background-image: linear-gradient(to left,rgba(0,255,255,.4),rgba(255,0,255,.3));
     background-origin: border-box;
@@ -6,7 +6,7 @@
     border-radius: 2.5rem;
     outline: none;
     text-align: right;
-    padding-right: 1rem;
+    //padding-right: 1rem;
     transition: all 2s;
     height: -webkit-fill-available;
     height: -moz-available; /* WebKit-based browsers will ignore this. */
@@ -19,22 +19,26 @@
     color: white;
     font-family: 'Yekan';
     background-color: transparent;
-    min-height: 3rem;
+    height: 3rem;
     font-size: 1.2rem;
 }
-option{
-    color:black;
+
+option {
+    color: black;
 }
+
 .select2-container--default .select2-selection--single .select2-selection__rendered {
-    color: white!important;
+    color: white !important;
     line-height: 28px;
-    display: flex!important;
-    align-items: center!important;
-    justify-content: space-around!important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-around !important;
 }
-span.select2{
-    padding-right:2rem;
+
+span.select2 {
+    padding-right: 2rem;
 }
+
 .select2-container--default .select2-selection--single .select2-selection__arrow b {
     border-color: white transparent transparent transparent !important;
     border-style: solid;
@@ -51,16 +55,20 @@ span.select2{
 div.winner.me {
     background-image: linear-gradient(to left,#20A338,#25DC56);
 }
+
 .winningPoints {
     font-size: 0.8rem;
 }
+
 .winningPrize {
     font-size: 1.3rem;
     text-shadow: 2px 2px 2px black;
 }
+
 .winnerUsername {
     font-size: 1rem;
 }
+
 .input-validation-error {
     color: red !important;
 }
@@ -74,9 +82,10 @@ div.winner.me {
     background-color: rgba(0,0,0,0) !important;
 }
 
-input:focus {
-    background: rgba(0,0,0,.1);
-    //color:black;
+
+
+input.form-check-input:focus {
+    background: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%2386b7fe'/%3e%3c/svg%3e");
 }
 
 ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
@@ -115,6 +124,7 @@ input:focus {
     mask-composite: exclude;
     min-height: 3rem;
 }
+
 .Textbox.me::after {
     content: "";
     position: absolute;
@@ -176,7 +186,10 @@ input:focus {
     width: 20px;
     height: 20px;
 }
-
+.SirooBtn input[type="submit"]{
+    font-size:1rem;
+    text-align:center;
+}
 .SirooContainer, .SirooPost, .SirooRightBlock {
     position: relative;
     z-index: 0;
@@ -199,19 +212,26 @@ input:focus {
     color: white;
 }
 
-.SirooContainer::before {
+.SirooContainer::before, .SirooRightBlock::before {
     content: "";
-    width: -moz-fit-content;
-    height: -moz-fit-content;
-    width: -webkit-fill-available;
-    height: -webkit-fill-available;
+    inset: 0;
+    //width: -moz-fit-content;
+    //height: -moz-fit-content;
+    //width: -webkit-fill-available;
+    //height: -webkit-fill-available;
     position: absolute;
     border-radius: 3rem;
     margin: 2px;
     -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
     background-color: rgba(255,255,255,0.3);
+    z-index: -1;
 }
+
+.SirooRightBlock::before {
+    border-radius: 2rem 0 0 2rem;
+}
+
 
 .SirooPost::after {
     content: "";
@@ -276,8 +296,10 @@ input:focus {
     display: none;
 }
 
+
 .SirooRightBlockContainer .SirooContainer::before {
-    content: "";
+    display: none;
+    /*content: "";
     width: -moz-fit-content;
     height: -moz-fit-content;
     width: -webkit-fill-available;
@@ -288,7 +310,7 @@ input:focus {
     -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
     background-color: rgba(255,255,255,0.3);
-    z-index: -1;
+    z-index: -1;*/
 }
 
 .SirooItems {
@@ -297,8 +319,19 @@ input:focus {
     flex-direction: column;
     align-items: center;
 }
+
 .select2-results__option, .select2-search__field {
     color: black !important;
+}
+.delPostAdmin{
+    text-align:center;
+}
+.Textarea{
+    height:7rem;
+
+    textarea{
+        height:7rem;
+    }
 }
 
 html {
@@ -312,7 +345,7 @@ body {
     background: url(../images/top-left.png) no-repeat fixed,url(../images/right-down.png) no-repeat fixed;
     background-position: top left,bottom right;
     background-size: 70% auto;
-    min-height: 100vh;
+    min-height: 120vh;
     padding: 0;
     margin: 0;
     color: white;
@@ -337,7 +370,9 @@ body {
     color: white;
     text-shadow: 2px 2px 4px #000000;
 }
-
+.siroo-header-h2{
+    font-size:1.2rem;
+}
 .siroo-label {
     font-size: .8rem;
     z-index: 2;
@@ -348,7 +383,7 @@ body {
 }
 
 .siroo-small-label {
-    font-size: .5rem;
+    font-size: .7rem;
 }
 
 .navbar-nav {
@@ -412,7 +447,7 @@ body {
     align-items: center;
     justify-content: center;
     font-family: 'Yekan';
-    z-index:999;
+    z-index: 999;
 
     .drawsSection, .newPost {
         position: relative;
@@ -437,12 +472,12 @@ body {
     }
 
     .pointsSection {
-        width: 32vw;
-        height: 32vw;
+        width: 30vw;
+        height: 30vw;
         background: url(../uploads/assets/mini-circle.png);
         background-size: 100% 100%;
         position: relative;
-        top: -3vh;
+        top: -2.5vh;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -472,7 +507,13 @@ body {
 
 .alert {
     direction: rtl;
-    font-family: 'Yekan';
+    font-family: "Yekan";
+    padding-left: 30px;
+}
+.alert button.close {
+    position: absolute;
+    left: 5px;
+    top: 5px;
 }
 
 .SirooSimpleBtn {
@@ -499,7 +540,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-bottom:21vh;
+    margin-bottom: 21vh;
 }
 
 .draw {
@@ -512,9 +553,8 @@ body {
     direction: rtl;
     font-family: 'Yekan';
     padding: 1rem;
-    
-    
 }
+
 .draw .contents {
     backdrop-filter: brightness(0.7);
     border-radius: 0.5rem;
@@ -526,14 +566,13 @@ $colors: darkcyan,blueviolet, cadetblue, orange, cornflowerblue, chocolate, blue
 $repeat: 20;
 
 @for $i from 1 through $repeat {
-    .draw:nth-child(#{length($colors)}n+#{$i}){
+    .draw:nth-child(#{length($colors)}n+#{$i}) {
         background: lighten(nth($colors, random(length($colors))), 0%)
-        }
-    
+    }
 }
 
-.draw.finished{
-    background-color:gray;
+.draw.finished {
+    background-color: gray;
 }
 
 .inactiveDraw {
@@ -547,23 +586,28 @@ $repeat: 20;
     background-color: green;
     padding: 0.2rem 0.5rem;
 }
-.draw .buttons{
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    a{
-        width:40%;
+
+.draw .buttons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    a {
+        width: 40%;
     }
-    a.hidden{
-        display:none!important;
+
+    a.hidden {
+        display: none !important;
     }
 }
+
 .status {
     margin-right: 65px;
 }
-.theThreeDots{
-    text-align:center;
-    font-size:2rem;
+
+.theThreeDots {
+    text-align: center;
+    font-size: 2rem;
 }
 
 
@@ -580,11 +624,13 @@ $repeat: 20;
     padding-bottom: 45vh;
     z-index: 800;
 }
-.theWinners{
-    display:flex;
-    flex-direction:column;
-    align-items:center;
+
+.theWinners {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
+
 .d-flex.winner {
     align-items: center;
 }
@@ -901,4 +947,3 @@ $repeat: 20;
         display: none;
     }
 }
-

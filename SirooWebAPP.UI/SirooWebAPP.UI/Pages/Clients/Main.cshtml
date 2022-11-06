@@ -18,6 +18,30 @@
     </div>
 }
 
+@if (Model.RoleName == "super" || Model.RoleName == "admin")
+{
+    <!-- Modal -->
+    <div class="modal fade" id="deletePostModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">حذف پست</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="بازگشت">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    مطمئن هستید؟
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="$('#deletePostModal').modal('toggle');" data-dismiss="modal">خیر</button>
+                    <button type="button" class="btn btn-danger" onclick="_deletePost();">بلی</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
 <script id="adsTemplate" type="text/x-jQuery-tmpl">
 
     <div class="container mb-5 post ${advertiseID} {{if isVideo!=1}}finished {{/if}} SirooPost">
@@ -31,12 +55,12 @@
         <div class="row">
             <div class="col-12">
                 {{if isVideo==1}}
-                    <video class="col-12" onclick="toggleMute('video_${advertiseID}');" id="video_${advertiseID}"  onended="_dobLike(this,'${advertiseID}')">
+                    <video class="col-12" ondblclick="_doLike(this,'${advertiseID}');" onclick="toggleMute('video_${advertiseID}');" id="video_${advertiseID}"  onended="_dobLike(this,'${advertiseID}')" playsinline>
                                 <source src="../${mediaSourceURL}">
                                 Your browser does not support the video tag.
                     </video>
                 {{else}}
-                    <img class="col-12 finished" src="../${mediaSourceURL}" />
+                    <img class="col-12 finished" ondblclick="_doLike(this,'${advertiseID}');" src="../${mediaSourceURL}" />
                 {{/if}}
             </div>
 
@@ -45,7 +69,13 @@
                 <div class="col-12 post-caption">
                         ${caption}
                 </div>
-                <div class="col-1 like-btn ${advertiseID} {{if youLiked}}liked{{/if}}" {{if isVideo==1}} onclick="_doLike(this,'${advertiseID}')" {{else}} onclick="_doLike(this,'${advertiseID}')" {{/if}} >+${likeReward}</div>
+    @if (Model.RoleName == "super" || Model.RoleName == "admin")
+    {
+                <div class="col-12 delPostAdmin mt-1 mb-1">
+                        <input type="button" class="btn btn-danger" value="حذف این پست" onclick="delId='${advertiseID}';$('#deletePostModal').modal('toggle');" />
+                </div>
+    }
+    <div class="col-1 like-btn ${advertiseID} {{if youLiked}}liked{{/if}}" {{if isVideo==1}} onclick="_doLike(this,'${advertiseID}')" {{else}} onclick="_doLike(this,'${advertiseID}')" {{/if}} >+${likeReward}</div>
                 <div class="col-2 like-details ${advertiseID}"><b>${likerCount}</b> <i>liked</i></div>
                 <div class="col-1 view-btn">&nbsp;</div>
                 <div class="col-2 view-details"><b>${viewerCount}</b> <i>view</i></div>
@@ -169,5 +199,41 @@
         vid.muted = mute;
     }
 </script>
+
+
+
+@if (Model.RoleName == "super" || Model.RoleName == "admin")
+{
+    <script>
+        var delId=-1;
+        function _deletePost(){
+            adv=delId;
+            if(adv==-1){
+                return;
+            }
+            $.ajax({
+                url: '/delPost/'+adv,
+                type: 'GET',
+                success: function (result) {
+                    if(result){
+                        if(result=="gologin"){
+                            window.location="/login/login";
+                        }else{
+                            $('.post.'+adv).fadeOut(300, function() { $(this).remove(); });
+                            $('#deletePostModal').modal('toggle');
+                            //$('.post.'+adv).fadeOut();
+                            //$('.post.'+adv).remove();
+                        }
+                    }else{
+                        alert("failed");
+                    }
+                },
+            });
+
+         return;
+
+        }
+    </script>
+}
 
 }

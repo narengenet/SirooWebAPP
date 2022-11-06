@@ -6,6 +6,7 @@ using SirooWebAPP.Core.Domain;
 using SirooWebAPP.Infrastructure.Security;
 using SirooWebAPP.UI.Helpers;
 
+
 namespace SirooWebAPP.UI.Pages.Clients
 {
     public class AddAdvertiseModel : PageModel
@@ -65,57 +66,89 @@ namespace SirooWebAPP.UI.Pages.Clients
 
         public IActionResult OnPostAddAdvertisements(AddAds addAds)
         {
-
+            bool condition = true;
 
             Guid tmp_userid = addAds.UserID;
 
+            if (addAds.Upload.Length> 15728640)
+            {
+                ResultMessage = "حجم فایل نباید بیشتر از 15 مگابایت باشد.";
+                ResultMessageSuccess = "danger";
+                condition = false;
+            }
+            else
+            {
+
+                if (addAds.Upload.ContentType == "video/mp4")
+                {
+                    addAds.isVideo = true;
+                }
+                if (addAds.Upload.ContentType == "image/gif")
+                {
+                    addAds.isVideo = true;
+                }
+                string[] filetypes = { "image/gif", "image/jpeg", "image/png", "image/bmp", "video/mpeg", "video/mp4" };
+                if (!filetypes.Contains(addAds.Upload.ContentType))
+                {
+                    ResultMessage += " فایل باید یکی از فرمت های: jpg,png,bmp,gif,mpeg,mp4 باشد.";
+                    ResultMessageSuccess = "danger";
+                    condition = false;
+                }
+            }
 
 
             int random_number = new Random().Next(10000, 99999);
             string prefix = tmp_userid.ToString() + "-" + random_number.ToString() + "-";// + addAds.Upload.FileName;
-            if (addAds.Upload != null && addAds.Caption != null)
+            if (addAds.Upload != null && addAds.Caption != null && condition)
             {
                 FileName = HelperFunctions.UploadFileToDateBasedFolder(prefix, addAds.Upload, _environment);
+
+                
                 string _creatorId = HelperFunctions.GetCookie("userid", Request);
                 Guid creatorID = Guid.Parse(_creatorId);
 
                 int defPointsImage = Convert.ToInt32(_usersServices.GetConstantDictionary("def_points_for_image_like").ConstantValue);
                 int defPointsVideo = Convert.ToInt32(_usersServices.GetConstantDictionary("def_points_for_video_like").ConstantValue);
 
-                Advertise ads = new Advertise
+
+
+                if (condition)
                 {
-                    //Notes = addAds.Notes,
-                    Caption = addAds.Caption,
-                    CreationDate = DateTime.Now,
-                    Expiracy = addAds.Expiracy,
-                    Owner = addAds.UserID,
-                    IsVideo = addAds.isVideo,
-                    LikeReward = (addAds.isVideo) ? defPointsVideo : defPointsImage,
-                    ViewReward = addAds.ViewReward,
-                    ViewQuota = addAds.ViewQuota,
-                    CreatedBy = creatorID,
-                    MediaSourceURL = FileName
+                    Advertise ads = new Advertise
+                    {
+                        //Notes = addAds.Notes,
+                        Caption = addAds.Caption,
+                        CreationDate = DateTime.Now,
+                        Expiracy = addAds.Expiracy,
+                        Owner = addAds.UserID,
+                        IsVideo = addAds.isVideo,
+                        LikeReward = (addAds.isVideo) ? defPointsVideo : defPointsImage,
+                        ViewReward = addAds.ViewReward,
+                        ViewQuota = addAds.ViewQuota,
+                        CreatedBy = creatorID,
+                        MediaSourceURL = FileName
 
-                };
+                    };
 
-                _usersServices.AddAvertise(ads, tmp_userid);
-
-
-
-
+                    _usersServices.AddAvertise(ads, tmp_userid);
 
 
-                CreateOptionList();
 
-                IsVideo = ads.IsVideo;
-                ResultMessage = "پَست جدید ارسال شد. لطفا منتظر تایید بمانید.";
-                ResultMessageSuccess = "success";
+
+
+
+                    CreateOptionList();
+
+                    IsVideo = ads.IsVideo;
+                    ResultMessage = "پَست جدید ارسال شد. لطفا منتظر تایید بمانید.";
+                    ResultMessageSuccess = "success";
+                }
             }
             else
             {
 
 
-                ResultMessage = "لطفا همه آیتم ها را به درستی تکمیل نمایید.";
+                ResultMessage += " لطفا همه آیتم ها را به درستی تکمیل نمایید.";
                 ResultMessageSuccess = "danger";
             }
 

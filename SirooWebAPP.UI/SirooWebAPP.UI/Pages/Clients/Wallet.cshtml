@@ -72,7 +72,7 @@
 
                 <div class="row justify-content-center col-12 mt-2">
                     <div class="row justify-content-center col-12 text-center">
-                        <div class="col-6 SirooBtn">
+                        <div class="col-10 SirooBtn">
                             <input type="submit" class="btn-primary" onclick="_getTransactions();" value="بروزرسانی تراکنش ها" />
                         </div>
                     </div>
@@ -94,7 +94,7 @@
 
                 <div class="row justify-content-center col-12 mt-2">
                     <div class="row justify-content-center col-12 text-center">
-                        <div class="col-6 SirooBtn">
+                        <div class="col-10 SirooBtn">
                             <input type="submit" class="btn-primary" onclick="_getInTransactions();" value="بروزرسانی کارمزد ها" />
                         </div>
                     </div>
@@ -124,7 +124,7 @@
 
 <script id="inTransactionTemplate" type="text/x-jQuery-tmpl">
     <div class="d-flex text-center border direction-rtl transaction-row">
-        <div class="col-3 siroo-small-label item-date">${created}</div>
+        <div class="col-3 siroo-small-label item-dates">${created}</div>
         <div class="col-3 siroo-label">${toAmount} <span>ریال</span></div>
         <div id="intrans-${id}" onclick="copyToClipboard('intrans-${id}');" class="col-3 siroo-label siroo-text-shadow">${referenceID}</div>
         <div class="col-3 siroo-label bg-success text-light">${percentage} درصد ${description}</div>
@@ -159,7 +159,7 @@
 
                     var dates=$('.item-date');
                     for(i=0;i<dates.length;i++){
-                        $(dates[i]).text(jQuery.timeago($(dates[i]).text()));
+                        $(dates[i]).text(milToShamsiWithTime($(dates[i]).text()));
                     }
                     _getInTransactions();
                 }
@@ -182,9 +182,10 @@
                     $('#inTransactionsContainer').html('');
                     $('#inTransactionTemplate').tmpl(result).appendTo('#inTransactionsContainer');
 
-                    var dates=$('.item-date');
+                    var dates=$('.item-dates');
                     for(i=0;i<dates.length;i++){
-                        $(dates[i]).text(jQuery.timeago($(dates[i]).text()));
+                        //$(dates[i]).text(jQuery.timeago($(dates[i]).text()));
+                        $(dates[i]).text(milToShamsiWithTime($(dates[i]).text()));
                     }
                 }
 
@@ -212,6 +213,57 @@
                       // Alert the copied text
                       //alert("کپی شد.");
                 }
+
+
+
+                function milToShamsi(mysql_timestamp){
+
+                    //let date_convert_y = parseInt(mysql_timestamp.substr(6, 4));
+                    //let date_convert_m = parseInt(mysql_timestamp.substr(0, 2));
+                    //let date_convert_d = parseInt(mysql_timestamp.substr(3, 2));
+                    
+                    let date_convert_y = new Date(mysql_timestamp).getFullYear();
+                    let date_convert_m = (new Date(mysql_timestamp).getMonth()+1);
+                    let date_convert_d = new Date(mysql_timestamp).getDate();
+                    return miladi_be_shamsi(date_convert_y, date_convert_m, date_convert_d);
+                }
+                function milToShamsiWithTime(mysql_timestamp){
+
+                    //let date_convert_y = parseInt(mysql_timestamp.substr(6, 4));
+                    //let date_convert_m = parseInt(mysql_timestamp.substr(0, 2));
+                    //let date_convert_d = parseInt(mysql_timestamp.substr(3, 2));
+                    
+                    let date_convert_y = new Date(mysql_timestamp).getFullYear();
+                    let date_convert_m = (new Date(mysql_timestamp).getMonth()+1);
+                    let date_convert_d = new Date(mysql_timestamp).getDate();
+                    let date_convert_h = new Date(mysql_timestamp).getHours();
+                    let date_convert_min = new Date(mysql_timestamp).getMinutes();
+                    let result="";
+                    result=miladi_be_shamsi(date_convert_y, date_convert_m, date_convert_d);
+                    return date_convert_h+":"+date_convert_min+" "+result;
+                }
+    function miladi_be_shamsi(gy, gm, gd) {
+        var g_d_m, jy, jm, jd, gy2, days;
+        g_d_m = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334];
+        gy2 = (gm > 2) ? (gy + 1) : gy;
+        days = 355666 + (365 * gy) + ~~((gy2 + 3) / 4) - ~~((gy2 + 99) / 100) + ~~((gy2 + 399) / 400) + gd + g_d_m[gm - 1];
+        jy = -1595 + (33 * ~~(days / 12053));
+        days %= 12053;
+        jy += 4 * ~~(days / 1461);
+        days %= 1461;
+        if (days > 365) {
+            jy += ~~((days - 1) / 365);
+            days = (days - 1) % 365;
+        }
+        if (days < 186) {
+            jm = 1 + ~~(days / 31);
+            jd = 1 + (days % 31);
+        } else {
+            jm = 7 + ~~((days - 186) / 30);
+            jd = 1 + ((days - 186) % 30);
+        }
+        return [jy + '/' + jm + '/' + jd];
+    }
 </script>
 
 }

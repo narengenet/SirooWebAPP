@@ -62,6 +62,7 @@ namespace SirooWebAPP.UI.Helpers
             string FileName = filename_prefix + formFile.FileName;
             var path = Path.Combine(_environment.WebRootPath, "uploads/" + strYear + "/" + strMonth, FileName);
             var stream = new FileStream(path, FileMode.Create);
+
             formFile.CopyToAsync(stream);
             return "uploads/" + strYear + "/" + strMonth + "/" + FileName;
         }

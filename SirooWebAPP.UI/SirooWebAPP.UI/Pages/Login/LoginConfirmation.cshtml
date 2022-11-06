@@ -11,13 +11,13 @@
                 <div class="col-12 siroo-header">کد تایید</div>
             </div>
 
-            <div class="col-8 Textbox fa fa-lock">
+            <div class="col-10 Textbox fa fa-lock">
                 <input type="text" id="ConfirmationCode" autocomplete="off" class="numericOnly col-12" asp-for="Confirmed.ConfirmationCode" />
             </div>
         </div>
         <div class="row">&nbsp;</div>
         <div class="row justify-content-center mb-3">
-            <div class="col-6 SirooBtn">
+            <div class="col-10 SirooBtn">
                 <input type="hidden" value='@ViewData["userid"]' asp-for="Confirmed.UserID" />
                 <input type="submit" value="تایید" asp-page-handler="CofirmCode" />
             </div>

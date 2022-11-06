@@ -46,6 +46,7 @@ namespace SirooWebAPP.UI.Pages.Stores
         public string ResultMessageSuccess = "danger";
         public long Credit = 0;
         public long Money = 0;
+        public int theRatio = 0;
 
 
 
@@ -121,6 +122,8 @@ namespace SirooWebAPP.UI.Pages.Stores
 
         private void PrepareQRs()
         {
+            theRatio = Convert.ToInt32(_usersServices.GetConstantDictionary("money_to_credit_ratio").ConstantValue);
+
             string _creatorId = HelperFunctions.GetCookie("userid", Request);
             Guid creatorID = Guid.Parse(_creatorId);
             List<DonnationTickets> tickets = _usersServices.GetAllDonnationTickets().Where(t => t.Donner == creatorID && t.RemainedCapacity > 0).ToList<DonnationTickets>();

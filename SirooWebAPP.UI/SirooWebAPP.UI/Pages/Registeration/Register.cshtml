@@ -13,24 +13,24 @@
             <div class="col-12 siroo-header">ثبت نام</div>
         </div>
         <div class="row justify-content-center mb-3">
-            <div class="col-8 Textbox fa fa-pencil">
+            <div class="col-10 Textbox fa fa-pencil">
                 <input type="text" class="col-12" id="FirstName" placeholder="نام" asp-for="Person.FirstName" />    <span asp-validation-for="Person.FirstName"></span>
             </div>
         </div>
         <div class="row justify-content-center mb-3">
-            <div class="col-8 Textbox fa fa-pencil">
+            <div class="col-10 Textbox fa fa-pencil">
                 <input type="text" id="LastName" class="col-12" placeholder="نام خانوادگی" asp-for="Person.LastName" />
             </div>
         </div>
         <div class="row justify-content-center mb-3">
-            <div class="col-8 Textbox fa fa-user">
+            <div class="col-10 Textbox fa fa-user">
                 <input type="text" id="UserName" placeholder="نام کاربری (فقط لاتین)" class="latinOnly col-12" asp-for="Person.UserName" />
                 <span class="text-danger" asp-validation-for="Person.UserName"></span>
 
             </div>
         </div>
         <div class="row justify-content-center mb-3">
-            <div class="col-8 Textbox fa fa-mobile">
+            <div class="col-10 Textbox fa fa-mobile">
                 <input type="text" placeholder="تلفن همراه 0912123456" id="CellPhone" class="numericOnly col-12" asp-for="Person.CellPhone" />
                 <span class="text-danger" asp-validation-for="Person.CellPhone"></span>
             </div>
@@ -44,7 +44,7 @@
             </div>*@
         <div class="row">&nbsp;</div>
         <div class="row justify-content-center">
-            <div class="col-6 SirooBtn">
+            <div class="col-10 SirooBtn">
                 @{
                     if (ViewData["InviterUserID"] != null)
                     {

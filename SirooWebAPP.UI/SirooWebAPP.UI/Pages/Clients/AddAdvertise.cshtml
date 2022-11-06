@@ -5,103 +5,90 @@
 }
 
 
-    @if (Model.ResultMessage.Length > 1)
-    {
-        <div class="alert alert-@Model.ResultMessageSuccess fade show" role="alert">
-            @Model.ResultMessage
+@if (Model.ResultMessage.Length > 1)
+{
+    <div class="alert alert-@Model.ResultMessageSuccess fade show" role="alert">
+        @Model.ResultMessage
         <button type="button" class="close" data-dismiss="alert" onclick="closeAlert();" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
-    }
+}
 
 
 
-@if (Model.ResultMessageSuccess=="danger")
+@if (Model.ResultMessageSuccess == "danger")
 {
 
-    <form method="post" enctype="multipart/form-data">
-
-        <div class="container">
-            <div class="row">&nbsp;</div>
-            <div class="row" style="display:none;">
-                <div class="col-2">کاربر صاحب تبلیغ</div>
-                <div class="col-4  Textbox">
-                    <select asp-items="Model.Options" class="col-12"  asp-for="AddAds.UserID"></select>
-                </div>
+    <div class="SirooRightBlockContainer">
+        <div class="mb-5 SirooRightBlock  col-12">
+            <div class="d-flex flex-row-reverse SirooRightBlockHeader">
+                <a class="profile-media col-2" href="#">
+                    <img src="~/uploads/assets/profile.jpg" />
+                </a>
+                <a href="#" class="col-6 profile-fullname">ایجاد پست جدید</a>
+                <a href="#" class="col-2 profile-date">&nbsp;</a>
             </div>
-            <div class="row">
-                <div class="col-2">متن پُست</div>
-                <div class="col-4  Textbox">
-                    <input type="text" class="col-12" asp-for="AddAds.Caption"/>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-4">
-                    <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" asp-for="AddAds.isVideo">
-                        <label class="form-check-label" for="AddAds.isVideo">ویدئو است</label>
+            <div class="d-flex flex-column justify-content-center SirooContainer">
+                <div class="SirooItems">
+                    <div class="row justify-content-center mb-3">
+                        <div class="col-12 siroo-header-h2 direction-rtl">برای تایید پُست، حجم فایل کمتر از 15 مگابایت و ویدئو باید کمتر از 30 ثانیه باشند.</div>
                     </div>
-                </div>
-            </div>
-            <div class="row" style="display:none;">
-                <div class="col-2">امتیاز دیدن</div>
-                <div class="col-4  Textbox">
-                    <input type="number" class="col-12"  value="0" asp-for="AddAds.ViewReward"/>
-                </div>
-            </div>
-            <div class="row" style="display:none;">
-                <div class="col-2">تعداد نمایش</div>
-                <div class="col-4  Textbox">
-                    <input type="number" class="col-12"  value="-1" asp-for="AddAds.ViewQuota"/>
-                </div>
-            </div>
-            <div class="row" style="display:none;">
-                <div class="col-2">امتیاز لایک</div>
-                <div class="col-4 Textbox">
-                    <input type="number" class="col-12"  value="10" asp-for="AddAds.LikeReward"/>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-2">آپلود</div>
-                <div class="col-4">
-                    <input asp-for="AddAds.Upload" type="file">
-                </div>
-            </div>
+                    <div class="row">&nbsp;</div>
 
-
-            <div class="row">&nbsp;</div>
-            <div class="row">
-                <div class="col-6">
-                    <input type="submit" value="ارسال" asp-page-handler="AddAdvertisements" />
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-4">
-                    @*@Model.ResultMessage*@
+                    <form method="post" class="row justify-content-center" enctype="multipart/form-data">
+                        <div class="row justify-content-center">
+                            <div class="col-12 siroo-label">متن پُست</div>
+                        </div>
+                        <div style="display:none;">
+                            <select asp-items="Model.Options" class="col-12" asp-for="AddAds.UserID"></select>
+                            <input class="form-check-input" type="checkbox" asp-for="AddAds.isVideo">
+                            <input type="number" class="col-12" value="0" asp-for="AddAds.ViewReward" />
+                            <input type="number" class="col-12" value="-1" asp-for="AddAds.ViewQuota" />
+                             <input type="number" class="col-12" value="10" asp-for="AddAds.LikeReward" />
+                        </div>
+                        <div class="row col-12 mb-2">
+                            <div class="col-12 Textbox fa fa-text Textarea">
+                                @*<input type="text" class="col-12" asp-for="AddAds.Caption" />*@
+                                <textarea type="text" class="col-10 text-warning text-center" placeholder="متن پست ..." rows="2"  asp-for="AddAds.Caption"></textarea>
+                            </div>
+                        </div>
+                        <div class="row justify-content-center mb-2">
+                            <div class="col-12 siroo-label">فایل ویدئو یا تصویر پُست</div>
+                        </div>
+                        <div class="row col-12 mb-2">
+                            <div class="col-12">
+                                <input asp-for="AddAds.Upload" type="file">
+                            </div>
+                        </div>
+                        <div class="row col-12 mt-3 mb-3 justify-content-center">
+                            <div class="col-6 SirooBtn">
+                                <input id="myInput" type="submit" class="col-12" asp-page-handler="AddAdvertisements" value="ارسال">
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
+    </div>
 
-
-    </form>
 }
 else
 {
 
-            <div class="d-flex justify-content-center row">
-                @if (!string.IsNullOrEmpty(Model.FileName) && !Model.IsVideo)
-                {
-                    <img class="col-10 rounded-3" src="~/@Model.FileName" />
-                }
-                @if (!string.IsNullOrEmpty(Model.FileName) && Model.IsVideo)
-                {
-                    <video class="col-10 rounded-3" controls>
-                        <source src="~/@Model.FileName">
-                        Your browser does not support the video tag.
-                    </video>
-                }
-            </div>
-  
+    <div class="d-flex justify-content-center row">
+        @if (!string.IsNullOrEmpty(Model.FileName) && !Model.IsVideo)
+        {
+            <img class="col-10 rounded-3" src="~/@Model.FileName" />
+        }
+        @if (!string.IsNullOrEmpty(Model.FileName) && Model.IsVideo)
+        {
+            <video class="col-10 rounded-3" controls>
+                <source src="~/@Model.FileName">
+                Your browser does not support the video tag.
+            </video>
+        }
+    </div>
+
 }
 
