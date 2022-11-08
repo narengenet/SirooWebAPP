@@ -370,8 +370,21 @@ body {
     color: white;
     text-shadow: 2px 2px 4px #000000;
 }
-.siroo-header-h2{
-    font-size:1.2rem;
+.siroo-header-h2 {
+    font-size: 1.2rem;
+    z-index: 2;
+    font-family: 'Yekan';
+    text-align: center;
+    color: white;
+    text-shadow: 2px 2px 4px #000000;
+}
+.siroo-header-h3 {
+    font-size: 1rem;
+    z-index: 2;
+    font-family: 'Yekan';
+    text-align: center;
+    color: white;
+    text-shadow: 2px 2px 4px #000000;
 }
 .siroo-label {
     font-size: .8rem;

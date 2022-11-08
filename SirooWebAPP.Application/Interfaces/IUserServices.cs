@@ -15,6 +15,7 @@ namespace SirooWebAPP.Application.Interfaces
         List<String> GetUsernames();
         Users GetUser(Guid id);
         Users GetNotDeletedUser(Guid id);
+        List<Users> GetNotDeletedUsers();
         Users GetUserByUsername(string username);
         Users GetUserByCellphone(string cellphone);
         List<Users> GetUsers(int pageNumber);

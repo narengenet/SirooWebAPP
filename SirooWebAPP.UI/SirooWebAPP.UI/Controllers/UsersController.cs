@@ -6,7 +6,8 @@ using RestSharp;
 using SirooWebAPP.Application.DTO;
 using SirooWebAPP.Application.Interfaces;
 using SirooWebAPP.Core.Domain;
-
+using SirooWebAPP.Infrastructure.Services;
+using SirooWebAPP.Infrastructure.SMS;
 using SirooWebAPP.UI.Pages;
 using SirooWebAPP.UI.ViewModels;
 using System.Security.Claims;
@@ -188,6 +189,8 @@ namespace SirooWebAPP.UI.Controllers
             string _userid = HttpContext.Request.Cookies["userid"];
             Guid userId = Guid.Parse(_userid);
             bool result = _usersServices.DeleteAdvertise(postID, userId);
+            Advertise tmp= CachedContents.Advertises.Where(u => u.Id == postID).FirstOrDefault();
+            CachedContents.Advertises.Remove(tmp);
             return Ok(result);
         }
         [TypeFilter(typeof(SampleAsyncActionLoginFilter))]
@@ -298,6 +301,7 @@ namespace SirooWebAPP.UI.Controllers
                     ad.LastModifiedBy = userId.ToString();
                     ad.Notes = post.adNote;
                     _usersServices.UpdateAdvertisement(ad);
+                    CachedContents.Advertises.Insert(0, ad);
                     return Ok(true);
                 }
             }
@@ -379,6 +383,26 @@ namespace SirooWebAPP.UI.Controllers
 
 
 
+        [TypeFilter(typeof(SampleAsyncActionLoginFilter))]
+        [HttpGet("sendsms")]
+        public IActionResult SensSms()
+        {
+            //string resp= SMSSender.SendToPattern();
+
+            return Ok("ok");
+        }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -392,8 +416,12 @@ namespace SirooWebAPP.UI.Controllers
         string amount = "1100";
         string authority;
         string description = "خرید تستی ";
+        
+#if DEBUG        
+        string callbackurl = "https://localhost:7051/VerifyByHttpClient";
+#else
         string callbackurl = "https://sirooapp.ir/VerifyByHttpClient";
-        //string callbackurl = "https://localhost:7051/VerifyByHttpClient";
+#endif
 
 
 
@@ -403,7 +431,9 @@ namespace SirooWebAPP.UI.Controllers
         [HttpGet("Payment")]
         public IActionResult Payment(string theAmount, string theDescription)
         {
-            //theAmount = "10000";
+#if DEBUG
+            theAmount = "10000";
+#endif
             amount = theAmount;
             
             description = theDescription;
@@ -418,7 +448,7 @@ namespace SirooWebAPP.UI.Controllers
 
                 var client = new RestClient(URLs.requestUrl);
 
-                Method method = Method.Post;
+                Method method = Method.POST;
 
                 var request = new RestRequest("", method);
 
@@ -496,7 +526,7 @@ namespace SirooWebAPP.UI.Controllers
 
 
                 var client = new RestClient(URLs.verifyUrl);
-                Method method = Method.Post;
+                Method method = Method.POST;
                 var request = new RestRequest("", method);
 
                 request.AddHeader("accept", "application/json");

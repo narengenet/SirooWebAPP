@@ -1,0 +1,74 @@
+﻿@addTagHelper*, Microsoft.AspNetCore.Mvc.TagHelpers
+@using Microsoft.AspNetCore.Http
+<!DOCTYPE html>
+
+<html lang="fa-IR">
+<head>
+    <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+    <title>@ViewBag.Title</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/all.min.css" asp-append-version="true" />
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light mb-3">
+            <div class="container">
+                <a class="navbar-brand col-2 col-lg-1" asp-area="" asp-page="/Clients/Main">
+                    <img src="~/images/logo.png" class="col-12" />
+                </a>
+                <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon">
+                        <i class="fas fa-bars" style="color:#fff; font-size:28px;"></i>
+                    </span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        @if (Context.Session.GetString("userrolename") == "admin" || Context.Session.GetString("userrolename") == "super")
+                        {
+                            <li class="nav-item for-admins">
+                                <a class="nav-link text-light" asp-area="" asp-page="/Superadmins/AddDraw">تعریف دوره</a>
+                            </li>
+                            <li class="nav-item for-admins">
+                                <a class="nav-link text-light" asp-area="" asp-page="/Superadmins/AddPrize">تعریف جایزه</a>
+                            </li>
+                            <li class="nav-item for-admins">
+                                <a class="nav-link text-light" asp-area="" asp-page="/Superadmins/PendingPosts">تایید پُست های جدید</a>
+                            </li>
+                            <li class="nav-item for-admins">
+                                <a class="nav-link text-light" asp-area="" asp-page="/Superadmins/LastUsers">کاربران تایید نشده</a>
+                            </li>
+                            <li class="nav-item for-clients">
+                                <a class="nav-link text-light" asp-area="" asp-page="/Logout">خروج</a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div>
+
+        @RenderBody()
+
+
+
+
+    </div>
+
+
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+
+    <script>
+
+    </script>
+
+</body>
+</html>

@@ -4,6 +4,7 @@ using SirooWebAPP.Application.Interfaces;
 using SirooWebAPP.Core.Domain;
 using SirooWebAPP.Infrastructure.Contexts;
 using SirooWebAPP.Infrastructure.Security;
+using SirooWebAPP.Infrastructure.SMS;
 using SirooWebAPP.UI.Helpers;
 using System.ComponentModel.DataAnnotations;
 
@@ -121,7 +122,7 @@ namespace SirooWebAPP.UI.Pages
                 UsersRoles _newUserRole = new UsersRoles { User = result, Role = _newRole.Id, Created = DateTime.Now, CreatedBy = result };
                 _usersServices.AddUserToRole(_newUserRole);
 
-               
+                SMSSender.SendToPattern(_newUser.Cellphone, _newUser.FullName(), _newUser.ConfirmationCode);
                 return RedirectToPage("Confirmation", "Display", new { UserID = result});
 
             }

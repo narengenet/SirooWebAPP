@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using SirooWebAPP.Application.Interfaces;
 using SirooWebAPP.Core.Domain;
 using SirooWebAPP.Infrastructure.Security;
+using SirooWebAPP.Infrastructure.SMS;
 
 namespace SirooWebAPP.UI.Pages
 {
@@ -42,11 +43,16 @@ namespace SirooWebAPP.UI.Pages
                 Random r = new Random();
                 int _confirmationCode = r.Next(1000, 9999);
                 _loginUser.ConfirmationCode = _confirmationCode.ToString();
+                _loginUser.LastModified = DateTime.Now;
                 _usersServices.UpdateUser(_loginUser);
 
                 // reset confirmation count session
                 session.SetInt32("confirmationCount", 0);
+#if DEBUG
 
+#else
+                SMSSender.SendToPattern(_loginUser.Cellphone, _loginUser.FullName(), _loginUser.ConfirmationCode);
+#endif
                 return RedirectToPage("LoginConfirmation", "Display", new { UserID = _loginUser.Id });
                 //}
                 //else

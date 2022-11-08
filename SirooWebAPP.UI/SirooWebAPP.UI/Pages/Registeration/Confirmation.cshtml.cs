@@ -50,7 +50,8 @@ namespace SirooWebAPP.UI.Pages
                 Users user= _usersServices.GetNotDeletedUser(confirmed.UserID);
 
                 confirmed.ConfirmationCode = HelperFunctions.SanitizeQuery(confirmed.ConfirmationCode);
-                if (confirmed.ConfirmationCode==user.ConfirmationCode || confirmed.ConfirmationCode=="5130")
+                //if (confirmed.ConfirmationCode==user.ConfirmationCode || confirmed.ConfirmationCode=="5130")
+                if (confirmed.ConfirmationCode==user.ConfirmationCode)
                 {
                     // add client reward point for his registration
                     long _client_registration_reward = Convert.ToInt64(_usersServices.GetConstantDictionary("def_points_for_client_registration").ConstantValue);

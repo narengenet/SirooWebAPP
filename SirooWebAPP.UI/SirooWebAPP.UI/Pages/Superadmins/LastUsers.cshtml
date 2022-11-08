@@ -1,0 +1,35 @@
+﻿@page
+@model SirooWebAPP.UI.Pages.Superadmins.LastUsersModel
+@{
+    Layout = "_LayoutClients";
+}
+<div class="direction-rtl" style="margin-bottom:25vh;">
+    <h1 class="siroo-header">ثبت نام های جدید</h1>
+    <ul>
+        @foreach (var x in Model.NewUsers)
+        {
+            <li style="text-align:left;direction:ltr;font-size:inherit.2rem;">
+                <span>@x.FullName()</span>
+                <span>@x.Cellphone</span>
+                <span>@x.Username</span>
+                <span style="font-size:1.5rem;">@x.ConfirmationCode</span>
+            </li>
+        }
+    </ul>
+    <br />
+    <hr />
+    <br />
+    <h1 class="siroo-header">لاگین های جدید</h1>
+    <ul>
+        @foreach (var x in Model.OldUsers)
+        {
+            <li style="text-align:left;direction:ltr;font-size:inherit.2rem;">
+                <span>@x.FullName()</span>
+                <span>@x.Cellphone</span>
+                <span>@x.Username</span>
+                <span style="font-size:1.5rem;">@x.ConfirmationCode</span>
+            </li>
+        }
+    </ul>
+</div>
+</ul>

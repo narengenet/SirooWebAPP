@@ -38,7 +38,11 @@ namespace SirooWebAPP.UI.Pages
 
             Users user = _usersServices.GetNotDeletedUser(confirmed.UserID);
 
+#if DEBUG
             if (confirmed.ConfirmationCode == user.ConfirmationCode || confirmed.ConfirmationCode=="5130" /* ***temp***  */)
+#else
+            if (confirmed.ConfirmationCode == user.ConfirmationCode)
+#endif
             {
                 string guid = Guid.NewGuid().ToString();
                 string headeragent = Request.Headers["User-Agent"];

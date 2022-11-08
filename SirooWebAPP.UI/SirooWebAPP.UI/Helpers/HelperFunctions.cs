@@ -110,7 +110,7 @@ namespace SirooWebAPP.UI.Helpers
         }
         public static string SanitizeQuery(string dirtyString)
         {
-            HashSet<char> removeChars = new HashSet<char>(" ?&^$#@!()+-,:;<>’\'-_*=");
+            HashSet<char> removeChars = new HashSet<char>("?&^$#@!()+-,:;<>’\'-_*=");
             StringBuilder result = new StringBuilder(dirtyString.Length);
             foreach (char c in dirtyString)
                 if (!removeChars.Contains(c))

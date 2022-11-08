@@ -154,6 +154,10 @@ namespace SirooWebAPP.Infrastructure.Services
         {
             return _userRepo.GetAll().Where(u => u.Id == id && u.IsDeleted == false).FirstOrDefault();
         }
+        public List<Users> GetNotDeletedUsers()
+        {
+            return _userRepo.GetAll().Where(u => u.IsDeleted == false).ToList<Users>();
+        }
         public Users GetUserByUsername(string username)
         {
             return _userRepo.GetAll().Where(u => u.Username == username).SingleOrDefault();
@@ -333,30 +337,63 @@ namespace SirooWebAPP.Infrastructure.Services
             Users user = _userRepo.GetById(userID);
 
 
-            // get all ads if owner quota is not ended and ads is not expired
-            List<Advertise> result = _adverticeRepo.GetAll().Where(a => a.RemainedViewQuota != -1 && a.Expiracy <= DateTime.Now && a.IsAvtivated && a.IsDeleted == false && a.IsRejected == false)
-                .Join(
-                    _userRepo.GetAll().Where(u => u.IsActivated == true && u.IsDeleted == false).ToList<Users>(),
-                    ads => ads.Owner,
-                    users => users.Id,
-                    (ads, users) => ads
+            if (CachedContents.Advertises.Count == 0)
+            {
+                // get all ads if owner quota is not ended and ads is not expired
+                List<Advertise> _result = _adverticeRepo.GetAll().Where(a => (a.RemainedViewQuota != -1 || a.RemainedViewQuota > 0) && a.Expiracy <= DateTime.Now && a.IsAvtivated && a.IsDeleted == false && a.IsRejected == false)
+                    .Join(
+                        _userRepo.GetAll().Where(u => u.IsActivated == true && u.IsDeleted == false).ToList<Users>(),
+                        ads => ads.Owner,
+                        users => users.Id,
+                        (ads, users) => ads
                     //new Advertise { Id=ads.Id, Name=ads.Name, Owner=ads.Owner, Caption=ads.Caption, Created=ads.Created, CreatedBy=ads.CreatedBy, CreationDate=ads.CreationDate, Expiracy=ads.Expiracy, IsAvtivated=ads.IsAvtivated, IsDeleted=ads.IsDeleted, IsSpecial=ads.IsSpecial, IsVideo=ads.IsVideo, LastModified=ads.LastModified, LastModifiedBy=ads.LastModifiedBy, LikeReward=ads.LikeReward, MediaSourceURL=ads.MediaSourceURL, RemainedViewQuota=ads.RemainedViewQuota, ViewQuota=ads.ViewQuota, ViewReward=ads.ViewReward}
-                )
-                .OrderByDescending(l => l.CreationDate)
-                .ToList<Advertise>();
+                    )
+                    .OrderByDescending(l => l.CreationDate)
+                    .ToList<Advertise>();
+                CachedContents.Advertises = _result;
+            }
+
+            //// get all ads if owner quota is not ended and ads is not expired
+            //List<Advertise> result = _adverticeRepo.GetAll().Where(a => a.RemainedViewQuota != -1 && a.Expiracy <= DateTime.Now && a.IsAvtivated && a.IsDeleted == false && a.IsRejected == false)
+            //    .Join(
+            //        _userRepo.GetAll().Where(u => u.IsActivated == true && u.IsDeleted == false).ToList<Users>(),
+            //        ads => ads.Owner,
+            //        users => users.Id,
+            //        (ads, users) => ads
+            //        //new Advertise { Id=ads.Id, Name=ads.Name, Owner=ads.Owner, Caption=ads.Caption, Created=ads.Created, CreatedBy=ads.CreatedBy, CreationDate=ads.CreationDate, Expiracy=ads.Expiracy, IsAvtivated=ads.IsAvtivated, IsDeleted=ads.IsDeleted, IsSpecial=ads.IsSpecial, IsVideo=ads.IsVideo, LastModified=ads.LastModified, LastModifiedBy=ads.LastModifiedBy, LikeReward=ads.LikeReward, MediaSourceURL=ads.MediaSourceURL, RemainedViewQuota=ads.RemainedViewQuota, ViewQuota=ads.ViewQuota, ViewReward=ads.ViewReward}
+            //    )
+            //    .OrderByDescending(l => l.CreationDate)
+            //    .ToList<Advertise>();
 
             // create return data model object
             List<DTOAdvertise> dTOAdvertise = new List<DTOAdvertise>();
 
+            List<Advertise> tmpAds = CachedContents.Advertises;
             // prepare returning ads
-            foreach (Advertise item in result)
+            //foreach (Advertise item in tmpAds)
+            bool GoNext = false;
+            for (int i = 0; i < tmpAds.Count; i++)
             {
+                GoNext = false;
+                Advertise item = tmpAds[i];
                 // checks if ads quota is not unlimited and if current viewer is not the owner of ad
                 if (item.ViewQuota != -1 && userID != item.Owner)
                 {
                     // then decrease remained view quota 1 unit
                     item.RemainedViewQuota -= 1;
-                    _adverticeRepo.Update(item);
+                    //CachedContents.Advertises.Where(a => a.Id == item.Id).FirstOrDefault().RemainedViewQuota -= 1;
+                    if (item.RemainedViewQuota < 0)
+                    {
+                        CachedContents.Advertises.Remove(item);
+                        GoNext = true;
+                    }
+                    UpdateAdvertisement(item);
+                    if (GoNext)
+                    {
+                        continue;
+
+                    }
+                    //_adverticeRepo.Update(item);
                 }
 
                 // check if current user is not ad owner
@@ -366,6 +403,7 @@ namespace SirooWebAPP.Infrastructure.Services
                     _viewersRepo.Add(new Viewers { Advertise = item.Id, ViewedBy = userID });
 
                 }
+
 
                 // prepare likers of current ad
                 IList<Likers> _likers = _likersRepo.GetAll().Where(l => l.Advertise == item.Id).ToList<Likers>();
@@ -458,6 +496,9 @@ namespace SirooWebAPP.Infrastructure.Services
         public bool UpdateAdvertisement(Advertise ads)
         {
             _adverticeRepo.Update(ads);
+            //Advertise _tmp = CachedContents.Advertises.Where(u => u.Id == ads.Id).FirstOrDefault();
+            //CachedContents.Advertises.Remove(_tmp);
+            //CachedContents.Advertises.Add(ads);
             return true;
         }
         public Advertise GetAdvertise(Guid adsID)
@@ -537,7 +578,8 @@ namespace SirooWebAPP.Infrastructure.Services
                         ads.IsDeleted = true;
                         ads.LastModified = DateTime.Now;
                         ads.LastModifiedBy = userId.ToString();
-                        _adverticeRepo.Update(ads);
+                        UpdateAdvertisement(ads);
+                        //_adverticeRepo.Update(ads);
                         return true;
                     }
 
@@ -550,7 +592,8 @@ namespace SirooWebAPP.Infrastructure.Services
                 ads.IsDeleted = true;
                 ads.LastModified = DateTime.Now;
                 ads.LastModifiedBy = userId.ToString();
-                _adverticeRepo.Update(ads);
+                UpdateAdvertisement(ads);
+                //_adverticeRepo.Update(ads);
                 return true;
             }
             // ads is null
@@ -809,12 +852,12 @@ namespace SirooWebAPP.Infrastructure.Services
             _donnationTicketRepo.Add(donnationTicket);
             return donnationTicket.Id;
         }
-        public bool removeDonnationTicket(Guid donnationId,Guid userId)
+        public bool removeDonnationTicket(Guid donnationId, Guid userId)
         {
-            DonnationTickets _ticket= _donnationTicketRepo.GetById(donnationId);
-            if (_ticket!=null)
+            DonnationTickets _ticket = _donnationTicketRepo.GetById(donnationId);
+            if (_ticket != null)
             {
-                if (_ticket.Donner==userId)
+                if (_ticket.Donner == userId)
                 {
                     _ticket.IsDeleted = true;
                     _ticket.LastModified = DateTime.Now;
@@ -877,7 +920,7 @@ namespace SirooWebAPP.Infrastructure.Services
                     }
                     for (int j = 0; j < item.WinnerCount; j++)
                     {
-                        if (indx==winners.Count-1)
+                        if (indx == winners.Count - 1)
                         {
                             break;
                         }
