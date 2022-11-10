@@ -30,10 +30,12 @@ namespace SirooWebAPP.Application.Interfaces
         public bool RegisterdSuccessfullyAndLogin(OnlineUsers onlineUsers);
         public bool LoginSuccessfully(OnlineUsers onlineUsers);
         bool CheckUserLogin(Guid userId, string token);
+        void ClerarAllUserLogins(Guid userId);
+        List<OnlineUsers> GetAllOnlineUsers();
 
 
         public Guid AddAvertise(Advertise advertise,Guid userId);
-        public List<DTOAdvertise> GetAdvertises(Guid userID);
+        public List<DTOAdvertise> GetAdvertises(Guid userID,DateTime? afterThisDate);
         public List<DTOAdvertise> GetMyAdvertises(Guid userID);
         public List<DTOAdvertise> GetPendingAdvertises(Guid userID);
         public bool UpdateAdvertisement(Advertise ads);
@@ -42,8 +44,9 @@ namespace SirooWebAPP.Application.Interfaces
         public Likers AddLikeToAdvertise(Guid advertiseID, Guid userID);
         public bool RemoveLikeFromAdvertise(Guid advertiseID, Guid UserID);
         int DoLikeAdvertiseByUserID(Guid advertiseID, Guid UserID);
+        DTOAdvertise WatchedAdvertiseByUserID(Guid advertiseID, Guid UserID);
         bool DeleteAdvertise(Guid postID,Guid userId);
-        bool LogOut(Guid UserID,string GUID);
+        bool LogOut(Guid UserID,string GUID,bool killLogout=false);
 
         Roles AddRole(Roles roles);
         Roles GetRole(Guid roleId);
@@ -92,7 +95,7 @@ namespace SirooWebAPP.Application.Interfaces
         List<Transactions> GetTransactionsByUser(Guid userId);
         Guid AddTransaction(Transactions transaction);
         bool UpdateTransaction(Transactions transaction);
-        bool AddPurchaseCredit(Purchases purchase);
+        Guid AddPurchaseCredit(Purchases purchase);
 
 
         bool AddTransactionPercent(TransactionPercents transactionPercent);

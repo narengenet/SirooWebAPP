@@ -1,4 +1,4 @@
-﻿input[type=text], input[type=submit], input[type=button], input[type=search], textarea, input[type=number], span.select2, span.select2-selection__rendered, span.InputText, div.winner, select {
+﻿input[type=text], input[type=submit], input[type=button], input[type=password], input[type=search], textarea, input[type=number], a.link-btn, span.select2, span.select2-selection__rendered, span.InputText, div.winner, select {
     border: none;
     background-image: linear-gradient(to left,rgba(0,255,255,.4),rgba(255,0,255,.3));
     background-origin: border-box;
@@ -186,10 +186,12 @@ input.form-check-input:focus {
     width: 20px;
     height: 20px;
 }
-.SirooBtn input[type="submit"]{
-    font-size:1rem;
-    text-align:center;
+
+.SirooBtn input[type="submit"] {
+    font-size: 1rem;
+    text-align: center;
 }
+
 .SirooContainer, .SirooPost, .SirooRightBlock {
     position: relative;
     z-index: 0;
@@ -323,14 +325,16 @@ input.form-check-input:focus {
 .select2-results__option, .select2-search__field {
     color: black !important;
 }
-.delPostAdmin{
-    text-align:center;
-}
-.Textarea{
-    height:7rem;
 
-    textarea{
-        height:7rem;
+.delPostAdmin {
+    text-align: center;
+}
+
+.Textarea {
+    height: 7rem;
+
+    textarea {
+        height: 7rem;
     }
 }
 
@@ -370,6 +374,7 @@ body {
     color: white;
     text-shadow: 2px 2px 4px #000000;
 }
+
 .siroo-header-h2 {
     font-size: 1.2rem;
     z-index: 2;
@@ -378,6 +383,7 @@ body {
     color: white;
     text-shadow: 2px 2px 4px #000000;
 }
+
 .siroo-header-h3 {
     font-size: 1rem;
     z-index: 2;
@@ -386,6 +392,7 @@ body {
     color: white;
     text-shadow: 2px 2px 4px #000000;
 }
+
 .siroo-label {
     font-size: .8rem;
     z-index: 2;
@@ -506,7 +513,22 @@ body {
     }
 }
 
+.threeDotsLoading {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    height: 0;
+    flex-direction: row-reverse;
+    position: relative;
+    top: -2.5rem;
+}
 
+.link-btn {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
 
 .modal-body {
     color: black;
@@ -523,6 +545,7 @@ body {
     font-family: "Yekan";
     padding-left: 30px;
 }
+
 .alert button.close {
     position: absolute;
     left: 5px;
@@ -959,4 +982,12 @@ $repeat: 20;
     .MainDashboard {
         display: none;
     }
+}
+
+
+
+
+.text-danger.field-validation-error {
+    color: orange !important;
+    font-family:'Yekan';
 }

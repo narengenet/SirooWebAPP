@@ -7,25 +7,26 @@
     <div class="d-flex flex-column justify-content-center SirooContainer">
         <div class="row">&nbsp;</div>
         <div class="row justify-content-center mb-3">
-            <div class="row justify-content-center mb-3  direction-rtl">
+@*            <div class="row justify-content-center mb-3  direction-rtl">
                 <div class="col-12 siroo-header-h3">لطفا از بازبودن پیامک های تبلیغاتی خط خود اطمینان حاصل فرمایید.</div>
             </div>
             <div class="row justify-content-center mb-3">
                 <div class="col-12 siroo-header-h3">فعالسازی پیامک تبلیغاتی همراه اول: پیامک 2 به 8999</div>
                 <div class="col-12 siroo-header-h3">فعالسازی پیامک تبلیغاتی ایرانسل: پیامک 1 به 5005</div>
-            </div>
+            </div>*@
             <div class="row justify-content-center mb-3">
-                <div class="col-12 siroo-header">کد تایید</div>
+                <div class="col-12 siroo-header">کلمه عبور</div>
             </div>
 
             <div class="col-10 Textbox fa fa-lock">
-                <input type="text" id="ConfirmationCode" autocomplete="off" class="numericOnly col-12" asp-for="Confirmed.ConfirmationCode" />
+                <input type="password" id="ConfirmationCode" autocomplete="off" class="col-12" asp-for="LoginConfirmed.ConfirmationCode" />
             </div>
         </div>
         <div class="row">&nbsp;</div>
         <div class="row justify-content-center mb-3">
             <div class="col-10 SirooBtn">
-                <input type="hidden" value='@ViewData["userid"]' asp-for="Confirmed.UserID" />
+                <input type="hidden" value='@ViewData["username"]' asp-for="LoginConfirmed.Username" />
+                <input type="hidden" value='@ViewData["userid"]' asp-for="LoginConfirmed.UserID" />
                 <input type="submit" value="تایید" asp-page-handler="CofirmCode" />
             </div>
         </div>
@@ -36,7 +37,7 @@
         </div>
 
         <div class="row justify-content-center mb-3  direction-rtl">
-            <div class="col-12 siroo-header-h3">درصورت عدم دریافت پیامک با شماره پشتیبانی تماس بگیرید.</div>
+            <div class="col-12 siroo-header-h3">درصورت فراموشی کلمه عبور با شماره پشتیبانی تماس بگیرید.</div>
             <div class="col-12 siroo-header-h2"> <a style="color:white;" href="tel:09394125130">تماس با پشتیبانی</a></div>
         </div>
         <div class="row mb-2">&nbsp;</div>

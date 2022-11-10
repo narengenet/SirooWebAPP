@@ -40,9 +40,9 @@ namespace SirooWebAPP.UI.Pages
             {
                 //if (_loginUser.IsActivated)
                 //{
-                Random r = new Random();
-                int _confirmationCode = r.Next(1000, 9999);
-                _loginUser.ConfirmationCode = _confirmationCode.ToString();
+                //Random r = new Random();
+                //int _confirmationCode = r.Next(1000, 9999);
+                //_loginUser.ConfirmationCode = _confirmationCode.ToString();
                 _loginUser.LastModified = DateTime.Now;
                 _usersServices.UpdateUser(_loginUser);
 
@@ -51,9 +51,9 @@ namespace SirooWebAPP.UI.Pages
 #if DEBUG
 
 #else
-                SMSSender.SendToPattern(_loginUser.Cellphone, _loginUser.FullName(), _loginUser.ConfirmationCode);
+                //SMSSender.SendToPattern(_loginUser.Cellphone, _loginUser.FullName(), _loginUser.ConfirmationCode);
 #endif
-                return RedirectToPage("LoginConfirmation", "Display", new { UserID = _loginUser.Id });
+                return RedirectToPage("LoginConfirmation", "Display", new { UserID = _loginUser.Id , Username=_loginUser.Cellphone});
                 //}
                 //else
                 //{

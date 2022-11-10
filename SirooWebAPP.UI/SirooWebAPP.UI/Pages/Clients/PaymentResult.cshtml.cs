@@ -50,7 +50,7 @@ namespace SirooWebAPP.UI.Pages.Clients
             if (Status == true)
             {
 
-                CalculatePercents();
+                //CalculatePercents();
 
                 ResultMessageSuccess = "success";
                 ResultMessage = "پرداخت موفقیت آمیز بود. کد پیگیری:" + RefId;
@@ -114,33 +114,7 @@ namespace SirooWebAPP.UI.Pages.Clients
                 }
 
 
-                //string roleName = _usersServices.GetUserRoles(_ur.CreatedBy).FirstOrDefault().RoleName;
-                //Guid zonerId=Guid.NewGuid();
-                //if (roleName=="super" || roleName=="admin")
-                //{
-                //    zonerId = marketer.Id;
-                //}
-                //else
-                //{
 
-                //    zonerId = _ur.CreatedBy;
-                //}
-                //Users zoner = _usersServices.GetUser(zonerId);
-
-
-                //_ur= _usersServices.GetAllUsersRoles().Where(ur => ur.User == zoner.Id && ur.IsDeleted == false).FirstOrDefault();
-                //// check if country is exist by his/her role or not
-                //roleName = _usersServices.GetUserRoles(_ur.CreatedBy).FirstOrDefault().RoleName;
-                //Guid countryId = Guid.NewGuid();
-                //if (roleName == "super" || roleName == "admin")
-                //{
-                //    countryId = zoner.Id;
-                //}
-                //else
-                //{
-                //    countryId = _ur.CreatedBy;
-                //}
-                //Users country = _usersServices.GetUser(countryId);
 
                 long _addedMoneies = (marketerPercent * transac.Amount) / 100;
                 marketer.Money += _addedMoneies;

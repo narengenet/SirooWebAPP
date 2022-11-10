@@ -9,13 +9,13 @@
 
     <div class="d-flex flex-column justify-content-center SirooContainer">
 
-        <div class="row justify-content-center mt-3 mb-3  direction-rtl">
-            <div class="col-12 siroo-header-h3 mt-3">لطفا از بازبودن پیامک های تبلیغاتی خط خود اطمینان حاصل فرمایید.</div>
-        </div>
-        <div class="row justify-content-center mb-3">
+        @*        <div class="row justify-content-center mt-3 mb-3  direction-rtl">
+            <div class="col-12 siroo-header-h3 mt-3">با تکمیل ثبت نام </div>
+            </div>
+            <div class="row justify-content-center mb-3">
             <div class="col-12 siroo-header-h3">فعالسازی پیامک تبلیغاتی همراه اول: پیامک 2 به 8999</div>
             <div class="col-12 siroo-header-h3">فعالسازی پیامک تبلیغاتی ایرانسل: پیامک 1 به 5005</div>
-        </div>
+            </div>*@
 
         <div class="row">&nbsp;</div>
         <div class="row justify-content-center mb-3">
@@ -23,24 +23,33 @@
         </div>
         <div class="row justify-content-center mb-3">
             <div class="col-10 Textbox fa fa-pencil">
-                <input type="text" class="col-12" id="FirstName" placeholder="نام" asp-for="Person.FirstName" />    <span asp-validation-for="Person.FirstName"></span>
+                <input type="text" class="col-12" id="FirstName" placeholder="نام" asp-for="Person.FirstName" />
+            </div>
+            <div class="col-10 justify-content-center d-flex direction-rtl">
+                <span class="text-danger" asp-validation-for="Person.FirstName"></span>
             </div>
         </div>
         <div class="row justify-content-center mb-3">
             <div class="col-10 Textbox fa fa-pencil">
                 <input type="text" id="LastName" class="col-12" placeholder="نام خانوادگی" asp-for="Person.LastName" />
             </div>
+            <div class="col-10 justify-content-center d-flex direction-rtl">
+                <span class="text-danger" asp-validation-for="Person.LastName"></span>
+            </div>
         </div>
         <div class="row justify-content-center mb-3">
             <div class="col-10 Textbox fa fa-user">
-                <input type="text" id="UserName" placeholder="نام کاربری (فقط لاتین)" class="latinOnly col-12" asp-for="Person.UserName" />
+                <input type="text" id="UserName" placeholder="نام کاربری (فقط لاتین)" class="latinNOnly col-12" asp-for="Person.UserName" />
+            </div>
+            <div class="col-10 justify-content-center d-flex direction-rtl">
                 <span class="text-danger" asp-validation-for="Person.UserName"></span>
-
             </div>
         </div>
         <div class="row justify-content-center mb-3">
             <div class="col-10 Textbox fa fa-mobile">
                 <input type="text" placeholder="تلفن همراه 0912123456" id="CellPhone" class="numericOnly col-12" asp-for="Person.CellPhone" />
+            </div>
+            <div class="col-10 justify-content-center d-flex direction-rtl">
                 <span class="text-danger" asp-validation-for="Person.CellPhone"></span>
             </div>
         </div>
@@ -119,32 +128,42 @@
             }
         });
         //Allow users to enter a-z only
-        $(".latinOnly").bind('keypress', function (e) {
-            if (e.keyCode == '9' || e.keyCode == '16') {
-                return;
-            }
-            var code;
-            if (e.keyCode) code = e.keyCode;
-            else if (e.which) code = e.which;
-            if (e.which == 46)
-                return false;
-            if (code == 8 || code == 46)
-                return true;
-            if (code < 97 || code > 122)
-                return false;
+        $(".latinNOnly").bind('keypress', function (e) {
+            var val = e.key;
+            var letters = /^[0-9a-z]+$/;
+               if(val.match(letters))
+                 {
+                  return;
+                 }
+               else
+                 {
+                 return false;
+                 }
+            //if (e.keyCode == '9' || e.keyCode == '16') {
+            //    return;
+            //}
+            //var code;
+            //if (e.keyCode) code = e.keyCode;
+            //else if (e.which) code = e.which;
+            //if (e.which == 46)
+            //    return false;
+            //if (code == 8 || code == 46)
+            //    return true;
+            //if (code < 97 || code > 122)
+            //    return false;
         });
 
         //Disable paste
-        $(".latinOnly").bind("paste", function (e) {
+        $(".latinNOnly").bind("paste", function (e) {
             e.preventDefault();
         });
 
-        $(".latinOnly").bind('mouseenter', function (e) {
-            var val = $(this)[0].value;
-            if (val != '0') {
-                val = val.replace(/[^a-z]+/g, "")
-                $(this).val(val);
-            }
-        });
+        //$(".latinNOnly").bind('mouseenter', function (e) {
+        //    var val = $(this)[0].value;
+        //    if (val != '0') {
+        //        val = val.replace(/^[0-9a-z]+$/, "")
+        //        $(this).val(val);
+        //    }
+        //});
 </script>
 }

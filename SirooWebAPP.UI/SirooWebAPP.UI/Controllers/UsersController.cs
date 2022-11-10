@@ -8,6 +8,7 @@ using SirooWebAPP.Application.Interfaces;
 using SirooWebAPP.Core.Domain;
 using SirooWebAPP.Infrastructure.Services;
 using SirooWebAPP.Infrastructure.SMS;
+using SirooWebAPP.UI.Helpers;
 using SirooWebAPP.UI.Pages;
 using SirooWebAPP.UI.ViewModels;
 using System.Security.Claims;
@@ -100,7 +101,18 @@ namespace SirooWebAPP.UI.Controllers
 
             string _userid = HttpContext.Request.Cookies["userid"];
             Guid userId = Guid.Parse(_userid);
-            List<DTOAdvertise> ads = _usersServices.GetAdvertises(userId);
+            List<DTOAdvertise> ads = _usersServices.GetAdvertises(userId,null);
+            return Ok(ads);
+        }
+        [TypeFilter(typeof(SampleAsyncActionLoginFilter))]
+        [HttpGet("nextads/{lastFetchDate}")]
+        public IActionResult GetAdvertismentsAfter(string lastFetchDate)
+        {
+
+            string _userid = HttpContext.Request.Cookies["userid"];
+            Guid userId = Guid.Parse(_userid);
+            DateTime dt = Convert.ToDateTime(lastFetchDate);
+            List<DTOAdvertise> ads = _usersServices.GetAdvertises(userId,dt);
             return Ok(ads);
         }
         [TypeFilter(typeof(SampleAsyncActionLoginFilter))]
@@ -162,7 +174,15 @@ namespace SirooWebAPP.UI.Controllers
             return Ok(transactions);
         }
 
-
+        [TypeFilter(typeof(SampleAsyncActionLoginFilter))]
+        [HttpGet("viewedPost/{advertiseID:guid}")]
+        public IActionResult WatchedAdvertisementByUser(Guid advertiseID)
+        {
+            string _userid = HttpContext.Request.Cookies["userid"];
+            Guid userId = Guid.Parse(_userid);
+            DTOAdvertise result = _usersServices.WatchedAdvertiseByUserID(advertiseID, userId);
+            return Ok(result);
+        }
 
         [TypeFilter(typeof(SampleAsyncActionLoginFilter))]
         [HttpGet("dolike/{advertiseID:guid}")]
@@ -343,25 +363,30 @@ namespace SirooWebAPP.UI.Controllers
         {
             if (!IsValidMobileNumber(Phone))
             {
-                return new JsonResult($"{Phone} is not valid");
+                return new JsonResult($"{Phone} معتبر نیست");
             }
 
             var phones = _usersServices.GetCellphones();
             if (phones.Contains(Phone))
             {
-                return new JsonResult($"{Phone} is already used");
+                return new JsonResult($"{Phone} قبلا ثبت شده است.");
             }
             return new JsonResult(true);
         }
 
         public JsonResult VerifyUsername([FromQuery(Name = "Person.UserName")] string Username)
         {
-
-            var usernames = _usersServices.GetUsernames();
-            if (usernames.Contains(Username))
+            string theusername = HelperFunctions.SanitizeQuery(Username);
+            List<string> searchedResult= _usersServices.GetUsernames().Where(s => s == theusername).ToList<string>();
+            if (searchedResult.Count>0)
             {
-                return new JsonResult($"{Username} is already used");
+                return new JsonResult($"{Username} "+"قبلا ثبت شده است.");
             }
+            //var usernames = _usersServices.GetUsernames();
+            //if (usernames.Contains(Username))
+            //{
+            //    return new JsonResult($"{Username} is already used");
+            //}
             return new JsonResult(true);
         }
 

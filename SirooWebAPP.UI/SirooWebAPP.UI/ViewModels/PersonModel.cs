@@ -5,14 +5,14 @@ namespace SirooWebAPP.UI.Pages
 {
     public class Person
     {
-        [Required, StringLength(30)]
+        [Required(ErrorMessage = "درج نام شما اجباری است."), StringLength(30)]
         public string FirstName { get; set; }
-        [Required, StringLength(50)]
+        [Required(ErrorMessage = "درج نام‌خانوادگی شما اجباری است."), StringLength(50)]
         public string LastName { get; set; }
-        [Required, StringLength(20)]
+        [Required(ErrorMessage = "درج نام کاربری اجباری است."), StringLength(20),MinLength(5,ErrorMessage ="حداقل 5 کاراکتر")]
         [Remote("VerifyUsername", "Users")]
         public string UserName { get; set; }
-        [Required]
+        [Required(ErrorMessage ="درج شماره تلفن همراه اجباری است.")]
         [Remote("VerifyPhone","Users")]
         public string CellPhone { get; set; }
         public string? InviterUsername { get; set; }

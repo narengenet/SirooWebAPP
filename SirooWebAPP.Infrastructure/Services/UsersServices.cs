@@ -125,12 +125,14 @@ namespace SirooWebAPP.Infrastructure.Services
         public List<String> GetUsernames()
         {
             Users[] users = _userRepo.GetAll().ToArray();
-            List<String> usernames = new List<string>();
-            foreach (Users item in users)
-            {
-                usernames.Add(item.Username);
-            }
-            return usernames;
+            List<string> allusernames = _userRepo.GetAll().Select(u => u.Username).ToList<string>();
+            return allusernames;
+            //List<String> usernames = new List<string>();
+            //foreach (Users item in users)
+            //{
+            //    usernames.Add(item.Username);
+            //}
+            //return usernames;
 
         }
         public List<String> GetCellphones()
@@ -272,18 +274,33 @@ namespace SirooWebAPP.Infrastructure.Services
         }
         public bool LoginSuccessfully(OnlineUsers onlineUsers)
         {
-            OnlineUsers[] ons = _onlineRepo.GetAll().Where(o => o.User == onlineUsers.User && o.UserDevice == onlineUsers.UserDevice).ToArray<OnlineUsers>();
+            OnlineUsers[] ons = GetAllOnlineUsers().Where(o => o.User == onlineUsers.User && o.UserDevice == onlineUsers.UserDevice).ToArray<OnlineUsers>();
             foreach (OnlineUsers item in ons)
             {
-                _onlineRepo.Delete(item);
+                item.IsDeleted = true;
+                _onlineRepo.Update(item);
+                //_onlineRepo.Delete(item);
             }
             //_onlineRepo.RemoveOnlineUsersByUserDeviceAndUserID(onlineUsers.UserDevice, onlineUsers.User.Id);
             _onlineRepo.Add(onlineUsers);// .Save(onlineUsers);
             return true;
         }
 
+        public void ClerarAllUserLogins(Guid userId)
+        {
+            List<OnlineUsers> ou = GetAllOnlineUsers().Where(o => o.User == userId).ToList<OnlineUsers>();
+            for (int i = 0; i < ou.Count; i++)
+            {
+                ou[i].IsDeleted = true;
+                _onlineRepo.Update(ou[i]);
+            }
+        }
 
 
+        public List<OnlineUsers> GetAllOnlineUsers()
+        {
+            return _onlineRepo.GetAll().Where(o => o.IsDeleted == false).ToList<OnlineUsers>();
+        }
         /// <summary>
         /// checks if user with provided token has an online record in DB or not
         /// </summary>
@@ -300,7 +317,7 @@ namespace SirooWebAPP.Infrastructure.Services
                 if (usr.IsActivated && usr.IsDeleted == false)
                 {
                     // check if provided token is valid in DB or not
-                    OnlineUsers _usr = _onlineRepo.GetAll().Where(o => o.Guid == token).FirstOrDefault(); //GetOnlineUserByGuid(token);
+                    OnlineUsers _usr = GetAllOnlineUsers().Where(o => o.Guid == token && o.IsDeleted == false).FirstOrDefault(); //GetOnlineUserByGuid(token);
                     if (_usr != null)
                     {
                         if (_usr.User == userId)
@@ -331,7 +348,7 @@ namespace SirooWebAPP.Infrastructure.Services
             return _adverticeRepo.Add(advertise).Id;
         }
 
-        public List<DTOAdvertise> GetAdvertises(Guid userID)
+        public List<DTOAdvertise> GetAdvertises(Guid userID, DateTime? afterThisDate = null)
         {
             // get current user
             Users user = _userRepo.GetById(userID);
@@ -369,40 +386,44 @@ namespace SirooWebAPP.Infrastructure.Services
             List<DTOAdvertise> dTOAdvertise = new List<DTOAdvertise>();
 
             List<Advertise> tmpAds = CachedContents.Advertises;
+            if (afterThisDate != null)
+            {
+                tmpAds = CachedContents.Advertises.Where(a => a.CreationDate > afterThisDate).ToList<Advertise>();
+            }
+
             // prepare returning ads
-            //foreach (Advertise item in tmpAds)
-            bool GoNext = false;
+            //bool GoNext = false;
             for (int i = 0; i < tmpAds.Count; i++)
             {
-                GoNext = false;
+                //GoNext = false;
                 Advertise item = tmpAds[i];
-                // checks if ads quota is not unlimited and if current viewer is not the owner of ad
-                if (item.ViewQuota != -1 && userID != item.Owner)
-                {
-                    // then decrease remained view quota 1 unit
-                    item.RemainedViewQuota -= 1;
-                    //CachedContents.Advertises.Where(a => a.Id == item.Id).FirstOrDefault().RemainedViewQuota -= 1;
-                    if (item.RemainedViewQuota < 0)
-                    {
-                        CachedContents.Advertises.Remove(item);
-                        GoNext = true;
-                    }
-                    UpdateAdvertisement(item);
-                    if (GoNext)
-                    {
-                        continue;
+                //// checks if ads quota is not unlimited and if current viewer is not the owner of ad
+                //if (item.ViewQuota != -1 && userID != item.Owner)
+                //{
+                //    // then decrease remained view quota 1 unit
+                //    item.RemainedViewQuota -= 1;
+                //    //CachedContents.Advertises.Where(a => a.Id == item.Id).FirstOrDefault().RemainedViewQuota -= 1;
+                //    if (item.RemainedViewQuota < 0)
+                //    {
+                //        CachedContents.Advertises.Remove(item);
+                //        GoNext = true;
+                //    }
+                //    UpdateAdvertisement(item);
+                //    if (GoNext)
+                //    {
+                //        continue;
 
-                    }
-                    //_adverticeRepo.Update(item);
-                }
+                //    }
 
-                // check if current user is not ad owner
-                if (userID != item.Owner)
-                {
-                    // then add current view for ad
-                    _viewersRepo.Add(new Viewers { Advertise = item.Id, ViewedBy = userID });
+                //}
 
-                }
+                //// check if current user is not ad owner
+                //if (userID != item.Owner)
+                //{
+                //    // then add current view for ad
+                //    _viewersRepo.Add(new Viewers { Advertise = item.Id, ViewedBy = userID });
+
+                //}
 
 
                 // prepare likers of current ad
@@ -617,6 +638,84 @@ namespace SirooWebAPP.Infrastructure.Services
             return true;
         }
 
+        public DTOAdvertise WatchedAdvertiseByUserID(Guid advertiseID, Guid UserID)
+        {
+            // get liked ads
+            Advertise _ad = GetAdvertise(advertiseID);
+            if (_ad != null)
+            {
+                // check if current user watched the ads before or not
+                List<Viewers> prevViewers = _viewersRepo.GetAll().Where(l => l.Advertise == advertiseID)// GetLikes(_ad)
+                    .Where(l => l.ViewedBy == UserID)
+                    .ToList<Viewers>();
+
+                if (prevViewers.Count == 0)
+                {
+                    // get watcher user
+                    Users _watcher = _userRepo.GetById(UserID);
+
+
+                    // checks if ads quota is not unlimited and if current viewer is not the owner of ad
+                    if (_ad.ViewQuota != -1 && UserID != _ad.Owner)
+                    {
+                        // then decrease remained view quota 1 unit
+                        _ad.RemainedViewQuota -= 1;
+                        //CachedContents.Advertises.Where(a => a.Id == item.Id).FirstOrDefault().RemainedViewQuota -= 1;
+                        if (_ad.RemainedViewQuota < 0)
+                        {
+                            CachedContents.Advertises.Remove(_ad);
+
+                        }
+                        // add view
+                        _viewersRepo.Add(new Viewers { Advertise = advertiseID, ViewedBy = UserID });
+
+                        // check if liker is not ads owner
+                        if (_ad.Owner != UserID)
+                        {
+                            // then add ads like reward to liker
+                            _watcher.Points += _ad.ViewReward;
+                            _userRepo.Update(_watcher);
+                        }
+                        UpdateAdvertisement(_ad);
+
+                    }
+
+                }
+
+
+                // prepare likers of current ad
+                IList<Likers> _likers = _likersRepo.GetAll().Where(l => l.Advertise == _ad.Id).ToList<Likers>();
+                IList<Viewers> _viewers = _viewersRepo.GetAll().Where(v => v.Advertise == _ad.Id).ToList<Viewers>();
+
+                // map ad, likers and viewers to ad DTO
+                DTOAdvertise _dtoAds = new DTOAdvertise();
+
+                _dtoAds = _mapper.Map<DTOAdvertise>(_ad);
+
+                _dtoAds.AdvertiseID = _ad.Id;
+                //_dtoAds.Caption = item.Caption;
+                //_dtoAds.Name = item.Name;
+                _dtoAds.CreationDate = _ad.CreationDate.ToString();
+                _dtoAds.Likers = _likers;
+                _dtoAds.MediaSourceURL = _ad.MediaSourceURL;
+                _dtoAds.Owner = _mapper.Map<DTOUser>(GetUser(_ad.Owner));
+                _dtoAds.Viewers = _viewers;
+                _dtoAds.IsVideo = _ad.IsVideo;
+                _dtoAds.LikerCount = _likers.Count;
+                _dtoAds.ViewerCount = _viewers.Count;
+                _dtoAds.LikeReward = _ad.LikeReward;
+                _dtoAds.ViewReward = _ad.ViewReward;
+                _dtoAds.YouLiked = (_likersRepo.GetAll().Where(l => l.Advertise == _ad.Id && l.LikedBy == UserID).ToList<Likers>().Count == 0) ? false : true;
+
+                return _dtoAds;
+
+            }
+
+
+
+            return null;
+        }
+
         int IUserServices.DoLikeAdvertiseByUserID(Guid advertiseID, Guid UserID)
         {
             // get liked ads
@@ -651,13 +750,22 @@ namespace SirooWebAPP.Infrastructure.Services
             return -1;
         }
 
-        bool IUserServices.LogOut(Guid UserID, string GUID)
+        bool IUserServices.LogOut(Guid UserID, string GUID, bool killLogout = false)
         {
-            OnlineUsers[] onlines = _onlineRepo.GetAll().Where(o => o.User == UserID && o.Guid == GUID).ToArray<OnlineUsers>();
+            if (killLogout)
+            {
+                ClerarAllUserLogins(UserID);
+                return true;
+            }
+
+            OnlineUsers[] onlines = GetAllOnlineUsers().Where(o => o.User == UserID && o.Guid == GUID).ToArray<OnlineUsers>();
             foreach (OnlineUsers item in onlines)
             {
-                _onlineRepo.Delete(item);
+                item.IsDeleted = true;
+                _onlineRepo.Update(item);
+                //_onlineRepo.Delete(item);
             }
+
             return true; //_onlineRepo.RemoveOnlineUsersByUseridAndToken(UserID, GUID);
         }
 
@@ -963,10 +1071,10 @@ namespace SirooWebAPP.Infrastructure.Services
             return true;
         }
 
-        public bool AddPurchaseCredit(Purchases purchase)
+        public Guid AddPurchaseCredit(Purchases purchase)
         {
             _purchasesRepository.Add(purchase);
-            return true;
+            return purchase.Id;
 
         }
 

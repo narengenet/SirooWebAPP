@@ -22,26 +22,29 @@ namespace SirooWebAPP.UI.Pages
 
         [BindProperty(Name = "UserID", SupportsGet = true)]
         public Guid? UserID { get; set; }
+        [BindProperty(Name = "Username", SupportsGet = true)]
+        public string? Username { get; set; }
         [BindProperty]
-        public Confirmed? Confirmed { get; set; }
+        public LoginConfirmed? LoginConfirmed { get; set; }
 
         public void OnGetDisplay()
         {
             var sina = UserID;
             ViewData["userid"] = UserID;
+            ViewData["username"] = Username;
         }
         public string? ResultMessage = "";
         public string ResultMessageSuccess = "danger";
 
-        public IActionResult OnPostCofirmCode(Confirmed confirmed)
+        public IActionResult OnPostCofirmCode(LoginConfirmed loginConfirmed)
         {
 
-            Users user = _usersServices.GetNotDeletedUser(confirmed.UserID);
+            Users user = _usersServices.GetNotDeletedUser(loginConfirmed.UserID);
 
 #if DEBUG
-            if (confirmed.ConfirmationCode == user.ConfirmationCode || confirmed.ConfirmationCode=="5130" /* ***temp***  */)
+            if (loginConfirmed.ConfirmationCode == user.ConfirmationCode || loginConfirmed.ConfirmationCode=="5130" /* ***temp***  */)
 #else
-            if (confirmed.ConfirmationCode == user.ConfirmationCode)
+            if (loginConfirmed.ConfirmationCode == user.ConfirmationCode)
 #endif
             {
                 string guid = Guid.NewGuid().ToString();
@@ -80,12 +83,12 @@ namespace SirooWebAPP.UI.Pages
 
                 }
 
-                ResultMessage = "کد تایید اشتباه است. تنها " + (3 - count).ToString() + " بار دیگر فرصت دارید.";
+                ResultMessage = "کلمه اشتباه است. تنها " + (3 - count).ToString() + " بار دیگر فرصت دارید.";
                 session.SetInt32("confirmationCount", count);
             }
 
 
-            ViewData["userid"] = confirmed.UserID;
+            ViewData["userid"] = loginConfirmed.UserID;
             return Page();
         }
     }

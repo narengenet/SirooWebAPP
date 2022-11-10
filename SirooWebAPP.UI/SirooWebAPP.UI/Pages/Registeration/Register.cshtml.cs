@@ -69,8 +69,8 @@ namespace SirooWebAPP.UI.Pages
         {
             if (ModelState.IsValid)
             {
-                Random r = new Random();
-                int _confirmationCode = r.Next(1000, 9999);
+                //Random r = new Random();
+                //int _confirmationCode = r.Next(1000, 9999);
                 Users inviter=(person.InviterUserID!=null)? _usersServices.GetUser(person.InviterUserID):null;
                 
 
@@ -112,7 +112,7 @@ namespace SirooWebAPP.UI.Pages
                     Family = HelperFunctions.SanitizeQuery(person.LastName), 
                     Cellphone = HelperFunctions.SanitizeQuery(person.CellPhone), 
                     Username = HelperFunctions.SanitizeQuery(person.UserName.ToLower()), 
-                    ConfirmationCode = _confirmationCode.ToString(), 
+                    //ConfirmationCode = _confirmationCode.ToString(), 
                     Inviter = inviter_id, 
                     ProfileMediaURL= "uploads/assets/profile.jpg",
                     Created=DateTime.Now
@@ -122,7 +122,7 @@ namespace SirooWebAPP.UI.Pages
                 UsersRoles _newUserRole = new UsersRoles { User = result, Role = _newRole.Id, Created = DateTime.Now, CreatedBy = result };
                 _usersServices.AddUserToRole(_newUserRole);
 
-                SMSSender.SendToPattern(_newUser.Cellphone, _newUser.FullName(), _newUser.ConfirmationCode);
+                //SMSSender.SendToPattern(_newUser.Cellphone, _newUser.FullName(), _newUser.ConfirmationCode);
                 return RedirectToPage("Confirmation", "Display", new { UserID = result});
 
             }

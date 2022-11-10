@@ -21,22 +21,24 @@ namespace SirooWebAPP.UI.Pages
     //        return base.IsValid(value);
     //    }
     //}
-    public class Confirmed
+    public class LoginConfirmed
     {
         [Required]
         public Guid UserID { get; set; }
         //[MyStringLength(50, MinimumLength = 5)]
+
+        public string Username { get; set; }
 
         [Required(ErrorMessage = "Password is required.")]
         [StringLength(40, MinimumLength = 6, ErrorMessage = "کلمه عبور باید حداقل 6 کاراکتر باشد.")]
         [DataType(DataType.Password)]
         public string ConfirmationCode { get; set; }
 
-        [Required(ErrorMessage = "rePassword is required.")]
-        [StringLength(40, MinimumLength = 6, ErrorMessage = "کلمه عبور باید حداقل 6 کاراکتر باشد.")]
-        [Compare("ConfirmationCode", ErrorMessage = "تکرارکلمه عبور و کلمه عبور باید یکسان باشند.")]
-        [DataType(DataType.Password)]
-        public string reConfirmationCode { get; set; }
+        //[Required(ErrorMessage = "rePassword is required.")]
+        //[StringLength(40, MinimumLength = 6, ErrorMessage = "کلمه عبور باید حداقل 6 کاراکتر باشد.")]
+        //[Compare("ConfirmationCode", ErrorMessage = "تکرارکلمه عبور و کلمه عبور باید یکسان باشند.")]
+        //[DataType(DataType.Password)]
+        //public string reConfirmationCode { get; set; }
 
 
 
