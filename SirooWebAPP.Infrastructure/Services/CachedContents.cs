@@ -8,7 +8,8 @@ namespace SirooWebAPP.Infrastructure.Services
         //private readonly IUsersRepository _userRepo;
         //private readonly IAdverticeRepository _adverticeRepo;
         public static List<Advertise> Advertises = new List<Advertise>();
-
+        public static List<Likers> Likers = new List<Likers>();
+        public static List<Viewers> Viewers = new List<Viewers>();
     //    public CachedContents(IUsersRepository userRepo, IAdverticeRepository adverticeRepo)
     //    {
     //        _userRepo = userRepo;

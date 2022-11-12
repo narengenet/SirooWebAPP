@@ -130,8 +130,10 @@ body {
 div#adsContainer {
     margin-right: 1rem;
     margin-left: 1rem;
-    margin-bottom:26vh;
-    padding-bottom:2rem;
+}
+div#afterLastPost {
+    margin-bottom: 26vh;
+    padding-bottom: 2rem;
 }
 .like-points .pics {
     display: flex;

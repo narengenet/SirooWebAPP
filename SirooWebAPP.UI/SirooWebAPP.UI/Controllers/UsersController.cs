@@ -101,20 +101,47 @@ namespace SirooWebAPP.UI.Controllers
 
             string _userid = HttpContext.Request.Cookies["userid"];
             Guid userId = Guid.Parse(_userid);
-            List<DTOAdvertise> ads = _usersServices.GetAdvertises(userId,null);
+            List<DTOAdvertise> ads = _usersServices.GetAdvertises(userId, false, 0, null);
             return Ok(ads);
         }
         [TypeFilter(typeof(SampleAsyncActionLoginFilter))]
-        [HttpGet("nextads/{lastFetchDate}")]
-        public IActionResult GetAdvertismentsAfter(string lastFetchDate)
+        [HttpGet("nextads/{lastFetchDate:guid}")]
+        public IActionResult GetAdvertismentsAfter(Guid lastFetchDate)
+        {
+            string _userid = HttpContext.Request.Cookies["userid"];
+            Guid userId = Guid.Parse(_userid);
+
+            Advertise lastFetchedAds = _usersServices.GetAllPermenantAdvertises().Where(a => a.Id == lastFetchDate).FirstOrDefault();
+
+            List<DTOAdvertise> ads = _usersServices.GetAdvertises(userId, false, 0, lastFetchedAds.CreationDate);
+            if (ads.Count==0)
+            {
+                ads = _usersServices.GetAdvertises(userId, true, 0, lastFetchedAds.CreationDate);
+            }
+            
+            return Ok(ads);
+
+            //string _userid = HttpContext.Request.Cookies["userid"];
+            //Guid userId = Guid.Parse(_userid);
+            //DateTime dt = Convert.ToDateTime(lastFetchDate);
+            //List<DTOAdvertise> ads = _usersServices.GetAdvertises(userId, false, 0, dt);
+            //return Ok(ads);
+        }
+
+        [TypeFilter(typeof(SampleAsyncActionLoginFilter))]
+        [HttpGet("beforeads/{lastfetchedid:guid}")]
+        public IActionResult GetAdvertismentsBefore(Guid lastfetchedid)
         {
 
             string _userid = HttpContext.Request.Cookies["userid"];
             Guid userId = Guid.Parse(_userid);
-            DateTime dt = Convert.ToDateTime(lastFetchDate);
-            List<DTOAdvertise> ads = _usersServices.GetAdvertises(userId,dt);
+
+            Advertise lastFetchedAds = _usersServices.GetAllPermenantAdvertises().Where(a => a.Id == lastfetchedid).FirstOrDefault();
+
+            List<DTOAdvertise> ads = _usersServices.GetAdvertises(userId, true, 0, lastFetchedAds.CreationDate);
             return Ok(ads);
         }
+
         [TypeFilter(typeof(SampleAsyncActionLoginFilter))]
         [HttpGet("myads")]
         public IActionResult GetMyAdvertisements()
@@ -145,7 +172,7 @@ namespace SirooWebAPP.UI.Controllers
             List<Transactions> transactions = _usersServices.GetTransactionsByUser(userId).OrderByDescending(t => t.Created).ToList<Transactions>();
             foreach (Transactions item in transactions)
             {
-                if (item.ReferenceID!=null)
+                if (item.ReferenceID != null)
                 {
                     item.ReferenceID = item.ReferenceID.Replace("A00000000000000000000000000", "");
 
@@ -153,7 +180,7 @@ namespace SirooWebAPP.UI.Controllers
             }
             return Ok(transactions);
         }
-        
+
         [TypeFilter(typeof(SampleAsyncActionLoginFilter))]
         [HttpGet("getincometransactions")]
         public IActionResult GetIncomeTransactions()
@@ -161,11 +188,11 @@ namespace SirooWebAPP.UI.Controllers
 
             string _userid = HttpContext.Request.Cookies["userid"];
             Guid userId = Guid.Parse(_userid);
-            List<TransactionPercents> transactions = _usersServices.GetAllTransactionPercents().Where(tp => tp.ToUser == userId).OrderByDescending(t=>t.Created).ToList<TransactionPercents>();
-                
+            List<TransactionPercents> transactions = _usersServices.GetAllTransactionPercents().Where(tp => tp.ToUser == userId).OrderByDescending(t => t.Created).ToList<TransactionPercents>();
+
             foreach (TransactionPercents item in transactions)
             {
-                if (item.ReferenceID!=null)
+                if (item.ReferenceID != null)
                 {
                     item.ReferenceID = item.ReferenceID.Replace("A00000000000000000000000000", "");
 
@@ -191,6 +218,7 @@ namespace SirooWebAPP.UI.Controllers
             string _userid = HttpContext.Request.Cookies["userid"];
             Guid userId = Guid.Parse(_userid);
             int result = _usersServices.DoLikeAdvertiseByUserID(advertiseID, userId);
+
             return Ok(result);
         }
         [TypeFilter(typeof(SampleAsyncActionLoginFilter))]
@@ -209,7 +237,7 @@ namespace SirooWebAPP.UI.Controllers
             string _userid = HttpContext.Request.Cookies["userid"];
             Guid userId = Guid.Parse(_userid);
             bool result = _usersServices.DeleteAdvertise(postID, userId);
-            Advertise tmp= CachedContents.Advertises.Where(u => u.Id == postID).FirstOrDefault();
+            Advertise tmp = CachedContents.Advertises.Where(u => u.Id == postID).FirstOrDefault();
             CachedContents.Advertises.Remove(tmp);
             return Ok(result);
         }
@@ -377,10 +405,10 @@ namespace SirooWebAPP.UI.Controllers
         public JsonResult VerifyUsername([FromQuery(Name = "Person.UserName")] string Username)
         {
             string theusername = HelperFunctions.SanitizeQuery(Username);
-            List<string> searchedResult= _usersServices.GetUsernames().Where(s => s == theusername).ToList<string>();
-            if (searchedResult.Count>0)
+            List<string> searchedResult = _usersServices.GetUsernames().Where(s => s == theusername).ToList<string>();
+            if (searchedResult.Count > 0)
             {
-                return new JsonResult($"{Username} "+"قبلا ثبت شده است.");
+                return new JsonResult($"{Username} " + "قبلا ثبت شده است.");
             }
             //var usernames = _usersServices.GetUsernames();
             //if (usernames.Contains(Username))
@@ -441,8 +469,8 @@ namespace SirooWebAPP.UI.Controllers
         string amount = "1100";
         string authority;
         string description = "خرید تستی ";
-        
-#if DEBUG        
+
+#if DEBUG
         string callbackurl = "https://localhost:7051/VerifyByHttpClient";
 #else
         string callbackurl = "https://sirooapp.ir/VerifyByHttpClient";
@@ -460,7 +488,7 @@ namespace SirooWebAPP.UI.Controllers
             theAmount = "10000";
 #endif
             amount = theAmount;
-            
+
             description = theDescription;
             try
             {
@@ -623,10 +651,10 @@ namespace SirooWebAPP.UI.Controllers
                     string dataauth = jodata["data"].ToString();
 
 
-                    
+
                     if (dataauth != "[]")
                     {
-                        
+
 
                         authority = jodata["data"]["authority"].ToString();
 
@@ -716,8 +744,8 @@ namespace SirooWebAPP.UI.Controllers
 
 
                         _session.Remove(authority);
-                        return RedirectToPage("/Clients/PaymentResult","Display", new {TransactionId=transac.Id ,  RefId= authority, Status=true, Code="success" });
-                        
+                        return RedirectToPage("/Clients/PaymentResult", "Display", new { TransactionId = transac.Id, RefId = authority, Status = true, Code = "success" });
+
 
                         //return View();
                     }
@@ -725,7 +753,7 @@ namespace SirooWebAPP.UI.Controllers
                     {
 
                         string errorscode = jo["errors"]["code"].ToString();
-                        transac.Status= jo["errors"]["code"].ToString();
+                        transac.Status = jo["errors"]["code"].ToString();
                         transac.IsSuccessfull = false;
                         _usersServices.UpdateTransaction(transac);
                         _session.Remove(authority);

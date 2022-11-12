@@ -348,7 +348,13 @@ namespace SirooWebAPP.Infrastructure.Services
             return _adverticeRepo.Add(advertise).Id;
         }
 
-        public List<DTOAdvertise> GetAdvertises(Guid userID, DateTime? afterThisDate = null)
+        public List<Advertise> GetAllPermenantAdvertises()
+        {
+            return _adverticeRepo.GetAll().ToList<Advertise>();
+        }
+
+
+        public List<DTOAdvertise> GetAdvertises(Guid userID, bool beforeDate,int pageIndex, DateTime? afterThisDate = null)
         {
             // get current user
             Users user = _userRepo.GetById(userID);
@@ -370,65 +376,51 @@ namespace SirooWebAPP.Infrastructure.Services
                 CachedContents.Advertises = _result;
             }
 
-            //// get all ads if owner quota is not ended and ads is not expired
-            //List<Advertise> result = _adverticeRepo.GetAll().Where(a => a.RemainedViewQuota != -1 && a.Expiracy <= DateTime.Now && a.IsAvtivated && a.IsDeleted == false && a.IsRejected == false)
-            //    .Join(
-            //        _userRepo.GetAll().Where(u => u.IsActivated == true && u.IsDeleted == false).ToList<Users>(),
-            //        ads => ads.Owner,
-            //        users => users.Id,
-            //        (ads, users) => ads
-            //        //new Advertise { Id=ads.Id, Name=ads.Name, Owner=ads.Owner, Caption=ads.Caption, Created=ads.Created, CreatedBy=ads.CreatedBy, CreationDate=ads.CreationDate, Expiracy=ads.Expiracy, IsAvtivated=ads.IsAvtivated, IsDeleted=ads.IsDeleted, IsSpecial=ads.IsSpecial, IsVideo=ads.IsVideo, LastModified=ads.LastModified, LastModifiedBy=ads.LastModifiedBy, LikeReward=ads.LikeReward, MediaSourceURL=ads.MediaSourceURL, RemainedViewQuota=ads.RemainedViewQuota, ViewQuota=ads.ViewQuota, ViewReward=ads.ViewReward}
-            //    )
-            //    .OrderByDescending(l => l.CreationDate)
-            //    .ToList<Advertise>();
+            if (CachedContents.Likers.Count==0)
+            {
+                CachedContents.Likers = _likersRepo.GetAll().Where(l => l.IsDeleted == false).ToList<Likers>();
+
+            }
+            if (CachedContents.Viewers.Count == 0)
+            {
+                CachedContents.Viewers = _viewersRepo.GetAll().Where(l => l.IsDeleted == false).ToList<Viewers>();
+
+            }
+
 
             // create return data model object
             List<DTOAdvertise> dTOAdvertise = new List<DTOAdvertise>();
 
-            List<Advertise> tmpAds = CachedContents.Advertises;
+            List<Advertise> tmpAds = CachedContents.Advertises.Skip(pageIndex*3).Take(3).ToList<Advertise>();
             if (afterThisDate != null)
             {
-                tmpAds = CachedContents.Advertises.Where(a => a.CreationDate > afterThisDate).ToList<Advertise>();
+                if (beforeDate)
+                {
+                    tmpAds = CachedContents.Advertises.Where(a => a.CreationDate < afterThisDate).Skip(pageIndex * 3).Take(3).ToList<Advertise>();
+                }
+                else
+                {
+                    tmpAds = CachedContents.Advertises.Where(a => a.CreationDate > afterThisDate).Skip(pageIndex * 3).Take(3).ToList<Advertise>();
+                }
+                
             }
 
             // prepare returning ads
             //bool GoNext = false;
             for (int i = 0; i < tmpAds.Count; i++)
             {
-                //GoNext = false;
                 Advertise item = tmpAds[i];
-                //// checks if ads quota is not unlimited and if current viewer is not the owner of ad
-                //if (item.ViewQuota != -1 && userID != item.Owner)
-                //{
-                //    // then decrease remained view quota 1 unit
-                //    item.RemainedViewQuota -= 1;
-                //    //CachedContents.Advertises.Where(a => a.Id == item.Id).FirstOrDefault().RemainedViewQuota -= 1;
-                //    if (item.RemainedViewQuota < 0)
-                //    {
-                //        CachedContents.Advertises.Remove(item);
-                //        GoNext = true;
-                //    }
-                //    UpdateAdvertisement(item);
-                //    if (GoNext)
-                //    {
-                //        continue;
 
-                //    }
-
-                //}
-
-                //// check if current user is not ad owner
-                //if (userID != item.Owner)
-                //{
-                //    // then add current view for ad
-                //    _viewersRepo.Add(new Viewers { Advertise = item.Id, ViewedBy = userID });
-
-                //}
+                if (item.Owner!=userID)
+                {
+                    Viewers tmpView = _viewersRepo.Add(new Viewers { Advertise = item.Id, ViewedBy = userID, Created = DateTime.Now });
+                    CachedContents.Viewers.Add(tmpView);
+                }
 
 
                 // prepare likers of current ad
-                IList<Likers> _likers = _likersRepo.GetAll().Where(l => l.Advertise == item.Id).ToList<Likers>();
-                IList<Viewers> _viewers = _viewersRepo.GetAll().Where(v => v.Advertise == item.Id).ToList<Viewers>();
+                IList<Likers> _likers = CachedContents.Likers.Where(l => l.Advertise == item.Id).ToList<Likers>();
+                IList<Viewers> _viewers = CachedContents.Viewers.Where(v => v.Advertise == item.Id).ToList<Viewers>();
 
                 // map ad, likers and viewers to ad DTO
                 DTOAdvertise _dtoAds = new DTOAdvertise();
@@ -448,7 +440,7 @@ namespace SirooWebAPP.Infrastructure.Services
                 _dtoAds.ViewerCount = _viewers.Count;
                 _dtoAds.LikeReward = item.LikeReward;
                 _dtoAds.ViewReward = item.ViewReward;
-                _dtoAds.YouLiked = (_likersRepo.GetAll().Where(l => l.Advertise == item.Id && l.LikedBy == userID).ToList<Likers>().Count == 0) ? false : true;
+                _dtoAds.YouLiked = (CachedContents.Likers.Where(l => l.Advertise == item.Id && l.LikedBy == userID).ToList<Likers>().Count == 0) ? false : true;
 
                 dTOAdvertise.Add(_dtoAds);
             }
@@ -626,7 +618,9 @@ namespace SirooWebAPP.Infrastructure.Services
         {
             //Advertise ad = _adverticeRepo.GetById(advertiseID);
             //Users usr = _userRepo.GetById(userID);
-            return _likersRepo.Add(new Likers { Advertise = advertiseID, LikedBy = userID });
+            Likers result= _likersRepo.Add(new Likers { Advertise = advertiseID, LikedBy = userID });
+            CachedContents.Likers.Add(result);
+            return result;
         }
 
         public bool RemoveLikeFromAdvertise(Guid advertiseID, Guid UserID)
@@ -667,7 +661,8 @@ namespace SirooWebAPP.Infrastructure.Services
 
                         }
                         // add view
-                        _viewersRepo.Add(new Viewers { Advertise = advertiseID, ViewedBy = UserID });
+                        Viewers toCache= _viewersRepo.Add(new Viewers { Advertise = advertiseID, ViewedBy = UserID });
+                        CachedContents.Viewers.Add(toCache);
 
                         // check if liker is not ads owner
                         if (_ad.Owner != UserID)
@@ -684,8 +679,10 @@ namespace SirooWebAPP.Infrastructure.Services
 
 
                 // prepare likers of current ad
-                IList<Likers> _likers = _likersRepo.GetAll().Where(l => l.Advertise == _ad.Id).ToList<Likers>();
-                IList<Viewers> _viewers = _viewersRepo.GetAll().Where(v => v.Advertise == _ad.Id).ToList<Viewers>();
+                //IList<Likers> _likers = _likersRepo.GetAll().Where(l => l.Advertise == _ad.Id).ToList<Likers>();
+                //IList<Viewers> _viewers = _viewersRepo.GetAll().Where(v => v.Advertise == _ad.Id).ToList<Viewers>();
+                IList<Likers> _likers = CachedContents.Likers.Where(l => l.Advertise == _ad.Id).ToList<Likers>();
+                IList<Viewers> _viewers = CachedContents.Viewers.Where(v => v.Advertise == _ad.Id).ToList<Viewers>();
 
                 // map ad, likers and viewers to ad DTO
                 DTOAdvertise _dtoAds = new DTOAdvertise();
@@ -705,7 +702,7 @@ namespace SirooWebAPP.Infrastructure.Services
                 _dtoAds.ViewerCount = _viewers.Count;
                 _dtoAds.LikeReward = _ad.LikeReward;
                 _dtoAds.ViewReward = _ad.ViewReward;
-                _dtoAds.YouLiked = (_likersRepo.GetAll().Where(l => l.Advertise == _ad.Id && l.LikedBy == UserID).ToList<Likers>().Count == 0) ? false : true;
+                _dtoAds.YouLiked = (CachedContents.Likers.Where(l => l.Advertise == _ad.Id && l.LikedBy == UserID).ToList<Likers>().Count == 0) ? false : true;
 
                 return _dtoAds;
 
@@ -733,7 +730,8 @@ namespace SirooWebAPP.Infrastructure.Services
                     Users _liker = _userRepo.GetById(UserID);
 
                     // add like
-                    _likersRepo.Add(new Likers { Advertise = advertiseID, LikedBy = UserID });
+                    Likers toCache= _likersRepo.Add(new Likers { Advertise = advertiseID, LikedBy = UserID });
+                    CachedContents.Likers.Add(toCache);
 
                     // check if liker is not ads owner
                     if (_ad.Owner != UserID)

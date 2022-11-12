@@ -71,9 +71,9 @@
                 </div>
     @if (Model.RoleName == "super" || Model.RoleName == "admin")
     {
-                    <div class="col-12 delPostAdmin mt-1 mb-1">
-                            <input type="button" class="btn btn-danger" value="حذف این پست" onclick="delId='${advertiseID}';$('#deletePostModal').modal('toggle');" />
-                    </div>
+                        <div class="col-12 delPostAdmin mt-1 mb-1">
+                                <input type="button" class="btn btn-danger" value="حذف این پست" onclick="delId='${advertiseID}';$('#deletePostModal').modal('toggle');" />
+                        </div>
     }
     <div class="col-1 like-btn ${advertiseID} {{if youLiked}}liked{{/if}}" {{if isVideo==1}} onclick="_doLike(this,'${advertiseID}')" {{else}} onclick="_doLike(this,'${advertiseID}')" {{/if}} >+${likeReward}</div>
                 <div class="col-2 like-details ${advertiseID}"><b>${likerCount}</b> <i>liked</i></div>
@@ -113,16 +113,24 @@
         </div>
     </div>
 </div>
+<div id="afterLastPost">
+    <div class="threeDotsLoading2">
+        <img src="~/images/loading.gif" style="width:3rem;" />
+        <div class="siroo-header-h3 direction-rtl">
+            در حال بروزرسانی...
+        </div>
+    </div>
+</div>
 
 @section Scripts {
-    <script src="~/js/jquery.tmpl.min.js"></script>
-    <script src="~/js/jquery.timeago.js"></script>
-    <script src="~/js/isInViewport.min.js"></script>
-    <script src="~/js/pages/Main-db.js"></script>
-    <script src="~/js/pages/Main-default.js"></script>
+<script src="~/js/jquery.tmpl.min.js"></script>
+<script src="~/js/jquery.timeago.js"></script>
+<script src="~/js/isInViewport.min.js"></script>
+<script src="~/js/pages/Main-db.js"></script>
+<script src="~/js/pages/Main-default.js"></script>
 
     @if (Model.RoleName == "super" || Model.RoleName == "admin")
     {
-        <script src="~/js/pages/Main-super-admin.js"></script>
+<script src="~/js/pages/Main-super-admin.js"></script>
     }
 }

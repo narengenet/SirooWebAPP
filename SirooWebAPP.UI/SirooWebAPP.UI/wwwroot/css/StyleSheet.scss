@@ -523,6 +523,16 @@ body {
     position: relative;
     top: -2.5rem;
 }
+.threeDotsLoading2 {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    height: 0;
+    flex-direction: row-reverse;
+    position: relative;
+    top: -2.5rem;
+}
 
 .link-btn {
     display: flex;
