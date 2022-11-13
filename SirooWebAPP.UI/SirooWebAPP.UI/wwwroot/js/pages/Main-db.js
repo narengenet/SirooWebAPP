@@ -323,14 +323,14 @@ function justAddAds(incomingAd) {
 //    };
 //}
 
-//function compareDates(a, b) {
-//    aDate = new Date(a.creationDate);
-//    bDate = new Date(b.creationDate);
-//    if (aDate > bDate) {
-//        return -1;
-//    }
-//    if (aDate < bDate) {
-//        return 1;
-//    }
-//    return 0;
-//}
+function compareDates(a, b) {
+    aDate = new Date(a.creationDate);
+    bDate = new Date(b.creationDate);
+    if (aDate > bDate) {
+        return -1;
+    }
+    if (aDate < bDate) {
+        return 1;
+    }
+    return 0;
+}

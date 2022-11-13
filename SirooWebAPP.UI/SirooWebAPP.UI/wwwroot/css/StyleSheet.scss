@@ -581,12 +581,21 @@ body {
 
 
 
-
+.modal-title{
+    font-family:'Yekan';
+    color:black;
+}
+.modal-footer button{
+    font-family:'Yekan';
+}
 .draws {
     display: flex;
     flex-direction: column;
     align-items: center;
     margin-bottom: 21vh;
+}
+.draws.home-draws{
+    margin-bottom:1rem!important;
 }
 
 .draw {

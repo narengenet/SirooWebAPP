@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using ImageMagick;
+using System.Text;
 using ZXing.QrCode;
 
 namespace SirooWebAPP.UI.Helpers
@@ -43,7 +44,7 @@ namespace SirooWebAPP.UI.Helpers
         }
 
 
-        public static string UploadFileToDateBasedFolder(string filename_prefix,IFormFile formFile,IWebHostEnvironment _environment)
+        public static string UploadFileToDateBasedFolder(string filename_prefix,IFormFile formFile, bool isVideo,IWebHostEnvironment _environment)
         {
             string strYear = DateTime.Now.Year.ToString();
             string strMonth = DateTime.Now.Month.ToString();
@@ -63,8 +64,38 @@ namespace SirooWebAPP.UI.Helpers
             var path = Path.Combine(_environment.WebRootPath, "uploads/" + strYear + "/" + strMonth, FileName);
             var stream = new FileStream(path, FileMode.Create);
 
-            formFile.CopyToAsync(stream);
-            return "uploads/" + strYear + "/" + strMonth + "/" + FileName;
+
+            formFile.CopyTo(stream);
+
+            try
+            {
+                if (!isVideo)
+                {
+                    // Read from file
+                    using (var image = new MagickImage(path))
+                    {
+                        var size = new MagickGeometry(500, 500);
+                        // This will resize the image to a fixed size without maintaining the aspect ratio.
+                        // Normally an image will be resized to fit inside the specified size.
+                        size.IgnoreAspectRatio = false;
+
+                        image.Resize(size);
+
+                        // Save the result
+                        string finalpath = Path.Combine(_environment.WebRootPath, "uploads/" + strYear + "/" + strMonth, "re" + FileName);
+                        image.Write(finalpath);
+                    }
+                }
+
+
+                return "uploads/" + strYear + "/" + strMonth + "/" + "re" + FileName;
+            }
+            catch (Exception)
+            {
+
+                return "-1";
+            }
+
         }
 
         public static string CreateQR(string textToQR)
@@ -117,5 +148,9 @@ namespace SirooWebAPP.UI.Helpers
                     result.Append(c);
             return result.ToString();
         }
+
+
+
+
     }
 }

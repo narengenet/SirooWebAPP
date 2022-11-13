@@ -11,6 +11,7 @@ using SirooWebAPP.Infrastructure.SMS;
 using SirooWebAPP.UI.Helpers;
 using SirooWebAPP.UI.Pages;
 using SirooWebAPP.UI.ViewModels;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -114,11 +115,11 @@ namespace SirooWebAPP.UI.Controllers
             Advertise lastFetchedAds = _usersServices.GetAllPermenantAdvertises().Where(a => a.Id == lastFetchDate).FirstOrDefault();
 
             List<DTOAdvertise> ads = _usersServices.GetAdvertises(userId, false, 0, lastFetchedAds.CreationDate);
-            if (ads.Count==0)
+            if (ads.Count == 0)
             {
                 ads = _usersServices.GetAdvertises(userId, true, 0, lastFetchedAds.CreationDate);
             }
-            
+
             return Ok(ads);
 
             //string _userid = HttpContext.Request.Cookies["userid"];
@@ -349,7 +350,11 @@ namespace SirooWebAPP.UI.Controllers
                     ad.LastModifiedBy = userId.ToString();
                     ad.Notes = post.adNote;
                     _usersServices.UpdateAdvertisement(ad);
-                    CachedContents.Advertises.Insert(0, ad);
+                    if(CachedContents.Advertises.Find(a => a.Id == ad.Id)==null)
+                    {
+                        CachedContents.Advertises.Insert(0, ad);
+                    }
+                    
                     return Ok(true);
                 }
             }
@@ -409,6 +414,19 @@ namespace SirooWebAPP.UI.Controllers
             if (searchedResult.Count > 0)
             {
                 return new JsonResult($"{Username} " + "قبلا ثبت شده است.");
+            }
+            else
+            {
+                string[] validss = { "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" };
+
+                for (int i = 0; i < Username.Length; i++)
+                {
+                    int result =Array.FindIndex(validss, s => s == Username[i].ToString());
+                    if (result==-1)
+                    {
+                        return new JsonResult($"'{Username}' " + " مجاز نیست. فقط حروف لاتین و اعداد مجاز میباشند.");
+                    }
+                }
             }
             //var usernames = _usersServices.GetUsernames();
             //if (usernames.Contains(Username))

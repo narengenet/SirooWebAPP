@@ -14,6 +14,7 @@ namespace SirooWebAPP.UI.Pages
         public int  WinnerCount { get; set; }
         [Required]
         [Range(0, int.MaxValue, ErrorMessage = "اولیت هر جایزه حداقل باید صفر باشد")]
+        public long? ValueInMoney { get; set; }
         public int Priority { get; set; }
         public bool IsActivated { get; set; }
 

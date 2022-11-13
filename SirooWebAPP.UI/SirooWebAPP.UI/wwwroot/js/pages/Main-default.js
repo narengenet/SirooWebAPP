@@ -15,7 +15,7 @@ $(document).ready(function () {
             localStorage.clear();
             setToLocalStorage('v', '1');
         }
-        
+
     } catch (e) {
 
         getNewPosts();
@@ -30,7 +30,7 @@ $(document).ready(function () {
 
 
 
-    
+
 
 
 });
@@ -54,9 +54,18 @@ function getNewPosts() {
                 //var ads = jQuery.parseJSON(result);
                 //debugger;
                 $('#adsContainer').html('');
-                $('#adsTemplate').tmpl(result).appendTo('#adsContainer');
+                // $('#adsTemplate').tmpl(result[2]).appendTo('#adsContainer');
+                // $('#adsTemplate').tmpl(result[1]).appendTo('#adsContainer');
+                // $('#adsTemplate').tmpl(result[0]).appendTo('#adsContainer');
+                sortedResult = result.sort(compareDates);
 
-                
+                $('#adsTemplate').tmpl(sortedResult).appendTo('#adsContainer');
+
+                //for (i = result.length - 1; i >= 0; i--) {
+                //    $('#adsTemplate').tmpl(result[i]).appendTo('#adsContainer');
+                //}
+
+
                 localStorage.clear();
                 setVersion();
 
@@ -91,7 +100,7 @@ function GoToFindLocalPosts() {
     var firstAd;
     if (thePostIDs != null) {
 
-        if (thePostIDs.length>0) {
+        if (thePostIDs.length > 0) {
             for (var i = 0; i < thePostIDs.length; i++) {
 
                 theAd = JSON.parse(localStorage.getItem(thePostIDs[i]));
@@ -133,6 +142,7 @@ function GetBeforeAds(fromAdsId) {
 
                 //debugger;
 
+                sortedResult = result.sort(compareDates);
 
                 AddPostToTemplate(result);
 
@@ -171,7 +181,7 @@ function GetNextAds(fromThisAd) {
                 let ads = new Array();
                 let rawAds = new Array();
 
-                if (result.length>0) {
+                if (result.length > 0) {
                     localStorage.clear();
                     setVersion();
 

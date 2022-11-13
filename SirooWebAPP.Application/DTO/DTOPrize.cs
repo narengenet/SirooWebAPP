@@ -15,5 +15,6 @@ namespace SirooWebAPP.Application.DTO
         public int Priority { get; set; }
         public Guid CreatedBy { get; set; }
         public bool IsActivated { get; set; }
+        public long? ValueInMoney { get; set; }
     }
 }

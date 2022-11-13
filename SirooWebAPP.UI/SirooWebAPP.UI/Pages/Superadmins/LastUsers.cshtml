@@ -3,33 +3,55 @@
 @{
     Layout = "_LayoutClients";
 }
+<style>
+    table td{
+        width:25%;
+        text-align:center;
+        font-family:'Yekan';
+    }
+    table tr{
+        border:1px solid white;
+    }
+    .MainDashboard{
+        display:none!important;
+    }
+</style>
 <div class="direction-rtl" style="margin-bottom:25vh;">
+    <div style="text-align:center;">
+        تعداد کل کاربران: <span>@Model.NewUsers.Count</span>
+    </div>
+    <br/>
+    <hr />
     <h1 class="siroo-header">ثبت نام های جدید</h1>
-    <ul>
+    <table>
+        <tr>
+            <td class="d-none">آی دی</td>
+            
+            <td>موبایل</td>
+            <td>نام کاربری</td>
+            <td>معرف</td>
+            <td>کلمه عبور</td>
+        </tr>
         @foreach (var x in Model.NewUsers)
         {
-            <li style="text-align:left;direction:ltr;font-size:inherit.2rem;">
-                <span>@x.FullName()</span>
-                <span>@x.Cellphone</span>
-                <span>@x.Username</span>
-                <span style="font-size:1.5rem;">@x.ConfirmationCode</span>
-            </li>
+            <tr style="text-align:left;direction:ltr;font-size:inherit.2rem;">
+                <td class="ids d-none">@x.Id</td>
+                
+                <td onclick="copyToClipboard(this);">@x.Cellphone</td>
+                <td class="username">@x.Username</td>
+                <td class="inviter" >@x.Inviter</td>
+                <td onclick="copyToClipboard(this);" style="font-size:1.5rem;">@x.ConfirmationCode</td>
+            </tr>
         }
-    </ul>
+    </table>
     <br />
     <hr />
     <br />
-    <h1 class="siroo-header">لاگین های جدید</h1>
-    <ul>
-        @foreach (var x in Model.OldUsers)
-        {
-            <li style="text-align:left;direction:ltr;font-size:inherit.2rem;">
-                <span>@x.FullName()</span>
-                <span>@x.Cellphone</span>
-                <span>@x.Username</span>
-                <span style="font-size:1.5rem;">@x.ConfirmationCode</span>
-            </li>
-        }
-    </ul>
+
 </div>
-</ul>
+
+
+@section Scripts {
+    <script src="~/js/pages/Allusers-default.js"></script>
+
+}

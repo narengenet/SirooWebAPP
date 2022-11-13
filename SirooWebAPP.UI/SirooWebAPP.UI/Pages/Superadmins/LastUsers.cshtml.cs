@@ -26,8 +26,8 @@ namespace SirooWebAPP.UI.Pages.Superadmins
         public List<Users> OldUsers { get; set; }
         public void OnGet()
         {
-            NewUsers= _usersServices.GetNotDeletedUsers().Where(u => u.IsActivated == false).OrderByDescending(u=>u.Created).ToList<Users>();
-            OldUsers= _usersServices.GetNotDeletedUsers().Where(u => u.IsActivated == true && u.LastModified>=DateTime.Now.AddDays(-2)).OrderByDescending(u=>u.LastModified).ToList<Users>();
+            NewUsers= _usersServices.GetNotDeletedUsers().OrderByDescending(u=>u.Created).ToList<Users>();
+            
 
         }
     }

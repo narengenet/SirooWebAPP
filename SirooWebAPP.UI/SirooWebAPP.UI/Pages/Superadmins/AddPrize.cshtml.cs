@@ -84,7 +84,8 @@ namespace SirooWebAPP.UI.Pages.Superadmins
                         WinnerCount = addPrize.WinnerCount,
                         Priority = addPrize.Priority,
                         Name = addPrize.Name,
-                        IsActivated = addPrize.IsActivated
+                        IsActivated = addPrize.IsActivated,
+                        ValueInMoney=addPrize.ValueInMoney
                     };
                     _usersServices.AddPrize(_p);
                     ResultMessage.Add("جایزه اضافه شد");

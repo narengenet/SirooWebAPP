@@ -79,13 +79,13 @@
                 </div>
 
                 <div class="row justify-content-center mt-5 mb-3">
-                    <div class="col-12 siroo-header">کارمزدهای محاسبه شده شما</div>
+                    <div class="col-12 siroo-header">دریافت های محاسبه شده شما</div>
                 </div>
                 <div class="justify-content-center col-12 direction-rtl">
                     <div class="d-flex bg-primary rounded-top text-center">
                         <div class="col-3 text-light pt-2 pb-2 siroo-label">تاریخ</div>
                         <div class="col-3 text-light pt-2 pb-2 siroo-label">مبلغ <span>ریال</span></div>
-                        <div class="col-3 text-light pt-2 pb-2 siroo-label">اعتبارخریداری شده</div>
+                        <div class="col-3 text-light pt-2 pb-2 siroo-label">بابت</div>
                         <div class="col-3 text-light pt-2 pb-2 siroo-label">توضیحات</div>
                     </div>
                 </div>
@@ -116,7 +116,7 @@
 <script id="transactionTemplate" type="text/x-jQuery-tmpl">
     <div class="d-flex text-center border direction-rtl transaction-row">
         <div class="col-3 siroo-small-label item-date">${created}</div>
-        <div class="col-3 siroo-label">${amount} <span>ریال</span></div>
+        <div class="col-3 siroo-label">${amount} <span> ریال </span></div>
         <div id="trans-${id}" onclick="copyToClipboard('trans-${id}');" class="col-3 siroo-label siroo-text-shadow">${referenceID}</div>
         <div class="col-3 siroo-label {{if isSuccessfull}} bg-light text-success {{else}} bg-light text-danger {{/if}}">${status}</div>
     </div>
@@ -125,9 +125,15 @@
 <script id="inTransactionTemplate" type="text/x-jQuery-tmpl">
     <div class="d-flex text-center border direction-rtl transaction-row">
         <div class="col-3 siroo-small-label item-dates">${created}</div>
-        <div class="col-3 siroo-label">${toAmount} <span>ریال</span></div>
+        <div class="col-3 siroo-label">${toAmount} <span> ریال </span></div>
         <div id="intrans-${id}" onclick="copyToClipboard('intrans-${id}');" class="col-3 siroo-label siroo-text-shadow">${referenceID}</div>
-        <div class="col-3 siroo-label bg-success text-light">${percentage} درصد ${description}</div>
+        <div class="col-3 siroo-label bg-success text-light">
+            {{if percentage==0}}
+                ${description}
+            {{else}}
+                ${percentage} درصد ${description}
+            {{/if}}
+        </div>
     </div>
 </script>
 

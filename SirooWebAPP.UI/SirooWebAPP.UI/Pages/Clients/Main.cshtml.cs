@@ -31,6 +31,8 @@ namespace SirooWebAPP.UI.Pages
             RoleName = session.GetString("userrolename");
             MyUsername = session.GetString("username");
             MyPoints = session.GetString("userpoints");
+
+
         }
         public string? ResultMessage = "";
         public string ResultMessageSuccess = "danger";

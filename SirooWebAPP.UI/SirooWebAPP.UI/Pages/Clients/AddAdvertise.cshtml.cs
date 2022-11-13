@@ -69,6 +69,7 @@ namespace SirooWebAPP.UI.Pages.Clients
             bool condition = true;
 
             Guid tmp_userid = addAds.UserID;
+            bool isGif = false;
 
             if (addAds.Upload.Length> 15728640)
             {
@@ -85,7 +86,8 @@ namespace SirooWebAPP.UI.Pages.Clients
                 }
                 if (addAds.Upload.ContentType == "image/gif")
                 {
-                    addAds.isVideo = true;
+                    addAds.isVideo = false;
+                    isGif = true;
                 }
                 string[] filetypes = { "image/gif", "image/jpeg", "image/png", "image/bmp", "video/mpeg", "video/mp4" };
                 if (!filetypes.Contains(addAds.Upload.ContentType))
@@ -101,48 +103,57 @@ namespace SirooWebAPP.UI.Pages.Clients
             string prefix = tmp_userid.ToString() + "-" + random_number.ToString() + "-";// + addAds.Upload.FileName;
             if (addAds.Upload != null && addAds.Caption != null && condition)
             {
-                FileName = HelperFunctions.UploadFileToDateBasedFolder(prefix, addAds.Upload, _environment);
+                FileName = HelperFunctions.UploadFileToDateBasedFolder(prefix, addAds.Upload, addAds.isVideo, _environment);
+                if (FileName!="-1")
+                {
+                    string _creatorId = HelperFunctions.GetCookie("userid", Request);
+                    Guid creatorID = Guid.Parse(_creatorId);
+
+                    int defPointsImage = Convert.ToInt32(_usersServices.GetConstantDictionary("def_points_for_image_like").ConstantValue);
+                    int defPointsVideo = Convert.ToInt32(_usersServices.GetConstantDictionary("def_points_for_video_like").ConstantValue);
+
+
+
+                    if (condition)
+                    {
+                        Advertise ads = new Advertise
+                        {
+                            //Notes = addAds.Notes,
+                            Caption = addAds.Caption,
+                            CreationDate = DateTime.Now,
+                            Expiracy = addAds.Expiracy,
+                            Owner = addAds.UserID,
+                            IsVideo = addAds.isVideo,
+                            LikeReward = (addAds.isVideo) ? defPointsVideo : defPointsImage,
+                            ViewReward = addAds.ViewReward,
+                            ViewQuota = addAds.ViewQuota,
+                            CreatedBy = creatorID,
+                            MediaSourceURL = FileName
+
+                        };
+
+                        _usersServices.AddAvertise(ads, tmp_userid);
+
+
+
+
+
+
+                        CreateOptionList();
+
+                        IsVideo = ads.IsVideo;
+                        ResultMessage = "پَست جدید ارسال شد. لطفا منتظر تایید بمانید.";
+                        ResultMessageSuccess = "success";
+                    }
+                }
+                else
+                {
+                    ResultMessage += " فایل شما قابل شناسایی نیست.";
+                    ResultMessageSuccess = "danger";
+                }
 
                 
-                string _creatorId = HelperFunctions.GetCookie("userid", Request);
-                Guid creatorID = Guid.Parse(_creatorId);
 
-                int defPointsImage = Convert.ToInt32(_usersServices.GetConstantDictionary("def_points_for_image_like").ConstantValue);
-                int defPointsVideo = Convert.ToInt32(_usersServices.GetConstantDictionary("def_points_for_video_like").ConstantValue);
-
-
-
-                if (condition)
-                {
-                    Advertise ads = new Advertise
-                    {
-                        //Notes = addAds.Notes,
-                        Caption = addAds.Caption,
-                        CreationDate = DateTime.Now,
-                        Expiracy = addAds.Expiracy,
-                        Owner = addAds.UserID,
-                        IsVideo = addAds.isVideo,
-                        LikeReward = (addAds.isVideo) ? defPointsVideo : defPointsImage,
-                        ViewReward = addAds.ViewReward,
-                        ViewQuota = addAds.ViewQuota,
-                        CreatedBy = creatorID,
-                        MediaSourceURL = FileName
-
-                    };
-
-                    _usersServices.AddAvertise(ads, tmp_userid);
-
-
-
-
-
-
-                    CreateOptionList();
-
-                    IsVideo = ads.IsVideo;
-                    ResultMessage = "پَست جدید ارسال شد. لطفا منتظر تایید بمانید.";
-                    ResultMessageSuccess = "success";
-                }
             }
             else
             {

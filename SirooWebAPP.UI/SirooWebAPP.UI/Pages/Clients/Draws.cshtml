@@ -11,7 +11,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">اتمام دوره</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="بازگشت">
+                    <button type="button" onclick="$('#finishdraw_'+finishId).css('opacity','1');$('#finishDrawModal').modal('toggle');"   class="close" data-dismiss="modal" aria-label="بازگشت">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
@@ -19,8 +19,8 @@
                     مطمئن هستید؟
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" onclick="$('#finishDrawModal').modal('toggle');" data-dismiss="modal">خیر</button>
-                    <button type="button" class="btn btn-danger" onclick="finishDraw();$('#finishDrawModal').modal('toggle');">بلی</button>
+                    <button type="button" class="btn btn-secondary" onclick="$('#finishdraw_'+finishId).css('opacity','1');$('#finishDrawModal').modal('toggle');" data-dismiss="modal">خیر</button>
+                    <button type="button" class="btn btn-warning" onclick="finishDraw();$('#finishDrawModal').modal('toggle');">بلی</button>
                 </div>
             </div>
         </div>
@@ -31,7 +31,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">غیرفعالسازی دوره</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="بازگشت">
+                    <button type="button" onclick="$('#deactiveDrawModal').modal('toggle');"  class="close" data-dismiss="modal" aria-label="بازگشت">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
@@ -90,7 +90,7 @@
     @if (Model.RoleName == "super" || Model.RoleName == "admin")
     {
                                                         <div class="buttons mt-2">
-                                                                <a class="btn-warning m-2  col-8 text-center SirooSimpleBtn {{if isFinished}}hidden{{/if}}" onclick="finishId='${drawId}';$('#finishDrawModal').modal('toggle');">اتمام دوره</a>
+                                                                <a id="finishdraw_${drawId}" class="btn-warning m-2  col-8 text-center SirooSimpleBtn {{if isFinished}}hidden{{/if}}" onclick="finishId='${drawId}';$(this).css('opacity','0.1');$('#finishDrawModal').modal('toggle');">اتمام دوره</a>
                                                                 <a class="btn-danger m-2  col-8 text-center SirooSimpleBtn" onclick="deactiveId='${drawId}';$('#deactiveDrawModal').modal('toggle');">غیرفعالسازی دوره</a>
                                                         </div>
     }
@@ -152,147 +152,15 @@
 <script src="~/js/draws.js"></script>
 <script src="~/js/popper.min.js"></script>
 <script src="~/js/jquery.flipper-responsive.js"></script>
+<script src="~/js/pages/Draws-default.js"></script>
 
-<script type="text/javascript">
-    $(document).ready(function () {
-        getDraws();
-
-    });
-
-    var alldraws='';
-    var myUsername='@Model.MyUsername';
-    var myPoint='@Model.MyPoints';
-    function getDraws(){
-        $.ajax({
-            url: '/draws',
-            type: 'GET',
-            success: function (result) {
-                    if(result=="gologin"){
-                        window.location="/login/login";
-                    }else{
-                        sina="{draws:"+result+"}";
-                        alldraws=result;
-                        $('#drawsContainer').html('');
-                        $('#drawTemplate').tmpl(result).appendTo('#drawsContainer');
-                        var myflippers=$('.myFlipper');
-                        for(i=0;i<myflippers.length;i++){
-                            var enddate=new Date($(myflippers[i]).attr('data-datetime'));
-                            $(myflippers[i]).attr('data-datetime',enddate.getFullYear()+'-'+(enddate.getMonth()+1)+'-'+enddate.getDate()+" 00:00:00");
-                            $(myflippers[i]).flipper('init');
-                        }
-
-
-                        var dates=$('.dates');
-                        for(i=0;i<dates.length;i++){
-                            $(dates[i]).text(jQuery.timeago($(dates[i]).text()));
-                        }
-                        theCounter=0;
-                        meInvolved=false;
-                        winnerTmpl=$('.winnerTemplate');
-                        for(i=0;i<alldraws.length;i++){
-                            theCounter=0;
-                            meInvolved=false;
-                            for(j=0;j<alldraws[i].prizes.length;j++){
-                                for(k=0;k<alldraws[i].prizes[j].winnerCount;k++){
-                                    if(theCounter<alldraws[i].prizeWinners.length){
-                                        theCounter+=1;
-                                        $(winnerTmpl).attr('count',theCounter);
-                                        $(winnerTmpl).find('.winnerRank').html(theCounter);
-                                        $(winnerTmpl).find('.winnerUsername').html(alldraws[i].prizeWinners[theCounter-1].username);
-                                        $(winnerTmpl).find('.winningPoints').html(alldraws[i].prizeWinners[theCounter-1].points+' امتیاز');
-                                        $(winnerTmpl).find('.winningPrize').html(alldraws[i].prizes[j].name);
-                                        if(myUsername==alldraws[i].prizeWinners[theCounter-1].username){
-                                            $(winnerTmpl).find('.Textbox').addClass('me');
-                                            $(winnerTmpl).find('.winner').addClass('me');
-                                            meInvolved=true;
-                                        }else{
-                                            $(winnerTmpl).find('.Textbox').removeClass('me');
-                                            $(winnerTmpl).find('.winner').removeClass('me');
-                                        }
-                                        $('.theWinners.'+alldraws[i].drawId).append(winnerTmpl.html());
-                                    }
-                                }
-                            }
-
-                             if(meInvolved==false && alldraws[i].isFinished==false){
-                                                myRank=0;
-                                                for(x=0;x<alldraws[i].prizeWinners.length;x++){
-                                                    myRank+=1;
-                                                    if(alldraws[i].prizeWinners[x].username==myUsername){
-                                                        $(winnerTmpl).find('.winnerRank').html(myRank);
-                                                        $(winnerTmpl).find('.winnerUsername').html(myUsername);
-                                                        $(winnerTmpl).find('.winningPoints').html(myPoint+' امتیاز');
-                                                        $(winnerTmpl).find('.winningPrize').html('---');
-                                                        $(winnerTmpl).find('.Textbox').addClass('me');
-                                                        $(winnerTmpl).find('.winner').addClass('me');
-
-                                                        $('.theWinners.'+alldraws[i].drawId).append($('.threeDots').html());
-                                                        $('.theWinners.'+alldraws[i].drawId).append(winnerTmpl.html());
-                                                    }
-                                                }
-                             }
-                        }
-
-
-                    }
-
-
-            },
-        });
-    }
+<script>
+    var myUsername = '@Model.MyUsername';
+    var myPoint = '@Model.MyPoints';
 </script>
-
 
     @if (Model.RoleName == "super" || Model.RoleName == "admin")
     {
-<script>
-    finishId=-1;
-    function finishDraw(){
-        adv=finishId;
-        if(adv==-1){
-            return;
-        }
-        $.ajax({
-            url: '/finishDraw/'+adv,
-            type: 'GET',
-            success: function (result) {
-                if(result){
-                    if(result=="gologin"){
-                        window.location="/login/login";
-                    }else{
-                        alert(adv+" is liked");
-                        getDraws();
-                    }
-                }else{
-                    alert("failed");
-                }
-            },
-        });
-    }
-
-    deactiveId=-1;
-    function deactiveDraw(){
-        adv=deactiveId;
-        if(adv==-1){
-            return;
-        }
-        $.ajax({
-            url: '/deactiveDraw/'+adv,
-            type: 'GET',
-            success: function (result) {
-                if(result){
-                    if(result=="gologin"){
-                        window.location="/login/login";
-                    }else{
-                        alert(adv+" is liked");
-                        getDraws();
-                    }
-                }else{
-                    alert("failed");
-                }
-            },
-        });
-    }
-</script>
+        <script src="~/js/pages/Draws-super-admin.js"></script>
     }
 }

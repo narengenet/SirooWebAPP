@@ -15,6 +15,7 @@ namespace SirooWebAPP.Core.Domain
         public int WinnerCount { get; set; }
         public int Priority { get; set; }
         public Guid CreatedBy { get; set; }
+        public long? ValueInMoney { get; set; }
         public bool IsActivated { get; set; }
 
     }

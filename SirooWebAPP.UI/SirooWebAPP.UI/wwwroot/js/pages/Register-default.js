@@ -42,30 +42,31 @@ $(".numericOnly").bind('mouseenter', function (e) {
     }
 });
 //Allow users to enter a-z only
-$(".latinNOnly").bind('keydown', function (e) {
+$(".latinNOnly").on('keyup', function (e) {
+
     if (e.keyCode == 8) {
         return;
     }
     var val = e.key;
+
     var letters = /^[0-9a-z]+$/;
+
     if (val.match(letters)) {
         return;
     }
     else {
+        if (e.key.length == 1) {
+            e.target.value = '';
+            return;
+        } else {
+            val = e.target.value;
+            if (!val.match(letters)) {
+                e.target.value = '';
+            }
+
+        }
         return false;
     }
-    //if (e.keyCode == '9' || e.keyCode == '16') {
-    //    return;
-    //}
-    //var code;
-    //if (e.keyCode) code = e.keyCode;
-    //else if (e.which) code = e.which;
-    //if (e.which == 46)
-    //    return false;
-    //if (code == 8 || code == 46)
-    //    return true;
-    //if (code < 97 || code > 122)
-    //    return false;
 });
 
 //Disable paste

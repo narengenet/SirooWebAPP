@@ -3,10 +3,143 @@
 @{
     Layout = "_LayoutClients";
 }
-<style>
+@if (Model.RoleName == "super" || Model.RoleName == "admin")
+{
+    <div class="modal fade" id="finishDrawModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">اتمام دوره</h5>
+                    <button onclick="$('#finishdraw_'+finishId).css('opacity','1');$('#finishDrawModal').modal('toggle');" type="button" class="close" data-dismiss="modal" aria-label="بازگشت">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    مطمئن هستید؟
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="$('#finishdraw_'+finishId).css('opacity','1');$('#finishDrawModal').modal('toggle');" data-dismiss="modal">خیر</button>
+                    <button type="button" class="btn btn-warning" onclick="finishDraw();$('#finishDrawModal').modal('toggle');">بلی</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="deactiveDrawModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">غیرفعالسازی دوره</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="بازگشت">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    مطمئن هستید؟
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="$('#deactiveDrawModal').modal('toggle');" data-dismiss="modal">خیر</button>
+                    <button type="button" class="btn btn-danger" onclick="deactiveDraw();$('#deactiveDrawModal').modal('toggle');">بلی</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<script id="drawTemplate" type="text/x-jQuery-tmpl">
+        <div class="draw {{if isFinished}}finished{{/if}}">
+            <div class="header mb-3">
+                <div class="profile-link">
+                    <a class="profile-media" href="#">
+                        <img src="../${owner.profileMediaURL}" />
+                    </a>
+                    <a href="#" class="profile-fullname">${owner.name}</a>
+                    <a href="#" class="profile-date dates">${created}</a>
+                </div>
+                <div class="status">
+                    <span>وضعیت دوره: </span>{{if isFinished}}<span class="inactiveDraw"> غیر فعال </span>{{else}}<span class="activeDraw"> فعال </span>{{/if}}
+                </div>
+                {{if isFinished==false}}
+                <div class="col-12 d-flex justify-content-center">
+                    <div class="col-10 justify-content-center mt-3 mb-3" style="height:2rem;">
+                        <div class="flipper myFlipper" data-reverse="true" data-datetime="${endDate}" data-template="dd|HH|ii|ss" data-labels="روز|ساعت|دقیقه|ثانیه" ></div>
+                    </div>
+                </div>
+                {{/if}}
+            </div>
+            <div class="contents mt-2">
+                <span>دوره: </span><span>${name}</span>
+            </div>
+            <div class="contents mt-2">
+                <span>تاریخ شروع: </span><span class="dates">${startDate}</span>
+            </div>
+            <div class="contents mt-2">
+                <span>تاریخ پایان: </span><span class="dates">${endDate}</span>
+            </div>
+            <div class="row mt-3 justify-content-center mb-3">
+                <div class="SirooBtn col-8">
+                    {{if isFinished}}
+                        <input type="submit" value="برندگان" onclick="$('.prizeWinners.${drawId}').css('display','flex');window.scrollTo(0,0);" />
+                    {{else}}
+                        <input type="submit" value="جوایز" onclick="$('.prizeWinners.${drawId}').css('display','flex');window.scrollTo(0,0);" />
+                    {{/if}}
+                </div>
+            </div>
+
+    @if (Model.RoleName == "super" || Model.RoleName == "admin")
+    {
+                                                        <div class="buttons mt-2">
+                                                                <a id="finishdraw_${drawId}" class="btn-warning m-2  col-8 text-center SirooSimpleBtn {{if isFinished}}hidden{{/if}}" onclick="finishId='${drawId}';$(this).css('opacity','0.1');$('#finishDrawModal').modal('toggle');">اتمام دوره</a>
+                                                                <a class="btn-danger m-2  col-8 text-center SirooSimpleBtn" onclick="deactiveId='${drawId}';$('#deactiveDrawModal').modal('toggle');">غیرفعالسازی دوره</a>
+                                                        </div>
+    }
+
+        </div>
+
+    <div class="prizeWinners justify-content-center ${drawId}">
+        <div class="drawDetails d-flex col-12">
+            <div class="col-6">${name}</div>
+            <div class="col-6">
+                {{if isFinished}}<span class="inactiveDraw"> غیر فعال </span>{{else}}<span class="activeDraw"> فعال </span>{{/if}}
+            </div>
+        </div>
+            <div class="theWinners col-12 ${drawId} direction-rtl">
+
+            </div>
+        <div class="SirooBtn row mt-3 mb-3">
+            <input type="submit" onclick="$('.prizeWinners').css('display','none');" value="بازگشت" />
+        </div>
+    </div>
+
+</script>
 
 
-</style>
+
+
+<div class="draws home-draws" id="drawsContainer">
+</div>
+
+<div class="winnerTemplate" style="display:none;">
+    <div class="Textbox col-10 mb-3">
+        <div class="d-flex winner">
+            <div class="col-2 winnerRank">
+                1
+            </div>
+            <div class="col-8">
+                <div class="winningPrize">&nbsp;</div>
+                <div class="winnerUsername">&nbsp;</div>
+            </div>
+            <div class="col-2 winningPoints">
+                &nbsp;
+            </div>
+        </div>
+    </div>
+</div>
+<div class="threeDots" style="display:none;">
+    <div class="col-10 mb-2 theThreeDots">
+        &#9679; &#9679; &#9679;
+    </div>
+</div>
 
 @if (Model.ResultMessage.Length > 1)
 {
@@ -129,8 +262,20 @@
 <script src="~/js/pages/Main-db.js"></script>
 <script src="~/js/pages/Main-default.js"></script>
 
+
+<script src="~/js/draws.js"></script>
+<script src="~/js/popper.min.js"></script>
+<script src="~/js/jquery.flipper-responsive.js"></script>
+<script src="~/js/pages/Draws-default.js"></script>
+
+<script>
+    var myUsername = '@Model.MyUsername';
+    var myPoint = '@Model.MyPoints';
+</script>
+
     @if (Model.RoleName == "super" || Model.RoleName == "admin")
     {
 <script src="~/js/pages/Main-super-admin.js"></script>
+<script src="~/js/pages/Draws-super-admin.js"></script>
     }
 }

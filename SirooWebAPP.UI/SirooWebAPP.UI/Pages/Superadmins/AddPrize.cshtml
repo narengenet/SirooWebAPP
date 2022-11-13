@@ -4,6 +4,11 @@
 @{
     Layout = "_LayoutClients";
 }
+<style>
+    .MainDashboard{
+        display:none!important;
+    }
+</style>
 
 <form method="post" enctype="multipart/form-data">
 
@@ -25,6 +30,12 @@
             <div class="col-2">نام جایزه *</div>
             <div class="col-4 Textbox">
                 <input type="text" class="form-control" asp-for="AddPrize.Name"></input> <span asp-validation-for="AddPrize.Name"></span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-2">ارزش ریالی *</div>
+            <div class="col-4 Textbox">
+                <input type="number" min="0" step="10000" class="form-control" asp-for="AddPrize.ValueInMoney"></input> 
             </div>
         </div>
         <div class="row">
