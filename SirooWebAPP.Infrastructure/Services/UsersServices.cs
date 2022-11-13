@@ -413,8 +413,12 @@ namespace SirooWebAPP.Infrastructure.Services
 
                 if (item.Owner!=userID)
                 {
-                    Viewers tmpView = _viewersRepo.Add(new Viewers { Advertise = item.Id, ViewedBy = userID, Created = DateTime.Now });
-                    CachedContents.Viewers.Add(tmpView);
+                    if (CachedContents.Viewers.Where(v=>v.Advertise==item.Id && v.ViewedBy==userID).ToList<Viewers>().Count==0)
+                    {
+                        Viewers tmpView = _viewersRepo.Add(new Viewers { Advertise = item.Id, ViewedBy = userID, Created = DateTime.Now });
+                        CachedContents.Viewers.Add(tmpView);
+                    }
+
                 }
 
 
@@ -1004,6 +1008,8 @@ namespace SirooWebAPP.Infrastructure.Services
         bool IUserServices.AddPrizeWinner(Guid drawId)
         {
             List<Prizes> prizes = GetAllPrizes().Where(p => p.Draw == drawId).OrderBy(p => p.Priority).ToList<Prizes>();
+            Draws _currentDraw = _drawsRepo.GetById(drawId);
+
             int prizesWinnersCount = 0;
             foreach (Prizes item in prizes)
             {
@@ -1014,8 +1020,7 @@ namespace SirooWebAPP.Infrastructure.Services
 
             int indx = 0;
 
-            //for (int i = 0; i < prizesWinnersCount; i++)
-            //{
+
             do
             {
                 foreach (Prizes item in prizes)
@@ -1032,8 +1037,27 @@ namespace SirooWebAPP.Infrastructure.Services
                         }
                         PrizesWinners _pw = new PrizesWinners { Prize = item.Id, User = winners[indx].Id, WiningPoint = winners[indx].Points, WiningDate = DateTime.Now, Draw = drawId };
                         _prizeWinnersRepo.Add(_pw);
-                        //winners[indx].Points = 0;
-                        //_userRepo.Update(winners[indx]);
+
+                        long wonMoney = 0;
+                        if (item.ValueInMoney!=null)
+                        {
+                            wonMoney= Convert.ToInt64(item.ValueInMoney);
+                            winners[indx].Money += wonMoney;
+                            _userRepo.Update(winners[indx]);
+                        }
+                        _transactionPercentsRepository.Add(new TransactionPercents
+                        {
+                             Created=DateTime.Now,
+                             Description="جایزه "+item.Name,
+                             ReferenceID="برنده رتبه "+indx.ToString()+" در دوره "+_currentDraw.Name,
+                             FromAmount=wonMoney,
+                             ToAmount=wonMoney,
+                             FromUser=_currentDraw.Owner,
+                             ToUser= winners[indx].Id,
+                             Percentage=0,
+                             Transaction=item.Id
+                        });
+                        
                         indx += 1;
                     }
                 }
@@ -1042,7 +1066,7 @@ namespace SirooWebAPP.Infrastructure.Services
                     break;
                 }
             } while (indx < prizesWinnersCount);
-            //}
+            
             _userRepo.GetAll().ToList().ForEach(u => u.Points = 0);
             return true;
         }
