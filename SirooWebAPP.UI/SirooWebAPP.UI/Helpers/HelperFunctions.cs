@@ -84,11 +84,13 @@ namespace SirooWebAPP.UI.Helpers
                         // Save the result
                         string finalpath = Path.Combine(_environment.WebRootPath, "uploads/" + strYear + "/" + strMonth, "re" + FileName);
                         image.Write(finalpath);
+
+                        return "uploads/" + strYear + "/" + strMonth + "/" + "re" + FileName;
                     }
                 }
 
 
-                return "uploads/" + strYear + "/" + strMonth + "/" + "re" + FileName;
+                return "uploads/" + strYear + "/" + strMonth + "/" + FileName;
             }
             catch (Exception)
             {
