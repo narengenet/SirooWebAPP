@@ -39,7 +39,7 @@
         </div>
         <div class="row justify-content-center mb-3">
             <div class="col-10 Textbox fa fa-user">
-                <input type="text" id="UserName" placeholder="نام کاربری (فقط لاتین)" class="latinNOnly col-12" asp-for="Person.UserName" />
+                <input type="text" id="UserName" placeholder="نام کاربری (فقط حروف کوچک لاتین)" class="latinNOnly col-12" asp-for="Person.UserName" />
             </div>
             <div class="col-10 justify-content-center d-flex direction-rtl">
                 <span class="text-danger" asp-validation-for="Person.UserName"></span>
@@ -47,7 +47,7 @@
         </div>
         <div class="row justify-content-center mb-3">
             <div class="col-10 Textbox fa fa-mobile">
-                <input type="text" placeholder="تلفن همراه 0912123456" id="CellPhone" class="numericOnly col-12" asp-for="Person.CellPhone" />
+                <input type="text" placeholder="تلفن همراه " id="CellPhone" class="numericOnly col-12" asp-for="Person.CellPhone" />
             </div>
             <div class="col-10 justify-content-center d-flex direction-rtl">
                 <span class="text-danger" asp-validation-for="Person.CellPhone"></span>

@@ -31,6 +31,7 @@ namespace SirooWebAPP.UI.Pages.Clients
         public DTOUserProfile _currentUser = new DTOUserProfile();
         public string roleName = "anonymous";
         public string InvitationLink = "";
+        public string qrLinkSrc = "";
 
         public void OnGet()
         {
@@ -39,6 +40,7 @@ namespace SirooWebAPP.UI.Pages.Clients
             _currentUser = _usersServices.GetUserProfile(creatorID);
             roleName= session.GetString("userroledescription");
             InvitationLink = _httpContextAccessor.HttpContext.Request.Scheme + "://" + _httpContextAccessor.HttpContext.Request.Host.Value + "/Registeration/Register?inviter=" + _currentUser.Username;
+            qrLinkSrc = HelperFunctions.CreateQR(InvitationLink);
 
         }
     }
