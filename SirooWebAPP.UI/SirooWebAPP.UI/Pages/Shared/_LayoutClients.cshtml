@@ -32,6 +32,9 @@
                     <ul class="navbar-nav flex-grow-1">
                         @if (Context.Session.GetString("userrolename") != "anonymous")
                         {
+                            <li class="nav-item">
+                                <a class="nav-link text-light" style="color:#00ff2b!important;" target="_blank" href="https://omanmultimedia.com/sirooapp.apk">دانلود اپلیکیشن اندروید</a>
+                            </li>
                             <li class="nav-item for-clients">
                                 <a class="nav-link text-light" asp-area="" asp-page="/Clients/Main">خانه</a>
                             </li>
@@ -106,25 +109,25 @@
 
         @RenderBody()
 
-@*        <div class="container" style="margin-top:2rem;">
+        @*        <div class="container" style="margin-top:2rem;">
             <div class="row">
-                <div class="col-4" style="border:1px solid black;border-radius:1rem;padding:1rem;">
-                    @Context.Session.GetString("userfullname")<br />
-                    نقش شما: @Context.Session.GetString("userrolename")<br />
-                    <a class="profile-media" href="~/Clients/MyPosts">
-                        <img src='../@Context.Session.GetString("userprofileurl")' />
-                    </a>
-                </div>
-                <div class="col-4" style="border:1px solid black;border-radius:1rem;padding:1rem;">
-                    <div><b>امتیاز:</b><h3 id="currentPoint">@Context.Session.GetString("userpoints")</h3></div><br />
-                    <div><b>اعتبار:</b><h3 id="currentCredit">@Context.Session.GetString("usercredits")</h3></div><br />
-                </div>
-                <div class="col-4" style="border:1px solid black;border-radius:1rem;padding:1rem;">
-                    <a href="~/Clients/Draws">دوره ها</a>
-                </div>
+            <div class="col-4" style="border:1px solid black;border-radius:1rem;padding:1rem;">
+            @Context.Session.GetString("userfullname")<br />
+            نقش شما: @Context.Session.GetString("userrolename")<br />
+            <a class="profile-media" href="~/Clients/MyPosts">
+            <img src='../@Context.Session.GetString("userprofileurl")' />
+            </a>
             </div>
-        </div>
-*@
+            <div class="col-4" style="border:1px solid black;border-radius:1rem;padding:1rem;">
+            <div><b>امتیاز:</b><h3 id="currentPoint">@Context.Session.GetString("userpoints")</h3></div><br />
+            <div><b>اعتبار:</b><h3 id="currentCredit">@Context.Session.GetString("usercredits")</h3></div><br />
+            </div>
+            <div class="col-4" style="border:1px solid black;border-radius:1rem;padding:1rem;">
+            <a href="~/Clients/Draws">دوره ها</a>
+            </div>
+            </div>
+            </div>
+        *@
 
 
     </div>
