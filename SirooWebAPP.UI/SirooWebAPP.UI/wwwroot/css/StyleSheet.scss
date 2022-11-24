@@ -1004,9 +1004,17 @@ $repeat: 20;
 }
 
 
-
+.secondary-SirooBtn{
+    padding:.5rem;
+    border:1px solid white;
+    border-radius:1rem;
+    font-family:'Yekan';
+}
+.receiveMoney{
+    display:none;
+}
 
 .text-danger.field-validation-error {
     color: orange !important;
-    font-family:'Yekan';
+    font-family: 'Yekan';
 }

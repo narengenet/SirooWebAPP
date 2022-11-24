@@ -103,5 +103,7 @@ namespace SirooWebAPP.Application.Interfaces
         List<TransactionPercents> GetAllTransactionPercents();
 
 
+
+
     }
 }

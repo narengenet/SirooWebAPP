@@ -27,6 +27,8 @@ namespace SirooWebAPP.UI.Pages.Clients
 
         [BindProperty]
         public AddMoney? AddMoney { get; set; }
+        [BindProperty]
+        public ReceiveMoney? ReceiveMoney { get; set; }
 
         public void OnGet()
         {
@@ -42,29 +44,54 @@ namespace SirooWebAPP.UI.Pages.Clients
         }
         public IActionResult OnPostAddMoney(AddMoney addMoney)
         {
-            if (ModelState.IsValid)
+
+            // get current user
+            string _creatorId = HelperFunctions.GetCookie("userid", Request);
+            Guid creatorID = Guid.Parse(_creatorId);
+            Users theUser = _usersServices.GetUser(creatorID);
+
+            if (theUser != null && addMoney.NewAmount >= 500000)
             {
-                // get current user
-                string _creatorId = HelperFunctions.GetCookie("userid", Request);
-                Guid creatorID = Guid.Parse(_creatorId);
-                Users theUser = _usersServices.GetUser(creatorID);
-
-                if (theUser != null)
+                Guid transacId = _usersServices.AddTransaction(new Transactions
                 {
-                    Guid transacId= _usersServices.AddTransaction(new Transactions
-                    {
-                        Created = DateTime.Now,
-                        Amount = addMoney.NewAmount,
-                        User = theUser.Id,
-                        Status="آغازپرداخت"
-                         
-                    });
-                    return Redirect("/Payment?theAmount=" + addMoney.NewAmount + "&theDescription=" + transacId.ToString());
-                    //return RedirectToPage("/Payment", new { theAmount = addMoney.NewAmount, theDescription = transacId.ToString() });
-                    //return RedirectToAction("../../Payment", new { theAmount = addMoney.NewAmount, theDescription = transacId.ToString() });
+                    Created = DateTime.Now,
+                    Amount = addMoney.NewAmount,
+                    User = theUser.Id,
+                    Status = "آغازپرداخت"
+
+                });
+                return Redirect("/Payment?theAmount=" + addMoney.NewAmount + "&theDescription=" + transacId.ToString());
+                //return RedirectToPage("/Payment", new { theAmount = addMoney.NewAmount, theDescription = transacId.ToString() });
+                //return RedirectToAction("../../Payment", new { theAmount = addMoney.NewAmount, theDescription = transacId.ToString() });
 
 
-                }
+            }
+
+
+            return Page();
+        }
+
+        public IActionResult OnPostGetMoney(ReceiveMoney receiveMoney)
+        {
+
+
+            string _creatorId = HelperFunctions.GetCookie("userid", Request);
+            Guid creatorID = Guid.Parse(_creatorId);
+            Users theUser = _usersServices.GetUser(creatorID);
+            if (receiveMoney.GetAmount <= theUser.Money && receiveMoney.CardNumber.Length > 15)
+            {
+
+                _usersServices.AddTransaction(new Transactions { Amount = -1 * (receiveMoney.GetAmount), Created = DateTime.Now, IsSuccessfull = false, User = theUser.Id, Status = "تقاضای برداشت" });
+                theUser.Money -= receiveMoney.GetAmount;
+                theUser.CardNumber = receiveMoney.CardNumber;
+                _usersServices.UpdateUser(theUser);
+                ResultMessageSuccess = "success";
+                ResultMessage = "تقاضای دریافت وجه ارسال شد.";
+                Amount = theUser.Money.ToString();
+            }
+            else
+            {
+                ResultMessage = "وجه درخواستی بیشتر از موجودی کیف پول شماست.";
             }
 
             return Page();

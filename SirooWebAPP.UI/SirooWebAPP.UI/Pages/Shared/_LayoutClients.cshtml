@@ -83,6 +83,9 @@
                             <li class="nav-item for-admins">
                                 <a class="nav-link text-light" asp-area="" asp-page="/Superadmins/LastUsers">کاربران</a>
                             </li>
+                            <li class="nav-item for-admins">
+                                <a class="nav-link text-light" asp-area="" asp-page="/Superadmins/RequestMoney">تقاضاهای دریافت وجه</a>
+                            </li>
                         }
                         @if (Context.Session.GetString("userrolename") == "anonymous")
                         {

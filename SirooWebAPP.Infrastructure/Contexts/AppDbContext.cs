@@ -38,12 +38,13 @@ namespace SirooWebAPP.Infrastructure.Contexts
         public DbSet<TransactionPercents>  TransactionPercents{ get; set; }
 
 
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             Guid rahmanId = Guid.NewGuid();
             Users dabouei = new Users { Id = rahmanId, Name = "عبدالرحمن", Family = "دابویی مشک آبادی", Cellphone = "09901069557", Username = "dabooei", ProfileMediaURL = "uploads/2022/9/photo.jpg", DonnationActive = true, Credits = 1000, IsActivated = true, Created = DateTime.Now, Points = 100 };
             Guid sinId = Guid.NewGuid();
-            Users sina = new Users { Id = sinId, Name = "Sina", Family = "Jouybari", Cellphone = "09394125130", Username = "sinful", ProfileMediaURL = "uploads/2022/9/sina2.jpg", Inviter=rahmanId, IsActivated = true, Created = DateTime.Now, Points = 90 };
+            Users sina = new Users { Id = sinId, Name = "Sina", Family = "Jouybari", Cellphone = "09394125130", Username = "sinful", ProfileMediaURL = "uploads/2022/9/sina2.jpg", Inviter=rahmanId, IsActivated = true, Created = DateTime.Now, Points = 90, ConfirmationCode="111111", Money=850000 };
             //Users mohsen = new Users { Id = Guid.NewGuid(), Name = "محسن", Family = "پردلان", Cellphone = "09111769591", Username = "vinona", ProfileMediaURL = "uploads/2022/9/99.jpg", Inviter = dabouei.Id, IsActivated = true, Created = DateTime.Now, Points = 80 };
             //Users sepideh = new Users { Id = Guid.NewGuid(), Name = "سامان", Family = "احمدی", Cellphone = "09161234567", Username = "saman", ProfileMediaURL = "uploads/2022/9/photo.jpg", Inviter = dabouei.Id, IsActivated = true, Created = DateTime.Now, Points = 70 };
             //Users abdolah = new Users { Id = Guid.NewGuid(), Name = "عبداله", Family = "سرپرست", Cellphone = "09112281237", Username = "abdolah", ProfileMediaURL = "uploads/2022/9/photo.jpg", IsActivated = true, Created = DateTime.Now, Points = 60 };

@@ -350,11 +350,11 @@ namespace SirooWebAPP.UI.Controllers
                     ad.LastModifiedBy = userId.ToString();
                     ad.Notes = post.adNote;
                     _usersServices.UpdateAdvertisement(ad);
-                    if(CachedContents.Advertises.Find(a => a.Id == ad.Id)==null)
+                    if (CachedContents.Advertises.Find(a => a.Id == ad.Id) == null)
                     {
                         CachedContents.Advertises.Insert(0, ad);
                     }
-                    
+
                     return Ok(true);
                 }
             }
@@ -421,8 +421,8 @@ namespace SirooWebAPP.UI.Controllers
 
                 for (int i = 0; i < Username.Length; i++)
                 {
-                    int result =Array.FindIndex(validss, s => s == Username[i].ToString());
-                    if (result==-1)
+                    int result = Array.FindIndex(validss, s => s == Username[i].ToString());
+                    if (result == -1)
                     {
                         return new JsonResult($"'{Username}' " + " مجاز نیست. فقط حروف لاتین و اعداد مجاز میباشند.");
                     }
@@ -701,6 +701,31 @@ namespace SirooWebAPP.UI.Controllers
 
             }
             return NotFound();
+        }
+
+
+        [TypeFilter(typeof(SampleAsyncActionLoginFilter))]
+        [HttpGet("confirmPayment/{transacID:guid}")]
+        public IActionResult confirmPayment(Guid transacID)
+        {
+            string _userid = HttpContext.Request.Cookies["userid"];
+            Guid userId = Guid.Parse(_userid);
+            if (_session.GetString("userrolename") == "super" || _session.GetString("userrolename") == "admin")
+            {
+                Transactions transac= _usersServices.GetAllTransactions().Where(t => t.Id == transacID).FirstOrDefault();
+                if (transac != null)
+                {
+                    transac.IsSuccessfull = true;
+                    transac.LastModified = DateTime.Now;
+                    transac.LastModifiedBy = _userid;
+                    _usersServices.UpdateTransaction(transac);
+
+                    return Ok("ok");
+                }
+            }
+
+            return Ok("-1");
+
         }
         [HttpGet("VerifyByHttpClient")]
         public async Task<IActionResult> VerifyByHttpClient()

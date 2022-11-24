@@ -1,0 +1,63 @@
+﻿@page
+@model SirooWebAPP.UI.Pages.Superadmins.RequestMoneyModel
+@{
+    Layout = "_LayoutClients";
+}
+
+
+<style>
+    table td{
+        width:20%;
+        text-align:center;
+        font-family:'Yekan';
+    }
+    table tr{
+        border:1px solid white;
+    }
+    .MainDashboard{
+        display:none!important;
+    }
+</style>
+<div class="direction-rtl" style="margin-bottom:25vh;">
+    <div style="text-align:center;">
+        تعداد کل درخواست های وجه: <span>@Model.RequestMoneyUser.Count</span>
+    </div>
+    <br/>
+    <hr />
+    <h1 class="siroo-header">درخواست های وجه</h1>
+    <table>
+        <tr>
+            <td class="d-none">آی دی</td>
+            
+            <td>موبایل</td>
+            <td>نام کاربری</td>
+            <td>مبلغ درخواستی</td>
+            <td>شماره کارت</td>
+            <td>تایید</td>
+
+        </tr>
+        @foreach (var x in Model.RequestMoneyUser)
+        {
+            <tr id="@x.RequestID" style="text-align:left;direction:ltr;font-size:inherit.2rem;">
+                <td class="ids d-none">@x.RequestID</td>
+                <td onclick="copyToClipboard(this);">@x.PhoneNumber</td>
+                <td class="username">@x.UserName</td>
+                <td class="inviter" >@x.RequestMoney</td>
+                <td onclick="copyToClipboard(this);">@x.CardNumber</td>
+                <td>
+                    <input type="button" onclick="confirmPayment('@x.RequestID');" value="تایید پرداخت" />
+                </td>
+            </tr>
+        }
+    </table>
+    <br />
+    <hr />
+    <br />
+
+</div>
+
+
+@section Scripts {
+    <script src="~/js/pages/RequestMoney-default.js"></script>
+
+}

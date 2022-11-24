@@ -31,6 +31,7 @@ namespace SirooWebAPP.Infrastructure
             services.AddScoped<IPurchasesRepository, PurchasesRepository>();
             services.AddScoped<ITransactionPercentsRepository, TransactionPercentsRepository>();
 
+
             services.AddScoped<IUserServices, UsersServices>();
         }
     }

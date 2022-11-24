@@ -38,7 +38,7 @@
                         <input type="text" class="col-12" disabled value="@Model.Amount ریال">
                     </div>
                 </div>
-                <form method="post" class="row justify-content-center" enctype="multipart/form-data">
+                <form method="post" class="addMoney row justify-content-center" enctype="multipart/form-data">
                     <div class="row justify-content-center">
                         <div class="col-12 siroo-label">افزایش موجودی (ریال)</div>
                     </div>
@@ -49,8 +49,39 @@
                         </div>
                     </div>
                     <div class="row col-12 mb-3 justify-content-center">
+                        <div class="col-6 d-flex p-0">
+                            <span onclick="toggleSendReceive();" class="secondary-SirooBtn"><<تقاضای دریافت وجه</span>
+                        </div>
                         <div class="col-6 SirooBtn">
                             <input id="myInput" type="submit" class="col-12" asp-page-handler="AddMoney" value="پرداخت">
+                        </div>
+                    </div>
+                </form>
+                <form method="post" class="receiveMoney row justify-content-center" enctype="multipart/form-data">
+                    <div class="row justify-content-center">
+                        <div class="col-12 siroo-label">درخواست دریافت از کیف پول (ریال)</div>
+                    </div>
+                    <div class="row col-12 mb-2">
+                        <div class="col-12 Textbox fa fa-dollar">
+                            <input type="number" min="100000" value="@Model.Amount" max="@Model.Amount" step="10000" class="col-12" asp-for="ReceiveMoney.GetAmount" />
+                            <span asp-validation-for="ReceiveMoney.GetAmount"></span>
+                        </div>
+                    </div>
+                    <div class="row justify-content-center">
+                        <div class="col-12 siroo-label">شماره کارت یا شماره شبا</div>
+                    </div>
+                    <div class="row col-12 mb-2">
+                        <div class="col-12 Textbox fa fa-address-card">
+                            <input type="text" class="col-12" asp-for="ReceiveMoney.CardNumber" />
+                            <span asp-validation-for="ReceiveMoney.CardNumber"></span>
+                        </div>
+                    </div>
+                    <div class="row col-12 mb-3 justify-content-center">
+                        <div class="col-6 d-flex p-0">
+                            <span onclick="toggleSendReceive();" class="secondary-SirooBtn"><<تقاضای افزایش وجه</span>
+                        </div>
+                        <div class="col-6 SirooBtn">
+                            <input id="myOutput" type="submit" class="col-12" asp-page-handler="GetMoney" value="تقاضای دریافت">
                         </div>
                     </div>
                 </form>
@@ -149,6 +180,21 @@
     $(document).ready(function () {
         _getTransactions();
     });
+
+
+    receiveMoney=false;
+    function toggleSendReceive(){
+        if(receiveMoney){
+            $('.addMoney').css('display','flex');
+            $('.receiveMoney').css('display','none');
+            receiveMoney=false;
+        }else{
+            $('.addMoney').css('display','none');
+            $('.receiveMoney').css('display','flex');
+            receiveMoney=true;
+        }
+       
+    }
 
     function _getTransactions(){
         $.ajax({

@@ -1110,5 +1110,7 @@ namespace SirooWebAPP.Infrastructure.Services
         {
             return _transactionPercentsRepository.GetAll().Where(tp => tp.IsDeleted == false).ToList<TransactionPercents>();
         }
+
+
     }
 }
