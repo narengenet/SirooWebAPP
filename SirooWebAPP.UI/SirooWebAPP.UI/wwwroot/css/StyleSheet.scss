@@ -1009,6 +1009,7 @@ $repeat: 20;
     border:1px solid white;
     border-radius:1rem;
     font-family:'Yekan';
+    cursor:pointer;
 }
 .receiveMoney{
     display:none;
@@ -1017,4 +1018,20 @@ $repeat: 20;
 .text-danger.field-validation-error {
     color: orange !important;
     font-family: 'Yekan';
+}
+
+
+.waitingPlease {
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0,0,0,0.9);
+    color: white;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    direction: rtl;
+    font-family: 'Yekan';
+    font-size: 1.5rem;
+    z-index: 100;
 }

@@ -316,8 +316,6 @@ function toggleMute(obj) {
 
 
 
-
-
 ////var db;
 ////$(document).ready(function () {
 ////    //debugger;

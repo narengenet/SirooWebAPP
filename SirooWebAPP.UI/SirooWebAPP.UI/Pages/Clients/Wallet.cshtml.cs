@@ -23,7 +23,7 @@ namespace SirooWebAPP.UI.Pages.Clients
 
         public string? ResultMessage = "";
         public string ResultMessageSuccess = "danger";
-        public string Amount = "500000";
+        public string Amount = "1000000";
 
         [BindProperty]
         public AddMoney? AddMoney { get; set; }

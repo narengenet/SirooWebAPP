@@ -4,43 +4,97 @@
     Layout = "_LayoutClients";
 }
 <style>
-    table td{
-        width:25%;
-        text-align:center;
-        font-family:'Yekan';
+    table td {
+        width: 20%;
+        text-align: center;
+        font-family: 'Yekan';
     }
-    table tr{
-        border:1px solid white;
+
+    table tr {
+        border: 1px solid white;
     }
-    .MainDashboard{
-        display:none!important;
+
+    .MainDashboard {
+        display: none !important;
     }
+
 </style>
+
+
+
+<div class="modal fade" id="addPointModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">افزایش امتیاز</h5>
+                <button onclick="$('#addPointModal').modal('toggle');" type="button" class="close" data-dismiss="modal" aria-label="بازگشت">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                مطمئن هستید؟
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="$('#addPointModal').modal('toggle');" data-dismiss="modal">خیر</button>
+                <button type="button" class="btn btn-warning" onclick="addPointsGo();$('#addPointModal').modal('toggle');">بلی</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
 <div class="direction-rtl" style="margin-bottom:25vh;">
     <div style="text-align:center;">
         تعداد کل کاربران: <span>@Model.NewUsers.Count</span>
     </div>
-    <br/>
+    <br />
     <hr />
-    <h1 class="siroo-header">ثبت نام های جدید</h1>
+    <div class="d-flex flex-row justify-content-center">
+        <div class="col-8">
+            <input type="text" id="searchuser" style="font-size:0.8rem;" placeholder="جستجو نام‌کاربری/شماره موبایل..." />
+        </div>
+        <div class="col-4">
+            <input type="button" value="جستجو" onclick="findUser()" />
+        </div>
+    </div>
+
+    <h1 class="siroo-header">کاربران</h1>
+    <div class="d-flex flex-row justify-content-center p-3">
+        <div class="col-6">
+            <span class="secondary-SirooBtn" onclick="togglePasswords()">نمایش کلمه‌های عبور</span>
+        </div>
+        <div class="col-4">
+            <span class="secondary-SirooBtn" onclick="toggleInviters()">نمایش معرف</span>
+        </div>
+    </div>
     <table>
-        <tr>
+        <tr style="background-color:black;">
             <td class="d-none">آی دی</td>
-            
+
             <td>موبایل</td>
             <td>نام کاربری</td>
-            <td>معرف</td>
-            <td>کلمه عبور</td>
+            <td class="inviters">معرف</td>
+            <td class="passwords">کلمه عبور</td>
+            <td>افزایش امتیاز</td>
         </tr>
         @foreach (var x in Model.NewUsers)
         {
-            <tr style="text-align:left;direction:ltr;font-size:inherit.2rem;">
+            <tr style="text-align:left;direction:ltr;font-size:inherit.2rem;" class="userRow" id="@x.Id">
                 <td class="ids d-none">@x.Id</td>
-                
-                <td onclick="copyToClipboard(this);">@x.Cellphone</td>
-                <td class="username">@x.Username</td>
-                <td class="inviter" >@x.Inviter</td>
-                <td onclick="copyToClipboard(this);" style="font-size:1.5rem;">@x.ConfirmationCode</td>
+
+                <td data-id="@x.Id" class="cellphone" onclick="copyToClipboard(this);">@x.Cellphone</td>
+                <td data-id="@x.Id" class="username">@x.Username</td>
+                <td class="inviter">@x.Inviter</td>
+                <td class="passwords" onclick="copyToClipboard(this);">@x.ConfirmationCode</td>
+                <td class="p-3">
+                    <div>
+                        امتیاز فعلی: <span id="current-@x.Id">@x.Points</span>
+                    </div>
+                    <input type="number" value="0" id="point-@x.Id" />
+                    <br><br>
+                    <span class="secondary-SirooBtn" onclick="selectedUserToAddPoint='@x.Id';$('#addPointModal').modal('toggle');">افزایش امتیاز</span>
+                </td>
             </tr>
         }
     </table>
@@ -52,6 +106,6 @@
 
 
 @section Scripts {
-    <script src="~/js/pages/Allusers-default.js"></script>
+<script src="~/js/pages/Allusers-default.js"></script>
 
 }

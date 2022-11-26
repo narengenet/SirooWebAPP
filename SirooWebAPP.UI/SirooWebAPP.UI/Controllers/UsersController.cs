@@ -326,6 +326,34 @@ namespace SirooWebAPP.UI.Controllers
             return Ok(draws);
         }
 
+
+        [TypeFilter(typeof(SampleAsyncActionLoginFilter))]
+        [HttpGet("addPointToUser/{userID:guid}/{point:int}")]
+        public IActionResult addPointToUser(Guid userID, int point)
+        {
+            string _userid = HttpContext.Request.Cookies["userid"];
+            Guid userId = Guid.Parse(_userid);
+            if (_session.GetString("userrolename") == "super" || _session.GetString("userrolename") == "admin")
+            {
+                Users theUser = _usersServices.GetUser(userID);
+                if (theUser != null)
+                {
+                    theUser.Points += point;
+                    _usersServices.UpdateUser(theUser);
+                    return Ok("ok");
+                }
+            }
+
+            return Ok("-1");
+
+        }
+
+
+
+
+
+
+
         public class Post
         {
             public string adId { get; set; }
@@ -712,7 +740,7 @@ namespace SirooWebAPP.UI.Controllers
             Guid userId = Guid.Parse(_userid);
             if (_session.GetString("userrolename") == "super" || _session.GetString("userrolename") == "admin")
             {
-                Transactions transac= _usersServices.GetAllTransactions().Where(t => t.Id == transacID).FirstOrDefault();
+                Transactions transac = _usersServices.GetAllTransactions().Where(t => t.Id == transacID).FirstOrDefault();
                 if (transac != null)
                 {
                     transac.IsSuccessfull = true;
