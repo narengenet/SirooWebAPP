@@ -18,6 +18,7 @@ namespace SirooWebAPP.Application.DTO
         public Guid CreatedBy { get; set; }
         public bool IsActivated { get; set; }
         public bool IsFinished { get; set; }
+        public bool IsArchived { get; set; }
         public Guid OwnerId { get; set; }
         public DTOUser Owner { get; set; }
         public ICollection<DTOPrize> Prizes { get; set; }

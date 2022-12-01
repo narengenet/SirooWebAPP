@@ -1,5 +1,5 @@
 ﻿$(document).ready(function () {
-    
+
     _usernames = $('.username');
     _cellphones = $('.cellphone');
 
@@ -9,12 +9,13 @@
 
 
 
-   
+
 });
 var _usernames;
 var _cellphones;
 
 var selectedUserToAddPoint = "-1";
+var selectedUserToDelete = "-1";
 
 var passwords = false;
 var inviters = false;
@@ -40,8 +41,8 @@ function toggleInviters() {
         setTimeout(function () {
             goFindInviters();
         }, 100);
-        
-        
+
+
     } else {
         $('.inviter').hide();
         $('.inviters').hide();
@@ -54,8 +55,8 @@ var foundInviters = false;
 function goFindInviters() {
     if (!foundInviters) {
         foundInviters = true;
-        
-        
+
+
         var allusernames = $('.username');
         var allids = $('.ids');
         var allInviters = $('.inviter');
@@ -64,7 +65,7 @@ function goFindInviters() {
             inviterUsername = findUsernameById(inviterId);
             $(allInviters[i]).text(inviterUsername);
         }
-        
+
     }
     $('.waitingPlease').css('display', 'none');
 
@@ -102,14 +103,14 @@ function findByUsername(cellText) {
 }
 
 function addPointsGo() {
-    if (selectedUserToAddPoint=="-1") {
+    if (selectedUserToAddPoint == "-1") {
         return;
     }
     let point = $('#point-' + selectedUserToAddPoint).val();
     $('.waitingPlease').css('display', 'flex');
 
     $.ajax({
-        url: '/addPointToUser/' + selectedUserToAddPoint+'/'+point,
+        url: '/addPointToUser/' + selectedUserToAddPoint + '/' + point,
         type: 'GET',
         success: function (result) {
             $('.waitingPlease').css('display', 'none');
@@ -121,6 +122,42 @@ function addPointsGo() {
                 $('#current-' + selectedUserToAddPoint).text(current);
 
                 alert('امتیاز به کاربر اضافه شد.');
+
+            }
+        },
+    });
+}
+
+function deleteUser() {
+    if (selectedUserToDelete == "-1") {
+        return;
+    }
+    let reason = $('#deleteReason').val();
+    reason = reason.replace('/', '');
+    reason = reason.replace('\\', '');
+    reason = reason.replace('\'', '');
+    reason = reason.replace('=', '');
+    reason = reason.replace('-', '');
+    reason = reason.replace('+', '');
+    reason = reason.replace('.', '');
+    reason = reason.replace('@', '');
+    reason = reason.replace('&', '');
+    reason = reason.replace('#', '');
+    reason = reason.replace('"', '');
+
+    $('.waitingPlease').css('display', 'flex');
+
+    $.ajax({
+        url: '/deleteUser/' + reason + '/' + selectedUserToDelete,
+        type: 'GET',
+        success: function (result) {
+            $('.waitingPlease').css('display', 'none');
+            if (result == "-1") {
+                alert('خطا');
+            } else {
+                $('tr#' + selectedUserToDelete).hide();
+
+                alert('کاربر مورد نظر غیرفعال شد.');
 
             }
         },
@@ -148,7 +185,7 @@ function findUsernameById(theId) {
 
 function copyToClipboard(theObj) {
 
-    theText=$(theObj).text();
+    theText = $(theObj).text();
     navigator.clipboard
         .writeText(theText)
         .then(() => {

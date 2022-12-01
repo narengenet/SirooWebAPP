@@ -19,5 +19,6 @@ namespace SirooWebAPP.Core.Domain
         public Guid CreatedBy { get; set; }
         public bool IsActivated { get; set; }
         public bool IsFinished { get; set; }
+        public bool? IsArchived { get; set; }
     }
 }

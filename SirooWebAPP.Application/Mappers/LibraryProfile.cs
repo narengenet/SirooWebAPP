@@ -65,6 +65,7 @@ namespace SirooWebAPP.Application.Mappers
             CreateMap<Draws, DTODraws>()
                 .ForMember(dest => dest.DrawId, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.OwnerId, opt => opt.MapFrom(src => src.Owner))
+                .ForMember(dest => dest.IsArchived, opt => opt.MapFrom(src => src.IsArchived))
                 .ForMember(dest => dest.Prizes, opt => opt.Ignore())
                 .ForMember(dest => dest.Owner, opt => opt.Ignore())
                 .ForMember(dest => dest.PrizeWinners, opt => opt.Ignore())

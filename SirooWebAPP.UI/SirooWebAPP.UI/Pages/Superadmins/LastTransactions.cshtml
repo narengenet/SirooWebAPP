@@ -1,0 +1,69 @@
+﻿@page
+@model SirooWebAPP.UI.Pages.Superadmins.LastTransactionsModel
+@{
+    Layout = "_LayoutClients";
+}
+<style>
+    table td {
+        width: 20%;
+        text-align: center;
+        font-family: 'Yekan';
+    }
+
+    table tr {
+        border: 1px solid white;
+    }
+
+    .MainDashboard {
+        display: none !important;
+    }
+
+</style>
+
+
+<div class="direction-rtl" style="margin-bottom:25vh;">
+    <div>تعداد کل وجوه پرداختی: @Model.allTransactionCount</div>
+    <br />
+    <br />
+    <table>
+        <tr style="background-color:black;">
+            <td>موبایل</td>
+            <td>نام کاربری</td>
+            <td>مبلغ</td>
+            <td>تاریخ</td>
+        </tr>
+        @if (Model.hasValue)
+        {
+            @foreach (var x in Model.transacs)
+            {
+                <tr id="@x.RequestID">
+                    <td>@x.PhoneNumber</td>
+                    <td>@x.UserName</td>
+                    <td>@x.RequestMoney</td>
+                    <td class="item-date">@x.RequestedDate</td>
+                </tr>
+            }
+        }
+    </table>
+
+    <br />
+    <br />
+
+    @if (Model.haveNext>0)
+    {
+        <a class="secondary-SirooBtn" href="/superadmins/lasttransactions?pagee=@(@Model.haveNext-1)&handler=Display">قبلی </a>
+    }
+    &nbsp;
+    <span>صفحه @(Model.haveNext+1)</span>
+    @if (Model.hasValue)
+    {
+        <a class="secondary-SirooBtn" href="/superadmins/lasttransactions?pagee=@(@Model.haveNext+1)&handler=Display">بعدی >></a>
+    }
+</div>
+
+
+
+@section Scripts {
+<script src="~/js/pages/Lasttransactions-default.js"></script>
+
+}

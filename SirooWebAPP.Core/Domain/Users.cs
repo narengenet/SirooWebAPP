@@ -24,6 +24,7 @@ namespace SirooWebAPP.Core.Domain
         public string? ProfileMediaURL { get; set; }
         public string? CardNumber { get; set; }
         public Guid? Inviter { get; set; }
+        public string? Notes { get; set; }
 
         public string FullName()
         {

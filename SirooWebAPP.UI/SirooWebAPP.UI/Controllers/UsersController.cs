@@ -267,6 +267,8 @@ namespace SirooWebAPP.UI.Controllers
 
             return Ok(result);
         }
+
+
         [TypeFilter(typeof(SampleAsyncActionLoginFilter))]
         [HttpGet("deactiveDraw/{drawID:guid}")]
         public IActionResult deactiveDraw(Guid drawID)
@@ -286,6 +288,35 @@ namespace SirooWebAPP.UI.Controllers
                         draw.IsActivated = false;
                         draw.IsFinished = true;
                         result = _usersServices.UpdateDraw(draw);
+                    }
+
+                }
+            }
+
+            return Ok(result);
+        }
+        
+        [TypeFilter(typeof(SampleAsyncActionLoginFilter))]
+        [HttpGet("archiveDraw/{drawID:guid}")]
+        public IActionResult archiveDraw(Guid drawID)
+        {
+            bool result = false;
+            string _userid = HttpContext.Request.Cookies["userid"];
+            Guid userId = Guid.Parse(_userid);
+            Roles role = _usersServices.GetUserRoles(userId).OrderBy(u => u.Priority).FirstOrDefault();
+            if (role != null)
+            {
+                if (role.RoleName == "super" || role.RoleName == "admin")
+                {
+                    Draws draw = _usersServices.GetAllDraws().Where(d => d.Id == drawID).FirstOrDefault();
+                    if (draw != null)
+                    {
+                        if (draw.IsFinished)
+                        {
+                            draw.IsArchived = true;
+                            result = _usersServices.UpdateDraw(draw);
+                        }
+                        
                     }
 
                 }
@@ -322,6 +353,17 @@ namespace SirooWebAPP.UI.Controllers
 
             string _userid = HttpContext.Request.Cookies["userid"];
             Guid userId = Guid.Parse(_userid);
+            List<DTODraws> draws = _usersServices.GetAllActiveNotArchivedDrawsByUser(userId);
+            return Ok(draws);
+        }
+        
+        [TypeFilter(typeof(SampleAsyncActionLoginFilter))]
+        [HttpGet("alldraws")]
+        public IActionResult GetAllDraws()
+        {
+
+            string _userid = HttpContext.Request.Cookies["userid"];
+            Guid userId = Guid.Parse(_userid);
             List<DTODraws> draws = _usersServices.GetAllActiveDrawsByUser(userId);
             return Ok(draws);
         }
@@ -339,6 +381,49 @@ namespace SirooWebAPP.UI.Controllers
                 if (theUser != null)
                 {
                     theUser.Points += point;
+                    _usersServices.UpdateUser(theUser);
+                    return Ok("ok");
+                }
+            }
+
+            return Ok("-1");
+
+        }
+        
+        [TypeFilter(typeof(SampleAsyncActionLoginFilter))]
+        [HttpGet("deleteUser/{reason}/{userID:guid}")]
+        public IActionResult deleteUser(string reason, Guid userID)
+        {
+            string _userid = HttpContext.Request.Cookies["userid"];
+            Guid userId = Guid.Parse(_userid);
+            if (_session.GetString("userrolename") == "super" || _session.GetString("userrolename") == "admin")
+            {
+                Users theUser = _usersServices.GetUser(userID);
+                if (theUser != null)
+                {
+                    theUser.IsDeleted = true;
+                    theUser.Notes = reason;
+                    _usersServices.UpdateUser(theUser);
+                    return Ok("ok");
+                }
+            }
+
+            return Ok("-1");
+
+        }
+        
+        [TypeFilter(typeof(SampleAsyncActionLoginFilter))]
+        [HttpGet("undeleteUser/{userID:guid}")]
+        public IActionResult undeleteUser( Guid userID)
+        {
+            string _userid = HttpContext.Request.Cookies["userid"];
+            Guid userId = Guid.Parse(_userid);
+            if (_session.GetString("userrolename") == "super" || _session.GetString("userrolename") == "admin")
+            {
+                Users theUser = _usersServices.GetAllDeletedUsers().Where(u=>u.Id==userID).First();
+                if (theUser != null)
+                {
+                    theUser.IsDeleted = false;
                     _usersServices.UpdateUser(theUser);
                     return Ok("ok");
                 }

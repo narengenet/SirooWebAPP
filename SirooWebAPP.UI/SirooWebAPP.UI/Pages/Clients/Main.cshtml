@@ -25,11 +25,11 @@
         </div>
     </div>
 
-    <div class="modal fade" id="deactiveDrawModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="archiveDrawModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">غیرفعالسازی دوره</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">آرشیو دوره</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="بازگشت">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -38,8 +38,8 @@
                     مطمئن هستید؟
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" onclick="$('#deactiveDrawModal').modal('toggle');" data-dismiss="modal">خیر</button>
-                    <button type="button" class="btn btn-danger" onclick="deactiveDraw();$('#deactiveDrawModal').modal('toggle');">بلی</button>
+                    <button type="button" class="btn btn-secondary" onclick="$('#archiveDrawModal').modal('toggle');" data-dismiss="modal">خیر</button>
+                    <button type="button" class="btn btn-danger" onclick="archiveDraw();$('#archiveDrawModal').modal('toggle');">بلی</button>
                 </div>
             </div>
         </div>
@@ -90,7 +90,9 @@
     {
                                                         <div class="buttons mt-2">
                                                                 <a id="finishdraw_${drawId}" class="btn-warning m-2  col-8 text-center SirooSimpleBtn {{if isFinished}}hidden{{/if}}" onclick="finishId='${drawId}';$(this).css('opacity','0.1');$('#finishDrawModal').modal('toggle');">اتمام دوره</a>
-                                                                <a class="btn-danger m-2  col-8 text-center SirooSimpleBtn" onclick="deactiveId='${drawId}';$('#deactiveDrawModal').modal('toggle');">غیرفعالسازی دوره</a>
+                                                                {{if isFinished}}
+                                                                    <a class="btn-secondary m-2 arvhive-btn col-8 text-center SirooSimpleBtn" onclick="archiveId='${drawId}';$('#archiveDrawModal').modal('toggle');">آرشیو کردن  این دوره</a>
+                                                                {{/if}}
                                                         </div>
     }
 
@@ -117,6 +119,10 @@
 
 
 <div class="draws home-draws" id="drawsContainer">
+</div>
+
+<div id="alldrawsBTN" class"container justify-content-center" style="text-align:center;">
+    <a href="/Clients/Draws" class="btn-primary m-2 col-8 text-center SirooSimpleBtn">نمایش آرشیو همه دوره ها</a>
 </div>
 
 <div class="winnerTemplate" style="display:none;">
@@ -272,11 +278,17 @@
 <script>
     var myUsername = '@Model.MyUsername';
     var myPoint = '@Model.MyPoints';
+
+    $(document).ready(function () {
+        alldrawsPermit=0;
+        getDraws();
+
+    });
 </script>
 
     @if (Model.RoleName == "super" || Model.RoleName == "admin")
     {
-<script src="~/js/pages/Main-super-admin.js"></script>
-<script src="~/js/pages/Draws-super-admin.js"></script>
+<script src="~/js/pages/Main-super-admin.js?i=1"></script>
+<script src="~/js/pages/Draws-super-admin.js?i=1"></script>
     }
 }

@@ -42,6 +42,26 @@
     </div>
 </div>
 
+<div class="modal fade" id="deleteUserModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">عیرفعالسازی</h5>
+                <button onclick="$('#deleteUserModal').modal('toggle');" type="button" class="close" data-dismiss="modal" aria-label="بازگشت">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input id="deleteReason" type="text" style="color:black!important;" placeholder="دلیل غیرفعالسازی..." />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="$('#deleteUserModal').modal('toggle');" data-dismiss="modal">خیر</button>
+                <button type="button" class="btn btn-warning" onclick="deleteUser();$('#deleteUserModal').modal('toggle');">بلی</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 
 <div class="direction-rtl" style="margin-bottom:25vh;">
@@ -84,7 +104,12 @@
                 <td class="ids d-none">@x.Id</td>
 
                 <td data-id="@x.Id" class="cellphone" onclick="copyToClipboard(this);">@x.Cellphone</td>
-                <td data-id="@x.Id" class="username">@x.Username</td>
+                <td data-id="@x.Id" class="username">
+                    @x.Username
+                    <br /><br />
+                    <span class="secondary-SirooBtn btn-danger" onclick="selectedUserToDelete='@x.Id';$('#deleteUserModal').modal('toggle');">غیرفعالسازی</span>
+
+                </td>
                 <td class="inviter">@x.Inviter</td>
                 <td class="passwords" onclick="copyToClipboard(this);">@x.ConfirmationCode</td>
                 <td class="p-3">
@@ -106,6 +131,6 @@
 
 
 @section Scripts {
-<script src="~/js/pages/Allusers-default.js"></script>
+<script src="~/js/pages/Allusers-default.js?i=1"></script>
 
 }

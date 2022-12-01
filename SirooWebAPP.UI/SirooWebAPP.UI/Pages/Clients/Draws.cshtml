@@ -11,7 +11,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">اتمام دوره</h5>
-                    <button type="button" onclick="$('#finishdraw_'+finishId).css('opacity','1');$('#finishDrawModal').modal('toggle');"   class="close" data-dismiss="modal" aria-label="بازگشت">
+                    <button type="button" onclick="$('#finishdraw_'+finishId).css('opacity','1');$('#finishDrawModal').modal('toggle');" class="close" data-dismiss="modal" aria-label="بازگشت">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
@@ -31,7 +31,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">غیرفعالسازی دوره</h5>
-                    <button type="button" onclick="$('#deactiveDrawModal').modal('toggle');"  class="close" data-dismiss="modal" aria-label="بازگشت">
+                    <button type="button" onclick="$('#deactiveDrawModal').modal('toggle');" class="close" data-dismiss="modal" aria-label="بازگشت">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
@@ -41,6 +41,26 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" onclick="$('#deactiveDrawModal').modal('toggle');" data-dismiss="modal">خیر</button>
                     <button type="button" class="btn btn-danger" onclick="deactiveDraw();$('#deactiveDrawModal').modal('toggle');">بلی</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="archiveDrawModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">آرشیو دوره</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="بازگشت">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    مطمئن هستید؟
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="$('#archiveDrawModal').modal('toggle');" data-dismiss="modal">خیر</button>
+                    <button type="button" class="btn btn-danger" onclick="archiveDraw();$('#archiveDrawModal').modal('toggle');">بلی</button>
                 </div>
             </div>
         </div>
@@ -58,7 +78,10 @@
                     <a href="#" class="profile-date dates">${created}</a>
                 </div>
                 <div class="status">
-                    <span>وضعیت دوره: </span>{{if isFinished}}<span class="inactiveDraw"> غیر فعال </span>{{else}}<span class="activeDraw"> فعال </span>{{/if}}
+                    <span>وضعیت دوره: </span>
+                    {{if isFinished}}<span class="inactiveDraw"> غیر فعال </span>{{else}}<span class="activeDraw"> فعال </span>{{/if}}
+                    &nbsp;
+                    {{if isArchived}}<span class="archiveDraw"> آرشیو </span>{{/if}}
                 </div>
                 {{if isFinished==false}}
                 <div class="col-12 d-flex justify-content-center">
@@ -89,10 +112,16 @@
 
     @if (Model.RoleName == "super" || Model.RoleName == "admin")
     {
-                                                        <div class="buttons mt-2">
-                                                                <a id="finishdraw_${drawId}" class="btn-warning m-2  col-8 text-center SirooSimpleBtn {{if isFinished}}hidden{{/if}}" onclick="finishId='${drawId}';$(this).css('opacity','0.1');$('#finishDrawModal').modal('toggle');">اتمام دوره</a>
-                                                                <a class="btn-danger m-2  col-8 text-center SirooSimpleBtn" onclick="deactiveId='${drawId}';$('#deactiveDrawModal').modal('toggle');">غیرفعالسازی دوره</a>
-                                                        </div>
+                                                                <div class="buttons mt-2">
+                                                                        <a id="finishdraw_${drawId}" class="btn-warning m-2  col-8 text-center SirooSimpleBtn {{if isFinished}}hidden{{/if}}" onclick="finishId='${drawId}';$(this).css('opacity','0.1');$('#finishDrawModal').modal('toggle');">اتمام دوره</a>
+                                                                        {{if isArchived}}
+
+                                                                        {{else}}
+                                                                            {{if isFinished}}
+                                                                                <a class="btn-secondary arvhive-btn m-2  col-8 text-center SirooSimpleBtn" onclick="archiveId='${drawId}';$('#archiveDrawModal').modal('toggle');">آرشیو کردن  این دوره</a>
+                                                                            {{/if}}
+                                                                        {{/if}}
+                                                                </div>
     }
 
         </div>
@@ -149,18 +178,25 @@
 @section Scripts {
 <script src="~/js/jquery.tmpl.min.js"></script>
 <script src="~/js/jquery.timeago.js"></script>
-<script src="~/js/draws.js"></script>
+<script src="~/js/draws.js?i=1"></script>
 <script src="~/js/popper.min.js"></script>
 <script src="~/js/jquery.flipper-responsive.js"></script>
-<script src="~/js/pages/Draws-default.js"></script>
+<script src="~/js/pages/Draws-default.js?i=1"></script>
 
 <script>
-    var myUsername = '@Model.MyUsername';
-    var myPoint = '@Model.MyPoints';
+        var myUsername = '@Model.MyUsername';
+        var myPoint = '@Model.MyPoints';
+
+        
+    $(document).ready(function () {
+        alldrawsPermit=1;
+        getAllDraws();
+
+    });
 </script>
 
     @if (Model.RoleName == "super" || Model.RoleName == "admin")
     {
-        <script src="~/js/pages/Draws-super-admin.js"></script>
+<script src="~/js/pages/Draws-super-admin.js?i=1"></script>
     }
 }

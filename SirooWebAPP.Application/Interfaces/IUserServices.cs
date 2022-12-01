@@ -21,6 +21,7 @@ namespace SirooWebAPP.Application.Interfaces
         List<Users> GetUsers(int pageNumber);
         DTOUserProfile GetUserProfile(Guid userId);
         List<Users> GetAllUsers();
+        List<Users> GetAllDeletedUsers();
         List<DTOUserSmall> GetAllLesserPriorityUsers(Guid requesterUserId);
 
         List<string> GetCellphones();
@@ -62,6 +63,7 @@ namespace SirooWebAPP.Application.Interfaces
 
         List<Draws> GetAllDraws();
         List<DTODraws> GetAllActiveDrawsByUser(Guid userId);
+        List<DTODraws> GetAllActiveNotArchivedDrawsByUser(Guid userId);
         Draws AddDraw(Draws draw);
         bool UpdateDraw(Draws draw);
         

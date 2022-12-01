@@ -63,7 +63,7 @@ namespace SirooWebAPP.UI.Pages
             }
             else
             {
-                ResultMessage = $"{loginPerson.Cellphone} ثبت نشده است.";
+                ResultMessage = $"{loginPerson.Cellphone} غیر معتبر است.";
             }
 
 

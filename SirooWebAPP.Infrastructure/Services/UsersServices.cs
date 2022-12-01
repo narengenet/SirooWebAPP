@@ -179,6 +179,10 @@ namespace SirooWebAPP.Infrastructure.Services
         {
             return _userRepo.GetAll().Where(u => u.IsDeleted == false && u.IsActivated == true).ToList<Users>();
         }
+        public List<Users> GetAllDeletedUsers()
+        {
+            return _userRepo.GetAll().Where(u => u.IsDeleted == true).ToList<Users>();
+        }
         public DTOUserProfile GetUserProfile(Guid userId)
         {
             Users usr = _userRepo.GetById(userId);
@@ -334,7 +338,9 @@ namespace SirooWebAPP.Infrastructure.Services
 
         public Users GetUserByCellphone(string cellphone)
         {
-            return _userRepo.GetAll().Where(u => u.Cellphone == cellphone).SingleOrDefault();
+            
+            return GetAllUsers().Where(u => u.Cellphone == cellphone).SingleOrDefault();
+            //return _userRepo.GetAll().Where(u => u.Cellphone == cellphone).SingleOrDefault();
         }
 
         public Guid AddAvertise(Advertise advertise, Guid userId)
@@ -832,6 +838,51 @@ namespace SirooWebAPP.Infrastructure.Services
                     (draws, users) => draws
                 )
                 .Where(d => d.IsActivated == true && d.IsDeleted == false)
+                .OrderByDescending(d => d.StartDate)
+                .ToList<Draws>();
+
+
+
+
+            //List<DTODraws> _draws = _mapper.Map<List<DTODraws>>(_drawsRepo.GetAll().OrderBy(d => d.StartDate));
+            List<DTODraws> _draws = _mapper.Map<List<DTODraws>>(result);
+            List<DTOUser> allUsers = _mapper.Map<List<DTOUser>>(_userRepo.GetAll().Where(u => u.IsDeleted == false && u.IsActivated == true).OrderByDescending(u => u.Points).ToList<Users>());
+
+            foreach (DTODraws item in _draws)
+            {
+                List<DTOPrize> _p = _mapper.Map<List<DTOPrize>>(GetPrizesByDraw(item.DrawId).OrderBy(p => p.Priority));
+                item.Owner = _mapper.Map<DTOUser>(GetUser(item.OwnerId));
+                item.Prizes = (_p);
+                if (item.IsFinished)
+                {
+                    item.PrizeWinners = GetAllPrizeWinnersByDrawId(item.DrawId);
+                }
+                else
+                {
+                    item.PrizeWinners = allUsers;
+                }
+
+            }
+
+
+
+
+
+            return _draws;
+
+        }
+        
+        public List<DTODraws> GetAllActiveNotArchivedDrawsByUser(Guid userId)
+        {
+            // get all ads if owner quota is not ended and ads is not expired
+            List<Draws> result = _drawsRepo.GetAll()
+                .Join(
+                    _userRepo.GetAll().Where(u => u.IsActivated == true && u.IsDeleted == false).ToList<Users>(),
+                    draws => draws.Owner,
+                    users => users.Id,
+                    (draws, users) => draws
+                )
+                .Where(d => d.IsActivated == true && d.IsDeleted == false && d.IsArchived==false)
                 .OrderByDescending(d => d.StartDate)
                 .ToList<Draws>();
 

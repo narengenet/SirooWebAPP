@@ -1,0 +1,77 @@
+﻿@page
+@model SirooWebAPP.UI.Pages.Superadmins.DeletedUsersModel
+@{
+    Layout = "_LayoutClients";
+}
+<style>
+    table td {
+        width: 20%;
+        text-align: center;
+        font-family: 'Yekan';
+    }
+
+    table tr {
+        border: 1px solid white;
+    }
+
+    .MainDashboard {
+        display: none !important;
+    }
+
+</style>
+
+
+<div class="modal fade" id="undeleteUserModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">فعالسازی مجدد</h5>
+                <button onclick="$('#undeleteUserModal').modal('toggle');" type="button" class="close" data-dismiss="modal" aria-label="بازگشت">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                مطمئن هستید؟
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="$('#undeleteUserModal').modal('toggle');" data-dismiss="modal">خیر</button>
+                <button type="button" class="btn btn-warning" onclick="undeleteUser();$('#undeleteUserModal').modal('toggle');">بلی</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="direction-rtl" style="margin-bottom:25vh;">
+    <table>
+        <tr style="background-color:black;">
+            <td>موبایل</td>
+            <td>نام کاربری</td>
+            <td>دلیل غیرفعالسازی</td>
+        </tr>
+        @foreach (var x in Model.DelUsers)
+        {
+            <tr id="@x.Id">
+                <td>@x.Cellphone</td>
+                <td class="pb-2">
+                    @x.Username
+                    <br /><br />
+                    <span class="secondary-SirooBtn btn-success" onclick="selectedUserToUndelete='@x.Id';$('#undeleteUserModal').modal('toggle');">فعالسازی</span>
+                    <br /><br />
+
+                </td>
+                <td>@x.Notes</td>
+            </tr>
+        }
+    </table>
+
+
+</div>
+
+
+
+
+
+@section Scripts {
+<script src="~/js/pages/Deletedusers-default.js"></script>
+
+}

@@ -83,6 +83,7 @@ namespace SirooWebAPP.UI.Pages.Superadmins
                             StartDate = startD,
                             EndDate = endD,
                             IsLottery = addDraw.IsLottery,
+                            IsArchived=false,
                             Owner = addDraw.OwnerId
 
                         };

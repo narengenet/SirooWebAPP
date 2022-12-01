@@ -82,7 +82,7 @@ function getNewPosts() {
                 setToLocalStorage("allids", JSON.stringify(ads));
 
                 observerEndPosts.observe(document.querySelector('#afterLastPost'));
-
+                $('#alldrawsBTN').show();
 
                 //var dates = $('.profile-date');
                 //for (i = 0; i < dates.length; i++) {
@@ -147,6 +147,7 @@ function GetBeforeAds(fromAdsId) {
                 AddPostToTemplate(result);
 
                 $('#afterLastPost').removeClass('fetching');
+                $('#alldrawsBTN').show();
                 $('.threeDotsLoading2').hide();
 
             }
@@ -195,7 +196,7 @@ function GetNextAds(fromThisAd) {
                     setToLocalStorage("allids", JSON.stringify(ads));
                 }
 
-
+                $('#alldrawsBTN').show();
                 $('.threeDotsLoading').hide();
 
             }
