@@ -104,8 +104,10 @@
                 <td class="ids d-none">@x.Id</td>
 
                 <td data-id="@x.Id" class="cellphone" onclick="copyToClipboard(this);">@x.Cellphone</td>
-                <td data-id="@x.Id" class="username">
+                <td>
+                    <div data-id="@x.Id" class="username">
                     @x.Username
+                    </div>
                     <br /><br />
                     <span class="secondary-SirooBtn btn-danger" onclick="selectedUserToDelete='@x.Id';$('#deleteUserModal').modal('toggle');">غیرفعالسازی</span>
 
@@ -131,6 +133,6 @@
 
 
 @section Scripts {
-<script src="~/js/pages/Allusers-default.js?i=1"></script>
+<script src="~/js/pages/Allusers-default.js?i=2"></script>
 
 }

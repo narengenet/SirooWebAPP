@@ -1,0 +1,45 @@
+﻿@page
+@model SirooWebAPP.UI.Pages.Superadmins.AllSettingsModel
+@{
+    Layout = "_LayoutClients";
+}
+<style>
+
+    .MainDashboard {
+        display: none !important;
+    }
+
+</style>
+
+
+<div class="container" style="text-align:center;">
+    <div class="row m-2 mb-3">
+        <div class="col-4">
+            <input type="button" onclick="ResetPostCash();" value="ریست کن" />
+        </div>
+        <div class="col-8 flex-vcenter siroo-normal-text">ریست کردن کش پُست ها</div>
+    </div>
+    <hr />
+    @foreach (var x in Model.constantDics)
+    {
+        <div class="row m-2">
+            <div class="col-4  flex-vcenter">
+                <input type="button" onclick="ChangeConstant('@x.Id');" value="ثبت" />
+            </div>
+            <div class="col-8">
+                <span class="siroo-normal-text">@x.Description</span>
+                <br/>
+                <input type="number" id="@x.Id" value="@x.ConstantValue" />
+            </div>
+        </div>
+        <hr />
+
+    }
+</div>
+
+
+
+@section Scripts {
+<script src="~/js/pages/Allsettings-default.js"></script>
+
+}

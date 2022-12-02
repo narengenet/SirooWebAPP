@@ -94,7 +94,7 @@ function findByCellphone(cellText) {
 }
 function findByUsername(cellText) {
     for (var i = 0; i < _usernames.length; i++) {
-        if ($(_usernames[i]).text() == cellText) {
+        if ($(_usernames[i]).text().trim() == cellText) {
             $('.userRow').hide();
             $('#' + $(_usernames[i]).attr('data-id')).show();
             break;

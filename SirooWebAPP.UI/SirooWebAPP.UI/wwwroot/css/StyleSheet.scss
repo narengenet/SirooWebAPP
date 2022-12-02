@@ -424,6 +424,10 @@ body {
     direction: rtl;
 }
 
+.flex-vcenter {
+    display: flex;
+    align-items: center;
+}
 .siroo-normal-text {
     font-family: 'Yekan';
     color: white;

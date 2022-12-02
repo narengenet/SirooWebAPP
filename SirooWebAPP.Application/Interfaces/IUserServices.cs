@@ -76,6 +76,7 @@ namespace SirooWebAPP.Application.Interfaces
 
         List<ConstantDictionaries> GetAllConstantDictionaries();
         ConstantDictionaries GetConstantDictionary(string key);
+        bool UpdateConstantDictionary(ConstantDictionaries constantDictionary);
 
 
         List<PointUsages> GetAllPointUsages();

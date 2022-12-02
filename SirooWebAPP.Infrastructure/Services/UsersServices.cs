@@ -975,7 +975,11 @@ namespace SirooWebAPP.Infrastructure.Services
         {
             return GetAllConstantDictionaries().Where(c => c.ConstantKey == key).FirstOrDefault();
         }
-
+        public bool UpdateConstantDictionary(ConstantDictionaries constantDictionary)
+        {
+            _constRepo.Update(constantDictionary);
+            return true;
+        }
 
 
         public List<PointUsages> GetAllPointUsages()

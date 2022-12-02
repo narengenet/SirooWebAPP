@@ -432,6 +432,48 @@ namespace SirooWebAPP.UI.Controllers
             return Ok("-1");
 
         }
+        
+        [TypeFilter(typeof(SampleAsyncActionLoginFilter))]
+        [HttpGet("resetPostCache")]
+        public IActionResult resetPostCache( Guid userID)
+        {
+            string _userid = HttpContext.Request.Cookies["userid"];
+            Guid userId = Guid.Parse(_userid);
+            if (_session.GetString("userrolename") == "super" || _session.GetString("userrolename") == "admin")
+            {
+                CachedContents.Advertises.Clear();
+                return Ok("1");
+            }
+
+            return Ok("-1");
+
+        }
+        
+        
+        [TypeFilter(typeof(SampleAsyncActionLoginFilter))]
+        [HttpGet("changeConstant/{keyValue}/{constID:guid}")]
+        public IActionResult changeConstant( string keyValue, Guid constID)
+        {
+            string _userid = HttpContext.Request.Cookies["userid"];
+            Guid userId = Guid.Parse(_userid);
+            if (_session.GetString("userrolename") == "super" || _session.GetString("userrolename") == "admin")
+            {
+
+                ConstantDictionaries theDic = _usersServices.GetAllConstantDictionaries().Where(c => c.Id == constID).First();
+                if (theDic!=null)
+                {
+                    theDic.ConstantValue = keyValue;
+                    theDic.LastModifiedBy = _userid;
+                    theDic.LastModified = DateTime.Now;
+                    _usersServices.UpdateConstantDictionary(theDic);
+                    return Ok("1");
+                }
+                return Ok("1");
+            }
+
+            return Ok("-1");
+
+        }
 
 
 
