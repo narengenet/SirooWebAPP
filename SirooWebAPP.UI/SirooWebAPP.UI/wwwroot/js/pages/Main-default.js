@@ -311,7 +311,45 @@ function toggleMute(obj) {
 
 
 
+function useChip() {
+    let thePIN = $('#chipPIN').val();
+    if (thePIN.length<5) {
+        alert('کد امتیاز اشتباه است.');
+        return;
+    }
 
+    $('.waitingPlease').css('display', 'flex');
+
+    $.ajax({
+        url: '/useChips/' + thePIN,
+        type: 'GET',
+        success: function (result) {
+            $('.waitingPlease').css('display', 'none');
+            if (result == "-2") {
+                alert('تعداد استفاده مجاز شما امروز به اتمام رسیده است.');
+                return;
+            };
+            if (result == "-3") {
+                alert('کد امتیاز اشتباه است.');
+                return;
+            };
+            if (result == "-4") {
+                alert('کد امتیاز قبلا استفاده شده است.');
+                return;
+            };
+            if (result == "-5") {
+                alert('خطای سیستمی رخ داده است.');
+                return;
+            };
+
+            let successResult = parseInt(result);
+            if (successResult>0) {
+                pointUpdated(result);
+                alert(result + 'امتیاز دریافت کردید.');
+            }
+        },
+    });
+}
 
 
 

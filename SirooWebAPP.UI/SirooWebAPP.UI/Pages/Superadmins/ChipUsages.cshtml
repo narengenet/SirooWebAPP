@@ -1,0 +1,105 @@
+﻿@page
+@model SirooWebAPP.UI.Pages.Superadmins.ChipUsagesModel
+@{
+    Layout = "_LayoutClients";
+}
+<style>
+    table td {
+        width: 20%;
+        text-align: center;
+        font-family: 'Yekan';
+    }
+
+    table tr {
+        border: 1px solid white;
+    }
+
+    .MainDashboard {
+        display: none !important;
+    }
+
+</style>
+
+
+<div class="direction-rtl" style="margin-bottom:25vh;">
+    <div>تعداد کارت‌های استفاده‌شده: @Model.allUsedChipsCount</div>
+    <br />
+    <br />
+
+    <div class="d-flex flex-row justify-content-center">
+        <div class="col-8">
+            <input type="text" id="searchpin" style="font-size:0.8rem;" placeholder="جستجو پین کد/شماره سریال..." />
+        </div>
+        <div class="col-4">
+            <input type="button" value="جستجو" onclick="window.location='/superadmins/chipusages?serialorpin='+$('#searchpin').val()+'&handler=Search';" />
+        </div>
+    </div>
+    <br />
+    <br />
+    <table>
+        <tr style="background-color:black;">
+            <td>کاربر</td>
+            <td>سریال</td>
+            <td>PIN</td>
+            <td>امتیاز</td>
+            <td>تاریخ استفاده</td>
+        </tr>
+        @if (Model.hasValue)
+        {
+            @foreach (var x in Model.transacs)
+            {
+                <tr id="@x.RequestID">
+                    <td>
+                        @x.PhoneNumber
+                        <br />
+                        @x.UserName
+                    </td>
+                    <td>@x.Data1</td>
+                    <td>@x.Data2</td>
+                    <td>@x.RequestMoney</td>
+                    @if (x.UserName.Length > 1)
+                    {
+                        <td class="item-date">@x.RequestedDate</td>
+                    }
+                    else
+                    {
+                        <td>---</td>
+                    }
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td>یافت نشد.</td>
+            </tr>
+        }
+    </table>
+
+    <br />
+    <br />
+
+    @if (Model.isSearch == false)
+    {
+        <div style="text-align:center;">
+            @if (Model.haveNext > 0)
+            {
+                <a class="secondary-SirooBtn" href="/superadmins/chipusages?pagee=@(@Model.haveNext-1)&handler=Display">قبلی </a>
+            }
+
+
+            <span>صفحه @(Model.haveNext+1)</span>
+            @if (Model.hasValue)
+            {
+                <a class="secondary-SirooBtn" href="/superadmins/chipusages?pagee=@(@Model.haveNext+1)&handler=Display">بعدی >></a>
+            }
+        </div>
+    }
+</div>
+
+
+
+@section Scripts {
+<script src="~/js/pages/Lasttransactions-default.js"></script>
+
+}

@@ -106,7 +106,10 @@ namespace SirooWebAPP.Application.Interfaces
         List<TransactionPercents> GetAllTransactionPercents();
 
 
-
+        List<Chips> GetAllChips();
+        void AddChips(Chips chips);
+        void UpdateChips(Chips chips);
+        void RemoveChips(Chips chips);
 
     }
 }

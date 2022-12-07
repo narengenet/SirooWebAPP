@@ -46,6 +46,33 @@
     </div>
 }
 
+    <div class="modal fade" id="useChipModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">ثبت کد امتیاز</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="بازگشت">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <input id="chipPIN" type="text" style="color:black!important;" placeholder="کد امتیاز..." />
+
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="$('#useChipModal').modal('toggle');" data-dismiss="modal">بازگشت</button>
+                    <button type="button" class="btn btn-danger" onclick="useChip();$('#useChipModal').modal('toggle');">ثبت</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
 <script id="drawTemplate" type="text/x-jQuery-tmpl">
         <div class="draw {{if isFinished}}finished{{/if}}">
             <div class="header mb-3">
@@ -122,7 +149,8 @@
 </div>
 
 <div id="alldrawsBTN" class"container justify-content-center" style="text-align:center;">
-    <a href="/Clients/Draws" class="btn-primary m-2 col-8 text-center SirooSimpleBtn">نمایش آرشیو همه دوره ها</a>
+    <a href="/Clients/Draws" class="btn-primary m-2 col-6 text-center SirooSimpleBtn">نمایش آرشیو همه دوره ها</a>
+    <a onclick="$('#useChipModal').modal('toggle');" class="btn-primary m-2 col-5 text-center SirooSimpleBtn">استفاده از کارت اعتباری</a>
 </div>
 
 <div class="winnerTemplate" style="display:none;">
@@ -288,7 +316,7 @@
 
     @if (Model.RoleName == "super" || Model.RoleName == "admin")
     {
-<script src="~/js/pages/Main-super-admin.js?i=1"></script>
+<script src="~/js/pages/Main-super-admin.js?i=2"></script>
 <script src="~/js/pages/Draws-super-admin.js?i=1"></script>
     }
 }

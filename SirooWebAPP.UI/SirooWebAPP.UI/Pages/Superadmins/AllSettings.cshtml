@@ -20,6 +20,26 @@
         <div class="col-8 flex-vcenter siroo-normal-text">ریست کردن کش پُست ها</div>
     </div>
     <hr />
+    <div class="row m-2">
+        <div class="col-2  flex-vcenter p-0">
+            <input type="button" onclick="CreateChips();" value="تولید" />
+        </div>
+        <div class="col-5 p-0">
+            <span class="siroo-normal-text">امتیاز هر کارت</span>
+            <br />
+            <input type="number" id="createdChipsPoints" value="0" min="0" step="10" />
+        </div>
+
+        <div class="col-5 p-0">
+            <span class="siroo-normal-text">تعداد کارت</span>
+            <br />
+            <input type="number" id="createChips" value="100" min="0" step="100" />
+        </div>
+
+    </div>
+
+
+    <hr />
     @foreach (var x in Model.constantDics)
     {
         <div class="row m-2">
@@ -28,7 +48,7 @@
             </div>
             <div class="col-8">
                 <span class="siroo-normal-text">@x.Description</span>
-                <br/>
+                <br />
                 <input type="number" id="@x.Id" value="@x.ConstantValue" />
             </div>
         </div>

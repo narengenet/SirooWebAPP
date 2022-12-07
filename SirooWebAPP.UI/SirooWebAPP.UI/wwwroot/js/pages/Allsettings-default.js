@@ -35,3 +35,22 @@ function ChangeConstant(theID) {
         },
     });
 }
+
+function CreateChips() {
+    $('.waitingPlease').css('display', 'flex');
+
+    $.ajax({
+        url: '/createChips/' + $('#createChips').val() + '/' + $('#createdChipsPoints').val(),
+        type: 'GET',
+        success: function (result) {
+            $('.waitingPlease').css('display', 'none');
+            if (result == "-1") {
+                alert('خطا');
+            } else {
+                alert('کارت‌های اعتباری تولید شدند.');
+                window.location = '/uploads/test.csv';
+
+            }
+        },
+    });
+}

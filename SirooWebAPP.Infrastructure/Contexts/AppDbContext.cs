@@ -36,6 +36,7 @@ namespace SirooWebAPP.Infrastructure.Contexts
         public DbSet<Transactions> Transactions { get; set; }
         public DbSet<Purchases> Purchases { get; set; }
         public DbSet<TransactionPercents>  TransactionPercents{ get; set; }
+        public DbSet<Chips>  Chips{ get; set; }
 
 
 
@@ -142,6 +143,7 @@ namespace SirooWebAPP.Infrastructure.Contexts
             ConstantDictionaries def_percent_for_marketer = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "def_percent_for_marketer", ConstantValue = "10", IsActive = true, Description = "درصد بازاریاب", Created = DateTime.Now, CreatedBy = sina.Id };
             ConstantDictionaries def_percent_for_zoneadmin = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "def_percent_for_zoneadmin", ConstantValue = "6", IsActive = true, Description = "درصد مدیر منطقه", Created = DateTime.Now, CreatedBy = sina.Id };
             ConstantDictionaries def_percent_for_countryadmin = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "def_percent_for_countryadmin", ConstantValue = "4", IsActive = true, Description = "درصد مدیر مناطق", Created = DateTime.Now, CreatedBy = sina.Id };
+            ConstantDictionaries def_chips_usage_perday = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "def_chips_usage_perday", ConstantValue = "-1", IsActive = true, Description = "تعداد استفاده از کارت اعتباری هر کاربر در روز", Created = DateTime.Now, CreatedBy = sina.Id };
 
 
             modelBuilder.Entity<ConstantDictionaries>().HasData(store_default_credits_registration);
@@ -158,6 +160,7 @@ namespace SirooWebAPP.Infrastructure.Contexts
             modelBuilder.Entity<ConstantDictionaries>().HasData(def_percent_for_marketer);
             modelBuilder.Entity<ConstantDictionaries>().HasData(def_percent_for_zoneadmin);
             modelBuilder.Entity<ConstantDictionaries>().HasData(def_percent_for_countryadmin);
+            modelBuilder.Entity<ConstantDictionaries>().HasData(def_chips_usage_perday);
 
 
 

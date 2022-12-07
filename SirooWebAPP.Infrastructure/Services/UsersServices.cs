@@ -77,6 +77,7 @@ namespace SirooWebAPP.Infrastructure.Services
         private readonly ITransactionsRepository _transactionsRepo;
         private readonly IPurchasesRepository _purchasesRepository;
         private readonly ITransactionPercentsRepository _transactionPercentsRepository;
+        private readonly IChipsRepository _chipsRepo;
 
         private readonly IMapper _mapper;
 
@@ -100,6 +101,7 @@ namespace SirooWebAPP.Infrastructure.Services
             ITransactionsRepository transactionsRepository,
             IPurchasesRepository purchasesRepository,
             ITransactionPercentsRepository transactionPercentsRepository,
+            IChipsRepository chipsRepo,
             IMapper mapper
             )
         {
@@ -119,6 +121,7 @@ namespace SirooWebAPP.Infrastructure.Services
             _transactionsRepo = transactionsRepository;
             _purchasesRepository = purchasesRepository;
             _transactionPercentsRepository = transactionPercentsRepository;
+            _chipsRepo = chipsRepo;
 
             _mapper = mapper;
         }
@@ -338,7 +341,7 @@ namespace SirooWebAPP.Infrastructure.Services
 
         public Users GetUserByCellphone(string cellphone)
         {
-            
+
             return GetAllUsers().Where(u => u.Cellphone == cellphone).SingleOrDefault();
             //return _userRepo.GetAll().Where(u => u.Cellphone == cellphone).SingleOrDefault();
         }
@@ -360,7 +363,7 @@ namespace SirooWebAPP.Infrastructure.Services
         }
 
 
-        public List<DTOAdvertise> GetAdvertises(Guid userID, bool beforeDate,int pageIndex, DateTime? afterThisDate = null)
+        public List<DTOAdvertise> GetAdvertises(Guid userID, bool beforeDate, int pageIndex, DateTime? afterThisDate = null)
         {
             // get current user
             Users user = _userRepo.GetById(userID);
@@ -382,7 +385,7 @@ namespace SirooWebAPP.Infrastructure.Services
                 CachedContents.Advertises = _result;
             }
 
-            if (CachedContents.Likers.Count==0)
+            if (CachedContents.Likers.Count == 0)
             {
                 CachedContents.Likers = _likersRepo.GetAll().Where(l => l.IsDeleted == false).ToList<Likers>();
 
@@ -397,7 +400,7 @@ namespace SirooWebAPP.Infrastructure.Services
             // create return data model object
             List<DTOAdvertise> dTOAdvertise = new List<DTOAdvertise>();
 
-            List<Advertise> tmpAds = CachedContents.Advertises.Skip(pageIndex*3).Take(3).ToList<Advertise>();
+            List<Advertise> tmpAds = CachedContents.Advertises.Skip(pageIndex * 3).Take(3).ToList<Advertise>();
             if (afterThisDate != null)
             {
                 if (beforeDate)
@@ -408,7 +411,7 @@ namespace SirooWebAPP.Infrastructure.Services
                 {
                     tmpAds = CachedContents.Advertises.Where(a => a.CreationDate > afterThisDate).Skip(pageIndex * 3).Take(3).ToList<Advertise>();
                 }
-                
+
             }
 
             // prepare returning ads
@@ -417,9 +420,9 @@ namespace SirooWebAPP.Infrastructure.Services
             {
                 Advertise item = tmpAds[i];
 
-                if (item.Owner!=userID)
+                if (item.Owner != userID)
                 {
-                    if (CachedContents.Viewers.Where(v=>v.Advertise==item.Id && v.ViewedBy==userID).ToList<Viewers>().Count==0)
+                    if (CachedContents.Viewers.Where(v => v.Advertise == item.Id && v.ViewedBy == userID).ToList<Viewers>().Count == 0)
                     {
                         Viewers tmpView = _viewersRepo.Add(new Viewers { Advertise = item.Id, ViewedBy = userID, Created = DateTime.Now });
                         CachedContents.Viewers.Add(tmpView);
@@ -628,7 +631,7 @@ namespace SirooWebAPP.Infrastructure.Services
         {
             //Advertise ad = _adverticeRepo.GetById(advertiseID);
             //Users usr = _userRepo.GetById(userID);
-            Likers result= _likersRepo.Add(new Likers { Advertise = advertiseID, LikedBy = userID });
+            Likers result = _likersRepo.Add(new Likers { Advertise = advertiseID, LikedBy = userID });
             CachedContents.Likers.Add(result);
             return result;
         }
@@ -671,7 +674,7 @@ namespace SirooWebAPP.Infrastructure.Services
 
                         }
                         // add view
-                        Viewers toCache= _viewersRepo.Add(new Viewers { Advertise = advertiseID, ViewedBy = UserID });
+                        Viewers toCache = _viewersRepo.Add(new Viewers { Advertise = advertiseID, ViewedBy = UserID });
                         CachedContents.Viewers.Add(toCache);
 
                         // check if liker is not ads owner
@@ -740,7 +743,7 @@ namespace SirooWebAPP.Infrastructure.Services
                     Users _liker = _userRepo.GetById(UserID);
 
                     // add like
-                    Likers toCache= _likersRepo.Add(new Likers { Advertise = advertiseID, LikedBy = UserID });
+                    Likers toCache = _likersRepo.Add(new Likers { Advertise = advertiseID, LikedBy = UserID });
                     CachedContents.Likers.Add(toCache);
 
                     // check if liker is not ads owner
@@ -871,7 +874,7 @@ namespace SirooWebAPP.Infrastructure.Services
             return _draws;
 
         }
-        
+
         public List<DTODraws> GetAllActiveNotArchivedDrawsByUser(Guid userId)
         {
             // get all ads if owner quota is not ended and ads is not expired
@@ -882,7 +885,7 @@ namespace SirooWebAPP.Infrastructure.Services
                     users => users.Id,
                     (draws, users) => draws
                 )
-                .Where(d => d.IsActivated == true && d.IsDeleted == false && d.IsArchived==false)
+                .Where(d => d.IsActivated == true && d.IsDeleted == false && d.IsArchived == false)
                 .OrderByDescending(d => d.StartDate)
                 .ToList<Draws>();
 
@@ -1094,25 +1097,25 @@ namespace SirooWebAPP.Infrastructure.Services
                         _prizeWinnersRepo.Add(_pw);
 
                         long wonMoney = 0;
-                        if (item.ValueInMoney!=null)
+                        if (item.ValueInMoney != null)
                         {
-                            wonMoney= Convert.ToInt64(item.ValueInMoney);
+                            wonMoney = Convert.ToInt64(item.ValueInMoney);
                             winners[indx].Money += wonMoney;
                             _userRepo.Update(winners[indx]);
                         }
                         _transactionPercentsRepository.Add(new TransactionPercents
                         {
-                             Created=DateTime.Now,
-                             Description="جایزه "+item.Name,
-                             ReferenceID="برنده رتبه "+indx.ToString()+" در دوره "+_currentDraw.Name,
-                             FromAmount=wonMoney,
-                             ToAmount=wonMoney,
-                             FromUser=_currentDraw.Owner,
-                             ToUser= winners[indx].Id,
-                             Percentage=0,
-                             Transaction=item.Id
+                            Created = DateTime.Now,
+                            Description = "جایزه " + item.Name,
+                            ReferenceID = "برنده رتبه " + indx.ToString() + " در دوره " + _currentDraw.Name,
+                            FromAmount = wonMoney,
+                            ToAmount = wonMoney,
+                            FromUser = _currentDraw.Owner,
+                            ToUser = winners[indx].Id,
+                            Percentage = 0,
+                            Transaction = item.Id
                         });
-                        
+
                         indx += 1;
                     }
                 }
@@ -1121,7 +1124,7 @@ namespace SirooWebAPP.Infrastructure.Services
                     break;
                 }
             } while (indx < prizesWinnersCount);
-            
+
             _userRepo.GetAll().ToList().ForEach(u => u.Points = 0);
             return true;
         }
@@ -1166,6 +1169,25 @@ namespace SirooWebAPP.Infrastructure.Services
             return _transactionPercentsRepository.GetAll().Where(tp => tp.IsDeleted == false).ToList<TransactionPercents>();
         }
 
+        public List<Chips> GetAllChips()
+        {
+            return _chipsRepo.GetAll().Where(c => c.IsDeleted == false).ToList<Chips>();
+        }
 
+        public void AddChips(Chips chips)
+        {
+            _chipsRepo.Add(chips);
+        }
+
+        public void UpdateChips(Chips chips)
+        {
+            _chipsRepo.Update(chips);
+        }
+
+        public void RemoveChips(Chips chips)
+        {
+            chips.IsDeleted = true;
+            UpdateChips(chips);
+        }
     }
 }

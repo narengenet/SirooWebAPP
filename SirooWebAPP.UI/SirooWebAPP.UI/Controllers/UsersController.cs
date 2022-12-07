@@ -26,11 +26,13 @@ namespace SirooWebAPP.UI.Controllers
     {
         private readonly IUserServices _usersServices;
         private readonly ISession _session;
+        private IWebHostEnvironment _environment;
 
-        public UsersController(IUserServices userServices, IHttpContextAccessor httpContextAccessor)
+        public UsersController(IUserServices userServices, IHttpContextAccessor httpContextAccessor, IWebHostEnvironment environment)
         {
             _usersServices = userServices;
             _session = httpContextAccessor.HttpContext.Session;
+            _environment = environment;
 
         }
 
@@ -295,7 +297,7 @@ namespace SirooWebAPP.UI.Controllers
 
             return Ok(result);
         }
-        
+
         [TypeFilter(typeof(SampleAsyncActionLoginFilter))]
         [HttpGet("archiveDraw/{drawID:guid}")]
         public IActionResult archiveDraw(Guid drawID)
@@ -316,7 +318,7 @@ namespace SirooWebAPP.UI.Controllers
                             draw.IsArchived = true;
                             result = _usersServices.UpdateDraw(draw);
                         }
-                        
+
                     }
 
                 }
@@ -356,7 +358,7 @@ namespace SirooWebAPP.UI.Controllers
             List<DTODraws> draws = _usersServices.GetAllActiveNotArchivedDrawsByUser(userId);
             return Ok(draws);
         }
-        
+
         [TypeFilter(typeof(SampleAsyncActionLoginFilter))]
         [HttpGet("alldraws")]
         public IActionResult GetAllDraws()
@@ -389,7 +391,7 @@ namespace SirooWebAPP.UI.Controllers
             return Ok("-1");
 
         }
-        
+
         [TypeFilter(typeof(SampleAsyncActionLoginFilter))]
         [HttpGet("deleteUser/{reason}/{userID:guid}")]
         public IActionResult deleteUser(string reason, Guid userID)
@@ -411,16 +413,16 @@ namespace SirooWebAPP.UI.Controllers
             return Ok("-1");
 
         }
-        
+
         [TypeFilter(typeof(SampleAsyncActionLoginFilter))]
         [HttpGet("undeleteUser/{userID:guid}")]
-        public IActionResult undeleteUser( Guid userID)
+        public IActionResult undeleteUser(Guid userID)
         {
             string _userid = HttpContext.Request.Cookies["userid"];
             Guid userId = Guid.Parse(_userid);
             if (_session.GetString("userrolename") == "super" || _session.GetString("userrolename") == "admin")
             {
-                Users theUser = _usersServices.GetAllDeletedUsers().Where(u=>u.Id==userID).First();
+                Users theUser = _usersServices.GetAllDeletedUsers().Where(u => u.Id == userID).First();
                 if (theUser != null)
                 {
                     theUser.IsDeleted = false;
@@ -432,10 +434,10 @@ namespace SirooWebAPP.UI.Controllers
             return Ok("-1");
 
         }
-        
+
         [TypeFilter(typeof(SampleAsyncActionLoginFilter))]
         [HttpGet("resetPostCache")]
-        public IActionResult resetPostCache( Guid userID)
+        public IActionResult resetPostCache(Guid userID)
         {
             string _userid = HttpContext.Request.Cookies["userid"];
             Guid userId = Guid.Parse(_userid);
@@ -448,11 +450,11 @@ namespace SirooWebAPP.UI.Controllers
             return Ok("-1");
 
         }
-        
-        
+
+
         [TypeFilter(typeof(SampleAsyncActionLoginFilter))]
         [HttpGet("changeConstant/{keyValue}/{constID:guid}")]
-        public IActionResult changeConstant( string keyValue, Guid constID)
+        public IActionResult changeConstant(string keyValue, Guid constID)
         {
             string _userid = HttpContext.Request.Cookies["userid"];
             Guid userId = Guid.Parse(_userid);
@@ -460,7 +462,7 @@ namespace SirooWebAPP.UI.Controllers
             {
 
                 ConstantDictionaries theDic = _usersServices.GetAllConstantDictionaries().Where(c => c.Id == constID).First();
-                if (theDic!=null)
+                if (theDic != null)
                 {
                     theDic.ConstantValue = keyValue;
                     theDic.LastModifiedBy = _userid;
@@ -472,6 +474,148 @@ namespace SirooWebAPP.UI.Controllers
             }
 
             return Ok("-1");
+
+        }
+
+        [TypeFilter(typeof(SampleAsyncActionLoginFilter))]
+        [HttpGet("createChips/{chipscount:int}/{chipspoint:int}")]
+        public IActionResult createChips(int chipscount, int chipspoint)
+        {
+            string _userid = HttpContext.Request.Cookies["userid"];
+            Guid userId = Guid.Parse(_userid);
+            if (_session.GetString("userrolename") == "super" || _session.GetString("userrolename") == "admin")
+            {
+                long lastSerialNumber = 0;
+                long firstSerialNumber = 0;
+                int createdChips = 0;
+                List<string> allPins = new List<string>();
+
+                Chips lastChip = _usersServices.GetAllChips().OrderByDescending(c => c.SerialNumber).FirstOrDefault();
+                if (lastChip != null)
+                {
+                    lastSerialNumber = lastChip.SerialNumber;
+                    firstSerialNumber = lastSerialNumber;
+                    allPins = _usersServices.GetAllChips().Select(c => c.PIN).ToList();
+                }
+
+
+
+
+                do
+                {
+                    Random r = new Random();
+                    int randomPin = r.Next(100000, 999999);
+                    if (allPins.Where(u => u == randomPin.ToString()).ToList().Count > 0)
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        lastSerialNumber += 1;
+                        allPins.Add(randomPin.ToString());
+                        _usersServices.AddChips(new Chips
+                        {
+                            Created = DateTime.Now,
+                            SerialNumber = lastSerialNumber,
+                            Points = chipspoint,
+                            PIN = randomPin.ToString(),
+                            LastModifiedBy = _userid
+                        });
+                        createdChips += 1;
+                    }
+
+                } while (createdChips < chipscount);
+
+                if (createdChips == chipscount)
+                {
+
+           
+
+                    List<Chips> reportCSVModels = _usersServices.GetAllChips().Where(c=>c.SerialNumber>firstSerialNumber).ToList<Chips>();
+                    
+                    List<CSVChip> csvChips = new List<CSVChip>();
+                    foreach (Chips item in reportCSVModels)
+                    {
+                        csvChips.Add(new CSVChip { PIN = item.PIN, Serial = item.SerialNumber.ToString() });
+                    }
+
+                    string fileName = string.Format("{0}\\test.csv", _environment.WebRootPath+"/uploads/");
+                    CsvWriter csvWriter = new CsvWriter();
+                    csvWriter.Write(csvChips, fileName, true);
+                    Console.WriteLine("{0} has been created.", fileName);
+                    //Console.ReadKey();
+                    return Ok("1");
+                }
+
+
+            }
+
+            return Ok("-1");
+
+        }
+
+
+
+        [TypeFilter(typeof(SampleAsyncActionLoginFilter))]
+        [HttpGet("useChips/{thePIN}")]
+        public IActionResult useChips(string thePIN)
+        {
+            string _userid = HttpContext.Request.Cookies["userid"];
+            Guid userId = Guid.Parse(_userid);
+
+
+            ConstantDictionaries theDic = _usersServices.GetAllConstantDictionaries().Where(c => c.ConstantKey == "def_chips_usage_perday").First();
+            if (theDic != null)
+            {
+                bool permitToUse = true;
+                if (theDic.ConstantValue != "-1")
+                {
+                    int permitPerDay = Convert.ToInt32(theDic.ConstantValue);
+                    List<Chips> todayUsedChipsByUser = _usersServices.GetAllChips().Where(c =>
+                                                                                    c.IsUsed == true &&
+                                                                                    c.UsedBy == userId &&
+                                                                                    c.LastModified > DateTime.Today.AddDays(-1))
+                        .ToList<Chips>();
+                    if (todayUsedChipsByUser.Count >= permitPerDay)
+                    {
+                        permitToUse = false;
+                        return Ok("-2"); // use per day limit reached
+                    }
+                }
+
+                if (permitToUse)
+                {
+                    Chips theChip = _usersServices.GetAllChips().Where(c => c.PIN == thePIN).FirstOrDefault();
+                    if (theChip != null)
+                    {
+                        if (theChip.IsUsed == false)
+                        {
+                            theChip.UsedBy = userId;
+                            theChip.IsUsed = true;
+                            theChip.LastModified = DateTime.Now;
+                            _usersServices.UpdateChips(theChip);
+                            Users theUser = _usersServices.GetUser(userId);
+                            theUser.Points += theChip.Points;
+                            _usersServices.UpdateUser(theUser);
+                            return Ok(theChip.Points);
+                        }
+                        else
+                        {
+                            return Ok("-4");// chip is used before
+                        }
+                    }
+                    else
+                    {
+                        return Ok("-3");// chip is not valid
+                    }
+
+                }
+
+            }
+            return Ok("-5");// chip usage per day not defined
+
+
+
 
         }
 
@@ -991,4 +1135,5 @@ namespace SirooWebAPP.UI.Controllers
 
 
     }
+
 }
