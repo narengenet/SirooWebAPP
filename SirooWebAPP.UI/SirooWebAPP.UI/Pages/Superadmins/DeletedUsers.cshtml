@@ -41,6 +41,26 @@
     </div>
 </div>
 
+<div class="modal fade" id="deleteUserModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">حذف کامل</h5>
+                <button onclick="$('#deleteUserModal').modal('toggle');" type="button" class="close" data-dismiss="modal" aria-label="بازگشت">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                مطمئن هستید؟
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="$('#deleteUserModal').modal('toggle');" data-dismiss="modal">خیر</button>
+                <button type="button" class="btn btn-warning" onclick="deleteUser();$('#deleteUserModal').modal('toggle');">بلی</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="direction-rtl" style="margin-bottom:25vh;">
     <table>
         <tr style="background-color:black;">
@@ -51,7 +71,12 @@
         @foreach (var x in Model.DelUsers)
         {
             <tr id="@x.Id">
-                <td>@x.Cellphone</td>
+                <td>
+                    @x.Cellphone
+                    <br /><br />
+                    <span class="secondary-SirooBtn btn-danger" onclick="selectedUserTodelete='@x.Id';$('#deleteUserModal').modal('toggle');">حذف کامل</span>
+                    <br /><br />                
+                </td>
                 <td class="pb-2">
                     @x.Username
                     <br /><br />

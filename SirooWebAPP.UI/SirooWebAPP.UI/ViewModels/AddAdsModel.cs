@@ -15,6 +15,8 @@ namespace SirooWebAPP.UI.Pages
         public int ViewQuota { get; set; }
         public DateTime Expiracy { get; set; }
         public IFormFile Upload { get; set; }
+        public bool IsPremium { get; set; }
+        public bool IsSpecial { get; set; }
 
     }
 }

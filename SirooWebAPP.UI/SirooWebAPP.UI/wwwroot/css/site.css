@@ -84,11 +84,32 @@ body {
     top: 1px;
     padding: 0.5rem .5rem 0.5rem 0;
 }
+.premium .profile-data-section {
+    align-items: center;
+    text-align: right;
+    border-radius: 2rem 2rem 0 0;
+    background: linear-gradient(to left,#ff0000,#FF00FF88);
+    margin-top: 1rem;
+    position: relative;
+    top: 1px;
+    padding: 0.5rem .5rem 0.5rem 0;
+}
 .post-data-section {
     align-items: center;
     text-align: right;
     border-radius: 0 0 2rem 2rem;
     background: linear-gradient(to left,#00FFFF88,#FF00FF88);
+    position: relative;
+    top: 1px;
+    padding: 0.5rem 0.2rem 0.5rem 0;
+    flex-wrap: wrap;
+    padding-right: 0.5rem;
+}
+.premium .post-data-section {
+    align-items: center;
+    text-align: right;
+    border-radius: 0 0 2rem 2rem;
+    background: linear-gradient(to left,#ff000088,#FF00FF88);
     position: relative;
     top: 1px;
     padding: 0.5rem 0.2rem 0.5rem 0;

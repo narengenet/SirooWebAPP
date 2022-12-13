@@ -40,17 +40,10 @@
                         <div class="row justify-content-center">
                             <div class="col-12 siroo-label">متن پُست</div>
                         </div>
-                        <div style="display:none;">
-                            <select asp-items="Model.Options" class="col-12" asp-for="AddAds.UserID"></select>
-                            <input class="form-check-input" type="checkbox" asp-for="AddAds.isVideo">
-                            <input type="number" class="col-12" value="0" asp-for="AddAds.ViewReward" />
-                            <input type="number" class="col-12" value="-1" asp-for="AddAds.ViewQuota" />
-                             <input type="number" class="col-12" value="10" asp-for="AddAds.LikeReward" />
-                        </div>
                         <div class="row col-12 mb-2">
                             <div class="col-12 Textbox fa fa-text Textarea">
                                 @*<input type="text" class="col-12" asp-for="AddAds.Caption" />*@
-                                <textarea type="text" class="col-10 text-warning text-center" placeholder="متن پست ..." rows="2"  asp-for="AddAds.Caption"></textarea>
+                                <textarea type="text" class="col-10 text-warning text-center" placeholder="متن پست ..." rows="2" asp-for="AddAds.Caption"></textarea>
                             </div>
                         </div>
                         <div class="row justify-content-center mb-2">
@@ -59,6 +52,19 @@
                         <div class="row col-12 mb-2">
                             <div class="col-12">
                                 <input asp-for="AddAds.Upload" type="file">
+                            </div>
+                        </div>
+                        <div style="display:none;">
+                            <select asp-items="Model.Options" class="col-12" asp-for="AddAds.UserID"></select>
+                            <input class="form-check-input" type="checkbox" asp-for="AddAds.isVideo">
+                            <input type="number" class="col-12" value="0" asp-for="AddAds.ViewReward" />
+                            <input type="number" class="col-12" value="-1" asp-for="AddAds.ViewQuota" />
+                            <input type="number" class="col-12" value="10" asp-for="AddAds.LikeReward" />
+                        </div>
+                        <div class="row col-12 mb-2 mt-3">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" asp-for="AddAds.IsPremium">
+                                <label class="form-check-label" for="AddAds.IsPremium">آگهی تجاری</label>
                             </div>
                         </div>
                         <div class="row col-12 mt-3 mb-3 justify-content-center">

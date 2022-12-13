@@ -272,6 +272,41 @@ namespace SirooWebAPP.Infrastructure.Services
         public bool RemovePermUser(Users user)
         {
             _userRepo.Delete(user);
+
+            List<Advertise> allads = _adverticeRepo.GetAll().Where(x => x.Owner == user.Id).ToList<Advertise>();
+            foreach (Advertise ad in allads)
+            {
+                _adverticeRepo.Delete(ad);
+            }
+
+            List<Likers> alllikes = _likersRepo.GetAll().Where(x => x.LikedBy == user.Id).ToList<Likers>();
+            foreach (Likers liker in alllikes)
+            {
+                _likersRepo.Delete(liker);
+            }
+
+            List<Viewers> allviews=_viewersRepo.GetAll().Where(x=>x.ViewedBy == user.Id).ToList<Viewers>();
+            foreach (Viewers view in allviews)
+            {
+                _viewersRepo.Delete(view);
+            }
+
+            List<OnlineUsers> allonlines=_onlineRepo.GetAll().Where(x=>x.User==user.Id).ToList<OnlineUsers>();
+            foreach (OnlineUsers online in allonlines)
+            {
+                _onlineRepo.Delete(online);
+            }
+
+            List<UsersRoles> allroles = _usrRolesRepo.GetAll().Where(x => x.User == user.Id).ToList<UsersRoles>();
+            foreach (UsersRoles item in allroles)
+            {
+                _usrRolesRepo.Delete(item);
+            }
+
+            CachedContents.Advertises.Clear();
+            CachedContents.Likers.Clear();
+            CachedContents.Viewers.Clear();
+
             return true;
         }
 
@@ -453,6 +488,8 @@ namespace SirooWebAPP.Infrastructure.Services
                 _dtoAds.ViewerCount = _viewers.Count;
                 _dtoAds.LikeReward = item.LikeReward;
                 _dtoAds.ViewReward = item.ViewReward;
+                _dtoAds.IsPremium = item.IsPremium == null ? false : Convert.ToBoolean(item.IsPremium);
+
                 _dtoAds.YouLiked = (CachedContents.Likers.Where(l => l.Advertise == item.Id && l.LikedBy == userID).ToList<Likers>().Count == 0) ? false : true;
 
                 dTOAdvertise.Add(_dtoAds);

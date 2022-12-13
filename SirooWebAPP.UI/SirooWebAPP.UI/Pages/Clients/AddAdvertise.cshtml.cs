@@ -70,8 +70,10 @@ namespace SirooWebAPP.UI.Pages.Clients
 
             Guid tmp_userid = addAds.UserID;
             bool isGif = false;
+            Users addOwner = _usersServices.GetUser(addAds.UserID);
+            int moneyNeeded = 0;
 
-            if (addAds.Upload.Length> 15728640)
+            if (addAds.Upload.Length > 15728640)
             {
                 ResultMessage = "حجم فایل نباید بیشتر از 15 مگابایت باشد.";
                 ResultMessageSuccess = "danger";
@@ -96,6 +98,26 @@ namespace SirooWebAPP.UI.Pages.Clients
                     ResultMessageSuccess = "danger";
                     condition = false;
                 }
+
+                if (addAds.IsPremium)
+                {
+
+                    if (addOwner != null)
+                    {
+                        string moneyRequiredKeyName = (addAds.isVideo == true) ? "def_money_to_premium_video_ads" : "def_money_to_premium_image_ads";
+                        moneyNeeded = Convert.ToInt32(_usersServices.GetConstantDictionary(moneyRequiredKeyName).ConstantValue);
+                        if (addOwner.Money < moneyNeeded)
+                        {
+                            ResultMessage += "برای ثبت آگهی تجاری";
+                            ResultMessage += (addAds.isVideo) ? " ویدئویی " : " تصویری ";
+                            ResultMessage += " مبلغ " + moneyNeeded + " ریال مورد نیاز است. لطفا کیف پول خود را شارژ نمایید.";
+                            ResultMessageSuccess = "danger";
+                            condition = false;
+                        }
+                    }
+                    
+                    
+                }
             }
 
 
@@ -104,7 +126,7 @@ namespace SirooWebAPP.UI.Pages.Clients
             if (addAds.Upload != null && addAds.Caption != null && condition)
             {
                 FileName = HelperFunctions.UploadFileToDateBasedFolder(prefix, addAds.Upload, addAds.isVideo, _environment);
-                if (FileName!="-1")
+                if (FileName != "-1")
                 {
                     string _creatorId = HelperFunctions.GetCookie("userid", Request);
                     Guid creatorID = Guid.Parse(_creatorId);
@@ -128,11 +150,17 @@ namespace SirooWebAPP.UI.Pages.Clients
                             ViewReward = addAds.ViewReward,
                             ViewQuota = addAds.ViewQuota,
                             CreatedBy = creatorID,
-                            MediaSourceURL = FileName
+                            MediaSourceURL = FileName,
+                            IsPremium=addAds.IsPremium
 
                         };
 
                         _usersServices.AddAvertise(ads, tmp_userid);
+                        if (addAds.IsPremium)
+                        {
+                            addOwner.Money -= moneyNeeded;
+                            _usersServices.UpdateUser(addOwner);
+                        }
 
 
 
@@ -143,6 +171,10 @@ namespace SirooWebAPP.UI.Pages.Clients
 
                         IsVideo = ads.IsVideo;
                         ResultMessage = "پَست جدید ارسال شد. لطفا منتظر تایید بمانید.";
+                        if (addAds.IsPremium)
+                        {
+                            ResultMessage += " مبلغ " + moneyNeeded + " ریال از کیف پول شما برداشت شد.";
+                        }
                         ResultMessageSuccess = "success";
                     }
                 }
@@ -152,7 +184,7 @@ namespace SirooWebAPP.UI.Pages.Clients
                     ResultMessageSuccess = "danger";
                 }
 
-                
+
 
             }
             else

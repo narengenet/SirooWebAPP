@@ -434,6 +434,27 @@ namespace SirooWebAPP.UI.Controllers
             return Ok("-1");
 
         }
+        
+        [TypeFilter(typeof(SampleAsyncActionLoginFilter))]
+        [HttpGet("deleteUserForever/{userID:guid}")]
+        public IActionResult deleteUserForever(Guid userID)
+        {
+            string _userid = HttpContext.Request.Cookies["userid"];
+            Guid userId = Guid.Parse(_userid);
+            if (_session.GetString("userrolename") == "super" || _session.GetString("userrolename") == "admin")
+            {
+                Users theUser = _usersServices.GetAllDeletedUsers().Where(u => u.Id == userID).First();
+                if (theUser != null)
+                {
+                    _usersServices.RemovePermUser(theUser);
+                    
+                    return Ok("ok");
+                }
+            }
+
+            return Ok("-1");
+
+        }
 
         [TypeFilter(typeof(SampleAsyncActionLoginFilter))]
         [HttpGet("resetPostCache")]
@@ -529,17 +550,17 @@ namespace SirooWebAPP.UI.Controllers
                 if (createdChips == chipscount)
                 {
 
-           
 
-                    List<Chips> reportCSVModels = _usersServices.GetAllChips().Where(c=>c.SerialNumber>firstSerialNumber).ToList<Chips>();
-                    
+
+                    List<Chips> reportCSVModels = _usersServices.GetAllChips().Where(c => c.SerialNumber > firstSerialNumber).ToList<Chips>();
+
                     List<CSVChip> csvChips = new List<CSVChip>();
                     foreach (Chips item in reportCSVModels)
                     {
                         csvChips.Add(new CSVChip { PIN = item.PIN, Serial = item.SerialNumber.ToString() });
                     }
 
-                    string fileName = string.Format("{0}\\test.csv", _environment.WebRootPath+"/uploads/");
+                    string fileName = string.Format("{0}\\test.csv", _environment.WebRootPath + "/uploads/");
                     CsvWriter csvWriter = new CsvWriter();
                     csvWriter.Write(csvChips, fileName, true);
                     Console.WriteLine("{0} has been created.", fileName);
@@ -654,6 +675,23 @@ namespace SirooWebAPP.UI.Controllers
                         CachedContents.Advertises.Insert(0, ad);
                     }
 
+
+                    if (ad.IsPremium == true)
+                    {
+                        Users adOwner = _usersServices.GetUser(ad.Owner);
+
+                        string pointsRewardKeyName = (ad.IsVideo == true) ? "points_reward_premium_video_ads" : "points_reward_premium_image_ads";
+                        int pointsReward = Convert.ToInt32(_usersServices.GetConstantDictionary(pointsRewardKeyName).ConstantValue);
+
+                        if (adOwner != null)
+                        {
+                            adOwner.Points += pointsReward;
+                            _usersServices.UpdateUser(adOwner);
+                        }
+
+                    }
+
+
                     return Ok(true);
                 }
             }
@@ -679,6 +717,24 @@ namespace SirooWebAPP.UI.Controllers
                     ad.Notes = post.adNote;
                     ad.IsRejected = true;
                     _usersServices.UpdateAdvertisement(ad);
+
+                    if (ad.IsPremium == true)
+                    {
+                        Users adOwner = _usersServices.GetUser(ad.Owner);
+
+                        string moneyRequiredKeyName = (ad.IsVideo == true) ? "def_money_to_premium_video_ads" : "def_money_to_premium_image_ads";
+                        int moneyNeedBack = Convert.ToInt32(_usersServices.GetConstantDictionary(moneyRequiredKeyName).ConstantValue);
+
+                        if (adOwner != null)
+                        {
+                            adOwner.Money += moneyNeedBack;
+                            _usersServices.UpdateUser(adOwner);
+                        }
+
+                    }
+
+
+
                     return Ok(true);
                 }
             }

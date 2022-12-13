@@ -144,7 +144,11 @@ namespace SirooWebAPP.Infrastructure.Contexts
             ConstantDictionaries def_percent_for_zoneadmin = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "def_percent_for_zoneadmin", ConstantValue = "6", IsActive = true, Description = "درصد مدیر منطقه", Created = DateTime.Now, CreatedBy = sina.Id };
             ConstantDictionaries def_percent_for_countryadmin = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "def_percent_for_countryadmin", ConstantValue = "4", IsActive = true, Description = "درصد مدیر مناطق", Created = DateTime.Now, CreatedBy = sina.Id };
             ConstantDictionaries def_chips_usage_perday = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "def_chips_usage_perday", ConstantValue = "-1", IsActive = true, Description = "تعداد استفاده از کارت اعتباری هر کاربر در روز", Created = DateTime.Now, CreatedBy = sina.Id };
-
+            ConstantDictionaries def_money_to_premium_video_ads = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "def_money_to_premium_video_ads", ConstantValue = "200000", IsActive = true, Description = "هزینه درج آگهی تبلیغاتی ویدئویی", Created = DateTime.Now, CreatedBy = sina.Id };
+            ConstantDictionaries def_money_to_premium_image_ads = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "def_money_to_premium_image_ads", ConstantValue = "50000", IsActive = true, Description = "هزینه درج آگهی تبلیغاتی تصویری", Created = DateTime.Now, CreatedBy = sina.Id };
+            ConstantDictionaries points_reward_premium_video_ads = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "points_reward_premium_video_ads", ConstantValue = "200", IsActive = true, Description = "امتیاز ثبت آگهی تبلیغاتی ویدئویی", Created = DateTime.Now, CreatedBy = sina.Id };
+            ConstantDictionaries points_reward_premium_image_ads = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "points_reward_premium_image_ads", ConstantValue = "40", IsActive = true, Description = "امتیاز ثبت آگهی تبلیغاتی تصویری", Created = DateTime.Now, CreatedBy = sina.Id };
+            
 
             modelBuilder.Entity<ConstantDictionaries>().HasData(store_default_credits_registration);
             modelBuilder.Entity<ConstantDictionaries>().HasData(store_point_usage_per_day);
@@ -161,6 +165,10 @@ namespace SirooWebAPP.Infrastructure.Contexts
             modelBuilder.Entity<ConstantDictionaries>().HasData(def_percent_for_zoneadmin);
             modelBuilder.Entity<ConstantDictionaries>().HasData(def_percent_for_countryadmin);
             modelBuilder.Entity<ConstantDictionaries>().HasData(def_chips_usage_perday);
+            modelBuilder.Entity<ConstantDictionaries>().HasData(def_money_to_premium_video_ads);
+            modelBuilder.Entity<ConstantDictionaries>().HasData(def_money_to_premium_image_ads);
+            modelBuilder.Entity<ConstantDictionaries>().HasData(points_reward_premium_video_ads);
+            modelBuilder.Entity<ConstantDictionaries>().HasData(points_reward_premium_image_ads);
 
 
 

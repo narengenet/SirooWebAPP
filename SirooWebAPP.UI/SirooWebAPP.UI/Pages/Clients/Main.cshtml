@@ -211,7 +211,7 @@
 
 <script id="adsTemplate" type="text/x-jQuery-tmpl">
 
-    <div adid="${advertiseID}" id="postobject${advertiseID}" class="container mb-5 post ${advertiseID} {{if isVideo!=1}}finished {{/if}} SirooPost">
+    <div adid="${advertiseID}" id="postobject${advertiseID}" class="container mb-5 post ${advertiseID} {{if isVideo!=1}}finished {{/if}} {{if isPremium==1}}premium {{/if}} SirooPost">
         <div class="d-flex flex-row-reverse profile-data-section">
                 <a class="profile-media col-2" href="#">
                     <img src="../${owner.profileMediaURL}" />

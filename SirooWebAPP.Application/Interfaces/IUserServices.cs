@@ -33,6 +33,7 @@ namespace SirooWebAPP.Application.Interfaces
         bool CheckUserLogin(Guid userId, string token);
         void ClerarAllUserLogins(Guid userId);
         List<OnlineUsers> GetAllOnlineUsers();
+        
 
 
         public Guid AddAvertise(Advertise advertise,Guid userId);
