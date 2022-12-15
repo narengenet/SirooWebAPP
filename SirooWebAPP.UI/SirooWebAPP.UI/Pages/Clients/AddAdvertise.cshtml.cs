@@ -115,8 +115,8 @@ namespace SirooWebAPP.UI.Pages.Clients
                             condition = false;
                         }
                     }
-                    
-                    
+
+
                 }
             }
 
@@ -151,7 +151,7 @@ namespace SirooWebAPP.UI.Pages.Clients
                             ViewQuota = addAds.ViewQuota,
                             CreatedBy = creatorID,
                             MediaSourceURL = FileName,
-                            IsPremium=addAds.IsPremium
+                            IsPremium = addAds.IsPremium
 
                         };
 
@@ -160,6 +160,17 @@ namespace SirooWebAPP.UI.Pages.Clients
                         {
                             addOwner.Money -= moneyNeeded;
                             _usersServices.UpdateUser(addOwner);
+
+                            _usersServices.AddTransaction(new Transactions
+                            {
+                                Amount = -1*moneyNeeded,
+                                ReferenceID = ads.Id.ToString(),
+                                Created = DateTime.Now,
+                                User = addAds.UserID,
+                                IsSuccessfull = true,
+                                Status = "آگهی تجاری"
+
+                            });
                         }
 
 

@@ -8,8 +8,8 @@
     @*<title>@ViewBag.Title</title>*@
     <title>سیرو</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
-    <link rel="stylesheet" href="~/css/StyleSheet.scss" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/site.css?i=1" />
+    <link rel="stylesheet" href="~/css/StyleSheet.scss?i=1" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/all.min.css" asp-append-version="true" />
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
@@ -161,6 +161,9 @@
         </div>
     </div>
 
+    <div class="back-to-top" onclick="$('html, body').animate({scrollTop: 0}, 100);">
+        <img src="~/images/bactotop.png"  />
+    </div>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
@@ -177,6 +180,9 @@
                 //alert('Congrat!!');
                 $('#currentPoint').text(newval+oldval);
             }
+        }
+        function backtotop(){
+            $("html, body").animate({scrollTop: 0}, 1000);
         }
     </script>
 

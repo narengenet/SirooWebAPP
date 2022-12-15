@@ -285,13 +285,13 @@ namespace SirooWebAPP.Infrastructure.Services
                 _likersRepo.Delete(liker);
             }
 
-            List<Viewers> allviews=_viewersRepo.GetAll().Where(x=>x.ViewedBy == user.Id).ToList<Viewers>();
+            List<Viewers> allviews = _viewersRepo.GetAll().Where(x => x.ViewedBy == user.Id).ToList<Viewers>();
             foreach (Viewers view in allviews)
             {
                 _viewersRepo.Delete(view);
             }
 
-            List<OnlineUsers> allonlines=_onlineRepo.GetAll().Where(x=>x.User==user.Id).ToList<OnlineUsers>();
+            List<OnlineUsers> allonlines = _onlineRepo.GetAll().Where(x => x.User == user.Id).ToList<OnlineUsers>();
             foreach (OnlineUsers online in allonlines)
             {
                 _onlineRepo.Delete(online);
@@ -407,7 +407,7 @@ namespace SirooWebAPP.Infrastructure.Services
             if (CachedContents.Advertises.Count == 0)
             {
                 // get all ads if owner quota is not ended and ads is not expired
-                List<Advertise> _result = _adverticeRepo.GetAll().Where(a => (a.RemainedViewQuota != -1 || a.RemainedViewQuota > 0) && a.Expiracy <= DateTime.Now && a.IsAvtivated && a.IsDeleted == false && a.IsRejected == false)
+                List<Advertise> _resultSpecials = _adverticeRepo.GetAll().Where(a => (a.RemainedViewQuota != -1 || a.RemainedViewQuota > 0) && a.Expiracy <= DateTime.Now && a.IsAvtivated && a.IsDeleted == false && a.IsRejected == false && a.IsSpecial == true)
                     .Join(
                         _userRepo.GetAll().Where(u => u.IsActivated == true && u.IsDeleted == false).ToList<Users>(),
                         ads => ads.Owner,
@@ -417,7 +417,20 @@ namespace SirooWebAPP.Infrastructure.Services
                     )
                     .OrderByDescending(l => l.CreationDate)
                     .ToList<Advertise>();
-                CachedContents.Advertises = _result;
+
+                List<Advertise> _result = _adverticeRepo.GetAll().Where(a => (a.RemainedViewQuota != -1 || a.RemainedViewQuota > 0) && a.Expiracy <= DateTime.Now && a.IsAvtivated && a.IsDeleted == false && a.IsRejected == false && a.IsSpecial != true)
+                    .Join(
+                        _userRepo.GetAll().Where(u => u.IsActivated == true && u.IsDeleted == false).ToList<Users>(),
+                        ads => ads.Owner,
+                        users => users.Id,
+                        (ads, users) => ads
+                    //new Advertise { Id=ads.Id, Name=ads.Name, Owner=ads.Owner, Caption=ads.Caption, Created=ads.Created, CreatedBy=ads.CreatedBy, CreationDate=ads.CreationDate, Expiracy=ads.Expiracy, IsAvtivated=ads.IsAvtivated, IsDeleted=ads.IsDeleted, IsSpecial=ads.IsSpecial, IsVideo=ads.IsVideo, LastModified=ads.LastModified, LastModifiedBy=ads.LastModifiedBy, LikeReward=ads.LikeReward, MediaSourceURL=ads.MediaSourceURL, RemainedViewQuota=ads.RemainedViewQuota, ViewQuota=ads.ViewQuota, ViewReward=ads.ViewReward}
+                    )
+                    .OrderByDescending(l => l.CreationDate)
+                    .ToList<Advertise>();
+
+                CachedContents.Advertises = _resultSpecials;
+                CachedContents.Advertises.AddRange(_result);
             }
 
             if (CachedContents.Likers.Count == 0)
@@ -440,7 +453,7 @@ namespace SirooWebAPP.Infrastructure.Services
             {
                 if (beforeDate)
                 {
-                    tmpAds = CachedContents.Advertises.Where(a => a.CreationDate < afterThisDate).Skip(pageIndex * 3).Take(3).ToList<Advertise>();
+                    tmpAds = CachedContents.Advertises.Where(a => a.CreationDate < afterThisDate && a.IsSpecial!=true).Skip(pageIndex * 3).Take(3).ToList<Advertise>();
                 }
                 else
                 {
@@ -489,6 +502,7 @@ namespace SirooWebAPP.Infrastructure.Services
                 _dtoAds.LikeReward = item.LikeReward;
                 _dtoAds.ViewReward = item.ViewReward;
                 _dtoAds.IsPremium = item.IsPremium == null ? false : Convert.ToBoolean(item.IsPremium);
+                _dtoAds.IsSpecial = item.IsSpecial == null ? false : Convert.ToBoolean(item.IsSpecial);
 
                 _dtoAds.YouLiked = (CachedContents.Likers.Where(l => l.Advertise == item.Id && l.LikedBy == userID).ToList<Likers>().Count == 0) ? false : true;
 

@@ -244,6 +244,46 @@ namespace SirooWebAPP.UI.Controllers
             CachedContents.Advertises.Remove(tmp);
             return Ok(result);
         }
+        
+        [TypeFilter(typeof(SampleAsyncActionLoginFilter))]
+        [HttpGet("pinPost/{postID:guid}")]
+        public IActionResult pinPost(Guid postID)
+        {
+
+            string _userid = HttpContext.Request.Cookies["userid"];
+            Guid userId = Guid.Parse(_userid);
+            if (_session.GetString("userrolename") == "super" || _session.GetString("userrolename") == "admin")
+            {
+
+                Advertise ads = _usersServices.GetAdvertise(postID);
+                if (ads!=null)
+                {
+
+                    if (ads.IsSpecial==true)
+                    {
+                        ads.IsSpecial = false;
+                    }
+                    else
+                    {
+                        ads.IsSpecial = true;
+                    }
+
+                    _usersServices.UpdateAdvertisement(ads);
+
+                    CachedContents.Advertises.Clear();
+                    CachedContents.Likers.Clear();
+                    CachedContents.Viewers.Clear();
+
+                    return Ok("1");
+                }
+
+
+            }
+
+            return Ok("-1");
+        }
+
+
         [TypeFilter(typeof(SampleAsyncActionLoginFilter))]
         [HttpGet("finishDraw/{drawID:guid}")]
         public IActionResult finishDraw(Guid drawID)
@@ -729,6 +769,16 @@ namespace SirooWebAPP.UI.Controllers
                         {
                             adOwner.Money += moneyNeedBack;
                             _usersServices.UpdateUser(adOwner);
+
+                            Transactions transac = _usersServices.GetAllTransactions().Where(x => x.ReferenceID == ad.Id.ToString()).FirstOrDefault();
+                            if (transac!=null)
+                            {
+                                transac.IsDeleted = true;
+                                transac.LastModified = DateTime.Now;
+                                transac.LastModifiedBy = adOwner.ToString();
+                                _usersServices.UpdateTransaction(transac);
+                            }
+                            
                         }
 
                     }
@@ -741,6 +791,13 @@ namespace SirooWebAPP.UI.Controllers
 
             return Ok(false);
         }
+
+
+
+
+
+
+
         public bool IsValidMobileNumber(string input)
         {
             const string pattern = @"^09[0-9][0-9]{8}$";

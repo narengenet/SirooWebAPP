@@ -25,11 +25,11 @@
         </div>
     </div>
 
-    <div class="modal fade" id="archiveDrawModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="archiveDrawModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel2" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">آرشیو دوره</h5>
+                    <h5 class="modal-title" id="exampleModalLabel2">آرشیو دوره</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="بازگشت">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -44,30 +44,33 @@
             </div>
         </div>
     </div>
+
 }
 
-    <div class="modal fade" id="useChipModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">ثبت کد امتیاز</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="بازگشت">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <input id="chipPIN" type="text" style="color:black!important;" placeholder="کد امتیاز..." />
+
+
+<div class="modal fade" id="useChipModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel4" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel4">ثبت کد امتیاز</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="بازگشت">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input id="chipPIN" type="text" style="color:black!important;" placeholder="کد امتیاز..." />
 
 
 
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" onclick="$('#useChipModal').modal('toggle');" data-dismiss="modal">بازگشت</button>
-                    <button type="button" class="btn btn-danger" onclick="useChip();$('#useChipModal').modal('toggle');">ثبت</button>
-                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="$('#useChipModal').modal('toggle');" data-dismiss="modal">بازگشت</button>
+                <button type="button" class="btn btn-danger" onclick="useChip();$('#useChipModal').modal('toggle');">ثبت</button>
             </div>
         </div>
     </div>
+</div>
 
 
 
@@ -115,12 +118,12 @@
 
     @if (Model.RoleName == "super" || Model.RoleName == "admin")
     {
-                                                        <div class="buttons mt-2">
-                                                                <a id="finishdraw_${drawId}" class="btn-warning m-2  col-8 text-center SirooSimpleBtn {{if isFinished}}hidden{{/if}}" onclick="finishId='${drawId}';$(this).css('opacity','0.1');$('#finishDrawModal').modal('toggle');">اتمام دوره</a>
-                                                                {{if isFinished}}
-                                                                    <a class="btn-secondary m-2 arvhive-btn col-8 text-center SirooSimpleBtn" onclick="archiveId='${drawId}';$('#archiveDrawModal').modal('toggle');">آرشیو کردن  این دوره</a>
-                                                                {{/if}}
-                                                        </div>
+                                                            <div class="buttons mt-2">
+                                                                    <a id="finishdraw_${drawId}" class="btn-warning m-2  col-8 text-center SirooSimpleBtn {{if isFinished}}hidden{{/if}}" onclick="finishId='${drawId}';$(this).css('opacity','0.1');$('#finishDrawModal').modal('toggle');">اتمام دوره</a>
+                                                                    {{if isFinished}}
+                                                                        <a class="btn-secondary m-2 arvhive-btn col-8 text-center SirooSimpleBtn" onclick="archiveId='${drawId}';$('#archiveDrawModal').modal('toggle');">آرشیو کردن  این دوره</a>
+                                                                    {{/if}}
+                                                            </div>
     }
 
         </div>
@@ -188,11 +191,11 @@
 @if (Model.RoleName == "super" || Model.RoleName == "admin")
 {
     <!-- Modal -->
-    <div class="modal fade" id="deletePostModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="deletePostModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel5" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">حذف پست</h5>
+                    <h5 class="modal-title" id="exampleModalLabel5">حذف پست</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="بازگشت">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -207,13 +210,34 @@
             </div>
         </div>
     </div>
+
+
+    <div class="modal fade" id="pinPostModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel3" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel3">سنجاق پُست</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="بازگشت">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    مطمئن هستید که میخواهید وضعیت سنجاق پست را تغییر دهید؟
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="$('#pinPostModal').modal('toggle');" data-dismiss="modal">خیر</button>
+                    <button type="button" class="btn btn-danger" onclick="_pinPost();$('#pinPostModal').modal('toggle');">بلی</button>
+                </div>
+            </div>
+        </div>
+    </div>
 }
 
 <script id="adsTemplate" type="text/x-jQuery-tmpl">
 
     <div adid="${advertiseID}" id="postobject${advertiseID}" class="container mb-5 post ${advertiseID} {{if isVideo!=1}}finished {{/if}} {{if isPremium==1}}premium {{/if}} SirooPost">
         <div class="d-flex flex-row-reverse profile-data-section">
-                <a class="profile-media col-2" href="#">
+                <a class="profile-media col-2   {{if isSpecial==1}}fa fa-tag{{/if}}  " href="#">
                     <img src="../${owner.profileMediaURL}" />
                 </a>
                 <a href="#" class="col-8 profile-fullname">${owner.username}</a>
@@ -238,9 +262,17 @@
                 </div>
     @if (Model.RoleName == "super" || Model.RoleName == "admin")
     {
-                        <div class="col-12 delPostAdmin mt-1 mb-1">
-                                <input type="button" class="btn btn-danger" value="حذف این پست" onclick="delId='${advertiseID}';$('#deletePostModal').modal('toggle');" />
-                        </div>
+                            <div class="col-6 delPostAdmin mt-1 mb-1">
+                                    <input type="button" class="btn btn-danger" value="حذف این پست" onclick="delId='${advertiseID}';$('#deletePostModal').modal('toggle');" />
+                                    
+                            </div>
+                            
+                            <div class="col-6 delPostAdmin mt-1 mb-1">
+                                    <input type="button" class="btn btn-primary" value="سنجاق این پست" onclick="pinId='${advertiseID}';$('#pinPostModal').modal('toggle');" />
+                            </div>
+
+
+                            
     }
     <div class="col-1 like-btn ${advertiseID} {{if youLiked}}liked{{/if}}" {{if isVideo==1}} onclick="_doLike(this,'${advertiseID}')" {{else}} onclick="_doLike(this,'${advertiseID}')" {{/if}} >+${likeReward}</div>
                 <div class="col-2 like-details ${advertiseID}"><b>${likerCount}</b> <i>liked</i></div>
@@ -294,14 +326,14 @@
 <script src="~/js/jquery.timeago.js"></script>
 <script src="~/js/persian-date.min.js"></script>
 <script src="~/js/isInViewport.min.js"></script>
-<script src="~/js/pages/Main-db.js"></script>
-<script src="~/js/pages/Main-default.js"></script>
+<script src="~/js/pages/Main-db.js?i=1"></script>
+<script src="~/js/pages/Main-default.js?i=1"></script>
 
 
 <script src="~/js/draws.js"></script>
 <script src="~/js/popper.min.js"></script>
 <script src="~/js/jquery.flipper-responsive.js"></script>
-<script src="~/js/pages/Draws-default.js"></script>
+<script src="~/js/pages/Draws-default.js?i=1"></script>
 
 <script>
     var myUsername = '@Model.MyUsername';
@@ -316,7 +348,7 @@
 
     @if (Model.RoleName == "super" || Model.RoleName == "admin")
     {
-<script src="~/js/pages/Main-super-admin.js?i=2"></script>
+<script src="~/js/pages/Main-super-admin.js?i=3"></script>
 <script src="~/js/pages/Draws-super-admin.js?i=1"></script>
     }
 }

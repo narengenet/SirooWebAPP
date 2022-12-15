@@ -57,9 +57,9 @@ function getNewPosts() {
                 // $('#adsTemplate').tmpl(result[2]).appendTo('#adsContainer');
                 // $('#adsTemplate').tmpl(result[1]).appendTo('#adsContainer');
                 // $('#adsTemplate').tmpl(result[0]).appendTo('#adsContainer');
-                sortedResult = result.sort(compareDates);
+                //sortedResult = result.sort(compareDates);
 
-                $('#adsTemplate').tmpl(sortedResult).appendTo('#adsContainer');
+                $('#adsTemplate').tmpl(result).appendTo('#adsContainer');
 
                 //for (i = result.length - 1; i >= 0; i--) {
                 //    $('#adsTemplate').tmpl(result[i]).appendTo('#adsContainer');

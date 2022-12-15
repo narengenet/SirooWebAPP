@@ -147,7 +147,7 @@
 <script id="transactionTemplate" type="text/x-jQuery-tmpl">
     <div class="d-flex text-center border direction-rtl transaction-row">
         <div class="col-3 siroo-small-label item-date">${created}</div>
-        <div class="col-3 siroo-label">${amount} <span> ریال </span></div>
+        <div class="col-3 siroo-label money-field">${amount} <span> ریال </span></div>
         <div id="trans-${id}" onclick="copyToClipboard('trans-${id}');" class="col-3 siroo-label siroo-text-shadow">${referenceID}</div>
         <div class="col-3 siroo-label {{if isSuccessfull}} bg-light text-success {{else}} bg-light text-danger {{/if}}">${status}</div>
     </div>

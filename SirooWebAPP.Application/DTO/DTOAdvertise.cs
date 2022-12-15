@@ -26,6 +26,7 @@ namespace SirooWebAPP.Application.DTO
         public bool IsRejected { get; set; }
         public bool IsAvtivated { get; set; }
         public bool IsPremium { get; set; }
+        public bool IsSpecial { get; set; }
 
         public ICollection<Likers>  Likers{ get; set; }
         public ICollection<Viewers> Viewers { get; set; }
