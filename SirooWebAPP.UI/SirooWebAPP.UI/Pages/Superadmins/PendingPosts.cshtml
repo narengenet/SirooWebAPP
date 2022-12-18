@@ -4,13 +4,13 @@
     Layout = "_LayoutClients";
 }
 <style>
-    .MainDashboard{
-        display:none!important;
+    .MainDashboard {
+        display: none !important;
     }
 </style>
 
 <script id="adsTemplate" type="text/x-jQuery-tmpl">
-    <div class="container border shadow-lg p-1 mb-5 rounded post ${advertiseID}">
+    <div class="container border shadow-lg p-1 mb-5 rounded post ${advertiseID} {{if isPremium==1}}premium {{/if}}">
         <div class="d-flex flex-row-reverse profile-data-section">
                 <a class="profile-media col-2" href="#">
                     <img src="../${owner.profileMediaURL}" />
@@ -32,7 +32,7 @@
         </div>
         <div class="row m-2">
                 <div class="col-3 like-btn {{if youLiked}}liked{{/if}}" {{if isVideo==1}} onclick="_dobLike(this,'${advertiseID}')" {{else}} onclick="_doLike(this,'${advertiseID}')" {{/if}} >+${likeReward}</div>
-                <div class="col-3 like-details"><b>${likerCount}</b> <i>liked</i></div>
+                <div class="col-3 like-details"><b>{{if isPremium==1}} تجاری {{/if}}</b> </div>
                 <div class="col-3 view-btn">&nbsp;</div>
                 <div class="col-3 view-details"><b>${viewerCount}</b> <i>view</i></div>
         </div>
@@ -40,6 +40,9 @@
             <button type="button" class="btn btn-danger m-2 p-2 col-6" data-toggle="modal" onclick="delId='${advertiseID}';$('#deletePostModal').modal('toggle');" data-target="#deletePostModal">
               حذف پست
             </button>
+        </div>
+        <div class="d-flex justify-content-center row">
+            {{if isPremium==1}} *** تجاری *** {{/if}} 
         </div>
         <div class="d-flex justify-content-center row Textbox Textarea">
                 <textarea type="text" class="col-10 text-warning text-center" placeholder="دلایل عدم تایید..." rows="2"  id="note-${advertiseID}">${notes}</textarea>

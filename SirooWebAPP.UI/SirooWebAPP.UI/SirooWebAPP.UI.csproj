@@ -17,6 +17,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="wwwroot\uploads\2022\**" />
+    <Content Remove="wwwroot\uploads\2022\**" />
+    <EmbeddedResource Remove="wwwroot\uploads\2022\**" />
+    <None Remove="wwwroot\uploads\2022\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\SirooWebAPP.Application\SirooWebAPP.Application.csproj" />
     <ProjectReference Include="..\..\SirooWebAPP.Infrastructure\SirooWebAPP.Infrastructure.csproj" />
     <PackageReference Include="LigerShark.WebOptimizer.Core" Version="3.0.372" />

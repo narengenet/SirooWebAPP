@@ -146,14 +146,23 @@ namespace SirooWebAPP.UI.Controllers
         }
 
         [TypeFilter(typeof(SampleAsyncActionLoginFilter))]
-        [HttpGet("myads")]
-        public IActionResult GetMyAdvertisements()
+        [HttpGet("myads/{page:int}")]
+        public IActionResult GetMyAdvertisements(int page)
         {
 
             string _userid = HttpContext.Request.Cookies["userid"];
             Guid userId = Guid.Parse(_userid);
-            List<DTOAdvertise> ads = _usersServices.GetMyAdvertises(userId);
-            return Ok(ads);
+            List<DTOAdvertise> ads = _usersServices.GetMyAdvertises(userId,page);
+            
+            if (ads.Count>0)
+            {
+                return Ok(ads);
+            }
+            else
+            {
+                return Ok("-1");
+            }
+            
         }
         [TypeFilter(typeof(SampleAsyncActionLoginFilter))]
         [HttpGet("pendingads")]
@@ -239,7 +248,37 @@ namespace SirooWebAPP.UI.Controllers
         {
             string _userid = HttpContext.Request.Cookies["userid"];
             Guid userId = Guid.Parse(_userid);
-            bool result = _usersServices.DeleteAdvertise(postID, userId);
+
+            Advertise ad = _usersServices.GetAdvertise(postID);
+
+
+            if (ad.IsPremium == true && ad.IsAvtivated==false)
+            {
+                Users adOwner = _usersServices.GetUser(ad.Owner);
+
+                string moneyRequiredKeyName = (ad.IsVideo == true) ? "def_money_to_premium_video_ads" : "def_money_to_premium_image_ads";
+                int moneyNeedBack = Convert.ToInt32(_usersServices.GetConstantDictionary(moneyRequiredKeyName).ConstantValue);
+
+                if (adOwner != null)
+                {
+                    adOwner.Money += moneyNeedBack;
+                    _usersServices.UpdateUser(adOwner);
+
+                    Transactions transac = _usersServices.GetAllTransactions().Where(x => x.ReferenceID == ad.Id.ToString()).FirstOrDefault();
+                    if (transac != null)
+                    {
+                        transac.IsDeleted = true;
+                        transac.LastModified = DateTime.Now;
+                        transac.LastModifiedBy = adOwner.ToString();
+                        _usersServices.UpdateTransaction(transac);
+                    }
+
+                }
+            }
+
+
+
+                bool result = _usersServices.DeleteAdvertise(postID, userId);
             Advertise tmp = CachedContents.Advertises.Where(u => u.Id == postID).FirstOrDefault();
             CachedContents.Advertises.Remove(tmp);
             return Ok(result);

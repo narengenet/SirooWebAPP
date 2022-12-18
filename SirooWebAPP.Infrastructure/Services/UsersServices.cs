@@ -513,7 +513,7 @@ namespace SirooWebAPP.Infrastructure.Services
             return dTOAdvertise;
         }
 
-        public List<DTOAdvertise> GetMyAdvertises(Guid userID)
+        public List<DTOAdvertise> GetMyAdvertises(Guid userID,int page)
         {
 
             // get current user
@@ -521,16 +521,20 @@ namespace SirooWebAPP.Infrastructure.Services
 
 
             // get all ads if owner quota is not ended and ads is not expired
-            List<Advertise> result = _adverticeRepo.GetAll().Where(a => a.Owner == userID && a.IsDeleted == false)
-                .Join(
-                    _userRepo.GetAll().Where(u => u.IsActivated == true && u.IsDeleted == false).ToList<Users>(),
-                    ads => ads.Owner,
-                    users => users.Id,
-                    (ads, users) => ads
-                    //new Advertise { Id=ads.Id, Name=ads.Name, Owner=ads.Owner, Caption=ads.Caption, Created=ads.Created, CreatedBy=ads.CreatedBy, CreationDate=ads.CreationDate, Expiracy=ads.Expiracy, IsAvtivated=ads.IsAvtivated, IsDeleted=ads.IsDeleted, IsSpecial=ads.IsSpecial, IsVideo=ads.IsVideo, LastModified=ads.LastModified, LastModifiedBy=ads.LastModifiedBy, LikeReward=ads.LikeReward, MediaSourceURL=ads.MediaSourceURL, RemainedViewQuota=ads.RemainedViewQuota, ViewQuota=ads.ViewQuota, ViewReward=ads.ViewReward}
-                )
-                .OrderByDescending(l => l.LastModified)
-                .ToList<Advertise>();
+            //List<Advertise> result = _adverticeRepo.GetAll().Where(a => a.Owner == userID && a.IsDeleted == false)
+            //    .Join(
+            //        _userRepo.GetAll().Where(u => u.IsActivated == true && u.IsDeleted == false).ToList<Users>(),
+            //        ads => ads.Owner,
+            //        users => users.Id,
+            //        (ads, users) => ads
+            //        //new Advertise { Id=ads.Id, Name=ads.Name, Owner=ads.Owner, Caption=ads.Caption, Created=ads.Created, CreatedBy=ads.CreatedBy, CreationDate=ads.CreationDate, Expiracy=ads.Expiracy, IsAvtivated=ads.IsAvtivated, IsDeleted=ads.IsDeleted, IsSpecial=ads.IsSpecial, IsVideo=ads.IsVideo, LastModified=ads.LastModified, LastModifiedBy=ads.LastModifiedBy, LikeReward=ads.LikeReward, MediaSourceURL=ads.MediaSourceURL, RemainedViewQuota=ads.RemainedViewQuota, ViewQuota=ads.ViewQuota, ViewReward=ads.ViewReward}
+            //    )
+            //    .OrderByDescending(l => l.LastModified)
+            //    .ToList<Advertise>();
+
+            List<Advertise> result = CachedContents.Advertises.Where(a => a.Owner == userID)
+                .OrderByDescending(l=>l.LastModified)
+                .Skip(3 * page).Take(3).ToList<Advertise>();
 
             // create return data model object
             List<DTOAdvertise> dTOAdvertise = new List<DTOAdvertise>();
@@ -540,8 +544,11 @@ namespace SirooWebAPP.Infrastructure.Services
             {
 
                 // prepare likers of current ad
-                IList<Likers> _likers = _likersRepo.GetAll().Where(l => l.Advertise == item.Id).ToList<Likers>();
-                IList<Viewers> _viewers = _viewersRepo.GetAll().Where(v => v.Advertise == item.Id).ToList<Viewers>();
+                //IList<Likers> _likers = _likersRepo.GetAll().Where(l => l.Advertise == item.Id).ToList<Likers>();
+                //IList<Viewers> _viewers = _viewersRepo.GetAll().Where(v => v.Advertise == item.Id).ToList<Viewers>();
+                
+                IList<Likers> _likers = CachedContents.Likers.Where(l => l.Advertise == item.Id).ToList<Likers>();
+                IList<Viewers> _viewers = CachedContents.Viewers.Where(v => v.Advertise == item.Id).ToList<Viewers>();
 
                 // map ad, likers and viewers to ad DTO
                 DTOAdvertise _dtoAds = new DTOAdvertise();

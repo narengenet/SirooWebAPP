@@ -37,7 +37,7 @@ namespace SirooWebAPP.UI.Pages.Superadmins
 
 
             allUsedChipsCount = _usersServices.GetAllChips().Where(t => t.IsUsed == true).ToList<Chips>().Count;
-            List<Chips> usedChips = _usersServices.GetAllChips().Where(t => t.SerialNumber == Convert.ToInt64(serialorpin.Trim()) || t.PIN==serialorpin).OrderByDescending(t => t.Created).ToList<Chips>();
+            List<Chips> usedChips = _usersServices.GetAllChips().Where(t => t.SerialNumber == Convert.ToInt64(serialorpin.Trim()) || t.PIN==serialorpin).OrderByDescending(t => t.LastModified).ToList<Chips>();
             if (usedChips.Count > 0)
             {
                 transacs = new List<RequestMoneyUser>();
@@ -102,7 +102,7 @@ namespace SirooWebAPP.UI.Pages.Superadmins
             }
 
             allUsedChipsCount = _usersServices.GetAllChips().Where(t => t.IsUsed == true).ToList<Chips>().Count;
-            List<Chips> usedChips = _usersServices.GetAllChips().Where(t => t.IsUsed == true).OrderByDescending(t => t.Created).Skip(thePage * 10).Take(10).ToList<Chips>();
+            List<Chips> usedChips = _usersServices.GetAllChips().Where(t => t.IsUsed == true).OrderByDescending(t => t.LastModified).Skip(thePage * 10).Take(10).ToList<Chips>();
             if (usedChips.Count > 0)
             {
                 transacs = new List<RequestMoneyUser>();

@@ -206,3 +206,15 @@ input#UserName{
         position: absolute;
         z-index: 10;
     }
+.getMoreAds{
+    margin-bottom: 30vh;
+    text-align:center;
+}
+.circle {
+    border: 1px solid white;
+    border-radius: 50%;
+    width: 2rem;
+    height: 2rem;
+    display: inline-block;
+    line-height: 2rem;
+}
