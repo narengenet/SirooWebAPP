@@ -218,3 +218,6 @@ input#UserName{
     display: inline-block;
     line-height: 2rem;
 }
+#NewContact.isHide{
+    display:none;
+}

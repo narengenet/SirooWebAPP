@@ -127,6 +127,31 @@ function addPointsGo() {
         },
     });
 }
+function addMoenyGo() {
+    if (selectedUserToAddMoney == "-1") {
+        return;
+    }
+    let money = $('#money-' + selectedUserToAddMoney).val();
+    $('.waitingPlease').css('display', 'flex');
+
+    $.ajax({
+        url: '/addMoneyToUser/' + selectedUserToAddMoney + '/' + money,
+        type: 'GET',
+        success: function (result) {
+            $('.waitingPlease').css('display', 'none');
+            if (result == "-1") {
+                alert('خطا');
+            } else {
+                current = parseInt($('#currentm-' + selectedUserToAddMoney).text());
+                current += parseInt(money);
+                $('#currentm-' + selectedUserToAddMoney).text(current);
+
+                alert('وجه به کاربر اضافه شد.');
+
+            }
+        },
+    });
+}
 
 function deleteUser() {
     if (selectedUserToDelete == "-1") {

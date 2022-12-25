@@ -112,5 +112,12 @@ namespace SirooWebAPP.Application.Interfaces
         void UpdateChips(Chips chips);
         void RemoveChips(Chips chips);
 
+
+        List<Contacts> GetAllContacts();
+        void AddContacts(Contacts contacts);
+        void RemoveContacts(Contacts contacts);
+        bool UpdateContacts(Contacts contacts);
+
+
     }
 }

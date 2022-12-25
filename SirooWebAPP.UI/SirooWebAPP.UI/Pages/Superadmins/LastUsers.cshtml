@@ -42,6 +42,26 @@
     </div>
 </div>
 
+<div class="modal fade" id="addMoneyModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">افزایش موجودی</h5>
+                <button onclick="$('#addMoneyModal').modal('toggle');" type="button" class="close" data-dismiss="modal" aria-label="بازگشت">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                مطمئن هستید؟
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="$('#addMoneyModal').modal('toggle');" data-dismiss="modal">خیر</button>
+                <button type="button" class="btn btn-warning" onclick="addMoenyGo();$('#addMoneyModal').modal('toggle');">بلی</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="modal fade" id="deleteUserModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -97,6 +117,7 @@
             <td class="inviters">معرف</td>
             <td class="passwords">کلمه عبور</td>
             <td>افزایش امتیاز</td>
+            <td>افزایش موجودی</td>
         </tr>
         @foreach (var x in Model.NewUsers)
         {
@@ -122,6 +143,14 @@
                     <br><br>
                     <span class="secondary-SirooBtn" onclick="selectedUserToAddPoint='@x.Id';$('#addPointModal').modal('toggle');">افزایش امتیاز</span>
                 </td>
+                <td class="p-3">
+                    <div>
+                        موجودی فعلی: <span id="currentm-@x.Id">@x.Money</span>
+                    </div>
+                    <input type="number" value="0" step="10000" id="money-@x.Id" />
+                    <br><br>
+                    <span class="secondary-SirooBtn" onclick="selectedUserToAddMoney='@x.Id';$('#addMoneyModal').modal('toggle');">افزایش موجودی</span>
+                </td>
             </tr>
         }
     </table>
@@ -133,6 +162,6 @@
 
 
 @section Scripts {
-<script src="~/js/pages/Allusers-default.js?i=2"></script>
+<script src="~/js/pages/Allusers-default.js?i=5"></script>
 
 }

@@ -152,9 +152,9 @@ namespace SirooWebAPP.UI.Controllers
 
             string _userid = HttpContext.Request.Cookies["userid"];
             Guid userId = Guid.Parse(_userid);
-            List<DTOAdvertise> ads = _usersServices.GetMyAdvertises(userId,page);
-            
-            if (ads.Count>0)
+            List<DTOAdvertise> ads = _usersServices.GetMyAdvertises(userId, page);
+
+            if (ads.Count > 0)
             {
                 return Ok(ads);
             }
@@ -162,7 +162,7 @@ namespace SirooWebAPP.UI.Controllers
             {
                 return Ok("-1");
             }
-            
+
         }
         [TypeFilter(typeof(SampleAsyncActionLoginFilter))]
         [HttpGet("pendingads")]
@@ -252,7 +252,7 @@ namespace SirooWebAPP.UI.Controllers
             Advertise ad = _usersServices.GetAdvertise(postID);
 
 
-            if (ad.IsPremium == true && ad.IsAvtivated==false)
+            if (ad.IsPremium == true && ad.IsAvtivated == false)
             {
                 Users adOwner = _usersServices.GetUser(ad.Owner);
 
@@ -278,12 +278,12 @@ namespace SirooWebAPP.UI.Controllers
 
 
 
-                bool result = _usersServices.DeleteAdvertise(postID, userId);
+            bool result = _usersServices.DeleteAdvertise(postID, userId);
             Advertise tmp = CachedContents.Advertises.Where(u => u.Id == postID).FirstOrDefault();
             CachedContents.Advertises.Remove(tmp);
             return Ok(result);
         }
-        
+
         [TypeFilter(typeof(SampleAsyncActionLoginFilter))]
         [HttpGet("pinPost/{postID:guid}")]
         public IActionResult pinPost(Guid postID)
@@ -295,10 +295,10 @@ namespace SirooWebAPP.UI.Controllers
             {
 
                 Advertise ads = _usersServices.GetAdvertise(postID);
-                if (ads!=null)
+                if (ads != null)
                 {
 
-                    if (ads.IsSpecial==true)
+                    if (ads.IsSpecial == true)
                     {
                         ads.IsSpecial = false;
                     }
@@ -470,6 +470,27 @@ namespace SirooWebAPP.UI.Controllers
             return Ok("-1");
 
         }
+        
+        [TypeFilter(typeof(SampleAsyncActionLoginFilter))]
+        [HttpGet("addMoneyToUser/{userID:guid}/{money:int}")]
+        public IActionResult addMoneyToUser(Guid userID, int money)
+        {
+            string _userid = HttpContext.Request.Cookies["userid"];
+            Guid userId = Guid.Parse(_userid);
+            if (_session.GetString("userrolename") == "super" || _session.GetString("userrolename") == "admin")
+            {
+                Users theUser = _usersServices.GetUser(userID);
+                if (theUser != null)
+                {
+                    theUser.Money += money;
+                    _usersServices.UpdateUser(theUser);
+                    return Ok("ok");
+                }
+            }
+
+            return Ok("-1");
+
+        }
 
         [TypeFilter(typeof(SampleAsyncActionLoginFilter))]
         [HttpGet("deleteUser/{reason}/{userID:guid}")]
@@ -513,7 +534,7 @@ namespace SirooWebAPP.UI.Controllers
             return Ok("-1");
 
         }
-        
+
         [TypeFilter(typeof(SampleAsyncActionLoginFilter))]
         [HttpGet("deleteUserForever/{userID:guid}")]
         public IActionResult deleteUserForever(Guid userID)
@@ -526,7 +547,7 @@ namespace SirooWebAPP.UI.Controllers
                 if (theUser != null)
                 {
                     _usersServices.RemovePermUser(theUser);
-                    
+
                     return Ok("ok");
                 }
             }
@@ -731,6 +752,49 @@ namespace SirooWebAPP.UI.Controllers
             public string adNote { get; set; }
         }
 
+        public class TheMessagecontact
+        {
+            public string messageBody { get; set; }
+        }
+
+
+
+        [TypeFilter(typeof(SampleAsyncActionLoginFilter))]
+        [HttpPost("sendContact")]
+        public IActionResult sendContact([FromBody] TheMessagecontact post)
+        {
+
+
+            string _userid = HttpContext.Request.Cookies["userid"];
+            Guid userId = Guid.Parse(_userid);
+
+            _usersServices.AddContacts(new Contacts
+            {
+                FromUser = userId,
+                TheMessage = post.messageBody,
+                Created = DateTime.Now
+            });
+
+
+
+
+
+
+
+            //List<DTODraws> draws = _usersServices.GetAllActiveDrawsByUser(userId);
+            return Ok("1");
+        }
+
+
+
+
+
+
+
+
+
+
+
         [TypeFilter(typeof(SampleAsyncActionLoginFilter))]
         [HttpPost("acceptPost")]
         public IActionResult AcceptAds([FromBody] Post post)
@@ -810,14 +874,14 @@ namespace SirooWebAPP.UI.Controllers
                             _usersServices.UpdateUser(adOwner);
 
                             Transactions transac = _usersServices.GetAllTransactions().Where(x => x.ReferenceID == ad.Id.ToString()).FirstOrDefault();
-                            if (transac!=null)
+                            if (transac != null)
                             {
                                 transac.IsDeleted = true;
                                 transac.LastModified = DateTime.Now;
                                 transac.LastModifiedBy = adOwner.ToString();
                                 _usersServices.UpdateTransaction(transac);
                             }
-                            
+
                         }
 
                     }

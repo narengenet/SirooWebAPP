@@ -37,7 +37,7 @@ namespace SirooWebAPP.Infrastructure.Contexts
         public DbSet<Purchases> Purchases { get; set; }
         public DbSet<TransactionPercents>  TransactionPercents{ get; set; }
         public DbSet<Chips>  Chips{ get; set; }
-
+        public DbSet<Contacts> Contacts { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

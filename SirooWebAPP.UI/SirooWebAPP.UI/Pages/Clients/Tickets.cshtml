@@ -1,0 +1,116 @@
+﻿@page
+@model SirooWebAPP.UI.Pages.Clients.TicketsModel
+@{
+    Layout = "_LayoutClients";
+}
+<style>
+    table td {
+        width: 20%;
+        text-align: center;
+        font-family: 'Yekan';
+    }
+
+    table tr {
+        border: 1px solid white;
+    }
+
+    .MainDashboard {
+        display: none !important;
+    }
+
+</style>
+
+
+<div class="direction-rtl" style="margin-bottom:5vh;">
+
+
+    <div id="NewContact" class="SirooRightBlockContainer" style="margin-bottom:5vh;">
+        <div class="mb-5 SirooRightBlock  col-12">
+            <div class="d-flex flex-row-reverse SirooRightBlockHeader">
+                <a href="#" class="col-6 profile-fullname">ارسال پیام جدید</a>
+            </div>
+            <div class="d-flex flex-column justify-content-center SirooContainer">
+                <div class="SirooItems">
+
+                    <div class="row">&nbsp;</div>
+
+                    <div class="row justify-content-center">
+                        <div class="row justify-content-center">
+                            <div class="col-12 siroo-label">متن پیام</div>
+                        </div>
+                        <div class="row col-12 mb-2">
+                            <div class="col-12 Textbox fa fa-text Textarea">
+                                <textarea type="text" id="contactBody" class="col-10 text-warning text-center" placeholder="متن پیام ..." rows="2"></textarea>
+                            </div>
+                        </div>
+                        <div class="row col-12 mt-3 mb-3 justify-content-center">
+                            <div class="col-6 SirooBtn">
+                                <input id="myInput" type="submit" onclick="_sendContact();" class="col-12" value="ارسال">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div>تعداد پیام‌های شما: @Model.allYourContactsCount</div>
+    <br />
+    <br />
+
+    <table id="allContacts">
+        <tr style="background-color:black;">
+            <td>متن پیام</td>
+            <td>ملاحظه شده</td>
+            <td>پاسخ داده شده</td>
+            <td>تاریخ ارسال</td>
+        </tr>
+        @if (Model.hasValue)
+        {
+            @foreach (var x in Model.contacts)
+            {
+                <tr id="@x.Id">
+                    <td>
+                        @x.TheMessage.Substring(0,10) ...
+                    </td>
+                    <td>@x.IsRead</td>
+                    <td>@x.IsReplied</td>
+                    <td class="item-date">@x.Created</td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td>یافت نشد.</td>
+            </tr>
+        }
+    </table>
+
+    <br />
+    <br />
+
+
+    <div style="text-align:center;">
+        @if (Model.haveNext > 0)
+        {
+            <a class="secondary-SirooBtn" href="/clients/tickets?pagee=@(@Model.haveNext-1)">قبلی </a>
+        }
+
+
+        <span>صفحه @(Model.haveNext+1)</span>
+        @if (Model.hasValue)
+        {
+            <a class="secondary-SirooBtn" href="/clients/tickets?pagee=@(@Model.haveNext+1)">بعدی >></a>
+        }
+    </div>
+
+</div>
+
+
+
+@section Scripts {
+<script src="~/js/pages/Tickets-default.js"></script>
+
+}

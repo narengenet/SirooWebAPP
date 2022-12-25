@@ -81,6 +81,28 @@ namespace SirooWebAPP.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Contacts",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    FromUser = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    TheMessage = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsRead = table.Column<bool>(type: "bit", nullable: false),
+                    ReplyMessage = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsReplied = table.Column<bool>(type: "bit", nullable: false),
+                    ReadDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ReplyDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Created = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    LastModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastModified = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Contacts", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "DonnationTickets",
                 columns: table => new
                 {
@@ -373,25 +395,25 @@ namespace SirooWebAPP.Infrastructure.Migrations
                 columns: new[] { "Id", "ConstantKey", "ConstantValue", "Created", "CreatedBy", "Description", "IsActive", "IsDeleted", "LastModified", "LastModifiedBy" },
                 values: new object[,]
                 {
-                    { new Guid("0125fa58-5309-4763-9c43-8d7dfde7bbde"), "points_reward_premium_video_ads", "200", new DateTime(2022, 12, 13, 11, 30, 43, 265, DateTimeKind.Local).AddTicks(293), new Guid("9ec28035-7fa7-41b3-8d2b-c3f7d3560f43"), "امتیاز ثبت آگهی تبلیغاتی ویدئویی", true, false, null, null },
-                    { new Guid("1702bdd6-8f59-432d-a12b-79614c69a32d"), "points_reward_premium_image_ads", "40", new DateTime(2022, 12, 13, 11, 30, 43, 265, DateTimeKind.Local).AddTicks(298), new Guid("9ec28035-7fa7-41b3-8d2b-c3f7d3560f43"), "امتیاز ثبت آگهی تبلیغاتی تصویری", true, false, null, null },
-                    { new Guid("1ee0f13c-a238-44c0-9a0a-0a878ac5af7e"), "def_percent_for_countryadmin", "4", new DateTime(2022, 12, 13, 11, 30, 43, 265, DateTimeKind.Local).AddTicks(278), new Guid("9ec28035-7fa7-41b3-8d2b-c3f7d3560f43"), "درصد مدیر مناطق", true, false, null, null },
-                    { new Guid("3a3241e3-db15-43c2-acff-749fedffa3be"), "def_chips_usage_perday", "-1", new DateTime(2022, 12, 13, 11, 30, 43, 265, DateTimeKind.Local).AddTicks(282), new Guid("9ec28035-7fa7-41b3-8d2b-c3f7d3560f43"), "تعداد استفاده از کارت اعتباری هر کاربر در روز", true, false, null, null },
-                    { new Guid("3ae448bb-1f0d-46a5-be26-12fc74f5ab5f"), "def_points_for_client_invitation", "50", new DateTime(2022, 12, 13, 11, 30, 43, 265, DateTimeKind.Local).AddTicks(255), new Guid("9ec28035-7fa7-41b3-8d2b-c3f7d3560f43"), "امتیاز برای معرف وقتی کاربر ثبت نام کرد.", true, false, null, null },
-                    { new Guid("3beb9862-166e-4acb-aa3b-b8908c9cd32f"), "def_points_for_image_like", "1", new DateTime(2022, 12, 13, 11, 30, 43, 265, DateTimeKind.Local).AddTicks(259), new Guid("9ec28035-7fa7-41b3-8d2b-c3f7d3560f43"), "امتیاز پیش فرض برای لایک پست تصویری", true, false, null, null },
-                    { new Guid("43e1add8-e753-482e-a145-b49a19944db5"), "def_money_to_premium_video_ads", "200000", new DateTime(2022, 12, 13, 11, 30, 43, 265, DateTimeKind.Local).AddTicks(286), new Guid("9ec28035-7fa7-41b3-8d2b-c3f7d3560f43"), "هزینه درج آگهی تبلیغاتی ویدئویی", true, false, null, null },
-                    { new Guid("5add833c-da99-4146-a1d6-e851637fd4c5"), "credit_for_video_ads", "1000", new DateTime(2022, 12, 13, 11, 30, 43, 265, DateTimeKind.Local).AddTicks(241), new Guid("9ec28035-7fa7-41b3-8d2b-c3f7d3560f43"), "اعتبار لازم برای ثبت آگهی ویدئویی", true, false, null, null },
-                    { new Guid("65a8ae3c-1259-4404-8375-a42a2d72da43"), "credit_for_client_registration_by_store_invitation", "50", new DateTime(2022, 12, 13, 11, 30, 43, 265, DateTimeKind.Local).AddTicks(245), new Guid("9ec28035-7fa7-41b3-8d2b-c3f7d3560f43"), "اعتبار برای فروشنده ای که باعث ثبت نام مشتری شد", true, false, null, null },
-                    { new Guid("6d0d929d-6ea5-419c-b400-4ade3b156711"), "def_points_for_client_registration", "100", new DateTime(2022, 12, 13, 11, 30, 43, 265, DateTimeKind.Local).AddTicks(251), new Guid("9ec28035-7fa7-41b3-8d2b-c3f7d3560f43"), "امتیاز اولیه برای کاربری که ثبت نام میکند.", true, false, null, null },
-                    { new Guid("72b15093-d902-42d2-aee8-3b5a4799661d"), "store_def_credit_reg", "1000", new DateTime(2022, 12, 13, 11, 30, 43, 265, DateTimeKind.Local).AddTicks(214), new Guid("9ec28035-7fa7-41b3-8d2b-c3f7d3560f43"), "اعتبار اولیه فروشگاه برای ثبت نام اولین بار", true, false, null, null },
-                    { new Guid("76fbe472-4d0a-4d4a-a4e0-4da990ef4fd7"), "credit_for_image_ads", "500", new DateTime(2022, 12, 13, 11, 30, 43, 265, DateTimeKind.Local).AddTicks(238), new Guid("9ec28035-7fa7-41b3-8d2b-c3f7d3560f43"), "اعتبار لازم برای ثبت آگهی تصویری", true, false, null, null },
-                    { new Guid("840ccb2b-2533-41c9-be0a-ba078364bc69"), "store_point_usage_per_day", "2", new DateTime(2022, 12, 13, 11, 30, 43, 265, DateTimeKind.Local).AddTicks(222), new Guid("9ec28035-7fa7-41b3-8d2b-c3f7d3560f43"), "تعداد دفعات استفاده از کارت تخفیف هر مغازه در روز برای یک مشتری", true, false, null, null },
-                    { new Guid("b3047694-1c4f-41e7-b7ab-e05a7ad4637c"), "stores_max_donnation_point", "500", new DateTime(2022, 12, 13, 11, 30, 43, 265, DateTimeKind.Local).AddTicks(225), new Guid("9ec28035-7fa7-41b3-8d2b-c3f7d3560f43"), "حداکثر امتیازی که فروشگاه میتواند در هر نوتب هدیه بدهد", true, false, null, null },
-                    { new Guid("c0af89dd-bbad-46f1-81da-4804d8f82ec3"), "def_percent_for_marketer", "10", new DateTime(2022, 12, 13, 11, 30, 43, 265, DateTimeKind.Local).AddTicks(270), new Guid("9ec28035-7fa7-41b3-8d2b-c3f7d3560f43"), "درصد بازاریاب", true, false, null, null },
-                    { new Guid("c9b3e007-daf8-49f2-8ac5-d996ea05a498"), "money_to_credit_ratio", "500", new DateTime(2022, 12, 13, 11, 30, 43, 265, DateTimeKind.Local).AddTicks(233), new Guid("9ec28035-7fa7-41b3-8d2b-c3f7d3560f43"), "نسبت هر اعتبار به تومان", true, false, null, null },
-                    { new Guid("e0cf4707-ebb3-4dbf-9ea2-2e4cdbde9776"), "def_points_for_video_like", "4", new DateTime(2022, 12, 13, 11, 30, 43, 265, DateTimeKind.Local).AddTicks(263), new Guid("9ec28035-7fa7-41b3-8d2b-c3f7d3560f43"), "امتیاز پیش فرض برای لایک پست ویدئویی", true, false, null, null },
-                    { new Guid("f0946f23-fa22-4d0a-96fd-7d5be10706c1"), "def_money_to_premium_image_ads", "50000", new DateTime(2022, 12, 13, 11, 30, 43, 265, DateTimeKind.Local).AddTicks(289), new Guid("9ec28035-7fa7-41b3-8d2b-c3f7d3560f43"), "هزینه درج آگهی تبلیغاتی تصویری", true, false, null, null },
-                    { new Guid("fe19f649-ce4d-43aa-87c7-76e29d8ed478"), "def_percent_for_zoneadmin", "6", new DateTime(2022, 12, 13, 11, 30, 43, 265, DateTimeKind.Local).AddTicks(274), new Guid("9ec28035-7fa7-41b3-8d2b-c3f7d3560f43"), "درصد مدیر منطقه", true, false, null, null }
+                    { new Guid("01b0ba11-7e5c-46ed-8368-275d707ff86d"), "def_points_for_client_invitation", "50", new DateTime(2022, 12, 20, 9, 52, 50, 106, DateTimeKind.Local).AddTicks(7278), new Guid("e72c3712-dfaa-474d-b607-495f180c302b"), "امتیاز برای معرف وقتی کاربر ثبت نام کرد.", true, false, null, null },
+                    { new Guid("05237b00-b1c9-422b-b3a2-ccb68ac41848"), "points_reward_premium_image_ads", "40", new DateTime(2022, 12, 20, 9, 52, 50, 106, DateTimeKind.Local).AddTicks(7335), new Guid("e72c3712-dfaa-474d-b607-495f180c302b"), "امتیاز ثبت آگهی تبلیغاتی تصویری", true, false, null, null },
+                    { new Guid("3381bc42-41b7-437c-acec-98209761b9b8"), "def_percent_for_marketer", "10", new DateTime(2022, 12, 20, 9, 52, 50, 106, DateTimeKind.Local).AddTicks(7295), new Guid("e72c3712-dfaa-474d-b607-495f180c302b"), "درصد بازاریاب", true, false, null, null },
+                    { new Guid("458f8a0d-6cae-4bf9-9dd7-aac7caf6e5cb"), "credit_for_image_ads", "500", new DateTime(2022, 12, 20, 9, 52, 50, 106, DateTimeKind.Local).AddTicks(7190), new Guid("e72c3712-dfaa-474d-b607-495f180c302b"), "اعتبار لازم برای ثبت آگهی تصویری", true, false, null, null },
+                    { new Guid("52bdc55a-0570-41e2-857f-8541f90ab1fe"), "points_reward_premium_video_ads", "200", new DateTime(2022, 12, 20, 9, 52, 50, 106, DateTimeKind.Local).AddTicks(7330), new Guid("e72c3712-dfaa-474d-b607-495f180c302b"), "امتیاز ثبت آگهی تبلیغاتی ویدئویی", true, false, null, null },
+                    { new Guid("547a7dd9-7c29-4c56-9623-4c7d5d9deddd"), "store_point_usage_per_day", "2", new DateTime(2022, 12, 20, 9, 52, 50, 106, DateTimeKind.Local).AddTicks(7170), new Guid("e72c3712-dfaa-474d-b607-495f180c302b"), "تعداد دفعات استفاده از کارت تخفیف هر مغازه در روز برای یک مشتری", true, false, null, null },
+                    { new Guid("76a793b7-b8a9-4f6c-8af7-7a65e7b2dd81"), "def_points_for_video_like", "4", new DateTime(2022, 12, 20, 9, 52, 50, 106, DateTimeKind.Local).AddTicks(7289), new Guid("e72c3712-dfaa-474d-b607-495f180c302b"), "امتیاز پیش فرض برای لایک پست ویدئویی", true, false, null, null },
+                    { new Guid("7c4b4083-4176-4e5c-9e52-7e65e5bb2e2c"), "money_to_credit_ratio", "500", new DateTime(2022, 12, 20, 9, 52, 50, 106, DateTimeKind.Local).AddTicks(7181), new Guid("e72c3712-dfaa-474d-b607-495f180c302b"), "نسبت هر اعتبار به تومان", true, false, null, null },
+                    { new Guid("87588b41-34c4-459c-9e77-f308690f2ab4"), "def_points_for_image_like", "1", new DateTime(2022, 12, 20, 9, 52, 50, 106, DateTimeKind.Local).AddTicks(7283), new Guid("e72c3712-dfaa-474d-b607-495f180c302b"), "امتیاز پیش فرض برای لایک پست تصویری", true, false, null, null },
+                    { new Guid("8debebf4-825f-4b19-b483-080b2c6c82b8"), "def_money_to_premium_video_ads", "200000", new DateTime(2022, 12, 20, 9, 52, 50, 106, DateTimeKind.Local).AddTicks(7320), new Guid("e72c3712-dfaa-474d-b607-495f180c302b"), "هزینه درج آگهی تبلیغاتی ویدئویی", true, false, null, null },
+                    { new Guid("976ff965-f4dc-4819-b086-b8caa8c39b53"), "def_percent_for_countryadmin", "4", new DateTime(2022, 12, 20, 9, 52, 50, 106, DateTimeKind.Local).AddTicks(7309), new Guid("e72c3712-dfaa-474d-b607-495f180c302b"), "درصد مدیر مناطق", true, false, null, null },
+                    { new Guid("a2e1f446-ead8-487d-890e-7d2dd312ed7a"), "def_percent_for_zoneadmin", "6", new DateTime(2022, 12, 20, 9, 52, 50, 106, DateTimeKind.Local).AddTicks(7304), new Guid("e72c3712-dfaa-474d-b607-495f180c302b"), "درصد مدیر منطقه", true, false, null, null },
+                    { new Guid("b1f69b04-2e96-411f-b430-c43073b56974"), "def_points_for_client_registration", "100", new DateTime(2022, 12, 20, 9, 52, 50, 106, DateTimeKind.Local).AddTicks(7271), new Guid("e72c3712-dfaa-474d-b607-495f180c302b"), "امتیاز اولیه برای کاربری که ثبت نام میکند.", true, false, null, null },
+                    { new Guid("c2aeabf0-03d9-4203-be2b-bbcace9f5ba9"), "credit_for_video_ads", "1000", new DateTime(2022, 12, 20, 9, 52, 50, 106, DateTimeKind.Local).AddTicks(7195), new Guid("e72c3712-dfaa-474d-b607-495f180c302b"), "اعتبار لازم برای ثبت آگهی ویدئویی", true, false, null, null },
+                    { new Guid("d4ff2866-a45a-40e9-9cad-477246d3dd5a"), "def_chips_usage_perday", "-1", new DateTime(2022, 12, 20, 9, 52, 50, 106, DateTimeKind.Local).AddTicks(7315), new Guid("e72c3712-dfaa-474d-b607-495f180c302b"), "تعداد استفاده از کارت اعتباری هر کاربر در روز", true, false, null, null },
+                    { new Guid("d82b5d75-16c3-4906-9c03-d116ae44715e"), "store_def_credit_reg", "1000", new DateTime(2022, 12, 20, 9, 52, 50, 106, DateTimeKind.Local).AddTicks(7159), new Guid("e72c3712-dfaa-474d-b607-495f180c302b"), "اعتبار اولیه فروشگاه برای ثبت نام اولین بار", true, false, null, null },
+                    { new Guid("e3c6cc5c-d8b1-482d-b94f-96de08b385fd"), "def_money_to_premium_image_ads", "50000", new DateTime(2022, 12, 20, 9, 52, 50, 106, DateTimeKind.Local).AddTicks(7325), new Guid("e72c3712-dfaa-474d-b607-495f180c302b"), "هزینه درج آگهی تبلیغاتی تصویری", true, false, null, null },
+                    { new Guid("f4933c68-3444-4ecc-88c9-ce326d5ba4b1"), "credit_for_client_registration_by_store_invitation", "50", new DateTime(2022, 12, 20, 9, 52, 50, 106, DateTimeKind.Local).AddTicks(7200), new Guid("e72c3712-dfaa-474d-b607-495f180c302b"), "اعتبار برای فروشنده ای که باعث ثبت نام مشتری شد", true, false, null, null },
+                    { new Guid("fc645c96-505a-42af-bfbb-58066e25aafb"), "stores_max_donnation_point", "500", new DateTime(2022, 12, 20, 9, 52, 50, 106, DateTimeKind.Local).AddTicks(7176), new Guid("e72c3712-dfaa-474d-b607-495f180c302b"), "حداکثر امتیازی که فروشگاه میتواند در هر نوتب هدیه بدهد", true, false, null, null }
                 });
 
             migrationBuilder.InsertData(
@@ -399,13 +421,13 @@ namespace SirooWebAPP.Infrastructure.Migrations
                 columns: new[] { "Id", "Created", "CreatedBy", "IsActivated", "IsDeleted", "LastModified", "LastModifiedBy", "Priority", "RoleDescription", "RoleName" },
                 values: new object[,]
                 {
-                    { new Guid("415f36a4-ac02-4667-8703-ef5b98f067ec"), null, null, true, false, null, null, 3, "مدیر منطقه", "zoneadmin" },
-                    { new Guid("456b8f5d-62ff-4d17-bba8-5a47077df3ea"), null, null, true, false, null, null, 5, "فروشگاه", "store" },
-                    { new Guid("5d43f998-0c4e-486f-b9a6-6be4b38eca60"), null, null, true, false, null, null, 6, "مشتری", "client" },
-                    { new Guid("6f8b857f-5c71-40b6-8dae-47850fee1ed7"), null, null, true, false, null, null, 1, "مدیر سامانه", "admin" },
-                    { new Guid("98fe0c64-bb7a-42de-af9c-e94153a9ef20"), null, null, true, false, null, null, 0, "مدیر کل", "super" },
-                    { new Guid("a4d6a7fc-91d6-498a-b981-a7196da47a2b"), null, null, true, false, null, null, 2, "مدیر کل مناطق", "countryadmin" },
-                    { new Guid("ae3de154-0352-4817-a0e1-7e4ee1a7f513"), null, null, true, false, null, null, 4, "بازاریاب", "marketer" }
+                    { new Guid("0fd5de85-0c4d-41f6-a4a5-d1a05478f546"), null, null, true, false, null, null, 5, "فروشگاه", "store" },
+                    { new Guid("120522d0-5887-416e-b6c3-fa7d1a721d87"), null, null, true, false, null, null, 4, "بازاریاب", "marketer" },
+                    { new Guid("4f80fefb-e714-4cc6-89a8-860bc2acdc78"), null, null, true, false, null, null, 3, "مدیر منطقه", "zoneadmin" },
+                    { new Guid("677757b1-b462-4fa4-a629-de8ed0960ed0"), null, null, true, false, null, null, 1, "مدیر سامانه", "admin" },
+                    { new Guid("c77e25bc-71ce-4d7d-ae7d-4062991c3ea8"), null, null, true, false, null, null, 0, "مدیر کل", "super" },
+                    { new Guid("f2db0fb0-a064-439a-89c2-4184d1d23adb"), null, null, true, false, null, null, 6, "مشتری", "client" },
+                    { new Guid("f8da7810-f51a-4112-aa7d-9c5e8b1cd46c"), null, null, true, false, null, null, 2, "مدیر کل مناطق", "countryadmin" }
                 });
 
             migrationBuilder.InsertData(
@@ -413,8 +435,8 @@ namespace SirooWebAPP.Infrastructure.Migrations
                 columns: new[] { "Id", "CardNumber", "Cellphone", "ConfirmationCode", "Created", "Credits", "DefaultCredit", "DonnationActive", "Family", "Inviter", "IsActivated", "IsDeleted", "LastModified", "LastModifiedBy", "Money", "Name", "Notes", "Points", "ProfileMediaURL", "Username" },
                 values: new object[,]
                 {
-                    { new Guid("9a608b90-fcfc-4a3d-ab48-27220ccff404"), null, "09901069557", null, new DateTime(2022, 12, 13, 11, 30, 43, 264, DateTimeKind.Local).AddTicks(9848), 1000L, 0L, true, "دابویی مشک آبادی", null, true, false, null, null, 0L, "عبدالرحمن", null, 100L, "uploads/2022/9/photo.jpg", "dabooei" },
-                    { new Guid("9ec28035-7fa7-41b3-8d2b-c3f7d3560f43"), null, "09394125130", "111111", new DateTime(2022, 12, 13, 11, 30, 43, 264, DateTimeKind.Local).AddTicks(9891), 0L, 0L, false, "Jouybari", new Guid("9a608b90-fcfc-4a3d-ab48-27220ccff404"), true, false, null, null, 850000L, "Sina", null, 90L, "uploads/2022/9/sina2.jpg", "sinful" }
+                    { new Guid("9bd45b97-fce6-486f-a572-9f1974ba2299"), null, "09901069557", null, new DateTime(2022, 12, 20, 9, 52, 50, 106, DateTimeKind.Local).AddTicks(6797), 1000L, 0L, true, "دابویی مشک آبادی", null, true, false, null, null, 0L, "عبدالرحمن", null, 100L, "uploads/2022/9/photo.jpg", "dabooei" },
+                    { new Guid("e72c3712-dfaa-474d-b607-495f180c302b"), null, "09394125130", "111111", new DateTime(2022, 12, 20, 9, 52, 50, 106, DateTimeKind.Local).AddTicks(6847), 0L, 0L, false, "Jouybari", new Guid("9bd45b97-fce6-486f-a572-9f1974ba2299"), true, false, null, null, 850000L, "Sina", null, 90L, "uploads/2022/9/sina2.jpg", "sinful" }
                 });
 
             migrationBuilder.InsertData(
@@ -422,8 +444,8 @@ namespace SirooWebAPP.Infrastructure.Migrations
                 columns: new[] { "Id", "Created", "CreatedBy", "IsDeleted", "LastModified", "LastModifiedBy", "Role", "User" },
                 values: new object[,]
                 {
-                    { new Guid("404a4f1d-c8c9-4a65-a572-a663a1eaa083"), null, new Guid("9a608b90-fcfc-4a3d-ab48-27220ccff404"), false, null, null, new Guid("456b8f5d-62ff-4d17-bba8-5a47077df3ea"), new Guid("9a608b90-fcfc-4a3d-ab48-27220ccff404") },
-                    { new Guid("a6de3459-090d-4258-ac00-454aacfea87b"), null, new Guid("9ec28035-7fa7-41b3-8d2b-c3f7d3560f43"), false, null, null, new Guid("98fe0c64-bb7a-42de-af9c-e94153a9ef20"), new Guid("9ec28035-7fa7-41b3-8d2b-c3f7d3560f43") }
+                    { new Guid("178cb7c3-aa28-49e1-b0b8-f2eaf16e2fce"), null, new Guid("e72c3712-dfaa-474d-b607-495f180c302b"), false, null, null, new Guid("c77e25bc-71ce-4d7d-ae7d-4062991c3ea8"), new Guid("e72c3712-dfaa-474d-b607-495f180c302b") },
+                    { new Guid("f40eea38-d1ee-4919-b8b5-10dc9aa7bbf1"), null, new Guid("9bd45b97-fce6-486f-a572-9f1974ba2299"), false, null, null, new Guid("0fd5de85-0c4d-41f6-a4a5-d1a05478f546"), new Guid("9bd45b97-fce6-486f-a572-9f1974ba2299") }
                 });
         }
 
@@ -437,6 +459,9 @@ namespace SirooWebAPP.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "ConstantDictionaries");
+
+            migrationBuilder.DropTable(
+                name: "Contacts");
 
             migrationBuilder.DropTable(
                 name: "DonnationTickets");

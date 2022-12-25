@@ -78,6 +78,7 @@ namespace SirooWebAPP.Infrastructure.Services
         private readonly IPurchasesRepository _purchasesRepository;
         private readonly ITransactionPercentsRepository _transactionPercentsRepository;
         private readonly IChipsRepository _chipsRepo;
+        private readonly IContactsRepository _contactsRepo;
 
         private readonly IMapper _mapper;
 
@@ -102,6 +103,7 @@ namespace SirooWebAPP.Infrastructure.Services
             IPurchasesRepository purchasesRepository,
             ITransactionPercentsRepository transactionPercentsRepository,
             IChipsRepository chipsRepo,
+            IContactsRepository contactsRepo,
             IMapper mapper
             )
         {
@@ -122,6 +124,7 @@ namespace SirooWebAPP.Infrastructure.Services
             _purchasesRepository = purchasesRepository;
             _transactionPercentsRepository = transactionPercentsRepository;
             _chipsRepo = chipsRepo;
+            _contactsRepo = contactsRepo;
 
             _mapper = mapper;
         }
@@ -453,7 +456,7 @@ namespace SirooWebAPP.Infrastructure.Services
             {
                 if (beforeDate)
                 {
-                    tmpAds = CachedContents.Advertises.Where(a => a.CreationDate < afterThisDate && a.IsSpecial!=true).Skip(pageIndex * 3).Take(3).ToList<Advertise>();
+                    tmpAds = CachedContents.Advertises.Where(a => a.CreationDate < afterThisDate && a.IsSpecial != true).Skip(pageIndex * 3).Take(3).ToList<Advertise>();
                 }
                 else
                 {
@@ -491,14 +494,36 @@ namespace SirooWebAPP.Infrastructure.Services
                 _dtoAds.AdvertiseID = item.Id;
                 //_dtoAds.Caption = item.Caption;
                 //_dtoAds.Name = item.Name;
+
+
+                /// Temperory
+                int viewerCount = 0;
+                if (_viewers.Count > 5)
+                {
+                    viewerCount = _viewers.Count * 10;
+                }
+
+                int likerCount = 0;
+                if (_likers.Count > 5)
+                {
+                    likerCount = _likers.Count * 10;
+                }
+
+
+                /// Temperory
+
+
+
                 _dtoAds.CreationDate = item.CreationDate.ToString();
                 _dtoAds.Likers = _likers;
                 _dtoAds.MediaSourceURL = item.MediaSourceURL;
                 _dtoAds.Owner = _mapper.Map<DTOUser>(GetUser(item.Owner));
                 _dtoAds.Viewers = _viewers;
                 _dtoAds.IsVideo = item.IsVideo;
-                _dtoAds.LikerCount = _likers.Count;
-                _dtoAds.ViewerCount = _viewers.Count;
+                //_dtoAds.LikerCount = _likers.Count;
+                //_dtoAds.ViewerCount = _viewers.Count;
+                _dtoAds.LikerCount = likerCount;
+                _dtoAds.ViewerCount = viewerCount;
                 _dtoAds.LikeReward = item.LikeReward;
                 _dtoAds.ViewReward = item.ViewReward;
                 _dtoAds.IsPremium = item.IsPremium == null ? false : Convert.ToBoolean(item.IsPremium);
@@ -513,7 +538,7 @@ namespace SirooWebAPP.Infrastructure.Services
             return dTOAdvertise;
         }
 
-        public List<DTOAdvertise> GetMyAdvertises(Guid userID,int page)
+        public List<DTOAdvertise> GetMyAdvertises(Guid userID, int page)
         {
 
             // get current user
@@ -533,7 +558,7 @@ namespace SirooWebAPP.Infrastructure.Services
             //    .ToList<Advertise>();
 
             List<Advertise> result = CachedContents.Advertises.Where(a => a.Owner == userID)
-                .OrderByDescending(l=>l.LastModified)
+                .OrderByDescending(l => l.LastModified)
                 .Skip(3 * page).Take(3).ToList<Advertise>();
 
             // create return data model object
@@ -546,7 +571,7 @@ namespace SirooWebAPP.Infrastructure.Services
                 // prepare likers of current ad
                 //IList<Likers> _likers = _likersRepo.GetAll().Where(l => l.Advertise == item.Id).ToList<Likers>();
                 //IList<Viewers> _viewers = _viewersRepo.GetAll().Where(v => v.Advertise == item.Id).ToList<Viewers>();
-                
+
                 IList<Likers> _likers = CachedContents.Likers.Where(l => l.Advertise == item.Id).ToList<Likers>();
                 IList<Viewers> _viewers = CachedContents.Viewers.Where(v => v.Advertise == item.Id).ToList<Viewers>();
 
@@ -1246,6 +1271,28 @@ namespace SirooWebAPP.Infrastructure.Services
         {
             chips.IsDeleted = true;
             UpdateChips(chips);
+        }
+
+        public List<Contacts> GetAllContacts()
+        {
+            return _contactsRepo.GetAll().Where(c => c.IsDeleted == false).ToList<Contacts>();
+        }
+
+        public void AddContacts(Contacts contacts)
+        {
+            _contactsRepo.Add(contacts);
+        }
+
+        public void RemoveContacts(Contacts contacts)
+        {
+            contacts.IsDeleted = true;
+            UpdateContacts(contacts);
+        }
+
+        public bool UpdateContacts(Contacts contacts)
+        {
+            _contactsRepo.Update(contacts);
+            return true;
         }
     }
 }
