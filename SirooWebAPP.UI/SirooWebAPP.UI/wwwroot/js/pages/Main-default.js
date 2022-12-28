@@ -29,12 +29,21 @@ $(document).ready(function () {
     getNewPosts();
 
 
-
+    snowFall();
 
 
 
 });
 
+
+
+function snowFall() {
+    $("<div class='snows'></div>").appendTo(".MainDashboard");
+    for (var i = 0; i < 197; i++) {
+        $("<div class='snow'></div>").appendTo(".MainDashboard .snows");
+    }
+
+}
 
 
 

@@ -18,6 +18,10 @@
         display: none !important;
     }
 
+    .theMessageRow td {
+        text-decoration: underline;
+    }
+
 </style>
 
 
@@ -61,6 +65,11 @@
 
     <table id="allContacts">
         <tr style="background-color:black;">
+            @if (Model.IsAdmin)
+            {
+                <td>نام کاربری</td>
+            }
+
             <td>متن پیام</td>
             <td>ملاحظه شده</td>
             <td>پاسخ داده شده</td>
@@ -70,12 +79,37 @@
         {
             @foreach (var x in Model.contacts)
             {
-                <tr id="@x.Id">
+                <tr class="theMessageRow @(x.IsReplied?"theReplidedMessage":"notRepliedMessage")" id="@x.Id" onclick="window.location='/clients/ticketviewer?ticket=@x.Id';">
+
+                    @if (Model.IsAdmin)
+                    {
+                        <td>@x.Username</td>
+                    }
+
+
                     <td>
                         @x.TheMessage.Substring(0,10) ...
                     </td>
-                    <td>@x.IsRead</td>
-                    <td>@x.IsReplied</td>
+                    <td>
+                        @if (x.IsRead)
+                        {
+                            <span>بلی</span>
+                        }
+                        else
+                        {
+                            <span>خیر</span>
+                        }
+                    </td>
+                    <td>
+                        @if (x.IsReplied)
+                        {
+                            <span>بلی</span>
+                        }
+                        else
+                        {
+                            <span>خیر</span>
+                        }
+                    </td>
                     <td class="item-date">@x.Created</td>
                 </tr>
             }

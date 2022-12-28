@@ -1,0 +1,91 @@
+﻿@page
+@model SirooWebAPP.UI.Pages.Clients.TicketViewerModel
+@{
+    Layout = "_LayoutClients";
+}
+
+<style>
+    textarea.contactBody {
+        line-height: 1.5rem;
+        text-align: justify;
+        direction: rtl;
+        padding: 10px;
+    }
+</style>
+
+
+@if (Model.TheContact != null)
+{
+
+
+    <div id="NewContact" class="SirooRightBlockContainer" style="margin-bottom:5vh;">
+        <div class="mb-5 SirooRightBlock  col-12">
+            <div class="d-flex flex-row-reverse SirooRightBlockHeader">
+                <a href="#" class="col-6 profile-fullname">نمایش پیام به ادمین</a>
+            </div>
+            <div class="d-flex flex-column justify-content-center SirooContainer">
+                <div class="SirooItems">
+
+                    <div class="row">&nbsp;</div>
+
+                    <div class="row justify-content-center col-12">
+                        <div class="row justify-content-center">
+                            <div class="col-12 siroo-label">متن پیام   <span>@Model.TheContact.Created</span></div>
+                        </div>
+                        <div class="row col-12 mb-2">
+                            <div class="col-12 Textbox fa fa-text Textarea">
+                                <textarea type="text" id="contactBody" class="col-11 text-warning contactBody" disabled placeholder="@Model.TheContact.TheMessage" rows="5"></textarea>
+                            </div>
+                        </div>
+                        @if (Model.TheContact.IsReplied)
+                        {
+                            <div class="row justify-content-center">
+                                <div class="col-12 siroo-label">پاسخ ادمین   <span>@Model.TheContact.ReplyDate</span></div>
+                            </div>
+                            <div class="row col-12 mb-2">
+                                <div class="col-12 Textbox fa fa-text Textarea">
+                                    <textarea type="text" id="replyBody" disabled class="col-10 text-dark text-center contactBody" > @Model.TheContact.ReplyMessage </textarea>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            if (Model.IsAdmin)
+                            {
+                                <div class="row justify-content-center replySendArea">
+                                    <div class="col-12 siroo-label">پاسخ ادمین </div>
+                                </div>
+                                <div class="row col-12 mb-2 replySendArea">
+                                    <div class="col-12 Textbox fa fa-text Textarea">
+                                        <textarea type="text" id="replyBody" class="col-10 text-dark text-center contactBody" placeholder="پاسخ ادمین ..." rows="5" ></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="row col-12 mt-3 mb-3 justify-content-center replySendArea">
+                                    <div class="col-6 SirooBtn">
+                                        <input id="myInput" type="submit" onclick="_sendReplyContact('@Model.TheContact.Id');" class="col-12" value="ارسال">
+                                    </div>
+                                </div>
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+}
+
+
+
+
+
+@section Scripts {
+<script src="~/js/pages/TicketViewer-default.js"></script>
+
+    @if(Model.IsAdmin){
+    <script src="~/js/pages/TicketViewer-admin.js"></script>
+    }
+
+}

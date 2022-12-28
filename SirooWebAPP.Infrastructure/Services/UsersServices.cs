@@ -581,6 +581,23 @@ namespace SirooWebAPP.Infrastructure.Services
                 _dtoAds = _mapper.Map<DTOAdvertise>(item);
 
                 _dtoAds.AdvertiseID = item.Id;
+
+
+
+
+                /// Temperory
+                int viewerCount = 0;
+                if (_viewers.Count > 5)
+                {
+                    viewerCount = _viewers.Count * 10;
+                }
+
+                int likerCount = 0;
+                if (_likers.Count > 5)
+                {
+                    likerCount = _likers.Count * 10;
+                }
+
                 //_dtoAds.Caption = item.Caption;
                 //_dtoAds.Name = item.Name;
                 _dtoAds.CreationDate = item.CreationDate.ToString();
@@ -589,8 +606,10 @@ namespace SirooWebAPP.Infrastructure.Services
                 _dtoAds.Owner = _mapper.Map<DTOUser>(GetUser(item.Owner));
                 _dtoAds.Viewers = _viewers;
                 _dtoAds.IsVideo = item.IsVideo;
-                _dtoAds.LikerCount = _likers.Count;
-                _dtoAds.ViewerCount = _viewers.Count;
+                //_dtoAds.LikerCount = _likers.Count;
+                //_dtoAds.ViewerCount = _viewers.Count;
+                _dtoAds.LikerCount = likerCount;
+                _dtoAds.ViewerCount = viewerCount;
                 _dtoAds.LikeReward = item.LikeReward;
                 _dtoAds.ViewReward = item.ViewReward;
                 _dtoAds.IsAvtivated = item.IsAvtivated;

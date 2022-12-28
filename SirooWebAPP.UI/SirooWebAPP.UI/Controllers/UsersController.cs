@@ -755,6 +755,7 @@ namespace SirooWebAPP.UI.Controllers
         public class TheMessagecontact
         {
             public string messageBody { get; set; }
+            public Guid? messageId { get; set; }
         }
 
 
@@ -767,6 +768,7 @@ namespace SirooWebAPP.UI.Controllers
 
             string _userid = HttpContext.Request.Cookies["userid"];
             Guid userId = Guid.Parse(_userid);
+
 
             _usersServices.AddContacts(new Contacts
             {
@@ -783,6 +785,34 @@ namespace SirooWebAPP.UI.Controllers
 
             //List<DTODraws> draws = _usersServices.GetAllActiveDrawsByUser(userId);
             return Ok("1");
+        }
+        
+        
+        [TypeFilter(typeof(SampleAsyncSuperAdminsLoginFilter))]
+        [HttpPost("sendReplyContact")]
+        public IActionResult sendReplyContact([FromBody] TheMessagecontact post)
+        {
+
+
+            string _userid = HttpContext.Request.Cookies["userid"];
+            Guid userId = Guid.Parse(_userid);
+
+            Contacts theContact= _usersServices.GetAllContacts().Where(c => c.Id == post.messageId && c.IsReplied==false).First();
+            if (theContact!=null)
+            {
+                theContact.IsReplied = true;
+                theContact.ReplyMessage = post.messageBody;
+                theContact.ReplyDate = DateTime.Now;
+
+                _usersServices.UpdateContacts(theContact);
+
+                return Ok("1");
+            }
+
+
+
+            //List<DTODraws> draws = _usersServices.GetAllActiveDrawsByUser(userId);
+            return Ok("-1");
         }
 
 

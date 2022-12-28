@@ -1,24 +1,13 @@
-﻿
-
-
-function switchToNewContact() {
-    $('#allContacts').hide();
-
-    $('#NewContact').removeClass('isHide');
-
-}
-
-
-function _sendContact() {
+﻿function _sendContact() {
     var note = $('#contactBody').val();
-    if (note.length<10) {
+    if (note.length < 10) {
         alert('حداقل طول پیام 10 کاراکتر است. خطا.');
         return;
     }
 
     waiting();
 
-    var data = { messageBody: note, messageId:null };
+    var data = { messageBody: note };
 
     $.ajax({
         type: "POST",

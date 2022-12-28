@@ -74,9 +74,9 @@
                             <li class="nav-item for-clients">
                                 <a class="nav-link text-light" asp-area="" asp-page="/Clients/Wallet">کیف پول من</a>
                             </li>
-@*                            <li class="nav-item for-clients">
+                            <li class="nav-item for-clients">
                                 <a class="nav-link text-light" asp-area="" asp-page="/Clients/Tickets">پیام به ادمین</a>
-                            </li>*@
+                            </li>
                         }
                         @if (Context.Session.GetString("userrolename") == "admin" || Context.Session.GetString("userrolename") == "super")
                         {
