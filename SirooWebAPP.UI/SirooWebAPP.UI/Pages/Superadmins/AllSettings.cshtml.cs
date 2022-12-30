@@ -29,7 +29,10 @@ namespace SirooWebAPP.UI.Pages.Superadmins
 
         public void OnGet()
         {
-            List<ConstantDictionaries> consts=_usersServices.GetAllConstantDictionaries();
+            List<ConstantDictionaries> consts=_usersServices
+                .GetAllConstantDictionaries()
+                .OrderBy(d=>d.PriorityIndex)
+                .ToList<ConstantDictionaries>();
             constantDics = consts;
         }
     }

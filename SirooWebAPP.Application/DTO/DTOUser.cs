@@ -16,6 +16,7 @@ namespace SirooWebAPP.Application.DTO
         public bool IsActivated { get; set; }
         //public string? ConfirmationCode { get; set; }
         public long Points { get; set; }
+        public long Diamonds { get; set; }
         //public long Credits { get; set; }
         public string? ProfileMediaURL { get; set; }
         public string? InviterUsername { get; set; }

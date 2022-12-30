@@ -26,7 +26,8 @@ namespace SirooWebAPP.UI.Pages.Clients
         {
             RoleName = session.GetString("userrolename");
             MyUsername = session.GetString("username");
-            MyPoints = session.GetString("userpoints");
+            //MyPoints = session.GetString("userpoints");
+            MyPoints = session.GetString("userdiamonds");
         }
     }
 }

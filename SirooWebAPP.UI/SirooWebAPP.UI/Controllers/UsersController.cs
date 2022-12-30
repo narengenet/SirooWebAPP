@@ -470,7 +470,7 @@ namespace SirooWebAPP.UI.Controllers
             return Ok("-1");
 
         }
-        
+
         [TypeFilter(typeof(SampleAsyncActionLoginFilter))]
         [HttpGet("addMoneyToUser/{userID:guid}/{money:int}")]
         public IActionResult addMoneyToUser(Guid userID, int money)
@@ -574,10 +574,11 @@ namespace SirooWebAPP.UI.Controllers
 
 
         [TypeFilter(typeof(SampleAsyncActionLoginFilter))]
-        [HttpGet("changeConstant/{keyValue}/{constID:guid}")]
-        public IActionResult changeConstant(string keyValue, Guid constID)
+        [HttpGet("changeConstant/{keyValue}/{secondValue}/{constID:guid}")]
+        public IActionResult changeConstant(string keyValue,string secondValue, Guid constID)
         {
             string _userid = HttpContext.Request.Cookies["userid"];
+
             Guid userId = Guid.Parse(_userid);
             if (_session.GetString("userrolename") == "super" || _session.GetString("userrolename") == "admin")
             {
@@ -586,6 +587,10 @@ namespace SirooWebAPP.UI.Controllers
                 if (theDic != null)
                 {
                     theDic.ConstantValue = keyValue;
+                    if (secondValue!="null")
+                    {
+                        theDic.ConstantSecondValue = secondValue;
+                    }
                     theDic.LastModifiedBy = _userid;
                     theDic.LastModified = DateTime.Now;
                     _usersServices.UpdateConstantDictionary(theDic);
@@ -741,8 +746,209 @@ namespace SirooWebAPP.UI.Controllers
         }
 
 
+        private static Random generator = null;
 
 
+        public void SplitAtRandom(int chanceOfSuccess1, int chanceOfSuccess2, int chanceOfSuccess3, int chanceOfSuccess4, int chanceOfSuccess5, int chanceOfSuccess6, int chanceOfSuccess7, int chanceOfSuccess8, int chanceOfSuccess9, int chanceOfSuccess10, Action onSuccess1, Action onSuccess2, Action onSuccess3, Action onSuccess4, Action onSuccess5, Action onSuccess6, Action onSuccess7, Action onSuccess8, Action onSuccess9, Action onSuccess10)
+        {
+            // Seed
+            if (generator == null)
+                generator = new Random(DateTime.Now.Millisecond);
+
+            int TheNumber = generator.Next(100);
+
+            // By chance
+            if (TheNumber < chanceOfSuccess10)
+            {
+                if (onSuccess10 != null)
+                    onSuccess10();
+            }
+            else if (TheNumber < chanceOfSuccess9)
+            {
+                if (onSuccess9 != null)
+                    onSuccess9();
+            }
+            else if (TheNumber < chanceOfSuccess8)
+            {
+                if (onSuccess8 != null)
+                    onSuccess8();
+            }
+            else if (TheNumber < chanceOfSuccess7)
+            {
+                if (onSuccess7 != null)
+                    onSuccess7();
+            }
+            else if (TheNumber < chanceOfSuccess6)
+            {
+                if (onSuccess6 != null)
+                    onSuccess6();
+            }
+            else if (TheNumber < chanceOfSuccess5)
+            {
+                if (onSuccess5 != null)
+                    onSuccess5();
+            }
+            else if (TheNumber < chanceOfSuccess4)
+            {
+                if (onSuccess4 != null)
+                    onSuccess4();
+            }
+            else if (TheNumber < chanceOfSuccess3)
+            {
+                if (onSuccess3 != null)
+                    onSuccess3();
+            }
+            else if (TheNumber < chanceOfSuccess2)
+            {
+                if (onSuccess2 != null)
+                    onSuccess2();
+            }
+            else
+            {
+                if (onSuccess1 != null)
+                    onSuccess1();
+            }
+        }
+
+
+        [TypeFilter(typeof(SampleAsyncActionLoginFilter))]
+        [HttpGet("getDiamond")]
+        public IActionResult getDiamond()
+        {
+
+            bool permitToUse = false;
+
+            string _userid = HttpContext.Request.Cookies["userid"];
+            Guid userId = Guid.Parse(_userid);
+
+            List<DiamondUsages> todayDiamondUsages = _usersServices.GetAllDiamondUsages().Where(d => d.User == userId && d.Created > DateTime.Today.AddDays(-1)).ToList<DiamondUsages>();
+            int minPointsToUseForDiamonds = Convert.ToInt32(_usersServices.GetConstantDictionary("min_points_to_spin_diamond_wheel").ConstantValue);
+            int addedPointsPerUsageForToday = Convert.ToInt32(_usersServices.GetConstantDictionary("added_points_to_each_spin_diamond_wheel_after_first_time").ConstantValue);
+
+            int neededPoints = (todayDiamondUsages.Count * addedPointsPerUsageForToday) + minPointsToUseForDiamonds;
+
+            Users currentUser = _usersServices.GetUser(userId);
+            if (currentUser != null)
+            {
+                if (currentUser.Points >= neededPoints)
+                {
+                    permitToUse = true;
+                }
+                else
+                {
+                    permitToUse = false;
+                }
+            }
+            else
+            {
+                permitToUse = false;
+            }
+
+
+
+            if (!permitToUse)
+            {
+                return Ok("-1");
+            }
+
+
+
+
+
+            int theResult = -1;
+
+            if (CachedContents.DiamondPriorities.Count < 2)
+            {
+                ConstantDictionaries firstDic = _usersServices.GetConstantDictionary("diamond_first_priority");
+                ConstantDictionaries secondDic = _usersServices.GetConstantDictionary("diamond_second_priority");
+                ConstantDictionaries thirdDic = _usersServices.GetConstantDictionary("diamond_third_priority");
+                ConstantDictionaries fourthDic = _usersServices.GetConstantDictionary("diamond_fourth_priority");
+                ConstantDictionaries fivthDic = _usersServices.GetConstantDictionary("diamond_fivth_priority");
+                ConstantDictionaries sixthDic = _usersServices.GetConstantDictionary("diamond_sixth_priority");
+                ConstantDictionaries seventhDic = _usersServices.GetConstantDictionary("diamond_seventh_priority");
+                ConstantDictionaries eighthDic = _usersServices.GetConstantDictionary("diamond_eighth_priority");
+                ConstantDictionaries ninethDic = _usersServices.GetConstantDictionary("diamond_nineth_priority");
+                ConstantDictionaries tenthDic = _usersServices.GetConstantDictionary("diamond_tenth_priority");
+
+                CachedContents.DiamondCounts.Add(Convert.ToInt32(firstDic.ConstantValue));
+                CachedContents.DiamondPriorities.Add(Convert.ToInt32(firstDic.ConstantSecondValue));
+
+                CachedContents.DiamondCounts.Add(Convert.ToInt32(secondDic.ConstantValue));
+                CachedContents.DiamondPriorities.Add(Convert.ToInt32(secondDic.ConstantSecondValue));
+
+                CachedContents.DiamondCounts.Add(Convert.ToInt32(thirdDic.ConstantValue));
+                CachedContents.DiamondPriorities.Add(Convert.ToInt32(thirdDic.ConstantSecondValue));
+
+                CachedContents.DiamondCounts.Add(Convert.ToInt32(fourthDic.ConstantValue));
+                CachedContents.DiamondPriorities.Add(Convert.ToInt32(fourthDic.ConstantSecondValue));
+
+                CachedContents.DiamondCounts.Add(Convert.ToInt32(fivthDic.ConstantValue));
+                CachedContents.DiamondPriorities.Add(Convert.ToInt32(fivthDic.ConstantSecondValue));
+
+                CachedContents.DiamondCounts.Add(Convert.ToInt32(sixthDic.ConstantValue));
+                CachedContents.DiamondPriorities.Add(Convert.ToInt32(sixthDic.ConstantSecondValue));
+
+                CachedContents.DiamondCounts.Add(Convert.ToInt32(seventhDic.ConstantValue));
+                CachedContents.DiamondPriorities.Add(Convert.ToInt32(seventhDic.ConstantSecondValue));
+
+                CachedContents.DiamondCounts.Add(Convert.ToInt32(eighthDic.ConstantValue));
+                CachedContents.DiamondPriorities.Add(Convert.ToInt32(eighthDic.ConstantSecondValue));
+
+                CachedContents.DiamondCounts.Add(Convert.ToInt32(ninethDic.ConstantValue));
+                CachedContents.DiamondPriorities.Add(Convert.ToInt32(ninethDic.ConstantSecondValue));
+
+                CachedContents.DiamondCounts.Add(Convert.ToInt32(tenthDic.ConstantValue));
+                CachedContents.DiamondPriorities.Add(Convert.ToInt32(tenthDic.ConstantSecondValue));
+            }
+
+
+
+            SplitAtRandom(CachedContents.DiamondPriorities[0],
+                CachedContents.DiamondPriorities[1],
+                CachedContents.DiamondPriorities[2],
+                CachedContents.DiamondPriorities[3],
+                CachedContents.DiamondPriorities[4],
+                CachedContents.DiamondPriorities[5],
+                CachedContents.DiamondPriorities[6],
+                CachedContents.DiamondPriorities[7],
+                CachedContents.DiamondPriorities[8],
+                CachedContents.DiamondPriorities[9],
+                          () => { theResult = CachedContents.DiamondCounts[0]; },
+                          () => { theResult = CachedContents.DiamondCounts[1]; },
+                          () => { theResult = CachedContents.DiamondCounts[2]; },
+                          () => { theResult = CachedContents.DiamondCounts[3]; },
+                          () => { theResult = CachedContents.DiamondCounts[4]; },
+                          () => { theResult = CachedContents.DiamondCounts[5]; },
+                          () => { theResult = CachedContents.DiamondCounts[6]; },
+                          () => { theResult = CachedContents.DiamondCounts[7]; },
+                          () => { theResult = CachedContents.DiamondCounts[8]; },
+                          () => { theResult = CachedContents.DiamondCounts[9]; });
+
+
+            currentUser.Diamonds += theResult;
+            currentUser.Points -= neededPoints;
+
+            _usersServices.UpdateUser(currentUser);
+
+            _usersServices.AddDiamondUsage(new DiamondUsages
+            {
+                Created = DateTime.Now,
+                DiamondsWon = theResult,
+                User = userId
+
+            });
+
+            if (theResult > 0)
+            {
+                return Ok(neededPoints.ToString() + "," + theResult + "," + "شما برنده " + theResult.ToString() + " الماس شدید.");
+            }
+            else
+            {
+                return Ok(neededPoints.ToString() + "," + theResult + "," + "پــوچ");
+            }
+
+
+        }
 
 
 
@@ -786,8 +992,8 @@ namespace SirooWebAPP.UI.Controllers
             //List<DTODraws> draws = _usersServices.GetAllActiveDrawsByUser(userId);
             return Ok("1");
         }
-        
-        
+
+
         [TypeFilter(typeof(SampleAsyncSuperAdminsLoginFilter))]
         [HttpPost("sendReplyContact")]
         public IActionResult sendReplyContact([FromBody] TheMessagecontact post)
@@ -797,8 +1003,8 @@ namespace SirooWebAPP.UI.Controllers
             string _userid = HttpContext.Request.Cookies["userid"];
             Guid userId = Guid.Parse(_userid);
 
-            Contacts theContact= _usersServices.GetAllContacts().Where(c => c.Id == post.messageId && c.IsReplied==false).First();
-            if (theContact!=null)
+            Contacts theContact = _usersServices.GetAllContacts().Where(c => c.Id == post.messageId && c.IsReplied == false).First();
+            if (theContact != null)
             {
                 theContact.IsReplied = true;
                 theContact.ReplyMessage = post.messageBody;

@@ -21,8 +21,13 @@ function ChangeConstant(theID) {
 
     $('.waitingPlease').css('display', 'flex');
 
+    var secondVal = $('#second-' + theID).val();
+    if (secondVal==null) {
+        secondVal = "null";
+    }
+
     $.ajax({
-        url: '/changeConstant/' + $('#' + theID).val()+'/'+theID,
+        url: '/changeConstant/' + $('#' + theID).val()+'/'+secondVal+'/'+theID,
         type: 'GET',
         success: function (result) {
             $('.waitingPlease').css('display', 'none');

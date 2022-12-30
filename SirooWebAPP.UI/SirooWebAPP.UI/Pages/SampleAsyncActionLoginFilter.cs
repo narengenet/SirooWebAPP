@@ -59,6 +59,7 @@ namespace SirooWebAPP.UI.Pages
                         context.HttpContext.Session.SetString("userroledescription", _currentRole.RoleDescription);
                         context.HttpContext.Session.SetString("userprofileurl", _currentUser.ProfileMediaURL);
                         context.HttpContext.Session.SetString("userpoints", _currentUser.Points.ToString());
+                        context.HttpContext.Session.SetString("userdiamonds", _currentUser.Diamonds.ToString());
                         context.HttpContext.Session.SetString("usercredits", _currentUser.Credits.ToString());
 
                     }

@@ -75,7 +75,7 @@
                                 <a class="nav-link text-light" asp-area="" asp-page="/Clients/Wallet">کیف پول من</a>
                             </li>
                             <li class="nav-item for-clients">
-                                <a class="nav-link text-light" asp-area="" asp-page="/Clients/Tickets">پیام به ادمین</a>
+                                <a class="nav-link text-light" asp-area="" asp-page="/Clients/Tickets">پشتیبانی آنلاین</a>
                             </li>
                         }
                         @if (Context.Session.GetString("userrolename") == "admin" || Context.Session.GetString("userrolename") == "super")
@@ -159,7 +159,10 @@
     <div class="justify-content-center col-12 col-lg-5 m-0 p-0">
         <div class="MainDashboard col-12">
             <div class="drawsSection miniCircle"><a href="~/Clients/Wallet">کیف‌پول</a></div>
-            <div class="pointsSection"><a id="currentPoint" href="~/Clients/Main">@Context.Session.GetString("userpoints")</a></div>
+            <div class="pointsSection">
+                <a id="currentPoint" href="~/Clients/Main">@Context.Session.GetString("userpoints")</a>
+                <span id="currentDiamond" class="currentDiamond" >@Context.Session.GetString("userdiamonds")</span>
+            </div>
             <div class="newPost miniCircle"><a href="~/Clients/AddAdvertise">آگهی جدید</a></div>
         </div>
     </div>
@@ -182,6 +185,14 @@
             if(newval!=oldval){
                 //alert('Congrat!!');
                 $('#currentPoint').text(newval+oldval);
+            }
+        }
+        function diamondUpdated(val){
+            newval=parseInt(val);
+            oldval=parseInt($('#currentDiamond').text());
+            if(newval!=oldval){
+                //alert('Congrat!!');
+                $('#currentDiamond').text(newval+oldval);
             }
         }
         function backtotop(){

@@ -42,7 +42,7 @@ function getAllDraws() {
                                 $(winnerTmpl).attr('count', theCounter);
                                 $(winnerTmpl).find('.winnerRank').html(theCounter);
                                 $(winnerTmpl).find('.winnerUsername').html(alldraws[i].prizeWinners[theCounter - 1].username);
-                                $(winnerTmpl).find('.winningPoints').html(alldraws[i].prizeWinners[theCounter - 1].points + ' امتیاز');
+                                $(winnerTmpl).find('.winningPoints').html(alldraws[i].prizeWinners[theCounter - 1].diamonds + ' الماس');
                                 $(winnerTmpl).find('.winningPrize').html(alldraws[i].prizes[j].name);
                                 if (myUsername == alldraws[i].prizeWinners[theCounter - 1].username) {
                                     $(winnerTmpl).find('.Textbox').addClass('me');
@@ -125,7 +125,7 @@ function getDraws() {
                                 $(winnerTmpl).attr('count', theCounter);
                                 $(winnerTmpl).find('.winnerRank').html(theCounter);
                                 $(winnerTmpl).find('.winnerUsername').html(alldraws[i].prizeWinners[theCounter - 1].username);
-                                $(winnerTmpl).find('.winningPoints').html(alldraws[i].prizeWinners[theCounter - 1].points + ' امتیاز');
+                                $(winnerTmpl).find('.winningPoints').html(alldraws[i].prizeWinners[theCounter - 1].diamonds + ' الماس');
                                 $(winnerTmpl).find('.winningPrize').html(alldraws[i].prizes[j].name);
                                 if (myUsername == alldraws[i].prizeWinners[theCounter - 1].username) {
                                     $(winnerTmpl).find('.Textbox').addClass('me');
@@ -147,7 +147,7 @@ function getDraws() {
                             if (alldraws[i].prizeWinners[x].username == myUsername) {
                                 $(winnerTmpl).find('.winnerRank').html(myRank);
                                 $(winnerTmpl).find('.winnerUsername').html(myUsername);
-                                $(winnerTmpl).find('.winningPoints').html(myPoint + ' امتیاز');
+                                $(winnerTmpl).find('.winningPoints').html(myPoint + ' الماس');
                                 $(winnerTmpl).find('.winningPrize').html('---');
                                 $(winnerTmpl).find('.Textbox').addClass('me');
                                 $(winnerTmpl).find('.winner').addClass('me');

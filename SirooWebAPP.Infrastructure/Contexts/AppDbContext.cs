@@ -38,6 +38,7 @@ namespace SirooWebAPP.Infrastructure.Contexts
         public DbSet<TransactionPercents>  TransactionPercents{ get; set; }
         public DbSet<Chips>  Chips{ get; set; }
         public DbSet<Contacts> Contacts { get; set; }
+        public DbSet<DiamondUsages> DiamondUsages { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -129,26 +130,49 @@ namespace SirooWebAPP.Infrastructure.Contexts
             //modelBuilder.Entity<Prizes>().HasData(prize_c_two);
             //modelBuilder.Entity<Prizes>().HasData(prize_c_three);
 
-            ConstantDictionaries store_default_credits_registration = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "store_def_credit_reg", ConstantValue = "1000", IsActive = true, Description = "اعتبار اولیه فروشگاه برای ثبت نام اولین بار", Created = DateTime.Now, CreatedBy = sina.Id };
-            ConstantDictionaries store_point_usage_per_day = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "store_point_usage_per_day", ConstantValue = "2", IsActive = true, Description = "تعداد دفعات استفاده از کارت تخفیف هر مغازه در روز برای یک مشتری", Created = DateTime.Now, CreatedBy = sina.Id };
-            ConstantDictionaries stores_max_donnation_point = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "stores_max_donnation_point", ConstantValue = "500", IsActive = true, Description = "حداکثر امتیازی که فروشگاه میتواند در هر نوتب هدیه بدهد", Created = DateTime.Now, CreatedBy = sina.Id };
-            ConstantDictionaries money_to_credit_ratio = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "money_to_credit_ratio", ConstantValue = "500", IsActive = true, Description = "نسبت هر اعتبار به تومان", Created = DateTime.Now, CreatedBy = sina.Id };
-            ConstantDictionaries credit_for_image_ads = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "credit_for_image_ads", ConstantValue = "500", IsActive = true, Description = "اعتبار لازم برای ثبت آگهی تصویری", Created = DateTime.Now, CreatedBy = sina.Id };
-            ConstantDictionaries credit_for_video_ads = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "credit_for_video_ads", ConstantValue = "1000", IsActive = true, Description = "اعتبار لازم برای ثبت آگهی ویدئویی", Created = DateTime.Now, CreatedBy = sina.Id };
-            ConstantDictionaries credit_for_client_registration_by_store_invitation = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "credit_for_client_registration_by_store_invitation", ConstantValue = "50", IsActive = true, Description = "اعتبار برای فروشنده ای که باعث ثبت نام مشتری شد", Created = DateTime.Now, CreatedBy = sina.Id };
-            ConstantDictionaries def_points_for_client_registration = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "def_points_for_client_registration", ConstantValue = "100", IsActive = true, Description = "امتیاز اولیه برای کاربری که ثبت نام میکند.", Created = DateTime.Now, CreatedBy = sina.Id };
-            ConstantDictionaries def_points_for_client_invitation = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "def_points_for_client_invitation", ConstantValue = "50", IsActive = true, Description = "امتیاز برای معرف وقتی کاربر ثبت نام کرد.", Created = DateTime.Now, CreatedBy = sina.Id };
-            ConstantDictionaries def_points_for_image_like = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "def_points_for_image_like", ConstantValue = "1", IsActive = true, Description = "امتیاز پیش فرض برای لایک پست تصویری", Created = DateTime.Now, CreatedBy = sina.Id };
-            ConstantDictionaries def_points_for_video_like = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "def_points_for_video_like", ConstantValue = "4", IsActive = true, Description = "امتیاز پیش فرض برای لایک پست ویدئویی", Created = DateTime.Now, CreatedBy = sina.Id };
-            ConstantDictionaries def_percent_for_marketer = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "def_percent_for_marketer", ConstantValue = "10", IsActive = true, Description = "درصد بازاریاب", Created = DateTime.Now, CreatedBy = sina.Id };
-            ConstantDictionaries def_percent_for_zoneadmin = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "def_percent_for_zoneadmin", ConstantValue = "6", IsActive = true, Description = "درصد مدیر منطقه", Created = DateTime.Now, CreatedBy = sina.Id };
-            ConstantDictionaries def_percent_for_countryadmin = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "def_percent_for_countryadmin", ConstantValue = "4", IsActive = true, Description = "درصد مدیر مناطق", Created = DateTime.Now, CreatedBy = sina.Id };
-            ConstantDictionaries def_chips_usage_perday = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "def_chips_usage_perday", ConstantValue = "-1", IsActive = true, Description = "تعداد استفاده از کارت اعتباری هر کاربر در روز", Created = DateTime.Now, CreatedBy = sina.Id };
-            ConstantDictionaries def_money_to_premium_video_ads = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "def_money_to_premium_video_ads", ConstantValue = "200000", IsActive = true, Description = "هزینه درج آگهی تبلیغاتی ویدئویی", Created = DateTime.Now, CreatedBy = sina.Id };
-            ConstantDictionaries def_money_to_premium_image_ads = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "def_money_to_premium_image_ads", ConstantValue = "50000", IsActive = true, Description = "هزینه درج آگهی تبلیغاتی تصویری", Created = DateTime.Now, CreatedBy = sina.Id };
-            ConstantDictionaries points_reward_premium_video_ads = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "points_reward_premium_video_ads", ConstantValue = "200", IsActive = true, Description = "امتیاز ثبت آگهی تبلیغاتی ویدئویی", Created = DateTime.Now, CreatedBy = sina.Id };
-            ConstantDictionaries points_reward_premium_image_ads = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "points_reward_premium_image_ads", ConstantValue = "40", IsActive = true, Description = "امتیاز ثبت آگهی تبلیغاتی تصویری", Created = DateTime.Now, CreatedBy = sina.Id };
+
             
+            ConstantDictionaries min_points_to_spin_diamond_wheel = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "min_points_to_spin_diamond_wheel", ConstantValue = "200", IsActive = true, Description = "حداقل امتیاز برای چرخاندن گردونه شانس الماس بار اول", Created = DateTime.Now, CreatedBy = sina.Id, Category = "گردونه" , PriorityIndex=-2 };
+            ConstantDictionaries added_points_to_each_spin_diamond_wheel_after_first_time = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "added_points_to_each_spin_diamond_wheel_after_first_time", ConstantValue = "100",  IsActive = true, Description = "افزایش تعداد امتیاز به اضای هر بار چرخاندن گردونه شانس در یک روز", Created = DateTime.Now, CreatedBy = sina.Id, Category = "گردونه" , PriorityIndex=-1 };
+            ConstantDictionaries diamond_first_priority = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "diamond_first_priority", ConstantValue = "2", ConstantSecondValue="60", IsActive = true, Description = "اولویت اول تعداد الماس و درصد شانس", Created = DateTime.Now, CreatedBy = sina.Id, Category = "گردونه" , PriorityIndex=0 };
+            ConstantDictionaries diamond_second_priority = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "diamond_second_priority", ConstantValue = "5", ConstantSecondValue="20", IsActive = true, Description = "اولویت دوم تعداد الماس و درصد شانس", Created = DateTime.Now, CreatedBy = sina.Id, Category = "گردونه" , PriorityIndex=1 };
+            ConstantDictionaries diamond_third_priority = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "diamond_third_priority", ConstantValue = "10", ConstantSecondValue="10", IsActive = true, Description = "اولویت سوم تعداد الماس و درصد شانس", Created = DateTime.Now, CreatedBy = sina.Id, Category = "گردونه" , PriorityIndex=2 };
+            ConstantDictionaries diamond_fourth_priority = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "diamond_fourth_priority", ConstantValue = "20", ConstantSecondValue="5", IsActive = true, Description = "اولویت چهارم تعداد الماس و درصد شانس", Created = DateTime.Now, CreatedBy = sina.Id, Category = "گردونه" , PriorityIndex=3 };
+            ConstantDictionaries diamond_fivth_priority = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "diamond_fivth_priority", ConstantValue = "50", ConstantSecondValue="3", IsActive = true, Description = "اولویت پنجم تعداد الماس و درصد شانس", Created = DateTime.Now, CreatedBy = sina.Id, Category = "گردونه" , PriorityIndex=4 };
+            ConstantDictionaries diamond_sixth_priority = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "diamond_sixth_priority", ConstantValue = "100", ConstantSecondValue="1", IsActive = true, Description = "اولویت ششم تعداد الماس و درصد شانس", Created = DateTime.Now, CreatedBy = sina.Id, Category = "گردونه" , PriorityIndex=5 };
+            ConstantDictionaries diamond_seventh_priority = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "diamond_seventh_priority", ConstantValue = "150", ConstantSecondValue="1", IsActive = true, Description = "اولویت هفتم تعداد الماس و درصد شانس", Created = DateTime.Now, CreatedBy = sina.Id, Category = "گردونه" , PriorityIndex=6 };
+            ConstantDictionaries diamond_eighth_priority = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "diamond_eighth_priority", ConstantValue = "200", ConstantSecondValue="0", IsActive = true, Description = "اولویت هشتم تعداد الماس و درصد شانس", Created = DateTime.Now, CreatedBy = sina.Id, Category = "گردونه" , PriorityIndex=7 };
+            ConstantDictionaries diamond_nineth_priority = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "diamond_nineth_priority", ConstantValue = "400", ConstantSecondValue="0", IsActive = true, Description = "امتیاز نهم آگهی تبلیغاتی تصویری", Created = DateTime.Now, CreatedBy = sina.Id, Category = "گردونه" , PriorityIndex=8 };
+            ConstantDictionaries diamond_tenth_priority = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "diamond_tenth_priority", ConstantValue = "500", ConstantSecondValue="0", IsActive = true, Description = "امتیاز دهم آگهی تبلیغاتی تصویری", Created = DateTime.Now, CreatedBy = sina.Id, Category = "گردونه" , PriorityIndex=9 };
+           
+            ConstantDictionaries def_money_to_premium_video_ads = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "def_money_to_premium_video_ads", ConstantValue = "200000", IsActive = true, Description = "هزینه درج آگهی تبلیغاتی ویدئویی", Created = DateTime.Now, CreatedBy = sina.Id, Category = "آگهی تبلیغاتی", PriorityIndex = 10 };
+            ConstantDictionaries def_money_to_premium_image_ads = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "def_money_to_premium_image_ads", ConstantValue = "50000", IsActive = true, Description = "هزینه درج آگهی تبلیغاتی تصویری", Created = DateTime.Now, CreatedBy = sina.Id, Category = "آگهی تبلیغاتی", PriorityIndex = 11 };
+            ConstantDictionaries points_reward_premium_video_ads = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "points_reward_premium_video_ads", ConstantValue = "200", IsActive = true, Description = "امتیاز ثبت آگهی تبلیغاتی ویدئویی", Created = DateTime.Now, CreatedBy = sina.Id, Category = "آگهی تبلیغاتی", PriorityIndex = 12 };
+            ConstantDictionaries points_reward_premium_image_ads = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "points_reward_premium_image_ads", ConstantValue = "40", IsActive = true, Description = "امتیاز ثبت آگهی تبلیغاتی تصویری", Created = DateTime.Now, CreatedBy = sina.Id, Category = "آگهی تبلیغاتی", PriorityIndex = 13 };
+
+            ConstantDictionaries def_chips_usage_perday = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "def_chips_usage_perday", ConstantValue = "-1", IsActive = true, Description = "تعداد استفاده از کارت اعتباری هر کاربر در روز", Created = DateTime.Now, CreatedBy = sina.Id, Category = "کارت اعتباری", PriorityIndex = 14 };
+
+            ConstantDictionaries def_points_for_image_like = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "def_points_for_image_like", ConstantValue = "1", IsActive = true, Description = "امتیاز پیش فرض برای لایک پست تصویری", Created = DateTime.Now, CreatedBy = sina.Id, Category = "لایک ها", PriorityIndex = 15 };
+            ConstantDictionaries def_points_for_video_like = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "def_points_for_video_like", ConstantValue = "15", IsActive = true, Description = "امتیاز پیش فرض برای لایک پست ویدئویی", Created = DateTime.Now, CreatedBy = sina.Id, Category = "لایک ها", PriorityIndex = 16 };
+
+            ConstantDictionaries def_points_for_client_registration = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "def_points_for_client_registration", ConstantValue = "100", IsActive = true, Description = "امتیاز اولیه برای کاربری که ثبت نام میکند.", Created = DateTime.Now, CreatedBy = sina.Id, Category = "ثبت نام", PriorityIndex = 17 };
+            ConstantDictionaries def_points_for_client_invitation = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "def_points_for_client_invitation", ConstantValue = "50", IsActive = true, Description = "امتیاز برای معرف وقتی کاربر ثبت نام کرد.", Created = DateTime.Now, CreatedBy = sina.Id, Category = "ثبت نام", PriorityIndex = 18 };
+
+            ConstantDictionaries store_default_credits_registration = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "store_def_credit_reg", ConstantValue = "0", IsActive = true, Description = "اعتبار اولیه فروشگاه برای ثبت نام اولین بار", Created = DateTime.Now, CreatedBy = sina.Id, Category = "فروشگاه", PriorityIndex = 19 };
+            ConstantDictionaries store_point_usage_per_day = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "store_point_usage_per_day", ConstantValue = "-1", IsActive = true, Description = "تعداد دفعات استفاده از کارت تخفیف هر فروشگاه در روز برای یک مشتری", Created = DateTime.Now, CreatedBy = sina.Id, Category = "فروشگاه", PriorityIndex = 20 };
+            ConstantDictionaries stores_max_donnation_point = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "stores_max_donnation_point", ConstantValue = "500", IsActive = true, Description = "حداکثر امتیازی که فروشگاه میتواند در هر نوتب هدیه بدهد", Created = DateTime.Now, CreatedBy = sina.Id, Category = "فروشگاه", PriorityIndex = 21 };
+            ConstantDictionaries credit_for_client_registration_by_store_invitation = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "credit_for_client_registration_by_store_invitation", ConstantValue = "50", IsActive = true, Description = "اعتبار برای فروشنده ای که باعث ثبت نام مشتری شد", Created = DateTime.Now, CreatedBy = sina.Id, Category = "فروشگاه", PriorityIndex = 22 };
+
+            ConstantDictionaries money_to_credit_ratio = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "money_to_credit_ratio", ConstantValue = "1000", IsActive = true, Description = "نسبت هر اعتبار به تومان", Created = DateTime.Now, CreatedBy = sina.Id, Category = "مالی", PriorityIndex = 23 };
+            ConstantDictionaries def_percent_for_marketer = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "def_percent_for_marketer", ConstantValue = "10", IsActive = true, Description = "درصد بازاریاب", Created = DateTime.Now, CreatedBy = sina.Id, Category = "درصدها", PriorityIndex = 24 };
+
+            ConstantDictionaries def_percent_for_zoneadmin = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "def_percent_for_zoneadmin", ConstantValue = "6", IsActive = true, Description = "درصد مدیر منطقه", Created = DateTime.Now, CreatedBy = sina.Id, Category = "درصدها", PriorityIndex = 25 };
+            ConstantDictionaries def_percent_for_countryadmin = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "def_percent_for_countryadmin", ConstantValue = "4", IsActive = true, Description = "درصد مدیر مناطق", Created = DateTime.Now, CreatedBy = sina.Id, Category = "درصدها", PriorityIndex = 26 };
+
+            ConstantDictionaries credit_for_image_ads = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "credit_for_image_ads", ConstantValue = "500", IsActive = true, Description = "اعتبار لازم برای ثبت آگهی تصویری", Created = DateTime.Now, CreatedBy = sina.Id, Category = "اعتبار", PriorityIndex = 27 };
+            ConstantDictionaries credit_for_video_ads = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "credit_for_video_ads", ConstantValue = "1000", IsActive = true, Description = "اعتبار لازم برای ثبت آگهی ویدئویی", Created = DateTime.Now, CreatedBy = sina.Id, Category = "اعتبار", PriorityIndex = 28 };
+
+
 
             modelBuilder.Entity<ConstantDictionaries>().HasData(store_default_credits_registration);
             modelBuilder.Entity<ConstantDictionaries>().HasData(store_point_usage_per_day);
@@ -169,6 +193,19 @@ namespace SirooWebAPP.Infrastructure.Contexts
             modelBuilder.Entity<ConstantDictionaries>().HasData(def_money_to_premium_image_ads);
             modelBuilder.Entity<ConstantDictionaries>().HasData(points_reward_premium_video_ads);
             modelBuilder.Entity<ConstantDictionaries>().HasData(points_reward_premium_image_ads);
+            
+            modelBuilder.Entity<ConstantDictionaries>().HasData(diamond_first_priority);
+            modelBuilder.Entity<ConstantDictionaries>().HasData(diamond_second_priority);
+            modelBuilder.Entity<ConstantDictionaries>().HasData(diamond_third_priority);
+            modelBuilder.Entity<ConstantDictionaries>().HasData(diamond_fourth_priority);
+            modelBuilder.Entity<ConstantDictionaries>().HasData(diamond_fivth_priority);
+            modelBuilder.Entity<ConstantDictionaries>().HasData(diamond_sixth_priority);
+            modelBuilder.Entity<ConstantDictionaries>().HasData(diamond_seventh_priority);
+            modelBuilder.Entity<ConstantDictionaries>().HasData(diamond_eighth_priority);
+            modelBuilder.Entity<ConstantDictionaries>().HasData(diamond_nineth_priority);
+            modelBuilder.Entity<ConstantDictionaries>().HasData(diamond_tenth_priority);
+            modelBuilder.Entity<ConstantDictionaries>().HasData(min_points_to_spin_diamond_wheel);
+            modelBuilder.Entity<ConstantDictionaries>().HasData(added_points_to_each_spin_diamond_wheel_after_first_time);
 
 
 

@@ -114,6 +114,7 @@ namespace SirooWebAPP.UI.Pages
                     Username = HelperFunctions.SanitizeQuery(person.UserName.ToLower()), 
                     //ConfirmationCode = _confirmationCode.ToString(), 
                     Inviter = inviter_id, 
+                    Diamonds=0,
                     ProfileMediaURL= "uploads/assets/profile.jpg",
                     Created=DateTime.Now
                 };

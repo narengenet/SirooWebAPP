@@ -47,6 +47,46 @@ function snowFall() {
 
 
 
+
+function myfunction() {
+    $('button.spin').hide();
+    var min = 1024;
+    var max = 9999;
+    var deg = Math.floor(Math.random() * (max - min)) + min;
+    document.getElementById('box').style.transform = "rotate(" + deg + "deg)";
+
+    $.ajax({
+        url: '/getDiamond',
+        type: 'GET',
+        success: function (result) {
+            if (result == "gologin") {
+                window.location = "/login/login";
+            } else {
+                $('button.spin').show();
+
+                if (result != "-1") {
+                    theArrays = result.split(',');
+                    pointUpdated('-' + theArrays[0]);
+                    diamondUpdated(theArrays[1]);
+                    alert(theArrays[2]);
+                } else {
+                    alert('شما امتیاز کافی برای چرخش گردونه الماس ندارید.');
+                }
+
+
+            }
+        }
+    });
+
+
+    //setTimeout(function () {
+    //    alert('This is an alert');
+    //    $('button.spin').show();
+    //}, 5000);
+}
+
+
+
 function setVersion() {
     setToLocalStorage('v', '1');
 }
@@ -322,7 +362,7 @@ function toggleMute(obj) {
 
 function useChip() {
     let thePIN = $('#chipPIN').val();
-    if (thePIN.length<5) {
+    if (thePIN.length < 5) {
         alert('کد امتیاز اشتباه است.');
         return;
     }
@@ -352,7 +392,7 @@ function useChip() {
             };
 
             let successResult = parseInt(result);
-            if (successResult>0) {
+            if (successResult > 0) {
                 pointUpdated(result);
                 alert(result + 'امتیاز دریافت کردید.');
             }

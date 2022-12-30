@@ -25,6 +25,7 @@ namespace SirooWebAPP.Core.Domain
         public string? CardNumber { get; set; }
         public Guid? Inviter { get; set; }
         public string? Notes { get; set; }
+        public int? Diamonds { get; set; }
 
         public string FullName()
         {

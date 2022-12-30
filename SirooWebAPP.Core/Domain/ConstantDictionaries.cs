@@ -11,8 +11,11 @@ namespace SirooWebAPP.Core.Domain
     {
         public string ConstantKey { get; set; }
         public string ConstantValue { get; set; }
+        public string? ConstantSecondValue { get; set; }
         public string Description { get; set; }
         public bool IsActive { get; set; }
         public Guid CreatedBy { get; set; }
+        public int? PriorityIndex { get; set; }
+        public string? Category { get; set; }
     }
 }

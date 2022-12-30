@@ -79,6 +79,7 @@ namespace SirooWebAPP.Infrastructure.Services
         private readonly ITransactionPercentsRepository _transactionPercentsRepository;
         private readonly IChipsRepository _chipsRepo;
         private readonly IContactsRepository _contactsRepo;
+        private readonly IDiamondUsages _diamondUsageRepo;
 
         private readonly IMapper _mapper;
 
@@ -104,6 +105,8 @@ namespace SirooWebAPP.Infrastructure.Services
             ITransactionPercentsRepository transactionPercentsRepository,
             IChipsRepository chipsRepo,
             IContactsRepository contactsRepo,
+            IDiamondUsages diamonUsageRepo,
+
             IMapper mapper
             )
         {
@@ -125,6 +128,7 @@ namespace SirooWebAPP.Infrastructure.Services
             _transactionPercentsRepository = transactionPercentsRepository;
             _chipsRepo = chipsRepo;
             _contactsRepo = contactsRepo;
+            _diamondUsageRepo = diamonUsageRepo;
 
             _mapper = mapper;
         }
@@ -951,7 +955,8 @@ namespace SirooWebAPP.Infrastructure.Services
 
             //List<DTODraws> _draws = _mapper.Map<List<DTODraws>>(_drawsRepo.GetAll().OrderBy(d => d.StartDate));
             List<DTODraws> _draws = _mapper.Map<List<DTODraws>>(result);
-            List<DTOUser> allUsers = _mapper.Map<List<DTOUser>>(_userRepo.GetAll().Where(u => u.IsDeleted == false && u.IsActivated == true).OrderByDescending(u => u.Points).ToList<Users>());
+            //List<DTOUser> allUsers = _mapper.Map<List<DTOUser>>(_userRepo.GetAll().Where(u => u.IsDeleted == false && u.IsActivated == true).OrderByDescending(u => u.Points).ToList<Users>());
+            List<DTOUser> allUsers = _mapper.Map<List<DTOUser>>(_userRepo.GetAll().Where(u => u.IsDeleted == false && u.IsActivated == true).OrderByDescending(u => u.Diamonds).ToList<Users>());
 
             foreach (DTODraws item in _draws)
             {
@@ -996,7 +1001,8 @@ namespace SirooWebAPP.Infrastructure.Services
 
             //List<DTODraws> _draws = _mapper.Map<List<DTODraws>>(_drawsRepo.GetAll().OrderBy(d => d.StartDate));
             List<DTODraws> _draws = _mapper.Map<List<DTODraws>>(result);
-            List<DTOUser> allUsers = _mapper.Map<List<DTOUser>>(_userRepo.GetAll().Where(u => u.IsDeleted == false && u.IsActivated == true).OrderByDescending(u => u.Points).ToList<Users>());
+            //List<DTOUser> allUsers = _mapper.Map<List<DTOUser>>(_userRepo.GetAll().Where(u => u.IsDeleted == false && u.IsActivated == true).OrderByDescending(u => u.Points).ToList<Users>());
+            List<DTOUser> allUsers = _mapper.Map<List<DTOUser>>(_userRepo.GetAll().Where(u => u.IsDeleted == false && u.IsActivated == true).OrderByDescending(u => u.Diamonds).ToList<Users>());
 
             foreach (DTODraws item in _draws)
             {
@@ -1156,11 +1162,13 @@ namespace SirooWebAPP.Infrastructure.Services
                         Name = usr.Name,
                         Family = usr.Family,
                         UserId = usr.Id,
-                        Points = prizes.WiningPoint,
+                        //Points = prizes.WiningPoint,
+                        Diamonds = prizes.WiningPoint,
                         Username = usr.Username,
                         IsActivated = usr.IsActivated,
                         ProfileMediaURL = usr.ProfileMediaURL
                     }
+                //).OrderByDescending(u => u.Points)
                 ).OrderByDescending(u => u.Points)
                 .ToList<DTOUser>();
         }
@@ -1176,7 +1184,8 @@ namespace SirooWebAPP.Infrastructure.Services
                 prizesWinnersCount += item.WinnerCount;
             }
 
-            List<Users> winners = GetAllUsers().OrderByDescending(u => u.Points).ToList<Users>();
+            List<Users> winners = GetAllUsers().OrderByDescending(u => u.Diamonds).ToList<Users>();
+            //List<Users> winners = GetAllUsers().OrderByDescending(u => u.Points).ToList<Users>();
 
             int indx = 0;
 
@@ -1195,7 +1204,8 @@ namespace SirooWebAPP.Infrastructure.Services
                         {
                             break;
                         }
-                        PrizesWinners _pw = new PrizesWinners { Prize = item.Id, User = winners[indx].Id, WiningPoint = winners[indx].Points, WiningDate = DateTime.Now, Draw = drawId };
+                        //PrizesWinners _pw = new PrizesWinners { Prize = item.Id, User = winners[indx].Id, WiningPoint = winners[indx].Points, WiningDate = DateTime.Now, Draw = drawId };
+                        PrizesWinners _pw = new PrizesWinners { Prize = item.Id, User = winners[indx].Id, WiningPoint = Convert.ToInt64(winners[indx].Diamonds), WiningDate = DateTime.Now, Draw = drawId };
                         _prizeWinnersRepo.Add(_pw);
 
                         long wonMoney = 0;
@@ -1312,6 +1322,17 @@ namespace SirooWebAPP.Infrastructure.Services
         {
             _contactsRepo.Update(contacts);
             return true;
+        }
+
+        public void AddDiamondUsage(DiamondUsages diamondUsage)
+        {
+            _diamondUsageRepo.Add(diamondUsage);
+            
+        }
+
+        public List<DiamondUsages> GetAllDiamondUsages()
+        {
+            return _diamondUsageRepo.GetAll().Where(d => d.IsDeleted == false).ToList<DiamondUsages>();
         }
     }
 }

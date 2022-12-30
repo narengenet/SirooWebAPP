@@ -42,14 +42,22 @@
     <hr />
     @foreach (var x in Model.constantDics)
     {
-        <div class="row m-2">
+        <div class="row m-2 rounded-3 border p-2">
             <div class="col-4  flex-vcenter">
                 <input type="button" onclick="ChangeConstant('@x.Id');" value="ثبت" />
             </div>
             <div class="col-8">
+                <div class="siroo-normal-text">@x.Category</div>
+                <hr>
                 <span class="siroo-normal-text">@x.Description</span>
                 <br />
                 <input type="number" id="@x.Id" value="@x.ConstantValue" />
+                @if (@x.ConstantSecondValue != null)
+                {
+                    <br /><br />
+                    <input type="number" id="second-@x.Id" value="@x.ConstantSecondValue" />
+                }
+
             </div>
         </div>
         <hr />

@@ -119,5 +119,9 @@ namespace SirooWebAPP.Application.Interfaces
         bool UpdateContacts(Contacts contacts);
 
 
+        List<DiamondUsages> GetAllDiamondUsages();
+        void AddDiamondUsage(DiamondUsages diamondUsage);
+
+
     }
 }

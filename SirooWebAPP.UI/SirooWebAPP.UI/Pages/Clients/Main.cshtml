@@ -118,12 +118,12 @@
 
     @if (Model.RoleName == "super" || Model.RoleName == "admin")
     {
-                                                            <div class="buttons mt-2">
-                                                                    <a id="finishdraw_${drawId}" class="btn-warning m-2  col-8 text-center SirooSimpleBtn {{if isFinished}}hidden{{/if}}" onclick="finishId='${drawId}';$(this).css('opacity','0.1');$('#finishDrawModal').modal('toggle');">اتمام دوره</a>
-                                                                    {{if isFinished}}
-                                                                        <a class="btn-secondary m-2 arvhive-btn col-8 text-center SirooSimpleBtn" onclick="archiveId='${drawId}';$('#archiveDrawModal').modal('toggle');">آرشیو کردن  این دوره</a>
-                                                                    {{/if}}
-                                                            </div>
+                                                                <div class="buttons mt-2">
+                                                                        <a id="finishdraw_${drawId}" class="btn-warning m-2  col-8 text-center SirooSimpleBtn {{if isFinished}}hidden{{/if}}" onclick="finishId='${drawId}';$(this).css('opacity','0.1');$('#finishDrawModal').modal('toggle');">اتمام دوره</a>
+                                                                        {{if isFinished}}
+                                                                            <a class="btn-secondary m-2 arvhive-btn col-8 text-center SirooSimpleBtn" onclick="archiveId='${drawId}';$('#archiveDrawModal').modal('toggle');">آرشیو کردن  این دوره</a>
+                                                                        {{/if}}
+                                                                </div>
     }
 
         </div>
@@ -149,6 +149,24 @@
 
 
 <div class="draws home-draws" id="drawsContainer">
+</div>
+
+<div id="mainbox" class="mainbox">
+    <div id="box" class="box">
+        <div class="box1">
+            <span class="span1"><b>2 الماس</b></span>
+            <span class="span2"><b>5 الماس</b></span>
+            <span class="span3"><b>10 الماس</b></span>
+            <span class="span4"><b>20 الماس</b></span>
+        </div>
+        <div class="box2">
+            <span class="span1"><b>50 الماس</b></span>
+            <span class="span2"><b>100 الماس</b></span>
+            <span class="span3"><b>200 الماس</b></span>
+            <span class="span4"><b>پــوچ</b></span>
+        </div>
+    </div>
+    <button class="spin" onclick="myfunction()">بچرخ</button>
 </div>
 
 <div id="alldrawsBTN" class"container justify-content-center" style="text-align:center;">
@@ -262,17 +280,17 @@
                 </div>
     @if (Model.RoleName == "super" || Model.RoleName == "admin")
     {
-                            <div class="col-6 delPostAdmin mt-1 mb-1">
-                                    <input type="button" class="btn btn-danger" value="حذف این پست" onclick="delId='${advertiseID}';$('#deletePostModal').modal('toggle');" />
-                                    
-                            </div>
-                            
-                            <div class="col-6 delPostAdmin mt-1 mb-1">
-                                    <input type="button" class="btn btn-primary" value="سنجاق این پست" onclick="pinId='${advertiseID}';$('#pinPostModal').modal('toggle');" />
-                            </div>
+                                <div class="col-6 delPostAdmin mt-1 mb-1">
+                                        <input type="button" class="btn btn-danger" value="حذف این پست" onclick="delId='${advertiseID}';$('#deletePostModal').modal('toggle');" />
+
+                                </div>
+
+                                <div class="col-6 delPostAdmin mt-1 mb-1">
+                                        <input type="button" class="btn btn-primary" value="سنجاق این پست" onclick="pinId='${advertiseID}';$('#pinPostModal').modal('toggle');" />
+                                </div>
 
 
-                            
+
     }
     <div class="col-1 like-btn ${advertiseID} {{if youLiked}}liked{{/if}}" {{if isVideo==1}} onclick="_doLike(this,'${advertiseID}')" {{else}} onclick="_doLike(this,'${advertiseID}')" {{/if}} >+${likeReward}</div>
                 <div class="col-2 like-details ${advertiseID}"><b>${likerCount}</b> <i>liked</i></div>

@@ -30,7 +30,8 @@ namespace SirooWebAPP.UI.Pages
             CheckDonationStatus();
             RoleName = session.GetString("userrolename");
             MyUsername = session.GetString("username");
-            MyPoints = session.GetString("userpoints");
+            //MyPoints = session.GetString("userpoints");
+            MyPoints = session.GetString("userdiamonds");
 
 
         }
