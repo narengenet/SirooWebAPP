@@ -151,27 +151,30 @@
 <div class="draws home-draws" id="drawsContainer">
 </div>
 
+
+<div id="alldrawsBTN" class"container justify-content-center" style="text-align:center;">
+    <a href="/Clients/Draws" class="btn-primary m-2 col-6 text-center SirooSimpleBtn">برندگان دوره‌های قبل</a>
+    <a onclick="$('#useChipModal').modal('toggle');" class="btn-primary m-2 col-5 text-center SirooSimpleBtn">ثبت کد امتیاز</a>
+</div>
+
+
 <div id="mainbox" class="mainbox">
     <div id="box" class="box">
-        <div class="box1">
+@*        <div class="box1">
             <span class="span1"><b>2 الماس</b></span>
             <span class="span2"><b>5 الماس</b></span>
             <span class="span3"><b>10 الماس</b></span>
             <span class="span4"><b>20 الماس</b></span>
+            
         </div>
         <div class="box2">
             <span class="span1"><b>50 الماس</b></span>
             <span class="span2"><b>100 الماس</b></span>
             <span class="span3"><b>200 الماس</b></span>
             <span class="span4"><b>پــوچ</b></span>
-        </div>
+        </div>*@
     </div>
     <button class="spin" onclick="myfunction()">بچرخ</button>
-</div>
-
-<div id="alldrawsBTN" class"container justify-content-center" style="text-align:center;">
-    <a href="/Clients/Draws" class="btn-primary m-2 col-6 text-center SirooSimpleBtn">برندگان دوره‌های قبل</a>
-    <a onclick="$('#useChipModal').modal('toggle');" class="btn-primary m-2 col-5 text-center SirooSimpleBtn">ثبت کد امتیاز</a>
 </div>
 
 <div class="winnerTemplate" style="display:none;">
@@ -351,7 +354,7 @@
 <script src="~/js/draws.js"></script>
 <script src="~/js/popper.min.js"></script>
 <script src="~/js/jquery.flipper-responsive.js"></script>
-<script src="~/js/pages/Draws-default.js?i=1"></script>
+<script src="~/js/pages/Draws-default.js?i=2"></script>
 
 <script>
     var myUsername = '@Model.MyUsername';
@@ -366,7 +369,7 @@
 
     @if (Model.RoleName == "super" || Model.RoleName == "admin")
     {
-<script src="~/js/pages/Main-super-admin.js?i=3"></script>
+<script src="~/js/pages/Main-super-admin.js?i=4"></script>
 <script src="~/js/pages/Draws-super-admin.js?i=1"></script>
     }
 }

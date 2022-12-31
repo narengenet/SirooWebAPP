@@ -51,7 +51,7 @@
                 <hr>
                 <span class="siroo-normal-text">@x.Description</span>
                 <br />
-                <input type="number" id="@x.Id" value="@x.ConstantValue" />
+                <input id="@x.Id" value="@x.ConstantValue" />
                 @if (@x.ConstantSecondValue != null)
                 {
                     <br /><br />
@@ -68,6 +68,6 @@
 
 
 @section Scripts {
-<script src="~/js/pages/Allsettings-default.js"></script>
+    <script src="~/js/pages/Allsettings-default.js?i=1"></script>
 
 }

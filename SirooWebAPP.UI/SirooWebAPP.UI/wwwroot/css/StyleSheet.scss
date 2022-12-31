@@ -1091,7 +1091,9 @@ $repeat: 20;
     position: relative;
     width: 90vw;
     height: 90vw;
-    left:5vw;
+    left: 5vw;
+    margin-top: 1rem;
+    margin-bottom: 4rem;
 }
 
 /*.mainbox:after {
@@ -1111,9 +1113,11 @@ $repeat: 20;
     height: 100%;
     position: relative;
     border-radius: 50%;
-    border: 10px solid #fff;
+    border: 10px solid #61ba44;
     overflow: hidden;
     transition: all ease 5s;
+    background-image: url(../images/wheel.png);
+    background-size: cover;
 }
 
 #box span {
@@ -1150,6 +1154,7 @@ $repeat: 20;
     top: 0;
     left: 21.63vw;
 }
+
 
 .box1 .span3 b {
     transform: translate(-50%, -50%) rotate(-270deg);
@@ -1223,6 +1228,7 @@ span.currentDiamond {
     font-size: 1.5rem;
     position: absolute;
     top: 60px;
+    letter-spacing:0px;
 }
 span.currentDiamond:before {
     content: 'a';
@@ -1236,9 +1242,16 @@ span.currentDiamond:before {
     display:inline-block;
 }
 a#currentPoint {
-    font-size: 1.5rem;
+    font-size: 1rem;
     position: absolute;
-    top: 25px;
+    top: 5vh;
+    letter-spacing:0px;
+}
+a#currentPoint:before {
+    content: ' امتیاز ';
+    font-size: .6rem;
+    font-family: 'Yekan';
+    letter-spacing: 0rem;
 }
 
 

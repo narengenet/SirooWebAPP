@@ -594,6 +594,9 @@ namespace SirooWebAPP.UI.Controllers
                     theDic.LastModifiedBy = _userid;
                     theDic.LastModified = DateTime.Now;
                     _usersServices.UpdateConstantDictionary(theDic);
+
+                    CachedContents.DiamondCounts.Clear();
+                    CachedContents.DiamondPriorities.Clear();
                     return Ok("1");
                 }
                 return Ok("1");
@@ -870,34 +873,34 @@ namespace SirooWebAPP.UI.Controllers
                 ConstantDictionaries ninethDic = _usersServices.GetConstantDictionary("diamond_nineth_priority");
                 ConstantDictionaries tenthDic = _usersServices.GetConstantDictionary("diamond_tenth_priority");
 
-                CachedContents.DiamondCounts.Add(Convert.ToInt32(firstDic.ConstantValue));
+                CachedContents.DiamondCounts.Add(Convert.ToString(firstDic.ConstantValue));
                 CachedContents.DiamondPriorities.Add(Convert.ToInt32(firstDic.ConstantSecondValue));
 
-                CachedContents.DiamondCounts.Add(Convert.ToInt32(secondDic.ConstantValue));
+                CachedContents.DiamondCounts.Add(Convert.ToString(secondDic.ConstantValue));
                 CachedContents.DiamondPriorities.Add(Convert.ToInt32(secondDic.ConstantSecondValue));
 
-                CachedContents.DiamondCounts.Add(Convert.ToInt32(thirdDic.ConstantValue));
+                CachedContents.DiamondCounts.Add(Convert.ToString(thirdDic.ConstantValue));
                 CachedContents.DiamondPriorities.Add(Convert.ToInt32(thirdDic.ConstantSecondValue));
 
-                CachedContents.DiamondCounts.Add(Convert.ToInt32(fourthDic.ConstantValue));
+                CachedContents.DiamondCounts.Add(Convert.ToString(fourthDic.ConstantValue));
                 CachedContents.DiamondPriorities.Add(Convert.ToInt32(fourthDic.ConstantSecondValue));
 
-                CachedContents.DiamondCounts.Add(Convert.ToInt32(fivthDic.ConstantValue));
+                CachedContents.DiamondCounts.Add(Convert.ToString(fivthDic.ConstantValue));
                 CachedContents.DiamondPriorities.Add(Convert.ToInt32(fivthDic.ConstantSecondValue));
 
-                CachedContents.DiamondCounts.Add(Convert.ToInt32(sixthDic.ConstantValue));
+                CachedContents.DiamondCounts.Add(Convert.ToString(sixthDic.ConstantValue));
                 CachedContents.DiamondPriorities.Add(Convert.ToInt32(sixthDic.ConstantSecondValue));
 
-                CachedContents.DiamondCounts.Add(Convert.ToInt32(seventhDic.ConstantValue));
+                CachedContents.DiamondCounts.Add(Convert.ToString(seventhDic.ConstantValue));
                 CachedContents.DiamondPriorities.Add(Convert.ToInt32(seventhDic.ConstantSecondValue));
 
-                CachedContents.DiamondCounts.Add(Convert.ToInt32(eighthDic.ConstantValue));
+                CachedContents.DiamondCounts.Add(Convert.ToString(eighthDic.ConstantValue));
                 CachedContents.DiamondPriorities.Add(Convert.ToInt32(eighthDic.ConstantSecondValue));
 
-                CachedContents.DiamondCounts.Add(Convert.ToInt32(ninethDic.ConstantValue));
+                CachedContents.DiamondCounts.Add(Convert.ToString(ninethDic.ConstantValue));
                 CachedContents.DiamondPriorities.Add(Convert.ToInt32(ninethDic.ConstantSecondValue));
 
-                CachedContents.DiamondCounts.Add(Convert.ToInt32(tenthDic.ConstantValue));
+                CachedContents.DiamondCounts.Add(Convert.ToString(tenthDic.ConstantValue));
                 CachedContents.DiamondPriorities.Add(Convert.ToInt32(tenthDic.ConstantSecondValue));
             }
 
@@ -913,16 +916,45 @@ namespace SirooWebAPP.UI.Controllers
                 CachedContents.DiamondPriorities[7],
                 CachedContents.DiamondPriorities[8],
                 CachedContents.DiamondPriorities[9],
-                          () => { theResult = CachedContents.DiamondCounts[0]; },
-                          () => { theResult = CachedContents.DiamondCounts[1]; },
-                          () => { theResult = CachedContents.DiamondCounts[2]; },
-                          () => { theResult = CachedContents.DiamondCounts[3]; },
-                          () => { theResult = CachedContents.DiamondCounts[4]; },
-                          () => { theResult = CachedContents.DiamondCounts[5]; },
-                          () => { theResult = CachedContents.DiamondCounts[6]; },
-                          () => { theResult = CachedContents.DiamondCounts[7]; },
-                          () => { theResult = CachedContents.DiamondCounts[8]; },
-                          () => { theResult = CachedContents.DiamondCounts[9]; });
+                          () => {
+                              Random randN = new Random(DateTime.Now.Millisecond);
+                              theResult = randN.Next(Convert.ToInt32(CachedContents.DiamondCounts[0].Split(",")[0]), Convert.ToInt32(CachedContents.DiamondCounts[0].Split(",")[1])); },
+                          () => {
+                              Random randN = new Random(DateTime.Now.Millisecond);
+                              theResult = randN.Next(Convert.ToInt32(CachedContents.DiamondCounts[1].Split(",")[0]), Convert.ToInt32(CachedContents.DiamondCounts[1].Split(",")[1]));
+                          },
+                          () => {
+                              Random randN = new Random(DateTime.Now.Millisecond);
+                              theResult = randN.Next(Convert.ToInt32(CachedContents.DiamondCounts[2].Split(",")[0]), Convert.ToInt32(CachedContents.DiamondCounts[2].Split(",")[1]));
+                          },
+                          () => {
+                              Random randN = new Random(DateTime.Now.Millisecond);
+                              theResult = randN.Next(Convert.ToInt32(CachedContents.DiamondCounts[3].Split(",")[0]), Convert.ToInt32(CachedContents.DiamondCounts[3].Split(",")[1]));
+                          },
+                          () => {
+                              Random randN = new Random(DateTime.Now.Millisecond);
+                              theResult = randN.Next(Convert.ToInt32(CachedContents.DiamondCounts[4].Split(",")[0]), Convert.ToInt32(CachedContents.DiamondCounts[4].Split(",")[1]));
+                          },
+                          () => {
+                              Random randN = new Random(DateTime.Now.Millisecond);
+                              theResult = randN.Next(Convert.ToInt32(CachedContents.DiamondCounts[5].Split(",")[0]), Convert.ToInt32(CachedContents.DiamondCounts[5].Split(",")[1]));
+                          },
+                          () => {
+                              Random randN = new Random(DateTime.Now.Millisecond);
+                              theResult = randN.Next(Convert.ToInt32(CachedContents.DiamondCounts[6].Split(",")[0]), Convert.ToInt32(CachedContents.DiamondCounts[6].Split(",")[1]));
+                          },
+                          () => {
+                              Random randN = new Random(DateTime.Now.Millisecond);
+                              theResult = randN.Next(Convert.ToInt32(CachedContents.DiamondCounts[7].Split(",")[0]), Convert.ToInt32(CachedContents.DiamondCounts[7].Split(",")[1]));
+                          },
+                          () => {
+                              Random randN = new Random(DateTime.Now.Millisecond);
+                              theResult = randN.Next(Convert.ToInt32(CachedContents.DiamondCounts[8].Split(",")[0]), Convert.ToInt32(CachedContents.DiamondCounts[8].Split(",")[1]));
+                          },
+                          () => {
+                              Random randN = new Random(DateTime.Now.Millisecond);
+                              theResult = randN.Next(Convert.ToInt32(CachedContents.DiamondCounts[9].Split(",")[0]), Convert.ToInt32(CachedContents.DiamondCounts[9].Split(",")[1]));
+                          });
 
 
             currentUser.Diamonds += theResult;

@@ -1237,7 +1237,8 @@ namespace SirooWebAPP.Infrastructure.Services
                 }
             } while (indx < prizesWinnersCount);
 
-            _userRepo.GetAll().ToList().ForEach(u => u.Points = 0);
+            //_userRepo.GetAll().ToList().ForEach(u => u.Points = 0);
+            _userRepo.GetAll().ToList().ForEach(u => u.Diamonds = 0);
             return true;
         }
 

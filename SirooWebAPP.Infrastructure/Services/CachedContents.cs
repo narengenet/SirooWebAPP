@@ -12,7 +12,7 @@ namespace SirooWebAPP.Infrastructure.Services
         public static List<Viewers> Viewers = new List<Viewers>();
 
         public static List<int> DiamondPriorities = new List<int>();
-        public static List<int> DiamondCounts = new List<int>();
+        public static List<string> DiamondCounts = new List<string>();
     //    public CachedContents(IUsersRepository userRepo, IAdverticeRepository adverticeRepo)
     //    {
     //        _userRepo = userRepo;
