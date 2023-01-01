@@ -62,15 +62,19 @@ function myfunction() {
             if (result == "gologin") {
                 window.location = "/login/login";
             } else {
-                $('button.spin').show();
-
                 if (result != "-1") {
-                    theArrays = result.split(',');
-                    pointUpdated('-' + theArrays[0]);
-                    diamondUpdated(theArrays[1]);
-                    alert(theArrays[2]);
+
+                    setTimeout(function () {
+                        theArrays = result.split(',');
+                        pointUpdated('-' + theArrays[0]);
+                        diamondUpdated(theArrays[1]);
+                        alert(theArrays[2]);
+                        $('button.spin').show();
+                    }, 4000);
+
                 } else {
                     alert('شما امتیاز کافی برای چرخش گردونه الماس ندارید.');
+                    $('button.spin').show();
                 }
 
 
@@ -336,14 +340,18 @@ function _doLike(obj, adv) {
 
 
 $(window).scroll(function () {
-    $('video').each(function () {
-        if ($(this).is(":in-viewport")) {
-            $(this)[0].muted = mute;
-            $(this)[0].play();
-        } else {
-            $(this)[0].pause();
-        }
-    })
+
+    if (muteCondition == false) {
+        $('video').each(function () {
+            if ($(this).is(":in-viewport")) {
+                $(this)[0].muted = mute;
+                $(this)[0].play();
+            } else {
+                $(this)[0].pause();
+            }
+        })
+    }
+
 });
 
 
@@ -353,6 +361,15 @@ function toggleMute(obj) {
 
     var vid = document.getElementById(obj);
     vid.muted = mute;
+}
+
+var muteCondition = false;
+function toggleMuteAllVideos(cmd) {
+    muteCondition = cmd;
+    $('video').each(function () {
+        $(this)[0].muted = cmd;
+    });
+
 }
 
 

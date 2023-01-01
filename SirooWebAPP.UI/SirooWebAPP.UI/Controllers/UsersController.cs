@@ -493,6 +493,35 @@ namespace SirooWebAPP.UI.Controllers
         }
 
         [TypeFilter(typeof(SampleAsyncActionLoginFilter))]
+        [HttpGet("addDiamondToUser/{userID:guid}/{diamond:int}")]
+        public IActionResult addDiamondToUser(Guid userID, int diamond)
+        {
+            string _userid = HttpContext.Request.Cookies["userid"];
+            Guid userId = Guid.Parse(_userid);
+            if (_session.GetString("userrolename") == "super" || _session.GetString("userrolename") == "admin")
+            {
+                Users theUser = _usersServices.GetUser(userID);
+                if (theUser != null)
+                {
+                    theUser.Diamonds += diamond;
+                    _usersServices.UpdateUser(theUser);
+                    _usersServices.AddDiamondUsage(new DiamondUsages
+                    {
+                        Created = DateTime.Now,
+                        DiamondsWon = diamond,
+                        User = userID,
+                        LastModifiedBy = _userid,
+                        PointCharged=0
+                    });
+                    return Ok("ok");
+                }
+            }
+
+            return Ok("-1");
+
+        }
+
+        [TypeFilter(typeof(SampleAsyncActionLoginFilter))]
         [HttpGet("deleteUser/{reason}/{userID:guid}")]
         public IActionResult deleteUser(string reason, Guid userID)
         {
@@ -575,7 +604,7 @@ namespace SirooWebAPP.UI.Controllers
 
         [TypeFilter(typeof(SampleAsyncActionLoginFilter))]
         [HttpGet("changeConstant/{keyValue}/{secondValue}/{constID:guid}")]
-        public IActionResult changeConstant(string keyValue,string secondValue, Guid constID)
+        public IActionResult changeConstant(string keyValue, string secondValue, Guid constID)
         {
             string _userid = HttpContext.Request.Cookies["userid"];
 
@@ -587,7 +616,7 @@ namespace SirooWebAPP.UI.Controllers
                 if (theDic != null)
                 {
                     theDic.ConstantValue = keyValue;
-                    if (secondValue!="null")
+                    if (secondValue != "null")
                     {
                         theDic.ConstantSecondValue = secondValue;
                     }
@@ -824,7 +853,7 @@ namespace SirooWebAPP.UI.Controllers
             string _userid = HttpContext.Request.Cookies["userid"];
             Guid userId = Guid.Parse(_userid);
 
-            List<DiamondUsages> todayDiamondUsages = _usersServices.GetAllDiamondUsages().Where(d => d.User == userId && d.Created > DateTime.Today.AddDays(-1)).ToList<DiamondUsages>();
+            List<DiamondUsages> todayDiamondUsages = _usersServices.GetAllDiamondUsages().Where(d => d.User == userId && d.Created > DateTime.Today).ToList<DiamondUsages>();
             int minPointsToUseForDiamonds = Convert.ToInt32(_usersServices.GetConstantDictionary("min_points_to_spin_diamond_wheel").ConstantValue);
             int addedPointsPerUsageForToday = Convert.ToInt32(_usersServices.GetConstantDictionary("added_points_to_each_spin_diamond_wheel_after_first_time").ConstantValue);
 
@@ -916,44 +945,75 @@ namespace SirooWebAPP.UI.Controllers
                 CachedContents.DiamondPriorities[7],
                 CachedContents.DiamondPriorities[8],
                 CachedContents.DiamondPriorities[9],
-                          () => {
+                          () =>
+                          {
                               Random randN = new Random(DateTime.Now.Millisecond);
-                              theResult = randN.Next(Convert.ToInt32(CachedContents.DiamondCounts[0].Split(",")[0]), Convert.ToInt32(CachedContents.DiamondCounts[0].Split(",")[1])); },
-                          () => {
-                              Random randN = new Random(DateTime.Now.Millisecond);
-                              theResult = randN.Next(Convert.ToInt32(CachedContents.DiamondCounts[1].Split(",")[0]), Convert.ToInt32(CachedContents.DiamondCounts[1].Split(",")[1]));
+                              int selectedIndex = randN.Next(0, CachedContents.DiamondCounts[0].Split(",").Count() - 1);
+                              theResult = Convert.ToInt32(CachedContents.DiamondCounts[0].Split(",")[selectedIndex]);
+                              //theResult = randN.Next(Convert.ToInt32(CachedContents.DiamondCounts[0].Split(",")[0]), Convert.ToInt32(CachedContents.DiamondCounts[0].Split(",")[1]));
                           },
-                          () => {
+                          () =>
+                          {
                               Random randN = new Random(DateTime.Now.Millisecond);
-                              theResult = randN.Next(Convert.ToInt32(CachedContents.DiamondCounts[2].Split(",")[0]), Convert.ToInt32(CachedContents.DiamondCounts[2].Split(",")[1]));
+                              int selectedIndex = randN.Next(0, CachedContents.DiamondCounts[1].Split(",").Count() - 1);
+                              theResult = Convert.ToInt32(CachedContents.DiamondCounts[1].Split(",")[selectedIndex]);
+                              //theResult = randN.Next(Convert.ToInt32(CachedContents.DiamondCounts[0].Split(",")[0]), Convert.ToInt32(CachedContents.DiamondCounts[0].Split(",")[1]));
                           },
-                          () => {
+                          () =>
+                          {
                               Random randN = new Random(DateTime.Now.Millisecond);
-                              theResult = randN.Next(Convert.ToInt32(CachedContents.DiamondCounts[3].Split(",")[0]), Convert.ToInt32(CachedContents.DiamondCounts[3].Split(",")[1]));
+                              int selectedIndex = randN.Next(0, CachedContents.DiamondCounts[2].Split(",").Count() - 1);
+                              theResult = Convert.ToInt32(CachedContents.DiamondCounts[2].Split(",")[selectedIndex]);
+                              //theResult = randN.Next(Convert.ToInt32(CachedContents.DiamondCounts[0].Split(",")[0]), Convert.ToInt32(CachedContents.DiamondCounts[0].Split(",")[1]));
                           },
-                          () => {
+                          () =>
+                          {
                               Random randN = new Random(DateTime.Now.Millisecond);
-                              theResult = randN.Next(Convert.ToInt32(CachedContents.DiamondCounts[4].Split(",")[0]), Convert.ToInt32(CachedContents.DiamondCounts[4].Split(",")[1]));
+                              int selectedIndex = randN.Next(0, CachedContents.DiamondCounts[3].Split(",").Count() - 1);
+                              theResult = Convert.ToInt32(CachedContents.DiamondCounts[3].Split(",")[selectedIndex]);
+                              //theResult = randN.Next(Convert.ToInt32(CachedContents.DiamondCounts[0].Split(",")[0]), Convert.ToInt32(CachedContents.DiamondCounts[0].Split(",")[1]));
                           },
-                          () => {
+                          () =>
+                          {
                               Random randN = new Random(DateTime.Now.Millisecond);
-                              theResult = randN.Next(Convert.ToInt32(CachedContents.DiamondCounts[5].Split(",")[0]), Convert.ToInt32(CachedContents.DiamondCounts[5].Split(",")[1]));
+                              int selectedIndex = randN.Next(0, CachedContents.DiamondCounts[4].Split(",").Count() - 1);
+                              theResult = Convert.ToInt32(CachedContents.DiamondCounts[4].Split(",")[selectedIndex]);
+                              //theResult = randN.Next(Convert.ToInt32(CachedContents.DiamondCounts[0].Split(",")[0]), Convert.ToInt32(CachedContents.DiamondCounts[0].Split(",")[1]));
                           },
-                          () => {
+                          () =>
+                          {
                               Random randN = new Random(DateTime.Now.Millisecond);
-                              theResult = randN.Next(Convert.ToInt32(CachedContents.DiamondCounts[6].Split(",")[0]), Convert.ToInt32(CachedContents.DiamondCounts[6].Split(",")[1]));
+                              int selectedIndex = randN.Next(0, CachedContents.DiamondCounts[5].Split(",").Count() - 1);
+                              theResult = Convert.ToInt32(CachedContents.DiamondCounts[5].Split(",")[selectedIndex]);
+                              //theResult = randN.Next(Convert.ToInt32(CachedContents.DiamondCounts[0].Split(",")[0]), Convert.ToInt32(CachedContents.DiamondCounts[0].Split(",")[1]));
                           },
-                          () => {
+                          () =>
+                          {
                               Random randN = new Random(DateTime.Now.Millisecond);
-                              theResult = randN.Next(Convert.ToInt32(CachedContents.DiamondCounts[7].Split(",")[0]), Convert.ToInt32(CachedContents.DiamondCounts[7].Split(",")[1]));
+                              int selectedIndex = randN.Next(0, CachedContents.DiamondCounts[6].Split(",").Count() - 1);
+                              theResult = Convert.ToInt32(CachedContents.DiamondCounts[6].Split(",")[selectedIndex]);
+                              //theResult = randN.Next(Convert.ToInt32(CachedContents.DiamondCounts[0].Split(",")[0]), Convert.ToInt32(CachedContents.DiamondCounts[0].Split(",")[1]));
                           },
-                          () => {
+                          () =>
+                          {
                               Random randN = new Random(DateTime.Now.Millisecond);
-                              theResult = randN.Next(Convert.ToInt32(CachedContents.DiamondCounts[8].Split(",")[0]), Convert.ToInt32(CachedContents.DiamondCounts[8].Split(",")[1]));
+                              int selectedIndex = randN.Next(0, CachedContents.DiamondCounts[7].Split(",").Count() - 1);
+                              theResult = Convert.ToInt32(CachedContents.DiamondCounts[7].Split(",")[selectedIndex]);
+                              //theResult = randN.Next(Convert.ToInt32(CachedContents.DiamondCounts[0].Split(",")[0]), Convert.ToInt32(CachedContents.DiamondCounts[0].Split(",")[1]));
                           },
-                          () => {
+                          () =>
+                          {
                               Random randN = new Random(DateTime.Now.Millisecond);
-                              theResult = randN.Next(Convert.ToInt32(CachedContents.DiamondCounts[9].Split(",")[0]), Convert.ToInt32(CachedContents.DiamondCounts[9].Split(",")[1]));
+                              int selectedIndex = randN.Next(0, CachedContents.DiamondCounts[8].Split(",").Count() - 1);
+                              theResult = Convert.ToInt32(CachedContents.DiamondCounts[8].Split(",")[selectedIndex]);
+                              //theResult = randN.Next(Convert.ToInt32(CachedContents.DiamondCounts[0].Split(",")[0]), Convert.ToInt32(CachedContents.DiamondCounts[0].Split(",")[1]));
+                          },
+                          () =>
+                          {
+                              Random randN = new Random(DateTime.Now.Millisecond);
+                              int selectedIndex = randN.Next(0, CachedContents.DiamondCounts[9].Split(",").Count() - 1);
+                              theResult = Convert.ToInt32(CachedContents.DiamondCounts[9].Split(",")[selectedIndex]);
+                              //theResult = randN.Next(Convert.ToInt32(CachedContents.DiamondCounts[0].Split(",")[0]), Convert.ToInt32(CachedContents.DiamondCounts[0].Split(",")[1]));
                           });
 
 
@@ -966,13 +1026,14 @@ namespace SirooWebAPP.UI.Controllers
             {
                 Created = DateTime.Now,
                 DiamondsWon = theResult,
-                User = userId
+                User = userId,
+                PointCharged=neededPoints
 
             });
 
             if (theResult > 0)
             {
-                return Ok(neededPoints.ToString() + "," + theResult + "," + "شما برنده " + theResult.ToString() + " الماس شدید.");
+                return Ok(neededPoints.ToString() + "," + theResult + "," + "شما برنده " + theResult.ToString() + " الماس شدید. " + neededPoints.ToString() + " امتیاز مصرف شد. چرخش بعدی امروز نیاز به " + (neededPoints + addedPointsPerUsageForToday).ToString() + " امتیاز دارد.");
             }
             else
             {

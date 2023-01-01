@@ -11,5 +11,6 @@ namespace SirooWebAPP.Core.Domain
     {
         public Guid User { get; set; }
         public int DiamondsWon { get; set; }
+        public int? PointCharged { get; set; }
     }
 }

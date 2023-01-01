@@ -111,7 +111,7 @@
                     {{if isFinished}}
                         <input type="submit" value="برندگان" onclick="$('.prizeWinners.${drawId}').css('display','flex');window.scrollTo(0,0);" />
                     {{else}}
-                        <input type="submit" value="جوایز" onclick="$('.prizeWinners.${drawId}').css('display','flex');window.scrollTo(0,0);" />
+                        <input type="submit" value="جوایز" onclick="$('.prizeWinners.${drawId}').css('display','flex');window.scrollTo(0,0);toggleMuteAllVideos(true);" />
                     {{/if}}
                 </div>
             </div>
@@ -139,7 +139,7 @@
 
             </div>
         <div class="SirooBtn row mt-3 mb-3">
-            <input type="submit" onclick="$('.prizeWinners').css('display','none');" value="بازگشت" />
+            <input type="submit" onclick="$('.prizeWinners').css('display','none');toggleMuteAllVideos(false);" value="بازگشت" />
         </div>
     </div>
 
@@ -348,7 +348,7 @@
 <script src="~/js/persian-date.min.js"></script>
 <script src="~/js/isInViewport.min.js"></script>
 <script src="~/js/pages/Main-db.js?i=1"></script>
-<script src="~/js/pages/Main-default.js?i=1"></script>
+<script src="~/js/pages/Main-default.js?i=4"></script>
 
 
 <script src="~/js/draws.js"></script>

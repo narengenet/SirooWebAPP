@@ -16,6 +16,9 @@ var _cellphones;
 
 var selectedUserToAddPoint = "-1";
 var selectedUserToDelete = "-1";
+var selectedUserToAddMoney = "-1";
+var selectedUserToAddDiamond = "-1";
+
 
 var passwords = false;
 var inviters = false;
@@ -147,6 +150,32 @@ function addMoenyGo() {
                 $('#currentm-' + selectedUserToAddMoney).text(current);
 
                 alert('وجه به کاربر اضافه شد.');
+
+            }
+        },
+    });
+}
+
+function addDiamondGo() {
+    if (selectedUserToAddDiamond == "-1") {
+        return;
+    }
+    let diamond = $('#diamond-' + selectedUserToAddDiamond).val();
+    $('.waitingPlease').css('display', 'flex');
+
+    $.ajax({
+        url: '/addDiamondToUser/' + selectedUserToAddDiamond + '/' + diamond,
+        type: 'GET',
+        success: function (result) {
+            $('.waitingPlease').css('display', 'none');
+            if (result == "-1") {
+                alert('خطا');
+            } else {
+                current = parseInt($('#currentd-' + selectedUserToAddDiamond).text());
+                current += parseInt(diamond);
+                $('#currentd-' + selectedUserToAddDiamond).text(current);
+
+                alert('الماس به کاربر اضافه شد.');
 
             }
         },
