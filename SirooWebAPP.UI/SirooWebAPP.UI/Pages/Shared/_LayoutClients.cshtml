@@ -77,6 +77,13 @@
                             <li class="nav-item for-clients">
                                 <a class="nav-link text-light" asp-area="" asp-page="/Clients/Tickets">پشتیبانی آنلاین</a>
                             </li>
+                            @if (Context.Session.GetString("userrolename") != "admin" && Context.Session.GetString("userrolename") != "super")
+                            {
+
+                                <li class="nav-item for-clients">
+                                    <a class="nav-link text-light" href="/clients/diamondhistory?pagee=0&handler=Display">الماس‌های دریافت‌شده</a>
+                                </li>
+                            }
                         }
                         @if (Context.Session.GetString("userrolename") == "admin" || Context.Session.GetString("userrolename") == "super")
                         {
@@ -164,14 +171,14 @@
             <div class="drawsSection miniCircle"><a href="~/Clients/Wallet">کیف‌پول</a></div>
             <div class="pointsSection">
                 <a id="currentPoint" href="~/Clients/Main">@Context.Session.GetString("userpoints")</a>
-                <span id="currentDiamond" class="currentDiamond" >@Context.Session.GetString("userdiamonds")</span>
+                <span id="currentDiamond" class="currentDiamond">@Context.Session.GetString("userdiamonds")</span>
             </div>
             <div class="newPost miniCircle"><a href="~/Clients/AddAdvertise">آگهی جدید</a></div>
         </div>
     </div>
 
     <div class="back-to-top" onclick="$('html, body').animate({scrollTop: 0}, 100);">
-        <img src="~/images/bactotop.png"  />
+        <img src="~/images/bactotop.png" />
     </div>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
@@ -208,7 +215,7 @@
             }else{
                 $('.waitingPlease').css('display', 'flex');
             }
-            
+
         }
     </script>
 
