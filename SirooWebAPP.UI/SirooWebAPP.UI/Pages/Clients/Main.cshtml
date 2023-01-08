@@ -118,12 +118,12 @@
 
     @if (Model.RoleName == "super" || Model.RoleName == "admin")
     {
-                                                                <div class="buttons mt-2">
-                                                                        <a id="finishdraw_${drawId}" class="btn-warning m-2  col-8 text-center SirooSimpleBtn {{if isFinished}}hidden{{/if}}" onclick="finishId='${drawId}';$(this).css('opacity','0.1');$('#finishDrawModal').modal('toggle');">اتمام دوره</a>
-                                                                        {{if isFinished}}
-                                                                            <a class="btn-secondary m-2 arvhive-btn col-8 text-center SirooSimpleBtn" onclick="archiveId='${drawId}';$('#archiveDrawModal').modal('toggle');">آرشیو کردن  این دوره</a>
-                                                                        {{/if}}
-                                                                </div>
+                                                                            <div class="buttons mt-2">
+                                                                                    <a id="finishdraw_${drawId}" class="btn-warning m-2  col-8 text-center SirooSimpleBtn {{if isFinished}}hidden{{/if}}" onclick="finishId='${drawId}';$(this).css('opacity','0.1');$('#finishDrawModal').modal('toggle');">اتمام دوره</a>
+                                                                                    {{if isFinished}}
+                                                                                        <a class="btn-secondary m-2 arvhive-btn col-8 text-center SirooSimpleBtn" onclick="archiveId='${drawId}';$('#archiveDrawModal').modal('toggle');">آرشیو کردن  این دوره</a>
+                                                                                    {{/if}}
+                                                                            </div>
     }
 
         </div>
@@ -158,23 +158,24 @@
 </div>
 
 
-<div id="mainbox" class="mainbox">
+@*<div id="mainbox" class="mainbox">
     <div id="box" class="box">
-@*        <div class="box1">
-            <span class="span1"><b>2 الماس</b></span>
-            <span class="span2"><b>5 الماس</b></span>
-            <span class="span3"><b>10 الماس</b></span>
-            <span class="span4"><b>20 الماس</b></span>
-            
-        </div>
-        <div class="box2">
-            <span class="span1"><b>50 الماس</b></span>
-            <span class="span2"><b>100 الماس</b></span>
-            <span class="span3"><b>200 الماس</b></span>
-            <span class="span4"><b>پــوچ</b></span>
-        </div>*@
     </div>
     <button class="spin" onclick="myfunction()">بچرخ</button>
+    </div>
+*@
+
+
+<div align="center">
+    <table cellpadding="0" cellspacing="0" border="0">
+        <tr>
+            <td id="theWheel" class="the_wheel" align="center" valign="center">
+                <canvas id="canvas" width="300" height="300" onclick="startSpin();">
+                    <p style="{color: white}" align="center">Sorry, your browser doesn't support canvas. Please try another.</p>
+                </canvas>
+            </td>
+        </tr>
+    </table>
 </div>
 
 <div class"container justify-content-center" style="text-align:center;">
@@ -287,14 +288,14 @@
                 </div>
     @if (Model.RoleName == "super" || Model.RoleName == "admin")
     {
-                                <div class="col-6 delPostAdmin mt-1 mb-1">
-                                        <input type="button" class="btn btn-danger" value="حذف این پست" onclick="delId='${advertiseID}';$('#deletePostModal').modal('toggle');" />
+                                            <div class="col-6 delPostAdmin mt-1 mb-1">
+                                                    <input type="button" class="btn btn-danger" value="حذف این پست" onclick="delId='${advertiseID}';$('#deletePostModal').modal('toggle');" />
 
-                                </div>
+                                            </div>
 
-                                <div class="col-6 delPostAdmin mt-1 mb-1">
-                                        <input type="button" class="btn btn-primary" value="سنجاق این پست" onclick="pinId='${advertiseID}';$('#pinPostModal').modal('toggle');" />
-                                </div>
+                                            <div class="col-6 delPostAdmin mt-1 mb-1">
+                                                    <input type="button" class="btn btn-primary" value="سنجاق این پست" onclick="pinId='${advertiseID}';$('#pinPostModal').modal('toggle');" />
+                                            </div>
 
 
 
@@ -352,17 +353,21 @@
 <script src="~/js/persian-date.min.js"></script>
 <script src="~/js/isInViewport.min.js"></script>
 <script src="~/js/pages/Main-db.js?i=1"></script>
-<script src="~/js/pages/Main-default.js?i=4"></script>
+<script src="~/js/pages/Main-default.js?i=5"></script>
 
 
 <script src="~/js/draws.js"></script>
+
 <script src="~/js/popper.min.js"></script>
 <script src="~/js/jquery.flipper-responsive.js"></script>
 <script src="~/js/pages/Draws-default.js?i=2"></script>
 
+<script src="~/js/TweenMax.js"></script>
+<script src="~/js/Winwheel.js"></script>
 <script>
     var myUsername = '@Model.MyUsername';
     var myPoint = '@Model.MyPoints';
+    var arraysofDiamonds=JSON.parse('@Html.Raw(Model.DiamondCountList)');
 
     $(document).ready(function () {
         alldrawsPermit=0;

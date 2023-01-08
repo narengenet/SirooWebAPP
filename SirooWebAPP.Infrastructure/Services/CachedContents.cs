@@ -13,6 +13,7 @@ namespace SirooWebAPP.Infrastructure.Services
 
         public static List<int> DiamondPriorities = new List<int>();
         public static List<string> DiamondCounts = new List<string>();
+        public static List<string> DiamondCountsList=new List<string>();
     //    public CachedContents(IUsersRepository userRepo, IAdverticeRepository adverticeRepo)
     //    {
     //        _userRepo = userRepo;

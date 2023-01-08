@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using SirooWebAPP.Application.Interfaces;
 using SirooWebAPP.Core.Domain;
 using SirooWebAPP.Infrastructure.Security;
+using SirooWebAPP.Infrastructure.Services;
 using SirooWebAPP.UI.Helpers;
 
 namespace SirooWebAPP.UI.Pages
@@ -25,6 +26,8 @@ namespace SirooWebAPP.UI.Pages
         public string? MyUsername { get; set; }
         public string? MyPoints { get; set; }
 
+        public string? DiamondCountList { get; set; }
+
         public void OnGet()
         {
             CheckDonationStatus();
@@ -32,6 +35,68 @@ namespace SirooWebAPP.UI.Pages
             MyUsername = session.GetString("username");
             //MyPoints = session.GetString("userpoints");
             MyPoints = session.GetString("userdiamonds");
+
+
+            if (CachedContents.DiamondPriorities.Count < 2)
+            {
+                ConstantDictionaries firstDic = _usersServices.GetConstantDictionary("diamond_first_priority");
+                ConstantDictionaries secondDic = _usersServices.GetConstantDictionary("diamond_second_priority");
+                ConstantDictionaries thirdDic = _usersServices.GetConstantDictionary("diamond_third_priority");
+                ConstantDictionaries fourthDic = _usersServices.GetConstantDictionary("diamond_fourth_priority");
+                ConstantDictionaries fivthDic = _usersServices.GetConstantDictionary("diamond_fivth_priority");
+                ConstantDictionaries sixthDic = _usersServices.GetConstantDictionary("diamond_sixth_priority");
+                ConstantDictionaries seventhDic = _usersServices.GetConstantDictionary("diamond_seventh_priority");
+                ConstantDictionaries eighthDic = _usersServices.GetConstantDictionary("diamond_eighth_priority");
+                ConstantDictionaries ninethDic = _usersServices.GetConstantDictionary("diamond_nineth_priority");
+                ConstantDictionaries tenthDic = _usersServices.GetConstantDictionary("diamond_tenth_priority");
+
+                CachedContents.DiamondCounts.Add(Convert.ToString(firstDic.ConstantValue));
+                CachedContents.DiamondPriorities.Add(Convert.ToInt32(firstDic.ConstantSecondValue));
+
+                CachedContents.DiamondCounts.Add(Convert.ToString(secondDic.ConstantValue));
+                CachedContents.DiamondPriorities.Add(Convert.ToInt32(secondDic.ConstantSecondValue));
+
+                CachedContents.DiamondCounts.Add(Convert.ToString(thirdDic.ConstantValue));
+                CachedContents.DiamondPriorities.Add(Convert.ToInt32(thirdDic.ConstantSecondValue));
+
+                CachedContents.DiamondCounts.Add(Convert.ToString(fourthDic.ConstantValue));
+                CachedContents.DiamondPriorities.Add(Convert.ToInt32(fourthDic.ConstantSecondValue));
+
+                CachedContents.DiamondCounts.Add(Convert.ToString(fivthDic.ConstantValue));
+                CachedContents.DiamondPriorities.Add(Convert.ToInt32(fivthDic.ConstantSecondValue));
+
+                CachedContents.DiamondCounts.Add(Convert.ToString(sixthDic.ConstantValue));
+                CachedContents.DiamondPriorities.Add(Convert.ToInt32(sixthDic.ConstantSecondValue));
+
+                CachedContents.DiamondCounts.Add(Convert.ToString(seventhDic.ConstantValue));
+                CachedContents.DiamondPriorities.Add(Convert.ToInt32(seventhDic.ConstantSecondValue));
+
+                CachedContents.DiamondCounts.Add(Convert.ToString(eighthDic.ConstantValue));
+                CachedContents.DiamondPriorities.Add(Convert.ToInt32(eighthDic.ConstantSecondValue));
+
+                CachedContents.DiamondCounts.Add(Convert.ToString(ninethDic.ConstantValue));
+                CachedContents.DiamondPriorities.Add(Convert.ToInt32(ninethDic.ConstantSecondValue));
+
+                CachedContents.DiamondCounts.Add(Convert.ToString(tenthDic.ConstantValue));
+                CachedContents.DiamondPriorities.Add(Convert.ToInt32(tenthDic.ConstantSecondValue));
+
+                for (int i = 0; i < CachedContents.DiamondPriorities.Count; i++)
+                {
+                    if (CachedContents.DiamondPriorities[i] > 0)
+                    {
+                        List<string> tmpListDiamondsCount = CachedContents.DiamondCounts[i].Split(",").ToList<string>();
+                        foreach (string item in tmpListDiamondsCount)
+                        {
+                            CachedContents.DiamondCountsList.Add(item);
+                        }
+                    }
+                }
+            }
+
+            DiamondCountList = Newtonsoft.Json.JsonConvert.SerializeObject(CachedContents.DiamondCountsList);
+
+            
+
 
 
         }

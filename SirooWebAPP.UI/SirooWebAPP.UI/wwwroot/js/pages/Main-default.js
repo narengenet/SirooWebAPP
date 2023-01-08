@@ -4,6 +4,8 @@ var lastRequest = 0;
 $(document).ready(function () {
     //debugger;
 
+    prepareWheel();
+
     $('.threeDotsLoading2').hide();
 
     permitToUseLocalStorage = false;
@@ -82,11 +84,217 @@ function myfunction() {
         }
     });
 
+}
 
-    //setTimeout(function () {
-    //    alert('This is an alert');
-    //    $('button.spin').show();
-    //}, 5000);
+var audio = null;
+var theWheel = null;
+
+function prepareWheel() {
+
+    if (arraysofDiamonds) {
+
+        theSegments = new Array();
+        theCollors = ["#ee1c24", "#3cb878", "#f6989d", "#00aef0", "#f26522", "#e70697", "#fff200", "#f6989d", "#ee1c24", "#3cb878", "#f26522", "#a186be", "#fff200", "#00aef0", "#ee1c24", "#f6989d", "#f26522", "#3cb878", "#a186be", "#fff200", "#00aef0"];
+
+        for (var i = 0; i < arraysofDiamonds.length; i++) {
+            tmpSegment = new Segment;
+            tmpSegment.fillStyle = theCollors[Math.floor(Math.random() * theCollors.length)];;
+            tmpSegment.text = arraysofDiamonds[i];
+            theSegments.push(tmpSegment);
+
+        }
+
+        // Create new wheel object specifying the parameters at creation time.
+        theWheel = new Winwheel({
+            'outerRadius': 150,        // Set outer radius so wheel fits inside the background.
+            'innerRadius': 40,         // Make wheel hollow so segments don't go all way to center.
+            'textFontSize': 14,         // Set default font size for the segments.
+            'textOrientation': 'vertical', // Make text vertial so goes down from the outside of wheel.
+            'textAlignment': 'outer',    // Align text to outside of wheel.
+            'numSegments': arraysofDiamonds.length,         // Specify number of segments.
+            'segments': theSegments,
+            'animation':           // Specify the animation to use.
+            {
+                'type': 'spinToStop',
+                'duration': 10,    // Duration in seconds.
+                'spins': 3,     // Default number of complete spins.
+                'callbackFinished': alertPrize,
+                'callbackSound': playSound,   // Function to call when the tick sound is to be triggered.
+                'soundTrigger': 'pin',        // Specify pins are to trigger the sound, the other option is 'segment'.
+                'stopAngle': 36
+            },
+            'pins':				// Turn pins on.
+            {
+                'number': arraysofDiamonds.length,
+                'fillStyle': 'green',
+                'outerRadius': 4,
+            }
+        });
+
+
+    }
+
+
+
+
+
+
+    // Loads the tick audio sound in to an audio object.
+    audio = new Audio('../sounds/tick.mp3');
+}
+
+// This function is called when the sound is to be played.
+function playSound() {
+    // Stop and rewind the sound if it already happens to be playing.
+    audio.pause();
+    audio.currentTime = 0;
+
+    // Play the sound.
+    audio.play();
+}
+
+// Vars used by the code in this page to do power controls.
+let wheelPower = 0;
+let wheelSpinning = false;
+
+//// -------------------------------------------------------
+//// Function to handle the onClick on the power buttons.
+//// -------------------------------------------------------
+//function powerSelected(powerLevel) {
+//    // Ensure that power can't be changed while wheel is spinning.
+//    if (wheelSpinning == false) {
+//        // Reset all to grey incase this is not the first time the user has selected the power.
+//        document.getElementById('pw1').className = "";
+//        document.getElementById('pw2').className = "";
+//        document.getElementById('pw3').className = "";
+
+//        // Now light up all cells below-and-including the one selected by changing the class.
+//        if (powerLevel >= 1) {
+//            document.getElementById('pw1').className = "pw1";
+//        }
+
+//        if (powerLevel >= 2) {
+//            document.getElementById('pw2').className = "pw2";
+//        }
+
+//        if (powerLevel >= 3) {
+//            document.getElementById('pw3').className = "pw3";
+//        }
+
+//        // Set wheelPower var used when spin button is clicked.
+//        wheelPower = powerLevel;
+
+//        // Light up the spin button by changing it's source image and adding a clickable class to it.
+//        document.getElementById('spin_button').src = "spin_on.png";
+//        document.getElementById('spin_button').className = "clickable";
+//    }
+//}
+
+// -------------------------------------------------------
+// Click handler for spin button.
+// -------------------------------------------------------
+
+var theResultString = "";
+
+function startSpin() {
+
+    if (wheelSpinning == false) {
+
+
+
+        $.ajax({
+            url: '/getDiamond',
+            type: 'GET',
+            success: function (result) {
+                if (result == "gologin") {
+                    window.location = "/login/login";
+                } else {
+                    if (result != "-1") {
+
+                        theArrays = result.split(',');
+                        pointUpdated('-' + theArrays[0]);
+                        diamondUpdated(theArrays[1]);
+
+                        theResultString=theArrays[3];
+
+
+
+                        // Ensure that spinning can't be clicked again while already running.
+
+                        // Based on the power level selected adjust the number of spins for the wheel, the more times is has
+                        // to rotate with the duration of the animation the quicker the wheel spins.
+                        if (wheelPower == 1) {
+                            theWheel.animation.spins = 3;
+                        } else if (wheelPower == 2) {
+                            theWheel.animation.spins = 6;
+                        } else if (wheelPower == 3) {
+                            theWheel.animation.spins = 10;
+                        }
+
+                        // Disable the spin button so can't click again while wheel is spinning.
+                        //document.getElementById('spin_button').src = "spin_off.png";
+                        //document.getElementById('spin_button').className = "";
+
+                        $('#theWheel').removeClass('the_wheel');
+                        $('#theWheel').addClass('the_wheel2');
+
+                        theWheel.animation['stopAngle'] = theArrays[2];
+                        // Begin the spin animation by calling startAnimation on the wheel object.
+                        theWheel.startAnimation();
+
+                        // Set to true so that power can't be changed and spin button re-enabled during
+                        // the current animation. The user will have to reset before spinning again.
+                        wheelSpinning = true;
+
+
+                    } else {
+                        alert('شما امتیاز کافی برای چرخش گردونه الماس ندارید.');
+                        $('button.spin').show();
+                    }
+
+
+                }
+            }
+        });
+
+    }
+
+
+}
+
+// -------------------------------------------------------
+// Function for reset button.
+// -------------------------------------------------------
+function resetWheel() {
+    theWheel.stopAnimation(false);  // Stop the animation, false as param so does not call callback function.
+    theWheel.rotationAngle = 0;     // Re-set the wheel angle to 0 degrees.
+    theWheel.draw();                // Call draw to render changes to the wheel.
+
+    //document.getElementById('pw1').className = "";  // Remove all colours from the power level indicators.
+    //document.getElementById('pw2').className = "";
+    //document.getElementById('pw3').className = "";
+
+    wheelSpinning = false;          // Reset to false to power buttons and spin can be clicked again.
+    $('#theWheel').removeClass('the_wheel2');
+    $('#theWheel').addClass('the_wheel');
+}
+
+// -------------------------------------------------------
+// Called when the spin animation has finished by the callback feature of the wheel because I specified callback in the parameters.
+// -------------------------------------------------------
+function alertPrize(indicatedSegment) {
+    // Just alert to the user what happened.
+    // In a real project probably want to do something more interesting than this with the result.
+    //if (indicatedSegment.text == 'LOOSE TURN') {
+    //    alert('Sorry but you loose a turn.');
+    //} else if (indicatedSegment.text == 'BANKRUPT') {
+    //    alert('Oh no, you have gone BANKRUPT!');
+    //} else {
+    //    alert("You have won " + indicatedSegment.text);
+    //}
+    alert(theResultString);
+
+    resetWheel();
 }
 
 

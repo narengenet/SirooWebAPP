@@ -511,7 +511,7 @@ namespace SirooWebAPP.UI.Controllers
                         DiamondsWon = diamond,
                         User = userID,
                         LastModifiedBy = _userid,
-                        PointCharged=0
+                        PointCharged = 0
                     });
                     return Ok("ok");
                 }
@@ -626,6 +626,7 @@ namespace SirooWebAPP.UI.Controllers
 
                     CachedContents.DiamondCounts.Clear();
                     CachedContents.DiamondPriorities.Clear();
+                    CachedContents.DiamondCountsList.Clear();
                     return Ok("1");
                 }
                 return Ok("1");
@@ -844,6 +845,75 @@ namespace SirooWebAPP.UI.Controllers
 
 
         [TypeFilter(typeof(SampleAsyncActionLoginFilter))]
+        [HttpGet("fillDiamondsCount")]
+        public IActionResult fillDiamondsCount()
+        {
+
+
+
+            if (CachedContents.DiamondPriorities.Count < 2)
+            {
+                ConstantDictionaries firstDic = _usersServices.GetConstantDictionary("diamond_first_priority");
+                ConstantDictionaries secondDic = _usersServices.GetConstantDictionary("diamond_second_priority");
+                ConstantDictionaries thirdDic = _usersServices.GetConstantDictionary("diamond_third_priority");
+                ConstantDictionaries fourthDic = _usersServices.GetConstantDictionary("diamond_fourth_priority");
+                ConstantDictionaries fivthDic = _usersServices.GetConstantDictionary("diamond_fivth_priority");
+                ConstantDictionaries sixthDic = _usersServices.GetConstantDictionary("diamond_sixth_priority");
+                ConstantDictionaries seventhDic = _usersServices.GetConstantDictionary("diamond_seventh_priority");
+                ConstantDictionaries eighthDic = _usersServices.GetConstantDictionary("diamond_eighth_priority");
+                ConstantDictionaries ninethDic = _usersServices.GetConstantDictionary("diamond_nineth_priority");
+                ConstantDictionaries tenthDic = _usersServices.GetConstantDictionary("diamond_tenth_priority");
+
+                CachedContents.DiamondCounts.Add(Convert.ToString(firstDic.ConstantValue));
+                CachedContents.DiamondPriorities.Add(Convert.ToInt32(firstDic.ConstantSecondValue));
+
+                CachedContents.DiamondCounts.Add(Convert.ToString(secondDic.ConstantValue));
+                CachedContents.DiamondPriorities.Add(Convert.ToInt32(secondDic.ConstantSecondValue));
+
+                CachedContents.DiamondCounts.Add(Convert.ToString(thirdDic.ConstantValue));
+                CachedContents.DiamondPriorities.Add(Convert.ToInt32(thirdDic.ConstantSecondValue));
+
+                CachedContents.DiamondCounts.Add(Convert.ToString(fourthDic.ConstantValue));
+                CachedContents.DiamondPriorities.Add(Convert.ToInt32(fourthDic.ConstantSecondValue));
+
+                CachedContents.DiamondCounts.Add(Convert.ToString(fivthDic.ConstantValue));
+                CachedContents.DiamondPriorities.Add(Convert.ToInt32(fivthDic.ConstantSecondValue));
+
+                CachedContents.DiamondCounts.Add(Convert.ToString(sixthDic.ConstantValue));
+                CachedContents.DiamondPriorities.Add(Convert.ToInt32(sixthDic.ConstantSecondValue));
+
+                CachedContents.DiamondCounts.Add(Convert.ToString(seventhDic.ConstantValue));
+                CachedContents.DiamondPriorities.Add(Convert.ToInt32(seventhDic.ConstantSecondValue));
+
+                CachedContents.DiamondCounts.Add(Convert.ToString(eighthDic.ConstantValue));
+                CachedContents.DiamondPriorities.Add(Convert.ToInt32(eighthDic.ConstantSecondValue));
+
+                CachedContents.DiamondCounts.Add(Convert.ToString(ninethDic.ConstantValue));
+                CachedContents.DiamondPriorities.Add(Convert.ToInt32(ninethDic.ConstantSecondValue));
+
+                CachedContents.DiamondCounts.Add(Convert.ToString(tenthDic.ConstantValue));
+                CachedContents.DiamondPriorities.Add(Convert.ToInt32(tenthDic.ConstantSecondValue));
+
+                for (int i = 0; i < CachedContents.DiamondPriorities.Count; i++)
+                {
+                    if (CachedContents.DiamondPriorities[i] > 0)
+                    {
+                        List<string> tmpListDiamondsCount = CachedContents.DiamondCounts[i].Split(",").ToList<string>();
+                        foreach (string item in tmpListDiamondsCount)
+                        {
+                            CachedContents.DiamondCountsList.Add(item);
+                        }
+                    }
+                }
+            }
+
+
+
+            return Ok(Newtonsoft.Json.JsonConvert.SerializeObject(CachedContents.DiamondCountsList));
+        }
+
+
+        [TypeFilter(typeof(SampleAsyncActionLoginFilter))]
         [HttpGet("getDiamond")]
         public IActionResult getDiamond()
         {
@@ -931,6 +1001,18 @@ namespace SirooWebAPP.UI.Controllers
 
                 CachedContents.DiamondCounts.Add(Convert.ToString(tenthDic.ConstantValue));
                 CachedContents.DiamondPriorities.Add(Convert.ToInt32(tenthDic.ConstantSecondValue));
+
+                for (int i = 0; i < CachedContents.DiamondPriorities.Count; i++)
+                {
+                    if (CachedContents.DiamondPriorities[i] > 0)
+                    {
+                        List<string> tmpListDiamondsCount = CachedContents.DiamondCounts[i].Split(",").ToList<string>();
+                        foreach (string item in tmpListDiamondsCount)
+                        {
+                            CachedContents.DiamondCountsList.Add(item);
+                        }
+                    }
+                }
             }
 
 
@@ -1027,13 +1109,16 @@ namespace SirooWebAPP.UI.Controllers
                 Created = DateTime.Now,
                 DiamondsWon = theResult,
                 User = userId,
-                PointCharged=neededPoints
+                PointCharged = neededPoints
 
             });
 
+            int theIndex = CachedContents.DiamondCountsList.FindIndex(x => x == theResult.ToString());
+            int theDegree = (360 / CachedContents.DiamondCountsList.Count) * (theIndex+1);
+
             if (theResult > 0)
             {
-                return Ok(neededPoints.ToString() + "," + theResult + "," + "شما برنده " + theResult.ToString() + " الماس شدید. " + neededPoints.ToString() + " امتیاز مصرف شد. چرخش بعدی امروز نیاز به " + (neededPoints + addedPointsPerUsageForToday).ToString() + " امتیاز دارد.");
+                return Ok(neededPoints.ToString() + "," + theResult + "," + theDegree + "," + "شما برنده " + theResult.ToString() + " الماس شدید. " + neededPoints.ToString() + " امتیاز مصرف شد. چرخش بعدی امروز نیاز به " + (neededPoints + addedPointsPerUsageForToday).ToString() + " امتیاز دارد.");
             }
             else
             {

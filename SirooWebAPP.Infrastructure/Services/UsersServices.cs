@@ -849,7 +849,7 @@ namespace SirooWebAPP.Infrastructure.Services
                     Users _liker = _userRepo.GetById(UserID);
 
                     // add like
-                    Likers toCache = _likersRepo.Add(new Likers { Advertise = advertiseID, LikedBy = UserID });
+                    Likers toCache = _likersRepo.Add(new Likers { Advertise = advertiseID, LikedBy = UserID, Created=DateTime.Now});
                     CachedContents.Likers.Add(toCache);
 
                     // check if liker is not ads owner
