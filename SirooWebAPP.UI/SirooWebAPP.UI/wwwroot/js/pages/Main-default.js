@@ -238,7 +238,9 @@ function startSpin() {
                         $('#theWheel').removeClass('the_wheel');
                         $('#theWheel').addClass('the_wheel2');
 
-                        theWheel.animation['stopAngle'] = theArrays[2];
+                        theStopAngle = (360 / theWheel.segments.length) / 2;
+                        theWheel.animation['stopAngle'] = parseInt(theArrays[2])-theStopAngle;
+                        
                         // Begin the spin animation by calling startAnimation on the wheel object.
                         theWheel.startAnimation();
 
