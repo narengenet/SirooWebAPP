@@ -80,6 +80,8 @@ namespace SirooWebAPP.Infrastructure.Services
         private readonly IChipsRepository _chipsRepo;
         private readonly IContactsRepository _contactsRepo;
         private readonly IDiamondUsages _diamondUsageRepo;
+        private readonly IGraphsRepository _graphRepo;
+
 
         private readonly IMapper _mapper;
 
@@ -105,6 +107,7 @@ namespace SirooWebAPP.Infrastructure.Services
             ITransactionPercentsRepository transactionPercentsRepository,
             IChipsRepository chipsRepo,
             IContactsRepository contactsRepo,
+            IGraphsRepository graphRepository,
             IDiamondUsages diamonUsageRepo,
 
             IMapper mapper
@@ -129,6 +132,7 @@ namespace SirooWebAPP.Infrastructure.Services
             _chipsRepo = chipsRepo;
             _contactsRepo = contactsRepo;
             _diamondUsageRepo = diamonUsageRepo;
+            _graphRepo = graphRepository;
 
             _mapper = mapper;
         }
@@ -849,7 +853,7 @@ namespace SirooWebAPP.Infrastructure.Services
                     Users _liker = _userRepo.GetById(UserID);
 
                     // add like
-                    Likers toCache = _likersRepo.Add(new Likers { Advertise = advertiseID, LikedBy = UserID, Created=DateTime.Now});
+                    Likers toCache = _likersRepo.Add(new Likers { Advertise = advertiseID, LikedBy = UserID, Created = DateTime.Now });
                     CachedContents.Likers.Add(toCache);
 
                     // check if liker is not ads owner
@@ -1328,12 +1332,22 @@ namespace SirooWebAPP.Infrastructure.Services
         public void AddDiamondUsage(DiamondUsages diamondUsage)
         {
             _diamondUsageRepo.Add(diamondUsage);
-            
+
         }
 
         public List<DiamondUsages> GetAllDiamondUsages()
         {
             return _diamondUsageRepo.GetAll().Where(d => d.IsDeleted == false).ToList<DiamondUsages>();
+        }
+
+        public List<Graphs> GetAllGraphs()
+        {
+            return _graphRepo.GetAll().Where(g => g.IsExpired == false).ToList<Graphs>();
+        }
+
+        public void AddGraph(Graphs graph)
+        {
+            _graphRepo.Add(graph);
         }
     }
 }

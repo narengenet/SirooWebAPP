@@ -123,5 +123,10 @@ namespace SirooWebAPP.Application.Interfaces
         void AddDiamondUsage(DiamondUsages diamondUsage);
 
 
+
+        List<Graphs> GetAllGraphs();
+        void AddGraph(Graphs graph);
+
+
     }
 }

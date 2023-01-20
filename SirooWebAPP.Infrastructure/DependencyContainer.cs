@@ -33,6 +33,7 @@ namespace SirooWebAPP.Infrastructure
             services.AddScoped<IChipsRepository, ChipsRepository>();
             services.AddScoped<IContactsRepository, ContactsRepository>();
             services.AddScoped<IDiamondUsages, DiamondUsagesRepository>();
+            services.AddScoped<IGraphsRepository, GraphsRepository>();
 
 
             services.AddScoped<IUserServices, UsersServices>();

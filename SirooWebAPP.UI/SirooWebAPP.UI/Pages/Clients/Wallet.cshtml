@@ -86,6 +86,17 @@
                     </div>
                 </form>
 
+
+                @if (Model.IsValidToChallenge)
+                {
+
+                    <div class="row col-12 mb-3 justify-content-center">
+                        <div class="col-6 SirooBtn">
+                            <input type="button" value="شرکت در چالش"  class="col-12" onclick="window.location='/Clients/Challenge';" />
+                        </div>
+                    </div>
+                }
+
                 <div class="row justify-content-center mt-5 mb-3">
                     <div class="col-12 siroo-header">تراکنش های پرداختی شما</div>
                 </div>
@@ -193,7 +204,7 @@
             $('.receiveMoney').css('display','flex');
             receiveMoney=true;
         }
-       
+
     }
 
     function _getTransactions(){
@@ -273,7 +284,7 @@
                     //let date_convert_y = parseInt(mysql_timestamp.substr(6, 4));
                     //let date_convert_m = parseInt(mysql_timestamp.substr(0, 2));
                     //let date_convert_d = parseInt(mysql_timestamp.substr(3, 2));
-                    
+
                     let date_convert_y = new Date(mysql_timestamp).getFullYear();
                     let date_convert_m = (new Date(mysql_timestamp).getMonth()+1);
                     let date_convert_d = new Date(mysql_timestamp).getDate();
@@ -284,7 +295,7 @@
                     //let date_convert_y = parseInt(mysql_timestamp.substr(6, 4));
                     //let date_convert_m = parseInt(mysql_timestamp.substr(0, 2));
                     //let date_convert_d = parseInt(mysql_timestamp.substr(3, 2));
-                    
+
                     let date_convert_y = new Date(mysql_timestamp).getFullYear();
                     let date_convert_m = (new Date(mysql_timestamp).getMonth()+1);
                     let date_convert_d = new Date(mysql_timestamp).getDate();

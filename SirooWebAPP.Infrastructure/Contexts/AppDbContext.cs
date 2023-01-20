@@ -39,6 +39,8 @@ namespace SirooWebAPP.Infrastructure.Contexts
         public DbSet<Chips>  Chips{ get; set; }
         public DbSet<Contacts> Contacts { get; set; }
         public DbSet<DiamondUsages> DiamondUsages { get; set; }
+        public DbSet<Graphs> Graphs{ get; set; }
+        
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -47,6 +49,37 @@ namespace SirooWebAPP.Infrastructure.Contexts
             Users dabouei = new Users { Id = rahmanId, Name = "عبدالرحمن", Family = "دابویی مشک آبادی", Cellphone = "09901069557", Username = "dabooei", ProfileMediaURL = "uploads/2022/9/photo.jpg", DonnationActive = true, Credits = 1000, IsActivated = true, Created = DateTime.Now, Points = 100, Diamonds=0 };
             Guid sinId = Guid.NewGuid();
             Users sina = new Users { Id = sinId, Name = "Sina", Family = "Jouybari", Cellphone = "09394125130", Username = "sinful", ProfileMediaURL = "uploads/2022/9/sina2.jpg", Inviter=rahmanId, IsActivated = true, Created = DateTime.Now, Points = 90, ConfirmationCode="111111", Money=850000, Diamonds=0 };
+            
+            Guid firstId = Guid.NewGuid();
+            Users firstUser = new Users { Id = firstId, Name = "first", Family = "user1", Cellphone = "09111111111", Username = "firstuser", ProfileMediaURL = "uploads/2022/9/sina2.jpg", IsActivated = true, Created = DateTime.Now, Points = 90, ConfirmationCode = "111111", Money = 0, Diamonds = 0 };
+            
+            Guid secondId = Guid.NewGuid();
+            Users secondUser = new Users { Id = secondId, Name = "second", Family = "user2", Cellphone = "09122222222", Username = "seconduser", ProfileMediaURL = "uploads/2022/9/sina2.jpg", IsActivated = true, Created = DateTime.Now, Points = 90, ConfirmationCode = "111111", Money = 0, Diamonds = 0 };
+
+            Guid thirdId = Guid.NewGuid();
+            Users thirdUser = new Users { Id = thirdId, Name = "third", Family = "user3", Cellphone = "09133333333", Username = "thirduser", ProfileMediaURL = "uploads/2022/9/sina2.jpg", IsActivated = true, Created = DateTime.Now, Points = 90, ConfirmationCode = "111111", Money = 0, Diamonds = 0 };
+
+            Guid fourthId = Guid.NewGuid();
+            Users fourthUser = new Users { Id = fourthId, Name = "fourth", Family = "user4", Cellphone = "09144444444", Username = "fourthuser", ProfileMediaURL = "uploads/2022/9/sina2.jpg", IsActivated = true, Created = DateTime.Now, Points = 90, ConfirmationCode = "111111", Money = 0, Diamonds = 0 };
+
+            Guid fivthId = Guid.NewGuid();
+            Users fivthUser = new Users { Id = fivthId, Name = "fivth", Family = "user5", Cellphone = "09155555555", Username = "fivthuser", ProfileMediaURL = "uploads/2022/9/sina2.jpg", IsActivated = true, Created = DateTime.Now, Points = 90, ConfirmationCode = "111111", Money = 0, Diamonds = 0 };
+
+            Guid sixthId = Guid.NewGuid();
+            Users sixthUser = new Users { Id = sixthId, Name = "sixth", Family = "user6", Cellphone = "09166666666", Username = "sixthuser", ProfileMediaURL = "uploads/2022/9/sina2.jpg", IsActivated = true, Created = DateTime.Now, Points = 90, ConfirmationCode = "111111", Money = 0, Diamonds = 0 };
+            
+            Guid seventhId = Guid.NewGuid();
+            Users seventhUser = new Users { Id = seventhId, Name = "seventh", Family = "user7", Cellphone = "09177777777", Username = "seventhuser", ProfileMediaURL = "uploads/2022/9/sina2.jpg", IsActivated = true, Created = DateTime.Now, Points = 90, ConfirmationCode = "111111", Money = 0, Diamonds = 0 };
+
+            Guid eighthId = Guid.NewGuid();
+            Users eighthUser = new Users { Id = eighthId, Name = "eighth", Family = "user8", Cellphone = "09188888888", Username = "eighthuser", ProfileMediaURL = "uploads/2022/9/sina2.jpg", IsActivated = true, Created = DateTime.Now, Points = 90, ConfirmationCode = "111111", Money = 0, Diamonds = 0 };
+
+            Guid ninthId = Guid.NewGuid();
+            Users ninthUser = new Users { Id = ninthId, Name = "ninth", Family = "user9", Cellphone = "09199999999", Username = "ninthuser", ProfileMediaURL = "uploads/2022/9/sina2.jpg", IsActivated = true, Created = DateTime.Now, Points = 90, ConfirmationCode = "111111", Money = 0, Diamonds = 0 };
+
+            Guid tenthId = Guid.NewGuid();
+            Users tenthUser = new Users { Id = tenthId, Name = "tenth", Family = "user10", Cellphone = "09100000000", Username = "tenthuser", ProfileMediaURL = "uploads/2022/9/sina2.jpg", IsActivated = true, Created = DateTime.Now, Points = 90, ConfirmationCode = "111111", Money = 0, Diamonds = 0 };
+
             //Users mohsen = new Users { Id = Guid.NewGuid(), Name = "محسن", Family = "پردلان", Cellphone = "09111769591", Username = "vinona", ProfileMediaURL = "uploads/2022/9/99.jpg", Inviter = dabouei.Id, IsActivated = true, Created = DateTime.Now, Points = 80 };
             //Users sepideh = new Users { Id = Guid.NewGuid(), Name = "سامان", Family = "احمدی", Cellphone = "09161234567", Username = "saman", ProfileMediaURL = "uploads/2022/9/photo.jpg", Inviter = dabouei.Id, IsActivated = true, Created = DateTime.Now, Points = 70 };
             //Users abdolah = new Users { Id = Guid.NewGuid(), Name = "عبداله", Family = "سرپرست", Cellphone = "09112281237", Username = "abdolah", ProfileMediaURL = "uploads/2022/9/photo.jpg", IsActivated = true, Created = DateTime.Now, Points = 60 };
@@ -62,6 +95,16 @@ namespace SirooWebAPP.Infrastructure.Contexts
             //modelBuilder.Entity<Users>().HasData(amir);
             //modelBuilder.Entity<Users>().HasData(maryam);
             //modelBuilder.Entity<Users>().HasData(haji);
+            modelBuilder.Entity<Users>().HasData(firstUser);
+            modelBuilder.Entity<Users>().HasData(secondUser);
+            modelBuilder.Entity<Users>().HasData(thirdUser);
+            modelBuilder.Entity<Users>().HasData(fourthUser);
+            modelBuilder.Entity<Users>().HasData(fivthUser);
+            modelBuilder.Entity<Users>().HasData(sixthUser);
+            modelBuilder.Entity<Users>().HasData(seventhUser);
+            modelBuilder.Entity<Users>().HasData(eighthUser);
+            modelBuilder.Entity<Users>().HasData(ninthUser);
+            modelBuilder.Entity<Users>().HasData(tenthUser);
 
             Roles role_superadmin = new Roles { Id = Guid.NewGuid(), RoleName = "super", IsActivated = true, RoleDescription = "مدیر کل", Priority = 0 };
             Roles role_admin = new Roles { Id = Guid.NewGuid(), RoleName = "admin", IsActivated = true, RoleDescription = "مدیر سامانه", Priority = 1 };
@@ -81,7 +124,16 @@ namespace SirooWebAPP.Infrastructure.Contexts
             UsersRoles superadmin_sina = new UsersRoles { Id = Guid.NewGuid(), Role = role_superadmin.Id, User = sina.Id, CreatedBy = sinId };
             //UsersRoles marketer_sepideh = new UsersRoles { Id = Guid.NewGuid(), Role = role_marketer.Id, User = sepideh.Id, CreatedBy = sina.Id };
             //UsersRoles zoneadmin_mohsen = new UsersRoles { Id = Guid.NewGuid(), Role = role_zoneadmin.Id, User = mohsen.Id, CreatedBy = sina.Id };
-            //UsersRoles client_abdolah = new UsersRoles { Id = Guid.NewGuid(), Role = role_client.Id, User = abdolah.Id, CreatedBy = abdolah.Id };
+            UsersRoles client_1 = new UsersRoles { Id = Guid.NewGuid(), Role = role_client.Id, User = firstId, CreatedBy = firstId };
+            UsersRoles client_2 = new UsersRoles { Id = Guid.NewGuid(), Role = role_client.Id, User = secondId, CreatedBy = secondId };
+            UsersRoles client_3 = new UsersRoles { Id = Guid.NewGuid(), Role = role_client.Id, User = tenthId, CreatedBy = tenthId };
+            UsersRoles client_4 = new UsersRoles { Id = Guid.NewGuid(), Role = role_client.Id, User = fourthId, CreatedBy = fourthId };
+            UsersRoles client_5 = new UsersRoles { Id = Guid.NewGuid(), Role = role_client.Id, User = fivthId, CreatedBy = fivthId};
+            UsersRoles client_6 = new UsersRoles { Id = Guid.NewGuid(), Role = role_client.Id, User = sixthId, CreatedBy = sixthId };
+            UsersRoles client_7 = new UsersRoles { Id = Guid.NewGuid(), Role = role_client.Id, User = seventhId, CreatedBy = seventhId };
+            UsersRoles client_8 = new UsersRoles { Id = Guid.NewGuid(), Role = role_client.Id, User = eighthId, CreatedBy = eighthId };
+            UsersRoles client_9 = new UsersRoles { Id = Guid.NewGuid(), Role = role_client.Id, User = ninthId, CreatedBy = ninthId};
+            UsersRoles client_10 = new UsersRoles { Id = Guid.NewGuid(), Role = role_client.Id, User = tenthId, CreatedBy = tenthId };
             //UsersRoles client_amir = new UsersRoles { Id = Guid.NewGuid(), Role = role_client.Id, User = amir.Id, CreatedBy = abdolah.Id };
             //UsersRoles client_maryam = new UsersRoles { Id = Guid.NewGuid(), Role = role_client.Id, User = maryam.Id, CreatedBy = abdolah.Id };
             //UsersRoles client_haji = new UsersRoles { Id = Guid.NewGuid(), Role = role_client.Id, User = haji.Id, CreatedBy = abdolah.Id };
@@ -91,6 +143,19 @@ namespace SirooWebAPP.Infrastructure.Contexts
             //modelBuilder.Entity<UsersRoles>().HasData(zoneadmin_mohsen);
             //modelBuilder.Entity<UsersRoles>().HasData(client_abdolah);
             modelBuilder.Entity<UsersRoles>().HasData(store_dabouei);
+            
+            modelBuilder.Entity<UsersRoles>().HasData(client_1);
+            modelBuilder.Entity<UsersRoles>().HasData(client_2);
+            modelBuilder.Entity<UsersRoles>().HasData(client_3);
+            modelBuilder.Entity<UsersRoles>().HasData(client_4);
+            modelBuilder.Entity<UsersRoles>().HasData(client_5);
+            modelBuilder.Entity<UsersRoles>().HasData(client_6);
+            modelBuilder.Entity<UsersRoles>().HasData(client_7);
+            modelBuilder.Entity<UsersRoles>().HasData(client_8);
+            modelBuilder.Entity<UsersRoles>().HasData(client_9);
+            modelBuilder.Entity<UsersRoles>().HasData(client_10);
+
+
             //modelBuilder.Entity<UsersRoles>().HasData(client_maryam);
             //modelBuilder.Entity<UsersRoles>().HasData(client_amir);
             //modelBuilder.Entity<UsersRoles>().HasData(client_haji);
@@ -171,6 +236,10 @@ namespace SirooWebAPP.Infrastructure.Contexts
 
             ConstantDictionaries credit_for_image_ads = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "credit_for_image_ads", ConstantValue = "500", IsActive = true, Description = "اعتبار لازم برای ثبت آگهی تصویری", Created = DateTime.Now, CreatedBy = sina.Id, Category = "اعتبار", PriorityIndex = 27 };
             ConstantDictionaries credit_for_video_ads = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "credit_for_video_ads", ConstantValue = "1000", IsActive = true, Description = "اعتبار لازم برای ثبت آگهی ویدئویی", Created = DateTime.Now, CreatedBy = sina.Id, Category = "اعتبار", PriorityIndex = 28 };
+            
+            ConstantDictionaries expire_dates_for_challenge = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "expire_dates_for_challenge", ConstantValue = "60", IsActive = true, Description = "تعداد روزهای مجاز برای چالش", Created = DateTime.Now, CreatedBy = sina.Id, Category = "چالش", PriorityIndex = 29 };
+            ConstantDictionaries money_needed_to_attend_in_challenge = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "money_needed_to_attend_in_challenge", ConstantValue = "3000000", IsActive = true, Description = "موجودی ریالی برای شرکت در چالش", Created = DateTime.Now, CreatedBy = sina.Id, Category = "چالش", PriorityIndex = 30 };
+            ConstantDictionaries prize_for_invite_to_challenge = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "prize_for_invite_to_challenge", ConstantValue = "1000000", IsActive = true, Description = "کارمزد برای معرفی کاربران به چالش", Created = DateTime.Now, CreatedBy = sina.Id, Category = "چالش", PriorityIndex = 31 };
 
 
 
@@ -206,6 +275,9 @@ namespace SirooWebAPP.Infrastructure.Contexts
             modelBuilder.Entity<ConstantDictionaries>().HasData(diamond_tenth_priority);
             modelBuilder.Entity<ConstantDictionaries>().HasData(min_points_to_spin_diamond_wheel);
             modelBuilder.Entity<ConstantDictionaries>().HasData(added_points_to_each_spin_diamond_wheel_after_first_time);
+            modelBuilder.Entity<ConstantDictionaries>().HasData(expire_dates_for_challenge);
+            modelBuilder.Entity<ConstantDictionaries>().HasData(money_needed_to_attend_in_challenge);
+            modelBuilder.Entity<ConstantDictionaries>().HasData(prize_for_invite_to_challenge);
 
 
 
