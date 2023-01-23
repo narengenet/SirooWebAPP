@@ -212,8 +212,7 @@ function startSpin() {
                     if (result != "-1") {
 
                         theArrays = result.split(',');
-                        pointUpdated('-' + theArrays[0]);
-                        diamondUpdated(theArrays[1]);
+
 
                         theResultString=theArrays[3];
 
@@ -243,6 +242,13 @@ function startSpin() {
                         
                         // Begin the spin animation by calling startAnimation on the wheel object.
                         theWheel.startAnimation();
+
+
+                        setTimeout(function () {
+                            pointUpdated('-' + theArrays[0]);
+                            diamondUpdated(theArrays[1]);
+                        }, 9000);
+
 
                         // Set to true so that power can't be changed and spin button re-enabled during
                         // the current animation. The user will have to reset before spinning again.
