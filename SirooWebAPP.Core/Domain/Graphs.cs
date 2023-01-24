@@ -12,9 +12,9 @@ namespace SirooWebAPP.Core.Domain
     public class Graphs : AuditableBaseEntity
     {
         public Guid User { get; set; }
-        public Guid Parent { get; set; }
-        public Guid GrandParent { get; set; }
-        public Guid IsFirstChildOfParent { get; set; }
+        public Guid? Parent { get; set; }
+        public Guid? GrandParent { get; set; }
+        public bool IsFirstChildOfParent { get; set; }
         public int DirectChildCount { get; set; }
         public bool IsExpired { get; set; }
         public DateTime ExpireDate { get; set; }

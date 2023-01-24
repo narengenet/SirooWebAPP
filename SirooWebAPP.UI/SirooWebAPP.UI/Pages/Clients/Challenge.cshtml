@@ -34,28 +34,134 @@
                     <div class="row justify-content-center">
                         <div class="col-12 siroo-label">مبلغ مورد نیاز برای شرکت در چالش</div>
                     </div>
-                <form method="post" class="addMoney row justify-content-center" enctype="multipart/form-data">
-                    <div class="row col-12 mb-3">
-                        <div class="col-12">
-                            <input type="text" class="col-12" disabled value="@Model.NeededMoneyToAttendInChallenge ریال">
+                    <form method="post" class="addMoney row justify-content-center" enctype="multipart/form-data">
+                        <div class="row col-12 mb-3">
+                            <div class="col-12">
+                                <input type="text" class="col-12" disabled asp-for="AddChallenge.NeededMoneyToAttendInChallenge" value="@Model.NeededMoneyToAttendInChallenge ریال">
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="row justify-content-center">
-                        <div class="col-12 siroo-label">نام کاربری معرف شما به این چالش</div>
-                    </div>
-                    <div class="row col-12 mb-2">
-                        <div class="col-12 Textbox fa fa-user">
-                            <input type="text" class="col-12" asp-for="AddChallenge.Parent" />
+                        <div class="row justify-content-center">
+                            <div class="col-12 siroo-label">نام کاربری معرف شما به این چالش</div>
                         </div>
-                    </div>
+                        <div class="row col-12 mb-2">
+                            <div class="col-12 Textbox fa fa-user">
+                                <input type="text" class="col-12" asp-for="AddChallenge.Parent" />
+                            </div>
+                        </div>
 
-                    <div class="row col-12 mb-3 justify-content-center">
-                        <div class="col-8 SirooBtn">
-                            <input id="myInput" type="submit" class="col-12" asp-page-handler="TakeMoney" value="برداشت وجه و شرکت در چالش">
+                        <div class="row justify-content-center">
+                            <div class="col-12 siroo-label">نام</div>
                         </div>
-                    </div>
-                </form>
+                        <div class="row col-12 mb-2">
+                            <div class="col-12 Textbox fa fa-user">
+                                <input type="text" class="col-12" asp-for="AddChallenge.TheName" value="@Model.preDefinedChallenge.TheName" />
+                            </div>
+                            <div class="col-12 text-warning">
+                                <span asp-validation-for="AddChallenge.TheName"></span>
+                            </div>
+                        </div>
+
+                        <div class="row justify-content-center">
+                            <div class="col-12 siroo-label">نام خانوادگی</div>
+                        </div>
+                        <div class="row col-12 mb-2">
+                            <div class="col-12 Textbox fa fa-user">
+                                <input type="text" class="col-12" asp-for="AddChallenge.TheFamily" value="@Model.preDefinedChallenge.TheFamily" />
+                            </div>
+                            <div class="col-12 text-warning">
+                                <span asp-validation-for="AddChallenge.TheFamily"></span>
+                            </div>
+                        </div>
+
+
+                        <div class="row justify-content-center">
+                            <div class="col-12 siroo-label">نام پدر</div>
+                        </div>
+                        <div class="row col-12 mb-2">
+                            <div class="col-12 Textbox fa fa-user">
+                                <input type="text" class="col-12" asp-for="AddChallenge.TheFatherName" />
+                            </div>
+                            <div class="col-12 text-warning">
+                                <span asp-validation-for="AddChallenge.TheFatherName"></span>
+                            </div>
+                        </div>
+
+
+                        <div class="row justify-content-center">
+                            <div class="col-12 siroo-label">شماره شناسنامه</div>
+                        </div>
+                        <div class="row col-12 mb-2">
+                            <div class="col-12 Textbox fa fa-id-card">
+                                <input type="text" class="col-12" asp-for="AddChallenge.TheIDNumber" />
+                            </div>
+                            <div class="col-12 text-warning">
+                                <span asp-validation-for="AddChallenge.TheIDNumber"></span>
+                            </div>
+                        </div>
+
+
+
+                        <div class="row justify-content-center">
+                            <div class="col-12 siroo-label">کد ملی</div>
+                        </div>
+                        <div class="row col-12 mb-2">
+                            <div class="col-12 Textbox fa fa-id-card">
+                                <input type="text" class="col-12" asp-for="AddChallenge.TheNationalID" />
+                            </div>
+                            <div class="col-12 text-warning">
+                                <span asp-validation-for="AddChallenge.TheNationalID"></span>
+                            </div>
+                        </div>
+
+
+                        <div class="row justify-content-center">
+                            <div class="col-12 siroo-label">تاریخ تولد</div>
+                        </div>
+                        <div class="row col-12 mb-2">
+                            <div class="col-12 Textbox fa fa-calendar">
+                                <input type="text" class="col-12" asp-for="AddChallenge.TheBirthDate" />
+                            </div>
+                            <div class="col-12 text-warning">
+                                <span asp-validation-for="AddChallenge.TheBirthDate"></span>
+                            </div>
+                        </div>
+
+
+
+
+                        
+                        <div class="row justify-content-center">
+                            <div class="col-12 siroo-label">شماره موبایل</div>
+                        </div>
+                        <div class="row col-12 mb-2">
+                            <div class="col-12 Textbox fa fa-mobile">
+                                <input type="text" class="col-12" asp-for="AddChallenge.TheMobileNumber" value="@Model.preDefinedChallenge.TheMobileNumber" />
+                            </div>
+                            <div class="col-12 text-warning">
+                                <span asp-validation-for="AddChallenge.TheMobileNumber"></span>
+                            </div>
+                        </div>
+
+
+                        <div class="row col-12 mb-2 mt-3">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" asp-for="AddChallenge.IsMarried">
+                                <label class="form-check-label" for="AddChallenge.IsMarried">آیا متاهل هستید؟</label>
+                            </div>
+                        </div>
+
+
+
+
+
+
+                        <div class="row col-12 mb-3 justify-content-center">
+                            <div class="col-8 SirooBtn">
+                                <input id="myInput" type="submit" class="col-12" asp-page-handler="TakeMoney" value="برداشت وجه و شرکت در چالش">
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>

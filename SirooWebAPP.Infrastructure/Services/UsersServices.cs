@@ -81,6 +81,10 @@ namespace SirooWebAPP.Infrastructure.Services
         private readonly IContactsRepository _contactsRepo;
         private readonly IDiamondUsages _diamondUsageRepo;
         private readonly IGraphsRepository _graphRepo;
+        private readonly IChallengeUserDataRepository _challengeUserDataRepo;
+        private readonly IGraphHistoryRepository _graphHistoryRepo;
+
+
 
 
         private readonly IMapper _mapper;
@@ -109,6 +113,8 @@ namespace SirooWebAPP.Infrastructure.Services
             IContactsRepository contactsRepo,
             IGraphsRepository graphRepository,
             IDiamondUsages diamonUsageRepo,
+            IChallengeUserDataRepository challengeUserDataRepo,
+            IGraphHistoryRepository graphHistoryRepo,
 
             IMapper mapper
             )
@@ -133,6 +139,8 @@ namespace SirooWebAPP.Infrastructure.Services
             _contactsRepo = contactsRepo;
             _diamondUsageRepo = diamonUsageRepo;
             _graphRepo = graphRepository;
+            _challengeUserDataRepo = challengeUserDataRepo;
+            _graphHistoryRepo = graphHistoryRepo;
 
             _mapper = mapper;
         }
@@ -1348,6 +1356,41 @@ namespace SirooWebAPP.Infrastructure.Services
         public void AddGraph(Graphs graph)
         {
             _graphRepo.Add(graph);
+        }
+        void IUserServices.UpdateGraph(Graphs graph)
+        {
+            _graphRepo.Update(graph);
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+        public List<ChallengeUserData> GetAllChallengeUserData()
+        {
+            return _challengeUserDataRepo.GetAll().Where(c => c.IsDeleted == false).ToList<ChallengeUserData>();
+        }
+
+        public void AddChallengeUserData(ChallengeUserData challengeUserData)
+        {
+            _challengeUserDataRepo.Add(challengeUserData);
+        }
+
+        public List<GraphHistory> GetAllGraphHistoryData()
+        {
+            return _graphHistoryRepo.GetAll().Where(g => g.IsDeleted == false).ToList<GraphHistory>();
+        }
+
+        void IUserServices.AddGraphHistory(GraphHistory graphHistory)
+        {
+            _graphHistoryRepo.Add(graphHistory);
         }
     }
 }

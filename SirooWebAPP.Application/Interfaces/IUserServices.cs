@@ -126,6 +126,16 @@ namespace SirooWebAPP.Application.Interfaces
 
         List<Graphs> GetAllGraphs();
         void AddGraph(Graphs graph);
+        void UpdateGraph(Graphs graph);
+
+
+
+        List<ChallengeUserData> GetAllChallengeUserData();
+        void AddChallengeUserData(ChallengeUserData challengeUserData);
+
+
+        List<GraphHistory> GetAllGraphHistoryData();
+        void AddGraphHistory(GraphHistory graphHistory);
 
 
     }

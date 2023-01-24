@@ -27,11 +27,17 @@ namespace SirooWebAPP.UI.Pages.Clients
         public bool IsValidToChallenge = false;
         public long NeededMoneyToAttendInChallenge = 0;
 
+
+
         [BindProperty]
-        public AddMoney? AddMoney { get; set; }
-        
-        [BindProperty]
-        public AddChallenge? AddChallenge{ get; set; }
+        public AddChallenge? AddChallenge { get; set; }
+
+        public AddChallenge preDefinedChallenge;
+
+
+
+        public string ResultMessage = "";
+        public string ResultMessageSuccess = "danger";
 
 
         public void OnGet()
@@ -44,6 +50,8 @@ namespace SirooWebAPP.UI.Pages.Clients
 
         void InitiateValidations()
         {
+
+            preDefinedChallenge = new AddChallenge();
             // get current user
             string _creatorId = HelperFunctions.GetCookie("userid", Request);
             Guid creatorID = Guid.Parse(_creatorId);
@@ -65,6 +73,10 @@ namespace SirooWebAPP.UI.Pages.Clients
                     if (graphUser == null)
                     {
                         IsValidToChallenge = true;
+
+                        preDefinedChallenge.TheName = theUser.Name;
+                        preDefinedChallenge.TheFamily = theUser.Family;
+                        preDefinedChallenge.TheMobileNumber = theUser.Cellphone;
                     }
                 }
 
@@ -76,43 +88,92 @@ namespace SirooWebAPP.UI.Pages.Clients
 
         public IActionResult OnPostTakeMoney(AddChallenge addChallenge)
         {
-            
-
             InitiateValidations();
 
-            // get current user
-            string _creatorId = HelperFunctions.GetCookie("userid", Request);
-            Guid creatorID = Guid.Parse(_creatorId);
-            Users theUser = _usersServices.GetUser(creatorID);
-
-            if (theUser != null && theUser.Money >= NeededMoneyToAttendInChallenge)
+            if (ModelState.IsValid)
             {
 
-                int addedDaysToExpireGraph = Convert.ToInt32(_usersServices.GetConstantDictionary("expire_dates_for_challenge").ConstantValue);
-
-                //_usersServices.AddGraph(new Graphs
-                //{
-                //     User=creatorID,
-                //      Created=DateTime.Today,
-                //       ExpireDate=DateTime.Today.AddDays(addedDaysToExpireGraph),
-                //        Parent=
-                //})
 
 
-                //Guid transacId = _usersServices.AddTransaction(new Transactions
-                //{
-                //    Created = DateTime.Now,
-                //    Amount = NeededMoneyToAttendInChallenge,
-                //    User = theUser.Id,
-                //    Status = "شرکت در چالش",
-                //    IsSuccessfull=true,
-                //    ReferenceID=
+                // get current user
+                string _creatorId = HelperFunctions.GetCookie("userid", Request);
+                Guid creatorID = Guid.Parse(_creatorId);
+                Users theUser = _usersServices.GetUser(creatorID);
+                Graphs theParentGraph = null;
 
-                //});
-                //return Redirect("/Payment?theAmount=" + addMoney.NewAmount + "&theDescription=" + transacId.ToString());
+                if (theUser != null && theUser.Money >= NeededMoneyToAttendInChallenge)
+                {
 
+                    Users theParentUser = _usersServices.GetAllUsers().Where(u => u.Username == addChallenge.Parent).FirstOrDefault();
+                    Guid? theGrandParentUser = null;
+                    bool isFirstChildOfParent = true;
+                    int addedDaysToExpireGraph = Convert.ToInt32(_usersServices.GetConstantDictionary("expire_dates_for_challenge").ConstantValue);
+
+
+                    if (theParentUser != null)
+                    {
+                        theParentGraph = _usersServices.GetAllGraphs().Where(g => g.User == theParentUser.Id && g.ExpireDate > DateTime.Today.AddDays(-1 * addedDaysToExpireGraph)).FirstOrDefault();
+                        if (theParentGraph == null)
+                        {
+                            ResultMessage = "نام کاربری معرف اشتباه است.";
+                            return Page();
+                        }
+
+                        theGrandParentUser = theParentGraph.GrandParent;
+                        if (_usersServices.GetAllGraphs().Where(g => g.Parent == theParentUser.Id).FirstOrDefault() != null)
+                        {
+                            isFirstChildOfParent = false;
+                        }
+
+                    }
+
+
+
+                    Graphs newGraph = new Graphs
+                    {
+                        User = creatorID,
+                        DirectChildCount = 0,
+                        Parent = (theParentUser == null) ? null : theParentUser.Id,
+                        ExpireDate = DateTime.Today.AddDays(addedDaysToExpireGraph),
+                        GrandParent = theGrandParentUser,
+                        IsFirstChildOfParent = isFirstChildOfParent,
+                        Created = DateTime.Now,
+                        IsExpired = false,
+                        ReceivedShared = 0
+
+                    };
+
+                    _usersServices.AddGraph(newGraph);
+
+                    if (theParentUser!=null && isFirstChildOfParent==false)
+                    {
+                        theParentGraph.ReceivedShared += 1;
+                        _usersServices.UpdateGraph(theParentGraph);
+                    }
+
+                    //_usersServices.AddGraph(new Graphs
+                    //{
+                    //     User=creatorID,
+                    //      Created=DateTime.Today,
+                    //       ExpireDate=DateTime.Today.AddDays(addedDaysToExpireGraph),
+                    //        Parent=
+                    //})
+
+
+                    //Guid transacId = _usersServices.AddTransaction(new Transactions
+                    //{
+                    //    Created = DateTime.Now,
+                    //    Amount = NeededMoneyToAttendInChallenge,
+                    //    User = theUser.Id,
+                    //    Status = "شرکت در چالش",
+                    //    IsSuccessfull=true,
+                    //    ReferenceID=
+
+                    //});
+                    //return Redirect("/Payment?theAmount=" + addMoney.NewAmount + "&theDescription=" + transacId.ToString());
+
+                }
             }
-
 
             return Page();
         }

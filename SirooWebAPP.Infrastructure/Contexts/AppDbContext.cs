@@ -40,6 +40,7 @@ namespace SirooWebAPP.Infrastructure.Contexts
         public DbSet<Contacts> Contacts { get; set; }
         public DbSet<DiamondUsages> DiamondUsages { get; set; }
         public DbSet<Graphs> Graphs{ get; set; }
+        public DbSet<ChallengeUserData> ChallengeUserData{ get; set; }
         
 
 
