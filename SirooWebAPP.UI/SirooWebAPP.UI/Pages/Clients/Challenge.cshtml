@@ -12,6 +12,15 @@
 
 </style>
 
+@if (Model.ResultMessage.Length > 1)
+{
+    <div class="alert alert-@Model.ResultMessageSuccess fade show" role="alert">
+        @Model.ResultMessage
+        <button type="button" class="close" data-dismiss="alert" onclick="closeAlert();" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
 
 @if (Model.IsValidToChallenge)
 {
@@ -130,7 +139,7 @@
 
 
 
-                        
+
                         <div class="row justify-content-center">
                             <div class="col-12 siroo-label">شماره موبایل</div>
                         </div>
@@ -168,13 +177,262 @@
     </div>
 }
 
+@if (Model.IsValidToChallenge == false && Model.HasChallenge == false)
+{
+    <div class="SirooRightBlockContainer">
+        <div class="mb-5 SirooRightBlock  col-12">
+            <div class="d-flex flex-row-reverse SirooRightBlockHeader">
+                <a class="profile-media col-2" href="#">
+                    <img src="~/uploads/assets/profile.jpg" />
+                </a>
+                <a href="#" class="col-6 profile-fullname">مجاز نیستید</a>
+                <a href="#" class="col-2 profile-date"></a>
+            </div>
+            <div class="d-flex flex-column justify-content-center SirooContainer">
+                <div class="SirooItems">
+                    <div class="row justify-content-center mb-3">
+                        <div class="col-12 siroo-header">شرایط شرکت در چالش</div>
+                    </div>
+                    <div class="row">&nbsp;</div>
 
 
-@if (Model.IsValidToChallenge == false)
+
+
+
+                    <div class="row justify-content-center mb-3" style="direction:rtl;">
+                        <div class="col-12 siroo-header">برای شرکت در چالش باید مبلغ @Model.NeededMoneyToAttendInChallenge ریال در کیف پول خود داشته باشید.</div>
+                    </div>
+                    <div class="row">&nbsp;</div>
+
+                    <div class="row col-12 mb-3 justify-content-center">
+                        <div class="col-8 SirooBtn">
+                            <input type="submit" class="col-12" onclick="window.location='/Clients/Wallet';"  value="کیف پول">
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@if (Model.HasChallenge)
+{
+
+    <div class="SirooRightBlockContainer">
+        <div class="mb-5 SirooRightBlock  col-12">
+            <div class="d-flex flex-row-reverse SirooRightBlockHeader">
+                <a class="profile-media col-2" href="#">
+                    <img src="~/uploads/assets/profile.jpg" />
+                </a>
+                <a href="#" class="col-6 profile-fullname">چالش من</a>
+                <a href="#" class="col-2 profile-date"></a>
+            </div>
+            <div class="d-flex flex-column justify-content-center SirooContainer">
+                <div class="SirooItems">
+                    <div class="row justify-content-center mb-3">
+                        <div class="col-12 siroo-header">چالش من</div>
+                    </div>
+                    <div class="row">&nbsp;</div>
+
+
+                    <div id="chartdiv"></div>
+
+
+                    <div class="row justify-content-center mb-3" style="position:absolute;top:100px;">
+                        <div class="col-12 siroo-header">معرفی های مستقیم: @Model.DirectInviteds</div>
+                    </div>
+                    <div class="row">&nbsp;</div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+    @*
+        <div>ثبت شده است.</div>
+        <div>سهم دریافتی تاکنون:</div>
+        <div>@Model.ShareReceivedUntilNow</div>
+        <div>معرفی های مستقیم:</div>
+        <div>@Model.DirectInviteds</div>*@
+
+
+
+
+}
+
+
+
+@if (Model.IsValidToChallenge == false && Model.HasChallenge == false)
 {
     <script>
 
-        window.location="/Clients/Main";
+        //window.location="/Clients/Main";
 
     </script>
+}
+
+@if (Model.HasChallenge)
+{
+    <script src="https://cdn.amcharts.com/lib/4/core.js"></script>
+    <script src="https://cdn.amcharts.com/lib/4/charts.js"></script>
+    <script src="https://cdn.amcharts.com/lib/4/themes/animated.js"></script>
+    <script src="https://cdn.amcharts.com/lib/4/themes/material.js"></script>
+
+
+    <style>
+        #chartdiv {
+            width: 100%;
+            height: 60vh;
+        }
+    </style>
+
+    <script src="~/js/pages/Challenge-default.js"></script>
+
+    <script>
+
+                var sharedreceived=@Model.ShareReceivedUntilNow/10;
+                var deadlineDays=@Model.DeadlineDays;
+                var remainingDays=@Model.RemainingDays;
+
+
+
+        am4core.useTheme(am4themes_animated);
+        am4core.useTheme(am4themes_material);
+
+
+        // create chart
+        var chart = am4core.create("chartdiv", am4charts.GaugeChart);
+        chart.hiddenState.properties.opacity = 0;
+
+        var axis = chart.xAxes.push(new am4charts.ValueAxis());
+        axis.min = 0;
+        axis.max = deadlineDays;
+        axis.strictMinMax = true;
+        axis.renderer.inside = true;
+        //axis.renderer.ticks.template.inside = true;
+        //axis.stroke = chart.colors.getIndex(3);
+        axis.renderer.radius = am4core.percent(97);
+        axis.renderer.radius = 100;
+        axis.renderer.line.strokeOpacity = 1;
+        axis.renderer.line.strokeWidth = 10;
+        axis.renderer.line.stroke = chart.colors.getIndex(0);
+        axis.renderer.ticks.template.stroke = chart.colors.getIndex(0);
+        axis.renderer.labels.template.radius = 35;
+        axis.renderer.labels.template.fill = 'orange';
+        axis.renderer.ticks.template.strokeOpacity = 1;
+        axis.renderer.grid.template.disabled = true;
+        axis.renderer.ticks.template.length = 10;
+        axis.hiddenState.properties.opacity = 1;
+        axis.hiddenState.properties.visible = true;
+        axis.setStateOnChildren = true;
+        axis.renderer.hiddenState.properties.endAngle = 180;
+
+        var axis2 = chart.xAxes.push(new am4charts.ValueAxis());
+        axis2.min = 0.0;
+        axis2.max = 100.0;
+        axis2.strictMinMax = true;
+
+        axis2.renderer.line.strokeOpacity = 1;
+        axis2.renderer.line.strokeWidth = 10;
+        axis2.renderer.line.stroke = chart.colors.getIndex(5);
+        axis2.renderer.ticks.template.stroke = chart.colors.getIndex(3);
+        axis2.renderer.labels.template.fill = 'white';
+
+        axis2.renderer.ticks.template.strokeOpacity = 1;
+        axis2.renderer.grid.template.disabled = false;
+        axis2.renderer.ticks.template.length = 10;
+        axis2.hiddenState.properties.opacity = 1;
+        axis2.hiddenState.properties.visible = true;
+        axis2.setStateOnChildren = true;
+        axis2.renderer.hiddenState.properties.endAngle = 180;
+
+        var hand = chart.hands.push(new am4charts.ClockHand());
+        hand.fill = axis.renderer.line.stroke;
+        hand.stroke = axis.renderer.line.stroke;
+        hand.axis = axis;
+        hand.pin.radius = 14;
+        hand.startWidth = 10;
+
+        var hand2 = chart.hands.push(new am4charts.ClockHand());
+        hand2.fill = axis2.renderer.line.stroke;
+        hand2.stroke = axis2.renderer.line.stroke;
+        hand2.axis = axis2;
+        hand2.pin.radius = 10;
+        hand2.startWidth = 10;
+
+
+
+        var legend = new am4charts.Legend();
+        legend.isMeasured = false;
+        legend.y = am4core.percent(100);
+        legend.verticalCenter = "bottom";
+        legend.parent = chart.chartContainer;
+        legend.labels.template.fill = 'white';
+        legend.data = [{
+            "name": "روزهای باقیمانده",
+            "fill": chart.colors.getIndex(0)
+        }, {
+            "name": "درصد موفقیت",
+            "fill": chart.colors.getIndex(5)
+        }];
+
+        var labelList = new am4core.ListTemplate(new am4core.Label());
+        labelList.template.isMeasured = false;
+        labelList.template.background.strokeWidth = 2;
+        labelList.template.fontSize = 25;
+        labelList.template.fill = 'white';
+        labelList.template.padding(5, 5, 5, 5);
+        labelList.template.y = am4core.percent(70);
+        labelList.template.horizontalCenter = "middle";
+
+        var label = labelList.create();
+        label.parent = chart.chartContainer;
+        label.x = am4core.percent(40);
+        label.background.stroke = chart.colors.getIndex(0);
+        label.fill = chart.colors.getIndex(0);
+        label.text = "0";
+
+        var label2 = labelList.create();
+        label2.parent = chart.chartContainer;
+        label2.x = am4core.percent(60);
+        label2.background.stroke = chart.colors.getIndex(3);
+        label2.fill = chart.colors.getIndex(3);
+        label2.text = "0";
+
+        legend.itemContainers.template.events.on("hit", function (ev) {
+            var index = ev.target.dataItem.index;
+            if (ev.target.isActive) {
+                chart.hands.getIndex(index).show();
+                chart.xAxes.getIndex(index).show();
+                labelList.getIndex(index).show();
+            }
+            else {
+                chart.hands.getIndex(index).hide();
+                chart.xAxes.getIndex(index).hide();
+                labelList.getIndex(index).hide();
+            }
+        });
+
+
+
+
+                        setInterval(() => {
+                    hand.showValue(remainingDays, 1000, am4core.ease.cubicOut);
+                    label.text = "" + remainingDays;
+                    hand2.showValue(sharedreceived, 1000, am4core.ease.cubicOut);
+                    label2.text = "" + sharedreceived;
+                }, 2000);
+    </script>
+
+
 }

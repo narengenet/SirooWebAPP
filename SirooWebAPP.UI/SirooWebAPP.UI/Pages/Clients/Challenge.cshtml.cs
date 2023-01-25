@@ -25,8 +25,12 @@ namespace SirooWebAPP.UI.Pages.Clients
 
 
         public bool IsValidToChallenge = false;
+        public bool HasChallenge = false;
         public long NeededMoneyToAttendInChallenge = 0;
-
+        public int ShareReceivedUntilNow = 0;
+        public int DirectInviteds = 0;
+        public int DeadlineDays = 0;
+        public int RemainingDays = 0;
 
 
         [BindProperty]
@@ -67,6 +71,8 @@ namespace SirooWebAPP.UI.Pages.Clients
 
                 // check validity to attend in new challenge
                 NeededMoneyToAttendInChallenge = Convert.ToInt64(_usersServices.GetConstantDictionary("money_needed_to_attend_in_challenge").ConstantValue);
+                DeadlineDays = Convert.ToInt32(_usersServices.GetConstantDictionary("expire_dates_for_challenge").ConstantValue);
+
                 if (Convert.ToInt64(Amount) >= NeededMoneyToAttendInChallenge)
                 {
                     Graphs graphUser = _usersServices.GetAllGraphs().Where(g => g.User == creatorID).FirstOrDefault();
@@ -77,6 +83,24 @@ namespace SirooWebAPP.UI.Pages.Clients
                         preDefinedChallenge.TheName = theUser.Name;
                         preDefinedChallenge.TheFamily = theUser.Family;
                         preDefinedChallenge.TheMobileNumber = theUser.Cellphone;
+                    }
+                    else
+                    {
+                        HasChallenge = true;
+                        ShareReceivedUntilNow = _usersServices.GetAllGraphHistoryData().Where(g => g.ToUser == creatorID).ToList().Count;
+                        DirectInviteds = _usersServices.GetAllGraphs().Where(g => g.Parent == creatorID).ToList().Count;
+                        RemainingDays = Convert.ToInt32((graphUser.ExpireDate - Convert.ToDateTime(graphUser.Created)).TotalDays);
+                    }
+                }
+                else
+                {
+                    Graphs graphUser = _usersServices.GetAllGraphs().Where(g => g.User == creatorID).FirstOrDefault();
+                    if (graphUser != null)
+                    {
+                        HasChallenge = true;
+                        ShareReceivedUntilNow = _usersServices.GetAllGraphHistoryData().Where(g => g.ToUser == creatorID).ToList().Count;
+                        DirectInviteds = _usersServices.GetAllGraphs().Where(g => g.Parent == creatorID).ToList().Count;
+                        RemainingDays = Convert.ToInt32((graphUser.ExpireDate - Convert.ToDateTime(graphUser.Created)).TotalDays);
                     }
                 }
 
@@ -101,29 +125,59 @@ namespace SirooWebAPP.UI.Pages.Clients
                 Users theUser = _usersServices.GetUser(creatorID);
                 Graphs theParentGraph = null;
 
+                // check validity to challenge
                 if (theUser != null && theUser.Money >= NeededMoneyToAttendInChallenge)
                 {
-
+                    // initiate required data
                     Users theParentUser = _usersServices.GetAllUsers().Where(u => u.Username == addChallenge.Parent).FirstOrDefault();
                     Guid? theGrandParentUser = null;
                     bool isFirstChildOfParent = true;
                     int addedDaysToExpireGraph = Convert.ToInt32(_usersServices.GetConstantDictionary("expire_dates_for_challenge").ConstantValue);
 
 
+                    // if parent user is not null
                     if (theParentUser != null)
                     {
-                        theParentGraph = _usersServices.GetAllGraphs().Where(g => g.User == theParentUser.Id && g.ExpireDate > DateTime.Today.AddDays(-1 * addedDaysToExpireGraph)).FirstOrDefault();
+                        //theParentGraph = _usersServices.GetAllGraphs().Where(g => g.User == theParentUser.Id && g.ExpireDate > DateTime.Today.AddDays(-1 * addedDaysToExpireGraph)).FirstOrDefault();
+                        theParentGraph = _usersServices.GetAllGraphs().Where(g => g.User == theParentUser.Id).FirstOrDefault();
                         if (theParentGraph == null)
                         {
                             ResultMessage = "نام کاربری معرف اشتباه است.";
                             return Page();
                         }
 
-                        theGrandParentUser = theParentGraph.GrandParent;
+                        // check if parent has another child 
                         if (_usersServices.GetAllGraphs().Where(g => g.Parent == theParentUser.Id).FirstOrDefault() != null)
                         {
+                            //parent has not any child
                             isFirstChildOfParent = false;
+                            theGrandParentUser = theParentGraph.GrandParent;
                         }
+                        else
+                        {
+                            if (theParentGraph.GrandParent!=theParentGraph.User)
+                            {
+                                theGrandParentUser = theParentGraph.GrandParent;
+                            }
+                            
+                        }
+
+                    }
+                    else
+                    {
+
+                        if (addChallenge.Parent != null)
+                        {
+                            ResultMessage = "نام کاربری معرف اشتباه است.";
+                            return Page();
+
+                        }
+                        //// check if user has another child, then current child grand parent 
+                        //if(_usersServices.GetAllGraphs().Where(g => g.Parent == creatorID).FirstOrDefault() == null)
+                        //{
+                        //    // if there is no parent, grandparent of current user is himself/herself
+                        theGrandParentUser = creatorID;
+                        //}
 
                     }
 
@@ -145,12 +199,78 @@ namespace SirooWebAPP.UI.Pages.Clients
 
                     _usersServices.AddGraph(newGraph);
 
-                    if (theParentUser!=null && isFirstChildOfParent==false)
+                    // add prize to parent if this is not first child
+                    if (theParentUser != null && isFirstChildOfParent == false)
                     {
                         theParentGraph.ReceivedShared += 1;
                         _usersServices.UpdateGraph(theParentGraph);
+
+                        _usersServices.AddGraphHistory(new GraphHistory
+                        {
+                            Created = DateTime.Now,
+                            User = creatorID,
+                            ToUser = theParentUser.Id,
+                            Graph = newGraph.Id,
+                        });
+
+
                     }
 
+
+                    // add prize to grand father if exist
+                    if (theGrandParentUser != null && isFirstChildOfParent && theGrandParentUser != creatorID)
+                    {
+                        Graphs theGrandParentGraph = _usersServices.GetAllGraphs().Where(g => g.User == theGrandParentUser && g.ExpireDate > DateTime.Today.AddDays(-1 * addedDaysToExpireGraph)).FirstOrDefault();
+                        theGrandParentGraph.ReceivedShared += 1;
+                        _usersServices.UpdateGraph(theGrandParentGraph);
+
+                        _usersServices.AddGraphHistory(new GraphHistory
+                        {
+                            Created = DateTime.Now,
+                            Graph = newGraph.Id,
+                            User = creatorID,
+                            ToUser = Guid.Parse(theGrandParentUser.ToString())
+                        });
+                    }
+
+
+
+                    _usersServices.AddChallengeUserData(new ChallengeUserData
+                    {
+                        Cellphone = addChallenge.TheMobileNumber,
+                        BirthDate = addChallenge.TheBirthDate,
+                        Name = addChallenge.TheName,
+                        Family = addChallenge.TheFamily,
+                        FatherName = addChallenge.TheFatherName,
+                        IdentityID = addChallenge.TheIDNumber,
+                        NationalID = addChallenge.TheNationalID,
+                        IsMarried = addChallenge.IsMarried,
+                        User = creatorID,
+                        Graph = newGraph.Id,
+                        Created = DateTime.Now
+
+                    });
+
+
+                    _usersServices.AddTransaction(new Transactions
+                    {
+                        Amount = -1*NeededMoneyToAttendInChallenge,
+                        Created = DateTime.Now,
+                        ReferenceID = newGraph.Id.ToString(),
+                        Status = "شرکت در چالش",
+                        User = creatorID
+                    });
+
+                    theUser.Money -= NeededMoneyToAttendInChallenge;
+                    _usersServices.UpdateUser(theUser);
+
+                    ResultMessage = "ثبت شد.";
+                    ResultMessageSuccess = "success";
+
+                    IsValidToChallenge = false;
+                    HasChallenge = true;
+
+                    return Page();
                     //_usersServices.AddGraph(new Graphs
                     //{
                     //     User=creatorID,

@@ -529,7 +529,7 @@ namespace SirooWebAPP.UI.Controllers
             Guid userId = Guid.Parse(_userid);
             if (_session.GetString("userrolename") == "super" || _session.GetString("userrolename") == "admin")
             {
-                Users theUser = _usersServices.GetUser(userID);
+                Users theUser = _usersServices.GetNotDeletedUser(userID);
                 if (theUser != null)
                 {
                     theUser.IsDeleted = true;

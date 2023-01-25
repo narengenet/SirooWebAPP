@@ -41,6 +41,7 @@ namespace SirooWebAPP.Infrastructure.Contexts
         public DbSet<DiamondUsages> DiamondUsages { get; set; }
         public DbSet<Graphs> Graphs{ get; set; }
         public DbSet<ChallengeUserData> ChallengeUserData{ get; set; }
+        public DbSet<GraphHistory> GraphHistory{ get; set; }
         
 
 
@@ -52,34 +53,34 @@ namespace SirooWebAPP.Infrastructure.Contexts
             Users sina = new Users { Id = sinId, Name = "Sina", Family = "Jouybari", Cellphone = "09394125130", Username = "sinful", ProfileMediaURL = "uploads/2022/9/sina2.jpg", Inviter=rahmanId, IsActivated = true, Created = DateTime.Now, Points = 90, ConfirmationCode="111111", Money=850000, Diamonds=0 };
             
             Guid firstId = Guid.NewGuid();
-            Users firstUser = new Users { Id = firstId, Name = "first", Family = "user1", Cellphone = "09111111111", Username = "firstuser", ProfileMediaURL = "uploads/2022/9/sina2.jpg", IsActivated = true, Created = DateTime.Now, Points = 90, ConfirmationCode = "111111", Money = 0, Diamonds = 0 };
+            Users firstUser = new Users { Id = firstId, Name = "first", Family = "user1", Cellphone = "09111111111", Username = "firstuser", ProfileMediaURL = "uploads/2022/9/sina2.jpg", IsActivated = true, Created = DateTime.Now, Points = 90, ConfirmationCode = "111111", Money = 3000000, Diamonds = 0 };
             
             Guid secondId = Guid.NewGuid();
-            Users secondUser = new Users { Id = secondId, Name = "second", Family = "user2", Cellphone = "09122222222", Username = "seconduser", ProfileMediaURL = "uploads/2022/9/sina2.jpg", IsActivated = true, Created = DateTime.Now, Points = 90, ConfirmationCode = "111111", Money = 0, Diamonds = 0 };
+            Users secondUser = new Users { Id = secondId, Name = "second", Family = "user2", Cellphone = "09122222222", Username = "seconduser", ProfileMediaURL = "uploads/2022/9/sina2.jpg", IsActivated = true, Created = DateTime.Now, Points = 90, ConfirmationCode = "111111", Money = 3000000, Diamonds = 0 };
 
             Guid thirdId = Guid.NewGuid();
-            Users thirdUser = new Users { Id = thirdId, Name = "third", Family = "user3", Cellphone = "09133333333", Username = "thirduser", ProfileMediaURL = "uploads/2022/9/sina2.jpg", IsActivated = true, Created = DateTime.Now, Points = 90, ConfirmationCode = "111111", Money = 0, Diamonds = 0 };
+            Users thirdUser = new Users { Id = thirdId, Name = "third", Family = "user3", Cellphone = "09133333333", Username = "thirduser", ProfileMediaURL = "uploads/2022/9/sina2.jpg", IsActivated = true, Created = DateTime.Now, Points = 90, ConfirmationCode = "111111", Money = 3000000, Diamonds = 0 };
 
             Guid fourthId = Guid.NewGuid();
-            Users fourthUser = new Users { Id = fourthId, Name = "fourth", Family = "user4", Cellphone = "09144444444", Username = "fourthuser", ProfileMediaURL = "uploads/2022/9/sina2.jpg", IsActivated = true, Created = DateTime.Now, Points = 90, ConfirmationCode = "111111", Money = 0, Diamonds = 0 };
+            Users fourthUser = new Users { Id = fourthId, Name = "fourth", Family = "user4", Cellphone = "09144444444", Username = "fourthuser", ProfileMediaURL = "uploads/2022/9/sina2.jpg", IsActivated = true, Created = DateTime.Now, Points = 90, ConfirmationCode = "111111", Money = 3000000, Diamonds = 0 };
 
             Guid fivthId = Guid.NewGuid();
-            Users fivthUser = new Users { Id = fivthId, Name = "fivth", Family = "user5", Cellphone = "09155555555", Username = "fivthuser", ProfileMediaURL = "uploads/2022/9/sina2.jpg", IsActivated = true, Created = DateTime.Now, Points = 90, ConfirmationCode = "111111", Money = 0, Diamonds = 0 };
+            Users fivthUser = new Users { Id = fivthId, Name = "fivth", Family = "user5", Cellphone = "09155555555", Username = "fivthuser", ProfileMediaURL = "uploads/2022/9/sina2.jpg", IsActivated = true, Created = DateTime.Now, Points = 90, ConfirmationCode = "111111", Money = 3000000, Diamonds = 0 };
 
             Guid sixthId = Guid.NewGuid();
-            Users sixthUser = new Users { Id = sixthId, Name = "sixth", Family = "user6", Cellphone = "09166666666", Username = "sixthuser", ProfileMediaURL = "uploads/2022/9/sina2.jpg", IsActivated = true, Created = DateTime.Now, Points = 90, ConfirmationCode = "111111", Money = 0, Diamonds = 0 };
+            Users sixthUser = new Users { Id = sixthId, Name = "sixth", Family = "user6", Cellphone = "09166666666", Username = "sixthuser", ProfileMediaURL = "uploads/2022/9/sina2.jpg", IsActivated = true, Created = DateTime.Now, Points = 90, ConfirmationCode = "111111", Money = 3000000, Diamonds = 0 };
             
             Guid seventhId = Guid.NewGuid();
-            Users seventhUser = new Users { Id = seventhId, Name = "seventh", Family = "user7", Cellphone = "09177777777", Username = "seventhuser", ProfileMediaURL = "uploads/2022/9/sina2.jpg", IsActivated = true, Created = DateTime.Now, Points = 90, ConfirmationCode = "111111", Money = 0, Diamonds = 0 };
+            Users seventhUser = new Users { Id = seventhId, Name = "seventh", Family = "user7", Cellphone = "09177777777", Username = "seventhuser", ProfileMediaURL = "uploads/2022/9/sina2.jpg", IsActivated = true, Created = DateTime.Now, Points = 90, ConfirmationCode = "111111", Money = 3000000, Diamonds = 0 };
 
             Guid eighthId = Guid.NewGuid();
-            Users eighthUser = new Users { Id = eighthId, Name = "eighth", Family = "user8", Cellphone = "09188888888", Username = "eighthuser", ProfileMediaURL = "uploads/2022/9/sina2.jpg", IsActivated = true, Created = DateTime.Now, Points = 90, ConfirmationCode = "111111", Money = 0, Diamonds = 0 };
+            Users eighthUser = new Users { Id = eighthId, Name = "eighth", Family = "user8", Cellphone = "09188888888", Username = "eighthuser", ProfileMediaURL = "uploads/2022/9/sina2.jpg", IsActivated = true, Created = DateTime.Now, Points = 90, ConfirmationCode = "111111", Money = 3000000, Diamonds = 0 };
 
             Guid ninthId = Guid.NewGuid();
-            Users ninthUser = new Users { Id = ninthId, Name = "ninth", Family = "user9", Cellphone = "09199999999", Username = "ninthuser", ProfileMediaURL = "uploads/2022/9/sina2.jpg", IsActivated = true, Created = DateTime.Now, Points = 90, ConfirmationCode = "111111", Money = 0, Diamonds = 0 };
+            Users ninthUser = new Users { Id = ninthId, Name = "ninth", Family = "user9", Cellphone = "09199999999", Username = "ninthuser", ProfileMediaURL = "uploads/2022/9/sina2.jpg", IsActivated = true, Created = DateTime.Now, Points = 90, ConfirmationCode = "111111", Money = 3000000, Diamonds = 0 };
 
             Guid tenthId = Guid.NewGuid();
-            Users tenthUser = new Users { Id = tenthId, Name = "tenth", Family = "user10", Cellphone = "09100000000", Username = "tenthuser", ProfileMediaURL = "uploads/2022/9/sina2.jpg", IsActivated = true, Created = DateTime.Now, Points = 90, ConfirmationCode = "111111", Money = 0, Diamonds = 0 };
+            Users tenthUser = new Users { Id = tenthId, Name = "tenth", Family = "user10", Cellphone = "09100000000", Username = "tenthuser", ProfileMediaURL = "uploads/2022/9/sina2.jpg", IsActivated = true, Created = DateTime.Now, Points = 90, ConfirmationCode = "111111", Money = 3000000, Diamonds = 0 };
 
             //Users mohsen = new Users { Id = Guid.NewGuid(), Name = "محسن", Family = "پردلان", Cellphone = "09111769591", Username = "vinona", ProfileMediaURL = "uploads/2022/9/99.jpg", Inviter = dabouei.Id, IsActivated = true, Created = DateTime.Now, Points = 80 };
             //Users sepideh = new Users { Id = Guid.NewGuid(), Name = "سامان", Family = "احمدی", Cellphone = "09161234567", Username = "saman", ProfileMediaURL = "uploads/2022/9/photo.jpg", Inviter = dabouei.Id, IsActivated = true, Created = DateTime.Now, Points = 70 };
@@ -127,7 +128,7 @@ namespace SirooWebAPP.Infrastructure.Contexts
             //UsersRoles zoneadmin_mohsen = new UsersRoles { Id = Guid.NewGuid(), Role = role_zoneadmin.Id, User = mohsen.Id, CreatedBy = sina.Id };
             UsersRoles client_1 = new UsersRoles { Id = Guid.NewGuid(), Role = role_client.Id, User = firstId, CreatedBy = firstId };
             UsersRoles client_2 = new UsersRoles { Id = Guid.NewGuid(), Role = role_client.Id, User = secondId, CreatedBy = secondId };
-            UsersRoles client_3 = new UsersRoles { Id = Guid.NewGuid(), Role = role_client.Id, User = tenthId, CreatedBy = tenthId };
+            UsersRoles client_3 = new UsersRoles { Id = Guid.NewGuid(), Role = role_client.Id, User = thirdId, CreatedBy = thirdId };
             UsersRoles client_4 = new UsersRoles { Id = Guid.NewGuid(), Role = role_client.Id, User = fourthId, CreatedBy = fourthId };
             UsersRoles client_5 = new UsersRoles { Id = Guid.NewGuid(), Role = role_client.Id, User = fivthId, CreatedBy = fivthId};
             UsersRoles client_6 = new UsersRoles { Id = Guid.NewGuid(), Role = role_client.Id, User = sixthId, CreatedBy = sixthId };

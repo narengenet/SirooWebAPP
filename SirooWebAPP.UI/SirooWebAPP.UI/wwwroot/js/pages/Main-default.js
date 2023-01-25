@@ -212,8 +212,8 @@ function startSpin() {
                     if (result != "-1") {
 
                         theArrays = result.split(',');
-                        pointUpdated('-' + theArrays[0]);
-                        diamondUpdated(theArrays[1]);
+                        //pointUpdated('-' + theArrays[0]);
+                        //diamondUpdated(theArrays[1]);
 
                         theResultString = theArrays[3];
 
@@ -235,11 +235,17 @@ function startSpin() {
                         //document.getElementById('spin_button').src = "spin_off.png";
                         //document.getElementById('spin_button').className = "";
 
-                        $('#theWheel').removeClass('the_wheel');
-                        $('#theWheel').addClass('the_wheel2');
-
                         theStopAngle = (360 / theWheel.segments.length) / 2;
-                        theWheel.animation['stopAngle'] = parseInt(theArrays[2]) - theStopAngle;
+                        theWheel.animation['stopAngle'] = parseInt(theArrays[2]);
+
+                        // Begin the spin animation by calling startAnimation on the wheel object.
+                        theWheel.startAnimation();
+
+
+                        setTimeout(function () {
+                            pointUpdated('-' + theArrays[0]);
+                            diamondUpdated(theArrays[1]);
+                        }, 9000);
 
                         // Begin the spin animation by calling startAnimation on the wheel object.
                         theWheel.startAnimation();

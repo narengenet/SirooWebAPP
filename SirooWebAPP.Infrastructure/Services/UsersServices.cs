@@ -1357,7 +1357,7 @@ namespace SirooWebAPP.Infrastructure.Services
         {
             _graphRepo.Add(graph);
         }
-        void IUserServices.UpdateGraph(Graphs graph)
+        public void UpdateGraph(Graphs graph)
         {
             _graphRepo.Update(graph);
         }
@@ -1388,7 +1388,7 @@ namespace SirooWebAPP.Infrastructure.Services
             return _graphHistoryRepo.GetAll().Where(g => g.IsDeleted == false).ToList<GraphHistory>();
         }
 
-        void IUserServices.AddGraphHistory(GraphHistory graphHistory)
+        public void AddGraphHistory(GraphHistory graphHistory)
         {
             _graphHistoryRepo.Add(graphHistory);
         }

@@ -77,6 +77,9 @@
                             <li class="nav-item for-clients">
                                 <a class="nav-link text-light" asp-area="" asp-page="/Clients/Tickets">پشتیبانی آنلاین</a>
                             </li>
+                            <li class="nav-item for-clients">
+                                <a class="nav-link text-light" asp-area="" asp-page="/Clients/Challenge">چالش من</a>
+                            </li>
                             @if (Context.Session.GetString("userrolename") != "admin" && Context.Session.GetString("userrolename") != "super")
                             {
 
@@ -113,6 +116,9 @@
                             </li>
                             <li class="nav-item for-admins">
                                 <a class="nav-link text-light" href="/Superadmins/diamondusage?pagee=0&handler=Display">الماس‌های دریافت‌شده</a>
+                            </li>
+                            <li class="nav-item for-admins">
+                                <a class="nav-link text-light" href="/Superadmins/ChallengeUsage?pagee=0&handler=Display">کارمزدهای چالش</a>
                             </li>
                             <li class="nav-item for-admins">
                                 <a class="nav-link text-light" asp-area="" asp-page="/Superadmins/AllSettings">تنظیمات</a>
