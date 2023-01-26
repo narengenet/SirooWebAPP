@@ -1,0 +1,101 @@
+﻿@page
+@using SirooWebAPP.Core.Domain
+@model SirooWebAPP.UI.Pages.Superadmins.GraphDiagramModel
+@{
+    Layout = "_LayoutClients";
+}
+<style>
+    #chartdiv {
+        width: 100%;
+        max-width: 100%;
+        height: 550px;
+    }
+
+    .MainDashboard {
+        display: none !important;
+    }
+
+</style>
+
+<div class="row justify-content-center mb-3">
+    <div class="col-12 siroo-header">تعداد همه اعضاء: @Model.allGraphCounts</div>
+    <div class="col-12 siroo-header">تعداد همه سرگروه‌ها: @Model.allGrandParentCount</div>
+</div>
+
+
+
+<script src="https://cdn.amcharts.com/lib/5/index.js"></script>
+<script src="https://cdn.amcharts.com/lib/5/hierarchy.js"></script>
+<script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
+<script src="https://cdn.amcharts.com/lib/5/themes/Material.js"></script>
+<div id="chartdiv"></div>
+
+@*<script src="~/js/pages/GraphDiagram-super.js?i=1"></script>*@
+<script>
+
+    /**
+    * ---------------------------------------
+    * This demo was created using amCharts 5.
+    *
+    * For more information visit:
+    * https://www.amcharts.com/
+    *
+    * Documentation is available at:
+    * https://www.amcharts.com/docs/v5/
+    * ---------------------------------------
+    */
+
+    // Create root element
+    // https://www.amcharts.com/docs/v5/getting-started/#Root_element
+    var root = am5.Root.new("chartdiv");
+
+    // Set themes
+    // https://www.amcharts.com/docs/v5/concepts/themes/
+    root.setThemes([
+        am5themes_Animated.new(root)
+    ]);
+
+    var data = @Html.Raw(Json.Serialize(@Model.allGraphShapes));
+    data=data[0];
+
+
+    // Create wrapper container
+    var container = root.container.children.push(am5.Container.new(root, {
+        width: am5.percent(100),
+        height: am5.percent(100),
+        layout: root.verticalLayout
+    }));
+
+    // Create series
+    // https://www.amcharts.com/docs/v5/charts/hierarchy/#Adding
+    var series = container.children.push(am5hierarchy.ForceDirected.new(root, {
+        singleBranchOnly: false,
+        downDepth: 2,
+        topDepth: 1,
+        initialDepth: 1,
+        valueField: "value",
+        categoryField: "name",
+        childDataField: "children",
+        idField: "name",
+        linkWithField: "linkWith",
+        manyBodyStrength: -10,
+        centerStrength: 0.8
+    }));
+
+    series.get("colors").setAll({
+        step: 2
+    });
+
+    series.links.template.set("strength", 0.5);
+
+    series.data.setAll([data]);
+
+    series.set("selectedDataItem", series.dataItems[0]);
+
+
+    // Make stuff animate on load
+    series.appear(1000, 100);
+
+
+
+</script>

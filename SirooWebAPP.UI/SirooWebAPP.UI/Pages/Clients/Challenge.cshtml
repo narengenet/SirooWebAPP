@@ -30,18 +30,18 @@
                 <a class="profile-media col-2" href="#">
                     <img src="~/uploads/assets/profile.jpg" />
                 </a>
-                <a href="#" class="col-6 profile-fullname">شرکت در چالش</a>
+                <a href="#" class="col-6 profile-fullname">پکیج ویژه تبلیغاتی</a>
                 <a href="#" class="col-2 profile-date">@*@Model.Amount*@ <span>ریال</span></a>
             </div>
             <div class="d-flex flex-column justify-content-center SirooContainer">
                 <div class="SirooItems">
                     <div class="row justify-content-center mb-3">
-                        <div class="col-12 siroo-header">شرکت در چالش</div>
+                        <div class="col-12 siroo-header">خرید پکیج ویژه تبلیغاتی سیرو</div>
                     </div>
                     <div class="row">&nbsp;</div>
 
                     <div class="row justify-content-center">
-                        <div class="col-12 siroo-label">مبلغ مورد نیاز برای شرکت در چالش</div>
+                        <div class="col-12 siroo-label">مبلغ مورد نیاز برای خرید پکیج ویژه تبلیغاتی</div>
                     </div>
                     <form method="post" class="addMoney row justify-content-center" enctype="multipart/form-data">
                         <div class="row col-12 mb-3">
@@ -51,12 +51,17 @@
                         </div>
 
                         <div class="row justify-content-center">
-                            <div class="col-12 siroo-label">نام کاربری معرف شما به این چالش</div>
+                            <div class="col-12 siroo-label">نام کاربری معرف شما (اختیاری) </div>
                         </div>
                         <div class="row col-12 mb-2">
                             <div class="col-12 Textbox fa fa-user">
                                 <input type="text" class="col-12" asp-for="AddChallenge.Parent" />
                             </div>
+                        </div>
+
+
+                        <div class="row justify-content-center">
+                            <div class="col-12 siroo-header">پر کردن مشخصات فردی زیر برای صدور بیمه نامه حوادث انفرادی الزامیست</div>
                         </div>
 
                         <div class="row justify-content-center">
@@ -167,7 +172,7 @@
 
                         <div class="row col-12 mb-3 justify-content-center">
                             <div class="col-8 SirooBtn">
-                                <input id="myInput" type="submit" class="col-12" asp-page-handler="TakeMoney" value="برداشت وجه و شرکت در چالش">
+                                <input id="myInput" type="submit" class="col-12" asp-page-handler="TakeMoney" value="برداشت وجه و خرید پکیج ویژه">
                             </div>
                         </div>
                     </form>
@@ -191,7 +196,7 @@
             <div class="d-flex flex-column justify-content-center SirooContainer">
                 <div class="SirooItems">
                     <div class="row justify-content-center mb-3">
-                        <div class="col-12 siroo-header">شرایط شرکت در چالش</div>
+                        <div class="col-12 siroo-header">شرایط خرید پکیج ویژه تبلیغاتی سیرو</div>
                     </div>
                     <div class="row">&nbsp;</div>
 
@@ -200,13 +205,13 @@
 
 
                     <div class="row justify-content-center mb-3" style="direction:rtl;">
-                        <div class="col-12 siroo-header">برای شرکت در چالش باید مبلغ @Model.NeededMoneyToAttendInChallenge ریال در کیف پول خود داشته باشید.</div>
+                        <div class="col-12 siroo-header">برای خرید پکیج ویژه تبلیغاتی سیرو باید مبلغ @Model.NeededMoneyToAttendInChallenge ریال در کیف پول خود داشته باشید.</div>
                     </div>
                     <div class="row">&nbsp;</div>
 
                     <div class="row col-12 mb-3 justify-content-center">
                         <div class="col-8 SirooBtn">
-                            <input type="submit" class="col-12" onclick="window.location='/Clients/Wallet';"  value="کیف پول">
+                            <input type="submit" class="col-12" onclick="window.location='/Clients/Wallet';" value="کیف پول">
                         </div>
                     </div>
 
@@ -226,13 +231,13 @@
                 <a class="profile-media col-2" href="#">
                     <img src="~/uploads/assets/profile.jpg" />
                 </a>
-                <a href="#" class="col-6 profile-fullname">چالش من</a>
+                <a href="#" class="col-6 profile-fullname">پکیج ویژه تبلیغاتی من</a>
                 <a href="#" class="col-2 profile-date"></a>
             </div>
             <div class="d-flex flex-column justify-content-center SirooContainer">
                 <div class="SirooItems">
                     <div class="row justify-content-center mb-3">
-                        <div class="col-12 siroo-header">چالش من</div>
+                        <div class="col-12 siroo-header">پکیج ویژه تبلیغاتی من</div>
                     </div>
                     <div class="row">&nbsp;</div>
 

@@ -21,7 +21,7 @@ root.setThemes([
     am5themes_Animated.new(root)
 ]);
 
-var data = [{"name":"root","value":0,"children":[{"name":"firstuser","value":4,"children":[{"name":"seconduser","value":0,"children":[]},{"name":"thirduser","value":1,"children":[{"name":"fivthuser","value":0,"children":[]},{"name":"sixthuser","value":0,"children":[]}]},{"name":"fourthuser","value":0,"children":[{"name":"seventhuser","value":0,"children":[]}]}]}]}];
+var data = { "name": "root", "value": 0, "children": [{ "name": "firstuser", "value": 4, "children": [{ "name": "seconduser", "value": 0, "children": [] }, { "name": "thirduser", "value": 1, "children": [{ "name": "fivthuser", "value": 0, "children": [] }, { "name": "sixthuser", "value": 0, "children": [] }] }, { "name": "fourthuser", "value": 0, "children": [{ "name": "seventhuser", "value": 0, "children": [] }] }] }] };
 
 
 // Create wrapper container

@@ -78,7 +78,7 @@
                                 <a class="nav-link text-light" asp-area="" asp-page="/Clients/Tickets">پشتیبانی آنلاین</a>
                             </li>
                             <li class="nav-item for-clients">
-                                <a class="nav-link text-light" asp-area="" asp-page="/Clients/Challenge">چالش من</a>
+                                <a class="nav-link text-warning" asp-area="" asp-page="/Clients/Challenge"><i class="fa fa-star">&nbsp</i>پکیج ویژه تبلیغاتی</a>
                             </li>
                             @if (Context.Session.GetString("userrolename") != "admin" && Context.Session.GetString("userrolename") != "super")
                             {
@@ -118,7 +118,10 @@
                                 <a class="nav-link text-light" href="/Superadmins/diamondusage?pagee=0&handler=Display">الماس‌های دریافت‌شده</a>
                             </li>
                             <li class="nav-item for-admins">
-                                <a class="nav-link text-light" href="/Superadmins/ChallengeUsage?pagee=0&handler=Display">کارمزدهای چالش</a>
+                                <a class="nav-link text-light" href="/Superadmins/ChallengeUsage?pagee=0&handler=Display">جوایز پکیج ویژه</a>
+                            </li>
+                            <li class="nav-item for-admins">
+                                <a class="nav-link text-light" href="/Superadmins/GraphDiagram">نمایش گراف‌ها </a>
                             </li>
                             <li class="nav-item for-admins">
                                 <a class="nav-link text-light" asp-area="" asp-page="/Superadmins/AllSettings">تنظیمات</a>

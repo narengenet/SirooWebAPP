@@ -108,6 +108,62 @@ namespace SirooWebAPP.UI.Pages.Clients
         }
 
 
+        void AddPaymentToUser(int[] orders,int sharedReceived,Guid userId,GraphHistory graphHistory)
+        {
+            int maxShareToPayment = Convert.ToInt32(_usersServices.GetConstantDictionary("maximum_number_of_prize_payment").ConstantValue);
+            if (sharedReceived>maxShareToPayment)
+            {
+                return;
+            }
+
+            int currentOrder = -1;
+            long aggregateOrder = 0;
+            for (int i = 0; i < orders.Length; i++)
+            {
+                aggregateOrder += orders[i];
+                if (sharedReceived==aggregateOrder)
+                {
+                    currentOrder = orders[i];
+                    break;
+                }
+            }
+
+            if (currentOrder == -1)
+            {
+                if (sharedReceived>orders[orders.Length-1])
+                {
+                    if (sharedReceived%orders[orders.Length-1]==0)
+                    {
+                        currentOrder = orders[orders.Length - 1];
+                    }
+
+                }
+            }
+
+            if (currentOrder != -1)
+            {
+                long paymentValue= currentOrder* Convert.ToInt64(_usersServices.GetConstantDictionary("prize_for_invite_to_challenge").ConstantValue);
+
+                _usersServices.AddTransactionPercent(new TransactionPercents
+                {
+                    Created = DateTime.Now,
+                    FromUser = graphHistory.User,
+                    ToUser = graphHistory.ToUser,
+                    FromAmount = paymentValue,
+                    ToAmount = paymentValue,
+                    Percentage = 0,
+                    ReferenceID = graphHistory.Id.ToString(),
+                    Transaction = graphHistory.Graph,
+                    Description = "جایزه ثبت نام پکیچ ویژه " + _usersServices.GetUser(graphHistory.User).Username
+
+                });
+
+                Users theUser = _usersServices.GetUser(graphHistory.ToUser);
+                theUser.Money += paymentValue;
+                _usersServices.UpdateUser(theUser);
+            }
+
+        }
 
 
         public IActionResult OnPostTakeMoney(AddChallenge addChallenge)
@@ -155,11 +211,11 @@ namespace SirooWebAPP.UI.Pages.Clients
                         }
                         else
                         {
-                            if (theParentGraph.GrandParent!=theParentGraph.User)
+                            if (theParentGraph.GrandParent != theParentGraph.User)
                             {
                                 theGrandParentUser = theParentGraph.GrandParent;
                             }
-                            
+
                         }
 
                     }
@@ -199,19 +255,37 @@ namespace SirooWebAPP.UI.Pages.Clients
 
                     _usersServices.AddGraph(newGraph);
 
+
+                    string _orderOfPayments = _usersServices.GetConstantDictionary("order_of_prize_payment").ConstantValue;
+                    string[] tmpArray = _orderOfPayments.Split(',').ToArray();
+                    List<int> tmpList=new List<int>();
+                    
+                    for (int i = 0; i < tmpArray.Length; i++)
+                    {
+                        tmpList.Add(Convert.ToInt32(tmpArray[i]));
+                    }
+                    int[] orderOfPayments=tmpList.ToArray();
+
+
                     // add prize to parent if this is not first child
                     if (theParentUser != null && isFirstChildOfParent == false)
                     {
-                        theParentGraph.ReceivedShared += 1;
-                        _usersServices.UpdateGraph(theParentGraph);
-
-                        _usersServices.AddGraphHistory(new GraphHistory
+                        if (theParentGraph.ExpireDate > DateTime.Today)
                         {
-                            Created = DateTime.Now,
-                            User = creatorID,
-                            ToUser = theParentUser.Id,
-                            Graph = newGraph.Id,
-                        });
+                            theParentGraph.ReceivedShared += 1;
+                            _usersServices.UpdateGraph(theParentGraph);
+                            GraphHistory _graphHistory = new GraphHistory
+                            {
+                                Created = DateTime.Now,
+                                User = creatorID,
+                                ToUser = theParentUser.Id,
+                                Graph = newGraph.Id,
+                            };
+                            _usersServices.AddGraphHistory(_graphHistory);
+
+                            AddPaymentToUser(orderOfPayments, theParentGraph.ReceivedShared, theParentUser.Id, _graphHistory);
+                        }
+
 
 
                     }
@@ -220,17 +294,26 @@ namespace SirooWebAPP.UI.Pages.Clients
                     // add prize to grand father if exist
                     if (theGrandParentUser != null && isFirstChildOfParent && theGrandParentUser != creatorID)
                     {
-                        Graphs theGrandParentGraph = _usersServices.GetAllGraphs().Where(g => g.User == theGrandParentUser && g.ExpireDate > DateTime.Today.AddDays(-1 * addedDaysToExpireGraph)).FirstOrDefault();
-                        theGrandParentGraph.ReceivedShared += 1;
-                        _usersServices.UpdateGraph(theGrandParentGraph);
-
-                        _usersServices.AddGraphHistory(new GraphHistory
+                        //Graphs theGrandParentGraph = _usersServices.GetAllGraphs().Where(g => g.User == theGrandParentUser && g.ExpireDate > DateTime.Today.AddDays(-1 * addedDaysToExpireGraph)).FirstOrDefault();
+                        Graphs theGrandParentGraph = _usersServices.GetAllGraphs().Where(g => g.User == theGrandParentUser && g.ExpireDate > DateTime.Today).FirstOrDefault();
+                        if (theGrandParentGraph != null)
                         {
-                            Created = DateTime.Now,
-                            Graph = newGraph.Id,
-                            User = creatorID,
-                            ToUser = Guid.Parse(theGrandParentUser.ToString())
-                        });
+                            theGrandParentGraph.ReceivedShared += 1;
+                            _usersServices.UpdateGraph(theGrandParentGraph);
+
+                            GraphHistory _graphHistory = new GraphHistory
+                            {
+                                Created = DateTime.Now,
+                                Graph = newGraph.Id,
+                                User = creatorID,
+                                ToUser = Guid.Parse(theGrandParentUser.ToString())
+                            };
+
+                            _usersServices.AddGraphHistory(_graphHistory);
+
+                            AddPaymentToUser(orderOfPayments, theGrandParentGraph.ReceivedShared, theParentUser.Id, _graphHistory);
+                        }
+
                     }
 
 
@@ -254,14 +337,15 @@ namespace SirooWebAPP.UI.Pages.Clients
 
                     _usersServices.AddTransaction(new Transactions
                     {
-                        Amount = -1*NeededMoneyToAttendInChallenge,
+                        Amount = -1 * NeededMoneyToAttendInChallenge,
                         Created = DateTime.Now,
                         ReferenceID = newGraph.Id.ToString(),
-                        Status = "شرکت در چالش",
+                        Status = "خرید پک ویژه تبلیغاتی",
                         User = creatorID
                     });
 
                     theUser.Money -= NeededMoneyToAttendInChallenge;
+                    theUser.Credits += NeededMoneyToAttendInChallenge;
                     _usersServices.UpdateUser(theUser);
 
                     ResultMessage = "ثبت شد.";

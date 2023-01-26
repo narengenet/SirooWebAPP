@@ -82,6 +82,9 @@ namespace SirooWebAPP.Infrastructure.Contexts
             Guid tenthId = Guid.NewGuid();
             Users tenthUser = new Users { Id = tenthId, Name = "tenth", Family = "user10", Cellphone = "09100000000", Username = "tenthuser", ProfileMediaURL = "uploads/2022/9/sina2.jpg", IsActivated = true, Created = DateTime.Now, Points = 90, ConfirmationCode = "111111", Money = 3000000, Diamonds = 0 };
 
+            Guid eleventhId = Guid.NewGuid();
+            Users eleventhUser = new Users { Id = eleventhId, Name = "eleventh", Family = "user11", Cellphone = "09011000000", Username = "eleventhuser", ProfileMediaURL = "uploads/2022/9/sina2.jpg", IsActivated = true, Created = DateTime.Now, Points = 90, ConfirmationCode = "111111", Money = 3000000, Diamonds = 0 };
+
             //Users mohsen = new Users { Id = Guid.NewGuid(), Name = "محسن", Family = "پردلان", Cellphone = "09111769591", Username = "vinona", ProfileMediaURL = "uploads/2022/9/99.jpg", Inviter = dabouei.Id, IsActivated = true, Created = DateTime.Now, Points = 80 };
             //Users sepideh = new Users { Id = Guid.NewGuid(), Name = "سامان", Family = "احمدی", Cellphone = "09161234567", Username = "saman", ProfileMediaURL = "uploads/2022/9/photo.jpg", Inviter = dabouei.Id, IsActivated = true, Created = DateTime.Now, Points = 70 };
             //Users abdolah = new Users { Id = Guid.NewGuid(), Name = "عبداله", Family = "سرپرست", Cellphone = "09112281237", Username = "abdolah", ProfileMediaURL = "uploads/2022/9/photo.jpg", IsActivated = true, Created = DateTime.Now, Points = 60 };
@@ -107,6 +110,7 @@ namespace SirooWebAPP.Infrastructure.Contexts
             modelBuilder.Entity<Users>().HasData(eighthUser);
             modelBuilder.Entity<Users>().HasData(ninthUser);
             modelBuilder.Entity<Users>().HasData(tenthUser);
+            modelBuilder.Entity<Users>().HasData(eleventhUser);
 
             Roles role_superadmin = new Roles { Id = Guid.NewGuid(), RoleName = "super", IsActivated = true, RoleDescription = "مدیر کل", Priority = 0 };
             Roles role_admin = new Roles { Id = Guid.NewGuid(), RoleName = "admin", IsActivated = true, RoleDescription = "مدیر سامانه", Priority = 1 };
@@ -136,6 +140,7 @@ namespace SirooWebAPP.Infrastructure.Contexts
             UsersRoles client_8 = new UsersRoles { Id = Guid.NewGuid(), Role = role_client.Id, User = eighthId, CreatedBy = eighthId };
             UsersRoles client_9 = new UsersRoles { Id = Guid.NewGuid(), Role = role_client.Id, User = ninthId, CreatedBy = ninthId};
             UsersRoles client_10 = new UsersRoles { Id = Guid.NewGuid(), Role = role_client.Id, User = tenthId, CreatedBy = tenthId };
+            UsersRoles client_11 = new UsersRoles { Id = Guid.NewGuid(), Role = role_client.Id, User = eleventhId, CreatedBy = eleventhId};
             //UsersRoles client_amir = new UsersRoles { Id = Guid.NewGuid(), Role = role_client.Id, User = amir.Id, CreatedBy = abdolah.Id };
             //UsersRoles client_maryam = new UsersRoles { Id = Guid.NewGuid(), Role = role_client.Id, User = maryam.Id, CreatedBy = abdolah.Id };
             //UsersRoles client_haji = new UsersRoles { Id = Guid.NewGuid(), Role = role_client.Id, User = haji.Id, CreatedBy = abdolah.Id };
@@ -156,6 +161,7 @@ namespace SirooWebAPP.Infrastructure.Contexts
             modelBuilder.Entity<UsersRoles>().HasData(client_8);
             modelBuilder.Entity<UsersRoles>().HasData(client_9);
             modelBuilder.Entity<UsersRoles>().HasData(client_10);
+            modelBuilder.Entity<UsersRoles>().HasData(client_11);
 
 
             //modelBuilder.Entity<UsersRoles>().HasData(client_maryam);
@@ -242,6 +248,8 @@ namespace SirooWebAPP.Infrastructure.Contexts
             ConstantDictionaries expire_dates_for_challenge = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "expire_dates_for_challenge", ConstantValue = "60", IsActive = true, Description = "تعداد روزهای مجاز برای چالش", Created = DateTime.Now, CreatedBy = sina.Id, Category = "چالش", PriorityIndex = 29 };
             ConstantDictionaries money_needed_to_attend_in_challenge = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "money_needed_to_attend_in_challenge", ConstantValue = "3000000", IsActive = true, Description = "موجودی ریالی برای شرکت در چالش", Created = DateTime.Now, CreatedBy = sina.Id, Category = "چالش", PriorityIndex = 30 };
             ConstantDictionaries prize_for_invite_to_challenge = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "prize_for_invite_to_challenge", ConstantValue = "1000000", IsActive = true, Description = "کارمزد برای معرفی کاربران به چالش", Created = DateTime.Now, CreatedBy = sina.Id, Category = "چالش", PriorityIndex = 31 };
+            ConstantDictionaries order_of_prize_payment = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "order_of_prize_payment", ConstantValue = "3,5,2,10", IsActive = true, Description = "ترتیب پرداخت کارمزدها", Created = DateTime.Now, CreatedBy = sina.Id, Category = "چالش", PriorityIndex = 32 };
+            ConstantDictionaries maximum_number_of_prize_payment = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "maximum_number_of_prize_payment", ConstantValue = "1000", IsActive = true, Description = "حداکثر تعداد پرداخت کارمزدها", Created = DateTime.Now, CreatedBy = sina.Id, Category = "چالش", PriorityIndex = 33 };
 
 
 
@@ -280,6 +288,8 @@ namespace SirooWebAPP.Infrastructure.Contexts
             modelBuilder.Entity<ConstantDictionaries>().HasData(expire_dates_for_challenge);
             modelBuilder.Entity<ConstantDictionaries>().HasData(money_needed_to_attend_in_challenge);
             modelBuilder.Entity<ConstantDictionaries>().HasData(prize_for_invite_to_challenge);
+            modelBuilder.Entity<ConstantDictionaries>().HasData(order_of_prize_payment);
+            modelBuilder.Entity<ConstantDictionaries>().HasData(maximum_number_of_prize_payment);
 
 
 

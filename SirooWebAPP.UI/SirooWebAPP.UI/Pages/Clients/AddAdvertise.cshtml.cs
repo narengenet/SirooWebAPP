@@ -67,6 +67,7 @@ namespace SirooWebAPP.UI.Pages.Clients
         public IActionResult OnPostAddAdvertisements(AddAds addAds)
         {
             bool condition = true;
+            bool usecredit=false;
 
             Guid tmp_userid = addAds.UserID;
             bool isGif = false;
@@ -108,11 +109,19 @@ namespace SirooWebAPP.UI.Pages.Clients
                         moneyNeeded = Convert.ToInt32(_usersServices.GetConstantDictionary(moneyRequiredKeyName).ConstantValue);
                         if (addOwner.Money < moneyNeeded)
                         {
-                            ResultMessage += "برای ثبت آگهی تجاری";
-                            ResultMessage += (addAds.isVideo) ? " ویدئویی " : " تصویری ";
-                            ResultMessage += " مبلغ " + moneyNeeded + " ریال مورد نیاز است. لطفا کیف پول خود را شارژ نمایید.";
-                            ResultMessageSuccess = "danger";
-                            condition = false;
+                            if (addOwner.Credits<moneyNeeded)
+                            {
+                                ResultMessage += "برای ثبت آگهی تجاری";
+                                ResultMessage += (addAds.isVideo) ? " ویدئویی " : " تصویری ";
+                                ResultMessage += " مبلغ " + moneyNeeded + " ریال مورد نیاز است. لطفا کیف پول خود را شارژ نمایید.";
+                                ResultMessageSuccess = "danger";
+                                condition = false;
+                            }
+                            else
+                            {
+                                usecredit = true;
+                            }
+
                         }
                     }
 
@@ -158,7 +167,15 @@ namespace SirooWebAPP.UI.Pages.Clients
                         _usersServices.AddAvertise(ads, tmp_userid);
                         if (addAds.IsPremium)
                         {
-                            addOwner.Money -= moneyNeeded;
+                            if (usecredit)
+                            {
+                                addOwner.Credits -= moneyNeeded;
+                            }
+                            else
+                            {
+                                addOwner.Money -= moneyNeeded;
+                            }
+                            
                             _usersServices.UpdateUser(addOwner);
 
                             _usersServices.AddTransaction(new Transactions
@@ -184,7 +201,15 @@ namespace SirooWebAPP.UI.Pages.Clients
                         ResultMessage = "پَست جدید ارسال شد. لطفا منتظر تایید بمانید.";
                         if (addAds.IsPremium)
                         {
-                            ResultMessage += " مبلغ " + moneyNeeded + " ریال از کیف پول شما برداشت شد.";
+                            if (usecredit)
+                            {
+                                ResultMessage += " معادل بلغ " + moneyNeeded + " ریال از اعتبار کیف پول شما برداشت شد.";
+                            }
+                            else
+                            {
+                                ResultMessage += " مبلغ " + moneyNeeded + " ریال از کیف پول شما برداشت شد.";
+                            }
+                            
                         }
                         ResultMessageSuccess = "success";
                     }
