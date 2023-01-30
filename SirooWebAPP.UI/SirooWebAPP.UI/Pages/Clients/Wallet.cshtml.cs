@@ -25,6 +25,7 @@ namespace SirooWebAPP.UI.Pages.Clients
         public string ResultMessageSuccess = "danger";
         public string Amount = "1000000";
         public bool IsValidToChallenge = false;
+        public long RemainingMoneyToAttendChallenge = -1;
 
         [BindProperty]
         public AddMoney? AddMoney { get; set; }
@@ -54,7 +55,12 @@ namespace SirooWebAPP.UI.Pages.Clients
                     }
                 }
 
-                
+                Amount = string.Format("{0:C}", theUser.Money).Replace("$", "").Replace(".00", "");
+
+                if (Request.Query["reason"]== "buypackage")
+                {
+                    RemainingMoneyToAttendChallenge = _neededMoneyToAttentdInChallenge - theUser.Money;
+                }
             }
         }
         public IActionResult OnPostAddMoney(AddMoney addMoney)

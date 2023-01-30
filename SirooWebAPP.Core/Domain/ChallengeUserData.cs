@@ -20,6 +20,8 @@ namespace SirooWebAPP.Core.Domain
         public string BirthDate { get; set; }
         public string Cellphone { get; set; }
         public bool IsMarried { get; set; }
+        public string? Username { get; set; }
+        public bool? IsExported { get; set; }
 
 
 

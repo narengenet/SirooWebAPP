@@ -1281,6 +1281,46 @@ a#currentPoint:before {
     font-family: 'Yekan';
     letter-spacing: 0rem;
 }
+.roulleteSection{
+    display:none;
+}
+.shortCuts {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    margin-bottom:0.5rem;
+}
+.shortcut{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+}
+.shortcut .theText{
+    font-family:'Yekan';
+    text-align:center;
+    font-family:0.8rem;
+}
+.roullet-icon{
+    background-image:url(../images/roullete_icon.png);
+    background-size:contain;
+    width:50px;
+    height:60px;
+    background-repeat:no-repeat;
+}
+.challenge-icon{
+    background-image:url(../images/star_icon.png);
+    background-size:contain;
+    width:50px;
+    height:60px;
+    background-repeat:no-repeat;
+}
+.training-icon{
+    background-image: url(../images/training-icons.png);
+    background-size: contain;
+    width: 50px;
+    height: 60px;
+    background-repeat: no-repeat;
+}
 
 
 
@@ -1307,11 +1347,9 @@ a#currentPoint:before {
 
 
 
-
-
-.snows{
-	position:absolute;
-	width:100vw;
+.snows {
+    position: absolute;
+    width: 100vw;
 }
 
 

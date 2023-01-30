@@ -200,6 +200,8 @@ function startSpin() {
 
     if (wheelSpinning == false) {
 
+        $('#theWheel').removeClass('the_wheel');
+        $('#theWheel').addClass('the_wheel2');
 
 
         $.ajax({
@@ -245,6 +247,8 @@ function startSpin() {
                         setTimeout(function () {
                             pointUpdated('-' + theArrays[0]);
                             diamondUpdated(theArrays[1]);
+                            $('#theWheel').removeClass('the_wheel2');
+                            $('#theWheel').addClass('the_wheel');
                         }, 9000);
 
                         // Begin the spin animation by calling startAnimation on the wheel object.
@@ -258,6 +262,9 @@ function startSpin() {
                     } else {
                         alert('شما امتیاز کافی برای چرخش گردونه الماس ندارید.');
                         $('button.spin').show();
+                        $('#theWheel').removeClass('the_wheel2');
+                        $('#theWheel').addClass('the_wheel');
+
                     }
 
 

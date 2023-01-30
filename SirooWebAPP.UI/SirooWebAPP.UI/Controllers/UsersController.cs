@@ -714,6 +714,123 @@ namespace SirooWebAPP.UI.Controllers
         }
 
 
+        [TypeFilter(typeof(SampleAsyncActionLoginFilter))]
+        [HttpGet("exportChallengeUserData")]
+        public IActionResult exportChallengeUserData()
+        {
+            string _userid = HttpContext.Request.Cookies["userid"];
+            Guid userId = Guid.Parse(_userid);
+            if (_session.GetString("userrolename") == "super" || _session.GetString("userrolename") == "admin")
+            {
+                List<ChallengeUserData> challengeUserData = _usersServices.GetAllChallengeUserData();
+                List<CSVChallengeUserData> csvUserData = new List<CSVChallengeUserData>();
+
+                foreach (ChallengeUserData item in challengeUserData)
+                {
+                    csvUserData.Add(
+                        new CSVChallengeUserData
+                        {
+                            Name = item.Name,
+                            Family = item.Family,
+                            BirthDate = item.BirthDate,
+                            FatherName = item.FatherName,
+                            IdentityId = item.IdentityID,
+                            NationalId = item.NationalID,
+                            IsMarried = item.IsMarried ? "متاهل" : "مجرد",
+                            Mobile = item.Cellphone,
+                            Username = item.Username,
+                            Created = item.Created.ToString()
+
+
+                        });
+                    if (item.IsExported == null)
+                    {
+                        item.IsExported = true;
+                        _usersServices.UpdateChallengeUserData(item);
+                    }
+
+
+                }
+
+                string fileName = string.Format("{0}\\challenge.csv", _environment.WebRootPath + "/uploads/");
+                CsvWriter csvWriter = new CsvWriter();
+                csvWriter.Write(csvUserData, fileName, true);
+                Console.WriteLine("{0} has been created.", fileName);
+                //Console.ReadKey();
+                return Ok("1");
+
+
+            }
+
+            return Ok("-1");
+
+        }
+
+
+
+
+
+        [TypeFilter(typeof(SampleAsyncActionLoginFilter))]
+        [HttpGet("exportnewChallengeUserData")]
+        public IActionResult exportnewChallengeUserData()
+        {
+            string _userid = HttpContext.Request.Cookies["userid"];
+            Guid userId = Guid.Parse(_userid);
+            if (_session.GetString("userrolename") == "super" || _session.GetString("userrolename") == "admin")
+            {
+                List<ChallengeUserData> challengeUserData = _usersServices.GetAllChallengeUserData().Where(cd => cd.IsExported != true).ToList<ChallengeUserData>();
+                List<CSVChallengeUserData> csvUserData = new List<CSVChallengeUserData>();
+
+                foreach (ChallengeUserData item in challengeUserData)
+                {
+                    csvUserData.Add(
+                        new CSVChallengeUserData
+                        {
+                            Name = item.Name,
+                            Family = item.Family,
+                            BirthDate = item.BirthDate,
+                            FatherName = item.FatherName,
+                            IdentityId = item.IdentityID,
+                            NationalId = item.NationalID,
+                            IsMarried = item.IsMarried ? "متاهل" : "مجرد",
+                            Mobile = item.Cellphone,
+                            Username = item.Username,
+                            Created = item.Created.ToString()
+
+
+                        });
+                    if (item.IsExported == null)
+                    {
+                        item.IsExported = true;
+                        item.LastModified = DateTime.Now;
+                        item.LastModifiedBy = userId.ToString();
+                        _usersServices.UpdateChallengeUserData(item);
+
+                    }
+
+
+                }
+
+                if (challengeUserData.Count==0)
+                {
+                    return Ok("-2");
+                }
+
+                string fileName = string.Format("{0}\\challenge.csv", _environment.WebRootPath + "/uploads/");
+                CsvWriter csvWriter = new CsvWriter();
+                csvWriter.Write(csvUserData, fileName, true);
+                Console.WriteLine("{0} has been created.", fileName);
+                //Console.ReadKey();
+                return Ok("1");
+
+
+            }
+
+            return Ok("-1");
+
+        }
+
+
 
         [TypeFilter(typeof(SampleAsyncActionLoginFilter))]
         [HttpGet("useChips/{thePIN}")]
@@ -1114,7 +1231,7 @@ namespace SirooWebAPP.UI.Controllers
             });
 
             int theIndex = CachedContents.DiamondCountsList.FindIndex(x => x == theResult.ToString());
-            int theDegree = (360 / CachedContents.DiamondCountsList.Count) * (theIndex+1);
+            int theDegree = (360 / CachedContents.DiamondCountsList.Count) * (theIndex + 1);
 
             if (theResult > 0)
             {

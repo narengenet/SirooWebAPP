@@ -28,6 +28,7 @@ namespace SirooWebAPP.UI.Pages.Clients
         public bool HasChallenge = false;
         public long NeededMoneyToAttendInChallenge = 0;
         public int ShareReceivedUntilNow = 0;
+        public string MaximumPrize = "";
         public int DirectInviteds = 0;
         public int DeadlineDays = 0;
         public int RemainingDays = 0;
@@ -72,6 +73,10 @@ namespace SirooWebAPP.UI.Pages.Clients
                 // check validity to attend in new challenge
                 NeededMoneyToAttendInChallenge = Convert.ToInt64(_usersServices.GetConstantDictionary("money_needed_to_attend_in_challenge").ConstantValue);
                 DeadlineDays = Convert.ToInt32(_usersServices.GetConstantDictionary("expire_dates_for_challenge").ConstantValue);
+                int MaximumShareToReceive = Convert.ToInt32(_usersServices.GetConstantDictionary("maximum_number_of_prize_payment").ConstantValue);
+                long PrizePerShare = Convert.ToInt64(_usersServices.GetConstantDictionary("prize_for_invite_to_challenge").ConstantValue);
+                //MaximumPrize = (PrizePerShare * MaximumShareToReceive).ToString();
+                MaximumPrize = string.Format("{0:C}", (PrizePerShare * MaximumShareToReceive)).Replace("$", "").Replace(".00", "");
 
                 if (Convert.ToInt64(Amount) >= NeededMoneyToAttendInChallenge)
                 {
@@ -89,7 +94,7 @@ namespace SirooWebAPP.UI.Pages.Clients
                         HasChallenge = true;
                         ShareReceivedUntilNow = _usersServices.GetAllGraphHistoryData().Where(g => g.ToUser == creatorID).ToList().Count;
                         DirectInviteds = _usersServices.GetAllGraphs().Where(g => g.Parent == creatorID).ToList().Count;
-                        RemainingDays = Convert.ToInt32((graphUser.ExpireDate - Convert.ToDateTime(graphUser.Created)).TotalDays);
+                        RemainingDays = Convert.ToInt32((graphUser.ExpireDate - DateTime.Today).TotalDays);
                     }
                 }
                 else
@@ -100,7 +105,7 @@ namespace SirooWebAPP.UI.Pages.Clients
                         HasChallenge = true;
                         ShareReceivedUntilNow = _usersServices.GetAllGraphHistoryData().Where(g => g.ToUser == creatorID).ToList().Count;
                         DirectInviteds = _usersServices.GetAllGraphs().Where(g => g.Parent == creatorID).ToList().Count;
-                        RemainingDays = Convert.ToInt32((graphUser.ExpireDate - Convert.ToDateTime(graphUser.Created)).TotalDays);
+                        RemainingDays = Convert.ToInt32((graphUser.ExpireDate - DateTime.Today).TotalDays);
                     }
                 }
 
@@ -108,10 +113,10 @@ namespace SirooWebAPP.UI.Pages.Clients
         }
 
 
-        void AddPaymentToUser(int[] orders,int sharedReceived,Guid userId,GraphHistory graphHistory)
+        void AddPaymentToUser(int[] orders, int sharedReceived, Guid userId, GraphHistory graphHistory)
         {
             int maxShareToPayment = Convert.ToInt32(_usersServices.GetConstantDictionary("maximum_number_of_prize_payment").ConstantValue);
-            if (sharedReceived>maxShareToPayment)
+            if (sharedReceived > maxShareToPayment)
             {
                 return;
             }
@@ -121,7 +126,7 @@ namespace SirooWebAPP.UI.Pages.Clients
             for (int i = 0; i < orders.Length; i++)
             {
                 aggregateOrder += orders[i];
-                if (sharedReceived==aggregateOrder)
+                if (sharedReceived == aggregateOrder)
                 {
                     currentOrder = orders[i];
                     break;
@@ -130,9 +135,9 @@ namespace SirooWebAPP.UI.Pages.Clients
 
             if (currentOrder == -1)
             {
-                if (sharedReceived>orders[orders.Length-1])
+                if (sharedReceived > orders[orders.Length - 1])
                 {
-                    if (sharedReceived%orders[orders.Length-1]==0)
+                    if (sharedReceived % orders[orders.Length - 1] == 0)
                     {
                         currentOrder = orders[orders.Length - 1];
                     }
@@ -142,7 +147,7 @@ namespace SirooWebAPP.UI.Pages.Clients
 
             if (currentOrder != -1)
             {
-                long paymentValue= currentOrder* Convert.ToInt64(_usersServices.GetConstantDictionary("prize_for_invite_to_challenge").ConstantValue);
+                long paymentValue = currentOrder * Convert.ToInt64(_usersServices.GetConstantDictionary("prize_for_invite_to_challenge").ConstantValue);
 
                 _usersServices.AddTransactionPercent(new TransactionPercents
                 {
@@ -258,13 +263,13 @@ namespace SirooWebAPP.UI.Pages.Clients
 
                     string _orderOfPayments = _usersServices.GetConstantDictionary("order_of_prize_payment").ConstantValue;
                     string[] tmpArray = _orderOfPayments.Split(',').ToArray();
-                    List<int> tmpList=new List<int>();
-                    
+                    List<int> tmpList = new List<int>();
+
                     for (int i = 0; i < tmpArray.Length; i++)
                     {
                         tmpList.Add(Convert.ToInt32(tmpArray[i]));
                     }
-                    int[] orderOfPayments=tmpList.ToArray();
+                    int[] orderOfPayments = tmpList.ToArray();
 
 
                     // add prize to parent if this is not first child
@@ -318,21 +323,27 @@ namespace SirooWebAPP.UI.Pages.Clients
 
 
 
-                    _usersServices.AddChallengeUserData(new ChallengeUserData
+                    if (_usersServices.GetAllChallengeUserData().Where(ud => ud.NationalID == addChallenge.TheNationalID) == null)
                     {
-                        Cellphone = addChallenge.TheMobileNumber,
-                        BirthDate = addChallenge.TheBirthDate,
-                        Name = addChallenge.TheName,
-                        Family = addChallenge.TheFamily,
-                        FatherName = addChallenge.TheFatherName,
-                        IdentityID = addChallenge.TheIDNumber,
-                        NationalID = addChallenge.TheNationalID,
-                        IsMarried = addChallenge.IsMarried,
-                        User = creatorID,
-                        Graph = newGraph.Id,
-                        Created = DateTime.Now
+                        _usersServices.AddChallengeUserData(new ChallengeUserData
+                        {
+                            Cellphone = addChallenge.TheMobileNumber,
+                            BirthDate = addChallenge.TheBirthDate,
+                            Name = addChallenge.TheName,
+                            Family = addChallenge.TheFamily,
+                            FatherName = addChallenge.TheFatherName,
+                            IdentityID = addChallenge.TheIDNumber,
+                            NationalID = addChallenge.TheNationalID,
+                            IsMarried = addChallenge.IsMarried,
+                            User = creatorID,
+                            Graph = newGraph.Id,
+                            Created = DateTime.Now,
+                            Username = theUser.Username,
+                            IsExported=false
 
-                    });
+                        });
+                    }
+
 
 
                     _usersServices.AddTransaction(new Transactions

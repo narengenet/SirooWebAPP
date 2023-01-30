@@ -205,13 +205,13 @@
 
 
                     <div class="row justify-content-center mb-3" style="direction:rtl;">
-                        <div class="col-12 siroo-header">برای خرید پکیج ویژه تبلیغاتی سیرو باید مبلغ @Model.NeededMoneyToAttendInChallenge ریال در کیف پول خود داشته باشید.</div>
+                        <div class="col-12 siroo-header">برای خرید پکیج ویژه تبلیغاتی سیرو باید مبلغ @string.Format("{0:C}", Model.NeededMoneyToAttendInChallenge).Replace(".00","").Replace("$","") ریال در کیف پول خود داشته باشید.</div>
                     </div>
                     <div class="row">&nbsp;</div>
 
                     <div class="row col-12 mb-3 justify-content-center">
                         <div class="col-8 SirooBtn">
-                            <input type="submit" class="col-12" onclick="window.location='/Clients/Wallet';" value="کیف پول">
+                            <input type="submit" class="col-12" onclick="window.location='/Clients/Wallet?reason=buypackage';" value="کیف پول">
                         </div>
                     </div>
 
@@ -232,21 +232,44 @@
                     <img src="~/uploads/assets/profile.jpg" />
                 </a>
                 <a href="#" class="col-6 profile-fullname">پکیج ویژه تبلیغاتی من</a>
-                <a href="#" class="col-2 profile-date"></a>
+                @if (Model.DirectInviteds >= 1)
+                {
+                    <a href="#" class="col-2 profile-date text-light bg-success">فعال</a>
+                }
+                else
+                {
+                    <a href="#" class="col-2 profile-date text-dark bg-warning">غیرفعال</a>
+                }
+
             </div>
             <div class="d-flex flex-column justify-content-center SirooContainer">
                 <div class="SirooItems">
                     <div class="row justify-content-center mb-3">
-                        <div class="col-12 siroo-header">پکیج ویژه تبلیغاتی من</div>
+                        <div class="col-12 siroo-header">چالش ویژه تبلیغاتی من</div>
                     </div>
                     <div class="row">&nbsp;</div>
 
 
                     <div id="chartdiv"></div>
 
+                    <div class="row col-12 mb-3 justify-content-center">
+                        <div class="col-8 SirooBtn">
+                            <input type="submit" class="col-12" onclick="window.location='/Clients/MyGraph';" value="گراف مجموعه شما">
+                        </div>
+                    </div>
 
-                    <div class="row justify-content-center mb-3" style="position:absolute;top:100px;">
+
+                    @*                    <div class="row justify-content-center mb-3" style="position:absolute;top:100px;">
                         <div class="col-12 siroo-header">معرفی های مستقیم: @Model.DirectInviteds</div>
+                        </div>*@
+                    <div class="row justify-content-center mb-3" style="position:absolute;top:100px;">
+                        <div class="col-12 siroo-header">
+                            :جایزه ویژه
+                            <br>
+                            <div style="direction:rtl;">
+                                @Model.MaximumPrize <span>ریال</span>
+                            </div>
+                        </div>
                     </div>
                     <div class="row">&nbsp;</div>
 
@@ -394,22 +417,23 @@
         var labelList = new am4core.ListTemplate(new am4core.Label());
         labelList.template.isMeasured = false;
         labelList.template.background.strokeWidth = 2;
-        labelList.template.fontSize = 25;
+        labelList.template.fontSize = 14;
         labelList.template.fill = 'white';
         labelList.template.padding(5, 5, 5, 5);
         labelList.template.y = am4core.percent(70);
         labelList.template.horizontalCenter = "middle";
+        labelList.template.direction = "rtl";
 
         var label = labelList.create();
         label.parent = chart.chartContainer;
-        label.x = am4core.percent(40);
+        label.x = am4core.percent(20);
         label.background.stroke = chart.colors.getIndex(0);
         label.fill = chart.colors.getIndex(0);
         label.text = "0";
 
         var label2 = labelList.create();
         label2.parent = chart.chartContainer;
-        label2.x = am4core.percent(60);
+        label2.x = am4core.percent(80);
         label2.background.stroke = chart.colors.getIndex(3);
         label2.fill = chart.colors.getIndex(3);
         label2.text = "0";
@@ -433,9 +457,9 @@
 
                         setInterval(() => {
                     hand.showValue(remainingDays, 1000, am4core.ease.cubicOut);
-                    label.text = "" + remainingDays;
+                    label.text = "" +  remainingDays+" [fontFamily: 'Yekan']:روزهای باقیمانده[/] ";
                     hand2.showValue(sharedreceived, 1000, am4core.ease.cubicOut);
-                    label2.text = "" + sharedreceived;
+                    label2.text = "" + sharedreceived+"[fontFamily: 'Yekan'] :درصد موفقیت [/]";
                 }, 2000);
     </script>
 

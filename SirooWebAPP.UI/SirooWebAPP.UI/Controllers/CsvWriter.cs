@@ -13,6 +13,43 @@ namespace SirooWebAPP.UI.Controllers
         public string Serial { get; set; }
 
     }
+    public class CSVChallengeUserData
+    {
+        [Display(Name = "نام")]
+        public string Name { get; set; }
+        
+        [Display(Name = "نام خانوادگی")]
+        public string Family { get; set; }
+
+        [Display(Name = "نام پدر")]
+        public string FatherName { get; set; }
+
+        [Display(Name = "شماره شناسنامه")]
+        public string IdentityId { get; set; }
+
+        [Display(Name = "کد ملی")]
+        public string NationalId { get; set; }
+
+        [Display(Name = "تاریخ تولد")]
+        public string BirthDate { get; set; }
+
+        [Display(Name ="نام کاربری سیرو")]
+        public string Username { get; set; }
+
+        [Display(Name ="موبایل")]
+        public string Mobile { get; set; }
+
+        [Display(Name = "وضعیت تاهل")]
+        public string IsMarried { get; set; }
+
+        //[Display(Name = "معرف")]
+        //public string ParentUsername { get; set; }
+
+        [Display(Name = "تاریخ ثبت")]
+        public string Created { get; set; }
+
+
+    }
     public class CsvWriter
     {
         private const string DELIMITER = ",";
@@ -167,7 +204,7 @@ namespace SirooWebAPP.UI.Controllers
 
             if (!string.IsNullOrWhiteSpace(fileName))
             {
-                File.WriteAllText(fileName, csv);
+                File.WriteAllText(fileName, csv, Encoding.UTF8);
 
                 fileCreated = true;
             }

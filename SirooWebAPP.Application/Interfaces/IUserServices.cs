@@ -132,10 +132,17 @@ namespace SirooWebAPP.Application.Interfaces
 
         List<ChallengeUserData> GetAllChallengeUserData();
         void AddChallengeUserData(ChallengeUserData challengeUserData);
+        void UpdateChallengeUserData(ChallengeUserData challengeUserData);
 
 
         List<GraphHistory> GetAllGraphHistoryData();
         void AddGraphHistory(GraphHistory graphHistory);
+
+
+
+
+        List<ChatMessages> GetAllChatMessages();
+        void AddChatMessages(ChatMessages chatMessages);
 
 
     }

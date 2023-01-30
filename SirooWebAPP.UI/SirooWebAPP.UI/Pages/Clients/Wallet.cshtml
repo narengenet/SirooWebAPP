@@ -44,8 +44,17 @@
                     </div>
                     <div class="row col-12 mb-2">
                         <div class="col-12 Textbox fa fa-dollar">
-                            <input type="number" value="1000000" min="1000000" step="10000" class="col-12" asp-for="AddMoney.NewAmount" />
-                            <span asp-validation-for="AddMoney.NewAmount"></span>
+                            @if (Model.RemainingMoneyToAttendChallenge == -1)
+                            {
+                                <input type="number" value="1000000" min="1000000" step="10000" class="col-12" asp-for="AddMoney.NewAmount" />
+                                <span asp-validation-for="AddMoney.NewAmount"></span>
+                            }
+                            else
+                            {
+                                <input type="number" value="@Model.RemainingMoneyToAttendChallenge" min="@Model.RemainingMoneyToAttendChallenge" step="10000" class="col-12" asp-for="AddMoney.NewAmount" />
+                                <span asp-validation-for="AddMoney.NewAmount"></span>
+                            }
+
                         </div>
                     </div>
                     <div class="row col-12 mb-3 justify-content-center">
@@ -53,7 +62,12 @@
                             <span onclick="toggleSendReceive();" class="secondary-SirooBtn"><<تقاضای دریافت وجه</span>
                         </div>
                         <div class="col-6 SirooBtn">
-                            <input id="myInput" type="submit" class="col-12" asp-page-handler="AddMoney" value="پرداخت">
+                            @if (Model.RemainingMoneyToAttendChallenge == -1)
+                            {
+                                <input id="myInput" type="submit" class="col-12" asp-page-handler="AddMoney" value="پرداخت">
+                            }else{
+                                <input id="myInput" type="submit" class="col-12" asp-page-handler="AddMoney" value="خرید پکیج ویژه">
+                            }
                         </div>
                     </div>
                 </form>
@@ -92,7 +106,7 @@
 
                     <div class="row col-12 mb-3 justify-content-center">
                         <div class="col-6 SirooBtn">
-                            <input type="button" value="پکیج ویژه تبلیغاتی"  class="col-12" onclick="window.location='/Clients/Challenge';" />
+                            <input type="button" value="پکیج ویژه تبلیغاتی" class="col-12" onclick="window.location='/Clients/Challenge';" />
                         </div>
                     </div>
                 }
