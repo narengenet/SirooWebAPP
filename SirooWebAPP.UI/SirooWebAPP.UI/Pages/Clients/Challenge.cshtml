@@ -157,11 +157,27 @@
                             </div>
                         </div>
 
+                        <div class="row">&nbsp;</div>
+                        <div class="row">&nbsp;</div>
+                        <div class="row justify-content-center">
+                            <div class="col-12 siroo-label">وضعیت تاهل</div>
+                        </div>
 
                         <div class="row col-12 mb-2 mt-3">
                             <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" asp-for="AddChallenge.IsMarried">
-                                <label class="form-check-label" for="AddChallenge.IsMarried">آیا متاهل هستید؟</label>
+                                <input class="form-check-input" type="radio" asp-for="AddChallenge.IsMarried" value="1">
+                                <label class="form-check-label" for="AddChallenge.IsMarried">متاهل</label>
+                            </div>
+                        </div>
+                        <div class="row col-12 mb-2 mt-3">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="radio" asp-for="AddChallenge.IsMarried" value="2">
+                                <label class="form-check-label" for="AddChallenge.IsMarried">مجرد</label>
+                            </div>
+                        </div>
+                        <div class="row col-12 mb-2">
+                            <div class="col-12 text-warning">
+                                <span asp-validation-for="AddChallenge.IsMarried"></span>
                             </div>
                         </div>
 

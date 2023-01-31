@@ -98,7 +98,7 @@ div.winner.me {
 
 
 input.form-check-input:focus {
-    background: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%2386b7fe'/%3e%3c/svg%3e");
+    /*background: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%2386b7fe'/%3e%3c/svg%3e");*/
 }
 
 ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
@@ -1298,7 +1298,7 @@ a#currentPoint:before {
 .shortcut .theText{
     font-family:'Yekan';
     text-align:center;
-    font-family:0.8rem;
+    font-size:0.8rem;
 }
 .roullet-icon{
     background-image:url(../images/roullete_icon.png);
@@ -1313,6 +1313,13 @@ a#currentPoint:before {
     width:50px;
     height:60px;
     background-repeat:no-repeat;
+}
+.challengeprizes-icon {
+    background-image: url(../images/star2_icon.png);
+    background-size: contain;
+    width: 50px;
+    height: 60px;
+    background-repeat: no-repeat;
 }
 .training-icon{
     background-image: url(../images/training-icons.png);

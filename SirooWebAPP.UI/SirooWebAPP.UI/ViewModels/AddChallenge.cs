@@ -24,9 +24,10 @@ namespace SirooWebAPP.UI.ViewModels
 
         [Required(ErrorMessage = "ورود نام پدر اجباری است"), MinLength(2, ErrorMessage = "حداقل 2 کاراکتر")]
         public string TheFatherName { get; set; }
-        
-        
-        public bool IsMarried { get; set; }
+
+        [Range(1,2,ErrorMessage ="وضعیت تاهل را تکمیل نمایید")]
+        [Required(ErrorMessage ="وضعیت تاهل را تکمیل نمایید")]
+        public int IsMarried { get; set; }
         
         [Required(ErrorMessage = "ورود شماره موبایل اجباری است"), MinLength(10, ErrorMessage ="لطفا شماره موبایل را کامل وارد نمایید")]
         public string TheMobileNumber { get; set; }

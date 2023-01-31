@@ -80,6 +80,9 @@
                             <li class="nav-item for-clients">
                                 <a class="nav-link text-warning" asp-area="" asp-page="/Clients/Challenge"><i class="fa fa-star">&nbsp</i>پکیج ویژه تبلیغاتی</a>
                             </li>
+                            <li class="nav-item for-clients">
+                                <a class="nav-link text-info" href="/Clients/ChallengePrizeHistory?pagee=0&handler=Display"><i class="fa fa-star">&nbsp</i>جوایز پکیج ویژه تبلیغاتی</a>
+                            </li>
                             @if (Context.Session.GetString("userrolename") != "admin" && Context.Session.GetString("userrolename") != "super")
                             {
 

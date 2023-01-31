@@ -156,7 +156,7 @@ namespace SirooWebAPP.UI.Pages.Clients
                     ToUser = graphHistory.ToUser,
                     FromAmount = paymentValue,
                     ToAmount = paymentValue,
-                    Percentage = 0,
+                    Percentage = -2,
                     ReferenceID = graphHistory.Id.ToString(),
                     Transaction = graphHistory.Graph,
                     Description = "جایزه ثبت نام پکیچ ویژه " + _usersServices.GetUser(graphHistory.User).Username
@@ -334,7 +334,7 @@ namespace SirooWebAPP.UI.Pages.Clients
                             FatherName = addChallenge.TheFatherName,
                             IdentityID = addChallenge.TheIDNumber,
                             NationalID = addChallenge.TheNationalID,
-                            IsMarried = addChallenge.IsMarried,
+                            IsMarried = (addChallenge.IsMarried==2)?false:true,
                             User = creatorID,
                             Graph = newGraph.Id,
                             Created = DateTime.Now,

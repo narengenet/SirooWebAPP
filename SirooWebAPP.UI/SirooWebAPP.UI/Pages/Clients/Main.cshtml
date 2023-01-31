@@ -163,6 +163,14 @@
             پکیج ویژه سیرو
         </div>
     </div>
+    <div class="shortcut" onclick="gotoChallengePrizes();">
+        <div class="challengeprizes-icon">
+            &nbsp;
+        </div>
+        <div class="theText">
+            جوایز پکیج ویژه
+        </div>
+    </div>
     <div class="shortcut" onclick="gotoTrainings();">
         <div class="training-icon">
             &nbsp;
@@ -418,6 +426,9 @@
 
     function gotoChallenge(){
         window.location="/Clients/Challenge";
+    }
+    function gotoChallengePrizes(){
+        window.location="/Clients/ChallengePrizeHistory?pagee=0&handler=Display";
     }
     function gotoTrainings(){
         window.location="../Public/TrainingCenter";
