@@ -323,7 +323,7 @@ namespace SirooWebAPP.UI.Pages.Clients
 
 
 
-                    if (_usersServices.GetAllChallengeUserData().Where(ud => ud.NationalID == addChallenge.TheNationalID) == null)
+                    if (_usersServices.GetAllChallengeUserData().Where(ud => ud.NationalID == addChallenge.TheNationalID).ToList<ChallengeUserData>().Count == 0)
                     {
                         _usersServices.AddChallengeUserData(new ChallengeUserData
                         {

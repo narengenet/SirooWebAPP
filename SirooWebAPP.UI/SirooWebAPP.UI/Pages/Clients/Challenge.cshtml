@@ -22,6 +22,26 @@
     </div>
 }
 
+<div class="modal fade" id="confirmInviterModal" tabindex="-1" role="dialog" aria-labelledby="confirmInviterModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmInviterModal">معرف انتخاب شدهد</h5>
+                <button onclick="$('#finishdraw_'+finishId).css('opacity','1');$('#finishDrawModal').modal('toggle');" type="button" class="close" data-dismiss="modal" aria-label="بازگشت">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                شما معرف تعریف نکرده اید. آیا مطمئن هستید که بدون معرف میخواهید ثبت نام کنید؟
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="$('#confirmInviterModal').modal('toggle');" data-dismiss="modal">خیر</button>
+                <button type="button" class="btn btn-warning" onclick="_noInviter=true;$('#confirmInviterModal').modal('toggle');confirmWithoutInviter();">بلی</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 @if (Model.IsValidToChallenge)
 {
     <div class="SirooRightBlockContainer">
@@ -43,7 +63,7 @@
                     <div class="row justify-content-center">
                         <div class="col-12 siroo-label">مبلغ مورد نیاز برای خرید پکیج ویژه تبلیغاتی</div>
                     </div>
-                    <form method="post" class="addMoney row justify-content-center" enctype="multipart/form-data">
+                    <form id="addChallenge" method="post" class="addMoney row justify-content-center" enctype="multipart/form-data">
                         <div class="row col-12 mb-3">
                             <div class="col-12">
                                 <input type="text" class="col-12" disabled asp-for="AddChallenge.NeededMoneyToAttendInChallenge" value="@Model.NeededMoneyToAttendInChallenge ریال">
@@ -188,7 +208,7 @@
 
                         <div class="row col-12 mb-3 justify-content-center">
                             <div class="col-8 SirooBtn">
-                                <input id="myInput" type="submit" class="col-12" asp-page-handler="TakeMoney" value="برداشت وجه و خرید پکیج ویژه">
+                                <input id="GoChallenge" type="submit" class="col-12" asp-page-handler="TakeMoney" value="برداشت وجه و خرید پکیج ویژه">
                             </div>
                         </div>
                     </form>
@@ -196,6 +216,8 @@
             </div>
         </div>
     </div>
+
+
 }
 
 @if (Model.IsValidToChallenge == false && Model.HasChallenge == false)
@@ -340,7 +362,11 @@
         }
     </style>
 
+
+
     <script src="~/js/pages/Challenge-default.js"></script>
+
+
 
     <script>
 
@@ -480,4 +506,49 @@
     </script>
 
 
+}
+
+
+@section Scripts{
+<script>
+    _noInviter=false;
+
+    function confirmWithoutInviter(){
+        _noInviter=true;
+        $('#GoChallenge').click();
+    }
+
+    $(document).ready(function () {
+            //$('#GoChallenge').on('click',function() {
+            //  dosomething();
+
+            //});
+
+            function dosomething() {
+              alert('here i am');
+              return false;
+              // if you want to submit the form here
+              //$('#addChallenge').submit();
+            }
+
+            $('#addChallenge').submit(function(e) {
+
+                if(_noInviter==false){
+                    if($('#AddChallenge_Parent').val()==''){
+                        e.preventDefault();
+                        $('#confirmInviterModal').modal('toggle');
+                    }
+                }else{
+                    return true;
+                }
+                  
+                return true;
+                  
+              });
+
+
+
+
+    });
+</script>
 }
