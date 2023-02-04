@@ -94,13 +94,17 @@
                         @if (Context.Session.GetString("userrolename") == "admin" || Context.Session.GetString("userrolename") == "super")
                         {
                             <li class="nav-item for-admins">
+                                <a class="nav-link text-light" asp-area="" asp-page="/Superadmins/PendingPosts">تایید پُست های جدید</a>
+                            </li>
+
+                        }
+                        @if (Context.Session.GetString("userrolename") == "super")
+                        {
+                            <li class="nav-item for-admins">
                                 <a class="nav-link text-light" asp-area="" asp-page="/Superadmins/AddDraw">تعریف دوره</a>
                             </li>
                             <li class="nav-item for-admins">
                                 <a class="nav-link text-light" asp-area="" asp-page="/Superadmins/AddPrize">تعریف جایزه</a>
-                            </li>
-                            <li class="nav-item for-admins">
-                                <a class="nav-link text-light" asp-area="" asp-page="/Superadmins/PendingPosts">تایید پُست های جدید</a>
                             </li>
                             <li class="nav-item for-admins">
                                 <a class="nav-link text-light" asp-area="" asp-page="/Superadmins/LastUsers">کاربران</a>
