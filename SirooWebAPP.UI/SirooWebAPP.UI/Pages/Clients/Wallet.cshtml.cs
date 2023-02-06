@@ -43,23 +43,25 @@ namespace SirooWebAPP.UI.Pages.Clients
             {
                 Amount = theUser.Money.ToString();
 
+                
 
-                // check validity to attend in new challenge
-                long _neededMoneyToAttentdInChallenge = Convert.ToInt64(_usersServices.GetConstantDictionary("money_needed_to_attend_in_challenge").ConstantValue);
-                if (Convert.ToInt64(Amount) >= _neededMoneyToAttentdInChallenge)
-                {
-                    Graphs graphUser = _usersServices.GetAllGraphs().Where(g => g.User == creatorID).FirstOrDefault();
-                    if (graphUser == null)
-                    {
-                        IsValidToChallenge = true;
-                    }
-                }
 
                 Amount = string.Format("{0:C}", theUser.Money).Replace("$", "").Replace(".00", "");
 
                 if (Request.Query["reason"]== "buypackage")
                 {
+                    // check validity to attend in new challenge
+                    long _neededMoneyToAttentdInChallenge = Convert.ToInt64(_usersServices.GetConstantDictionary("money_needed_to_attend_in_challenge_"+ Request.Query["package"]).ConstantValue);
+                    if (theUser.Money >= _neededMoneyToAttentdInChallenge)
+                    {
+                        Graphs graphUser = _usersServices.GetAllGraphs().Where(g => g.User == creatorID).FirstOrDefault();
+                        if (graphUser == null)
+                        {
+                            IsValidToChallenge = true;
+                        }
+                    }
                     RemainingMoneyToAttendChallenge = _neededMoneyToAttentdInChallenge - theUser.Money;
+
                 }
             }
         }

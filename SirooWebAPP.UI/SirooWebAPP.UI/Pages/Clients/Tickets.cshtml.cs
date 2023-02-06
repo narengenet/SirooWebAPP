@@ -138,12 +138,18 @@ namespace SirooWebAPP.UI.Pages.Clients
 
             foreach (Contacts item in _contacts)
             {
+                Users _usr = _usersServices.GetAllUsersEvenDeleted().Where(u => u.Id == item.FromUser).FirstOrDefault();
+                string isDeleted = "";
+                if (_usr.IsDeleted)
+                {
+                    isDeleted = "(حذف شده)";
+                }
                 contacts.Add(new ContactViewModel
                 {
                     Id = item.Id,
                     Created = item.Created,
                     FromUser = item.FromUser,
-                    Username = _usersServices.GetUser(item.FromUser).Username,
+                    Username = _usr.Username+isDeleted,
                     IsRead = item.IsRead,
                     IsReplied = item.IsReplied,
                     TheMessage = item.TheMessage,

@@ -19,6 +19,7 @@ namespace SirooWebAPP.Core.Domain
         public bool IsExpired { get; set; }
         public DateTime ExpireDate { get; set; }
         public int ReceivedShared{ get; set; }
+        public int? GraphTypeIndex { get; set; }
 
     }
 }

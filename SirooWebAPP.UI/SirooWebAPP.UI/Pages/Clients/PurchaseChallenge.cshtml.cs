@@ -9,13 +9,13 @@ using SirooWebAPP.UI.ViewModels;
 
 namespace SirooWebAPP.UI.Pages.Clients
 {
-    public class ChallengeModel : PageModel
+    public class PurchaseChallengeModel : PageModel
     {
 
         private readonly IUserServices _usersServices;
         private readonly CustomIDataProtection protector;
         private readonly ISession session;
-        public ChallengeModel(CustomIDataProtection customIDataProtection, IUserServices services, IHttpContextAccessor httpContextAccessor)
+        public PurchaseChallengeModel(CustomIDataProtection customIDataProtection, IUserServices services, IHttpContextAccessor httpContextAccessor)
         {
             _usersServices = services;
             protector = customIDataProtection;
@@ -50,6 +50,8 @@ namespace SirooWebAPP.UI.Pages.Clients
         public int neededMoney2 = 0;
         public int neededMoney3 = 0;
 
+        public long currentMoney = 0;
+
         public List<SelectListItem> UserChallengesOptions { get; set; }
 
         [BindProperty]
@@ -63,7 +65,8 @@ namespace SirooWebAPP.UI.Pages.Clients
 
         }
 
-
+        public bool HasHistory { get; set; }
+        public List<int?> ValidGraphHistoryAttended { get; set; }
 
         void InitiateValidations()
         {
@@ -76,23 +79,6 @@ namespace SirooWebAPP.UI.Pages.Clients
             neededMoney3 = Convert.ToInt32(_usersServices.GetConstantDictionary("money_needed_to_attend_in_challenge_3").ConstantValue);
 
 
-            UserChallengesOptions.Add(new SelectListItem
-            {
-                Text = "پکیج "+  neededMoney1/ 10 + " تومانی",
-                Value = "1"
-            });
-            UserChallengesOptions.Add(new SelectListItem
-            {
-                Text = "پکیج "+ neededMoney2 / 10 + " تومانی",
-                Value = "2"
-            });
-            UserChallengesOptions.Add(new SelectListItem
-            {
-                Text = "پکیج "+ neededMoney3 / 10 + " تومانی",
-                Value = "3"
-            });
-
-
 
             preDefinedChallenge = new AddChallenge();
             // get current user
@@ -103,49 +89,132 @@ namespace SirooWebAPP.UI.Pages.Clients
 
 
 
-            if (theUser != null && ChallengeModeIndex!=null)
+            if (theUser != null)
             {
                 Amount = theUser.Money.ToString();
+                currentMoney = theUser.Money;
 
 
-                // check validity to attend in new challenge
-                NeededMoneyToAttendInChallenge = Convert.ToInt64(_usersServices.GetConstantDictionary("money_needed_to_attend_in_challenge").ConstantValue);
-                DeadlineDays = Convert.ToInt32(_usersServices.GetConstantDictionary("expire_dates_for_challenge").ConstantValue);
-                int MaximumShareToReceive = Convert.ToInt32(_usersServices.GetConstantDictionary("maximum_number_of_prize_payment").ConstantValue);
-                long PrizePerShare = Convert.ToInt64(_usersServices.GetConstantDictionary("prize_for_invite_to_challenge").ConstantValue);
-                //MaximumPrize = (PrizePerShare * MaximumShareToReceive).ToString();
-                MaximumPrize = string.Format("{0:C}", (PrizePerShare * MaximumShareToReceive)).Replace("$", "").Replace(".00", "");
-
-                if (Convert.ToInt64(Amount) >= NeededMoneyToAttendInChallenge)
+                List<Graphs> _graphs = _usersServices.GetAllGraphs().Where(g => g.User == theUser.Id && g.IsDeleted == false).ToList<Graphs>();
+                if (_graphs.Count != 0)
                 {
-                    Graphs graphUser = _usersServices.GetAllGraphs().Where(g => g.User == creatorID).FirstOrDefault();
-                    if (graphUser == null)
+                    HasHistory = true;
+                    List<Graphs> _validGraphs = _graphs.Where(g => g.ExpireDate > DateTime.Today).ToList<Graphs>();
+                    if (_validGraphs != null)
                     {
-                        IsValidToChallenge = true;
+                        ValidGraphHistoryAttended = _validGraphs.Select(g => g.GraphTypeIndex).ToList<int?>();
 
-                        preDefinedChallenge.TheName = theUser.Name;
-                        preDefinedChallenge.TheFamily = theUser.Family;
-                        preDefinedChallenge.TheMobileNumber = theUser.Cellphone;
+                        if (ValidGraphHistoryAttended.Count(g=>g.Value==1)== 0)
+                        {
+                            UserChallengesOptions.Add(new SelectListItem
+                            {
+                                Text = "پکیج " + neededMoney1 / 10 + " تومانی",
+                                Value = "1"
+                            });
+                        }
+
+                        if (ValidGraphHistoryAttended.Count(g => g.Value == 2) == 0)
+                        {
+                            UserChallengesOptions.Add(new SelectListItem
+                            {
+                                Text = "پکیج " + neededMoney2 / 10 + " تومانی",
+                                Value = "2"
+                            });
+                        }
+
+
+                        if (ValidGraphHistoryAttended.Count(g => g.Value == 3) == 0)
+                        {
+                            UserChallengesOptions.Add(new SelectListItem
+                            {
+                                Text = "پکیج " + neededMoney3 / 10 + " تومانی",
+                                Value = "3"
+                            });
+
+                        }
+
                     }
                     else
                     {
-                        HasChallenge = true;
-                        ShareReceivedUntilNow = _usersServices.GetAllGraphHistoryData().Where(g => g.ToUser == creatorID).ToList().Count;
-                        DirectInviteds = _usersServices.GetAllGraphs().Where(g => g.Parent == creatorID).ToList().Count;
-                        RemainingDays = Convert.ToInt32((graphUser.ExpireDate - DateTime.Today).TotalDays);
+                        UserChallengesOptions.Add(new SelectListItem
+                        {
+                            Text = "پکیج " + neededMoney1 / 10 + " تومانی",
+                            Value = "1"
+                        });
+                        UserChallengesOptions.Add(new SelectListItem
+                        {
+                            Text = "پکیج " + neededMoney2 / 10 + " تومانی",
+                            Value = "2"
+                        });
+                        UserChallengesOptions.Add(new SelectListItem
+                        {
+                            Text = "پکیج " + neededMoney3 / 10 + " تومانی",
+                            Value = "3"
+                        });
                     }
+
                 }
                 else
                 {
-                    Graphs graphUser = _usersServices.GetAllGraphs().Where(g => g.User == creatorID).FirstOrDefault();
-                    if (graphUser != null)
+                    UserChallengesOptions.Add(new SelectListItem
                     {
-                        HasChallenge = true;
-                        ShareReceivedUntilNow = _usersServices.GetAllGraphHistoryData().Where(g => g.ToUser == creatorID).ToList().Count;
-                        DirectInviteds = _usersServices.GetAllGraphs().Where(g => g.Parent == creatorID).ToList().Count;
-                        RemainingDays = Convert.ToInt32((graphUser.ExpireDate - DateTime.Today).TotalDays);
-                    }
+                        Text = "پکیج " + neededMoney1 / 10 + " تومانی",
+                        Value = "1"
+                    });
+                    UserChallengesOptions.Add(new SelectListItem
+                    {
+                        Text = "پکیج " + neededMoney2 / 10 + " تومانی",
+                        Value = "2"
+                    });
+                    UserChallengesOptions.Add(new SelectListItem
+                    {
+                        Text = "پکیج " + neededMoney3 / 10 + " تومانی",
+                        Value = "3"
+                    });
                 }
+
+
+
+
+
+                //// check validity to attend in new challenge
+                //NeededMoneyToAttendInChallenge = Convert.ToInt64(_usersServices.GetConstantDictionary("money_needed_to_attend_in_challenge").ConstantValue);
+                //DeadlineDays = Convert.ToInt32(_usersServices.GetConstantDictionary("expire_dates_for_challenge").ConstantValue);
+                //int MaximumShareToReceive = Convert.ToInt32(_usersServices.GetConstantDictionary("maximum_number_of_prize_payment").ConstantValue);
+                //long PrizePerShare = Convert.ToInt64(_usersServices.GetConstantDictionary("prize_for_invite_to_challenge").ConstantValue);
+                ////MaximumPrize = (PrizePerShare * MaximumShareToReceive).ToString();
+                //MaximumPrize = string.Format("{0:C}", (PrizePerShare * MaximumShareToReceive)).Replace("$", "").Replace(".00", "");
+
+                //if (Convert.ToInt64(Amount) >= NeededMoneyToAttendInChallenge)
+                //{
+                //    Graphs graphUser = _usersServices.GetAllGraphs().Where(g => g.User == creatorID).FirstOrDefault();
+                //    if (graphUser == null)
+                //    {
+                //        IsValidToChallenge = true;
+
+                //        preDefinedChallenge.TheName = theUser.Name;
+                //        preDefinedChallenge.TheFamily = theUser.Family;
+                //        preDefinedChallenge.TheMobileNumber = theUser.Cellphone;
+                //    }
+                //    else
+                //    {
+                //        HasChallenge = true;
+                //        ShareReceivedUntilNow = _usersServices.GetAllGraphHistoryData().Where(g => g.ToUser == creatorID).ToList().Count;
+                //        DirectInviteds = _usersServices.GetAllGraphs().Where(g => g.Parent == creatorID).ToList().Count;
+                //        RemainingDays = Convert.ToInt32((graphUser.ExpireDate - DateTime.Today).TotalDays);
+                //    }
+                //}
+                //else
+                //{
+                //    Graphs graphUser = _usersServices.GetAllGraphs().Where(g => g.User == creatorID).FirstOrDefault();
+                //    if (graphUser != null)
+                //    {
+                //        HasChallenge = true;
+                //        ShareReceivedUntilNow = _usersServices.GetAllGraphHistoryData().Where(g => g.ToUser == creatorID).ToList().Count;
+                //        DirectInviteds = _usersServices.GetAllGraphs().Where(g => g.Parent == creatorID).ToList().Count;
+                //        RemainingDays = Convert.ToInt32((graphUser.ExpireDate - DateTime.Today).TotalDays);
+                //    }
+                //}
 
             }
         }
@@ -372,12 +441,12 @@ namespace SirooWebAPP.UI.Pages.Clients
                             FatherName = addChallenge.TheFatherName,
                             IdentityID = addChallenge.TheIDNumber,
                             NationalID = addChallenge.TheNationalID,
-                            IsMarried = (addChallenge.IsMarried==2)?false:true,
+                            IsMarried = (addChallenge.IsMarried == 2) ? false : true,
                             User = creatorID,
                             Graph = newGraph.Id,
                             Created = DateTime.Now,
                             Username = theUser.Username,
-                            IsExported=false
+                            IsExported = false
 
                         });
                     }
@@ -404,26 +473,6 @@ namespace SirooWebAPP.UI.Pages.Clients
                     HasChallenge = true;
 
                     return Page();
-                    //_usersServices.AddGraph(new Graphs
-                    //{
-                    //     User=creatorID,
-                    //      Created=DateTime.Today,
-                    //       ExpireDate=DateTime.Today.AddDays(addedDaysToExpireGraph),
-                    //        Parent=
-                    //})
-
-
-                    //Guid transacId = _usersServices.AddTransaction(new Transactions
-                    //{
-                    //    Created = DateTime.Now,
-                    //    Amount = NeededMoneyToAttendInChallenge,
-                    //    User = theUser.Id,
-                    //    Status = "شرکت در چالش",
-                    //    IsSuccessfull=true,
-                    //    ReferenceID=
-
-                    //});
-                    //return Redirect("/Payment?theAmount=" + addMoney.NewAmount + "&theDescription=" + transacId.ToString());
 
                 }
             }

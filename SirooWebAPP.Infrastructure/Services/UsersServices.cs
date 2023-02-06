@@ -177,6 +177,10 @@ namespace SirooWebAPP.Infrastructure.Services
 
 
         }
+        public List<Users> GetAllUsersEvenDeleted()
+        {
+            return _userRepo.GetAll().ToList<Users>();
+        }
         public Users GetNotDeletedUser(Guid id)
         {
             return _userRepo.GetAll().Where(u => u.Id == id && u.IsDeleted == false).FirstOrDefault();

@@ -1,0 +1,355 @@
+﻿@page
+@model SirooWebAPP.UI.Pages.Clients.PurchaseChallengeModel
+@{
+    Layout = "_LayoutClients";
+}
+
+<style>
+
+    .MainDashboard {
+        display: none !important;
+    }
+
+</style>
+
+@if (Model.ResultMessage.Length > 1)
+{
+    <div class="alert alert-@Model.ResultMessageSuccess fade show" role="alert">
+        @Model.ResultMessage
+        <button type="button" class="close" data-dismiss="alert" onclick="closeAlert();" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+
+<div class="modal fade" id="confirmInviterModal" tabindex="-1" role="dialog" aria-labelledby="confirmInviterModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmInviterModal">معرف انتخاب شدهد</h5>
+                <button onclick="$('#finishdraw_'+finishId).css('opacity','1');$('#finishDrawModal').modal('toggle');" type="button" class="close" data-dismiss="modal" aria-label="بازگشت">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                شما معرف تعریف نکرده اید. آیا مطمئن هستید که بدون معرف میخواهید ثبت نام کنید؟
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="$('#confirmInviterModal').modal('toggle');" data-dismiss="modal">خیر</button>
+                <button type="button" class="btn btn-warning" onclick="_noInviter=true;$('#confirmInviterModal').modal('toggle');confirmWithoutInviter();">بلی</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="SirooRightBlockContainer">
+    <div class="mb-5 SirooRightBlock  col-12">
+        <div class="d-flex flex-row-reverse SirooRightBlockHeader">
+            <a class="profile-media col-2" href="#">
+                <img src="~/uploads/assets/profile.jpg" />
+            </a>
+            <a href="#" class="col-6 profile-fullname">پکیج ویژه تبلیغاتی</a>
+            <a href="#" class="col-2 profile-date">@string.Format("{0:C}", Model.currentMoney).Replace(".00","").Replace("$","") <span>ریال</span></a>
+        </div>
+        <div class="d-flex flex-column justify-content-center SirooContainer">
+            <div class="SirooItems">
+                <div class="row justify-content-center mb-3">
+                    <div class="col-12 siroo-header">خرید پکیج ویژه تبلیغاتی سیرو</div>
+                </div>
+                <div class="row">&nbsp;</div>
+
+                <form id="addChallenge" method="post" class="addMoney row justify-content-center" enctype="multipart/form-data">
+
+                    <div class="row col-12 mb-2">
+
+                        <div class="col-12 Textbox">
+                            <select id="ddlPackage" asp-items="@Model.UserChallengesOptions" asp-for="ChallengeModeIndex">
+                                <option value="0">--انتخاب پکیج ویژه--</option>
+                            </select>
+                            @*<span asp-validation-for="ChallengeModelIndex"></span>*@
+                        </div>
+
+                    </div>
+
+                    <div class="row justify-content-center">
+                        <div class="col-12 siroo-label">مبلغ مورد نیاز برای خرید پکیج ویژه تبلیغاتی</div>
+                    </div>
+
+                    <div class="row col-12 mb-3">
+                        <div class="col-12">
+                            <input type="text" style="direction:rtl;" class="col-12" disabled asp-for="AddChallenge.NeededMoneyToAttendInChallenge" value="@Model.NeededMoneyToAttendInChallenge ریال">
+                        </div>
+                    </div>
+
+
+
+                    <div class="row justify-content-center">
+                        <div class="col-12 siroo-label">نام کاربری معرف شما (اختیاری) </div>
+                    </div>
+                    <div class="row col-12 mb-2">
+                        <div class="col-12 Textbox fa fa-user">
+                            <input type="text" class="col-12" asp-for="AddChallenge.Parent" />
+                        </div>
+                    </div>
+
+                    @if (Model.HasHistory == false)
+                    {
+
+                        <div class="row justify-content-center">
+                            <div class="col-12 siroo-header">پر کردن مشخصات فردی زیر برای صدور بیمه نامه حوادث انفرادی الزامیست</div>
+                        </div>
+
+                        <div class="row justify-content-center">
+                            <div class="col-12 siroo-label">نام</div>
+                        </div>
+                        <div class="row col-12 mb-2">
+                            <div class="col-12 Textbox fa fa-user">
+                                <input type="text" class="col-12" asp-for="AddChallenge.TheName" value="@Model.preDefinedChallenge.TheName" />
+                            </div>
+                            <div class="col-12 text-warning">
+                                <span asp-validation-for="AddChallenge.TheName"></span>
+                            </div>
+                        </div>
+
+                        <div class="row justify-content-center">
+                            <div class="col-12 siroo-label">نام خانوادگی</div>
+                        </div>
+                        <div class="row col-12 mb-2">
+                            <div class="col-12 Textbox fa fa-user">
+                                <input type="text" class="col-12" asp-for="AddChallenge.TheFamily" value="@Model.preDefinedChallenge.TheFamily" />
+                            </div>
+                            <div class="col-12 text-warning">
+                                <span asp-validation-for="AddChallenge.TheFamily"></span>
+                            </div>
+                        </div>
+
+
+                        <div class="row justify-content-center">
+                            <div class="col-12 siroo-label">نام پدر</div>
+                        </div>
+                        <div class="row col-12 mb-2">
+                            <div class="col-12 Textbox fa fa-user">
+                                <input type="text" class="col-12" asp-for="AddChallenge.TheFatherName" />
+                            </div>
+                            <div class="col-12 text-warning">
+                                <span asp-validation-for="AddChallenge.TheFatherName"></span>
+                            </div>
+                        </div>
+
+
+                        <div class="row justify-content-center">
+                            <div class="col-12 siroo-label">شماره شناسنامه</div>
+                        </div>
+                        <div class="row col-12 mb-2">
+                            <div class="col-12 Textbox fa fa-id-card">
+                                <input type="text" class="col-12" asp-for="AddChallenge.TheIDNumber" />
+                            </div>
+                            <div class="col-12 text-warning">
+                                <span asp-validation-for="AddChallenge.TheIDNumber"></span>
+                            </div>
+                        </div>
+
+
+
+                        <div class="row justify-content-center">
+                            <div class="col-12 siroo-label">کد ملی</div>
+                        </div>
+                        <div class="row col-12 mb-2">
+                            <div class="col-12 Textbox fa fa-id-card">
+                                <input type="text" class="col-12" asp-for="AddChallenge.TheNationalID" />
+                            </div>
+                            <div class="col-12 text-warning">
+                                <span asp-validation-for="AddChallenge.TheNationalID"></span>
+                            </div>
+                        </div>
+
+
+                        <div class="row justify-content-center">
+                            <div class="col-12 siroo-label">تاریخ تولد</div>
+                        </div>
+                        <div class="row col-12 mb-2">
+                            <div class="col-12 Textbox fa fa-calendar">
+                                <input type="text" class="col-12" asp-for="AddChallenge.TheBirthDate" />
+                            </div>
+                            <div class="col-12 text-warning">
+                                <span asp-validation-for="AddChallenge.TheBirthDate"></span>
+                            </div>
+                        </div>
+
+
+
+
+
+                        <div class="row justify-content-center">
+                            <div class="col-12 siroo-label">شماره موبایل</div>
+                        </div>
+                        <div class="row col-12 mb-2">
+                            <div class="col-12 Textbox fa fa-mobile">
+                                <input type="text" class="col-12" asp-for="AddChallenge.TheMobileNumber" value="@Model.preDefinedChallenge.TheMobileNumber" />
+                            </div>
+                            <div class="col-12 text-warning">
+                                <span asp-validation-for="AddChallenge.TheMobileNumber"></span>
+                            </div>
+                        </div>
+
+                        <div class="row">&nbsp;</div>
+                        <div class="row">&nbsp;</div>
+                        <div class="row justify-content-center">
+                            <div class="col-12 siroo-label">وضعیت تاهل</div>
+                        </div>
+
+                        <div class="row col-12 mb-2 mt-3">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="radio" asp-for="AddChallenge.IsMarried" value="1">
+                                <label class="form-check-label" for="AddChallenge.IsMarried">متاهل</label>
+                            </div>
+                        </div>
+                        <div class="row col-12 mb-2 mt-3">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="radio" asp-for="AddChallenge.IsMarried" value="2">
+                                <label class="form-check-label" for="AddChallenge.IsMarried">مجرد</label>
+                            </div>
+                        </div>
+                        <div class="row col-12 mb-2">
+                            <div class="col-12 text-warning">
+                                <span asp-validation-for="AddChallenge.IsMarried"></span>
+                            </div>
+                        </div>
+
+
+
+                        <div class="row col-12 mb-3 justify-content-center finalBTN">
+                            <div class="col-8 SirooBtn">
+                                <input id="GoChallenge" type="submit" class="col-12" asp-page-handler="TakeMoney" value="برداشت وجه و خرید پکیج ویژه">
+                            </div>
+                        </div>
+
+                        <div class="row justify-content-center finalBTN2">
+                            <div class="col-12 text-warning siroo-label">شما موجودی کافی برای خرید این پکیح ندارید. لطفا ابتدا کیف پول خود را شارژ نمایید.</div>
+                        </div>
+
+                        <div class="row col-12 mb-3 justify-content-center challengeHidden finalBTN2">
+                            <div class="col-8 SirooBtn">
+                                <input id="theWallet" type="button" class="col-12" onclick="goToWallet();" value="کیف پول">
+                            </div>
+                        </div>
+
+                    }
+                    else
+                    {
+                        <div class="row col-12 mb-3 justify-content-center finalBTN">
+                            <div class="col-8 SirooBtn">
+                                <input id="GoChallenge" type="submit" class="col-12" asp-page-handler="TakeMoney" value="برداشت وجه و خرید پکیج ویژه">
+                            </div>
+                        </div>
+
+                        <div class="row justify-content-center finalBTN2">
+                            <div class="col-12 text-warning siroo-label">شما موجودی کافی برای خرید این پکیح ندارید. لطفا ابتدا کیف پول خود را شارژ نمایید.</div>
+                        </div>
+
+
+                        <div class="row col-12 mb-3 justify-content-center challengeHidden finalBTN2">
+                            <div class="col-8 SirooBtn">
+                                <input id="theWallet" type="button" class="col-12" onclick="goToWallet();" value="کیف پول">
+                            </div>
+                        </div>
+                    }
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts{
+<script>
+
+        var neededMoney1='@string.Format("{0:C}", Model.neededMoney1).Replace(".00","").Replace("$","")';
+        var _neededMoney1=@Model.neededMoney1;
+        var neededMoney2='@string.Format("{0:C}", Model.neededMoney2).Replace(".00","").Replace("$","")';
+        var _neededMoney2=@Model.neededMoney2;
+        var neededMoney3='@string.Format("{0:C}", Model.neededMoney3).Replace(".00","").Replace("$","")';
+        var _neededMoney3=@Model.neededMoney3;
+
+        var currentMoney=@Model.currentMoney;
+
+        var walletURL="";
+
+        function goToWallet(){
+            window.location=walletURL;
+        }
+
+    $(document).ready(function () {
+
+            $('.finalBTN2').hide();
+            $('.finalBTN').hide();
+
+            $("#ddlPackage").change(function () {
+
+                var end = $('#ddlPackage').val();
+
+                if(end!="0"){
+                    $('.challengeHidden').css('display','block');
+                }else{
+                    $('.challengeHidden').css('display','none');
+                    $('.finalBTN').hide();
+                }
+
+                if(end=="1"){
+                    $('#AddChallenge_NeededMoneyToAttendInChallenge').val(neededMoney1+" ریال");
+                    if(currentMoney<_neededMoney1){
+                        $('.finalBTN').hide();
+                        $('.finalBTN2').css('display','flex');
+                        walletURL="/Clients/Wallet?reason=buypackage&package=1";
+                        $('.challengeHidden').css('display','none');
+                    }else{
+                        $('.finalBTN').show();
+                        $('.challengeHidden').css('display','block');
+                        $('.finalBTN2').css('display','none');
+
+                    }
+                    console.log(1);
+                }
+
+                if(end=="2"){
+                    $('#AddChallenge_NeededMoneyToAttendInChallenge').val(neededMoney2+" ریال");
+                    if(currentMoney<_neededMoney2){
+                        $('.finalBTN').hide();
+                        $('.finalBTN2').css('display','flex');
+                        walletURL="/Clients/Wallet?reason=buypackage&package=2";
+                        $('.challengeHidden').css('display','none');
+                    }else{
+                        $('.finalBTN').show();
+                        $('.challengeHidden').css('display','block');
+                        $('.finalBTN2').css('display','none');
+
+                    }
+                    console.log(2);
+                }
+
+                if(end=="3"){
+                    $('#AddChallenge_NeededMoneyToAttendInChallenge').val(neededMoney3+" ریال");
+                    if(currentMoney<_neededMoney3){
+                        $('.finalBTN').hide();
+                        $('.finalBTN2').css('display','flex');
+                        walletURL="/Clients/Wallet?reason=buypackage&package=3";
+                        $('.challengeHidden').css('display','none');
+                    }else{
+                        $('.finalBTN').show();
+                        $('.challengeHidden').css('display','block');
+                        $('.finalBTN2').css('display','none');
+                    }
+                    console.log(3);
+                }
+
+            });
+
+
+
+
+    });
+</script>
+}

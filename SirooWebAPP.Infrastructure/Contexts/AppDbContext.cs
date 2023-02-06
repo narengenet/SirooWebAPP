@@ -246,11 +246,23 @@ namespace SirooWebAPP.Infrastructure.Contexts
             ConstantDictionaries credit_for_image_ads = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "credit_for_image_ads", ConstantValue = "500", IsActive = true, Description = "اعتبار لازم برای ثبت آگهی تصویری", Created = DateTime.Now, CreatedBy = sina.Id, Category = "اعتبار", PriorityIndex = 27 };
             ConstantDictionaries credit_for_video_ads = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "credit_for_video_ads", ConstantValue = "1000", IsActive = true, Description = "اعتبار لازم برای ثبت آگهی ویدئویی", Created = DateTime.Now, CreatedBy = sina.Id, Category = "اعتبار", PriorityIndex = 28 };
             
-            ConstantDictionaries expire_dates_for_challenge = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "expire_dates_for_challenge", ConstantValue = "60", IsActive = true, Description = "تعداد روزهای مجاز برای چالش", Created = DateTime.Now, CreatedBy = sina.Id, Category = "چالش", PriorityIndex = 29 };
-            ConstantDictionaries money_needed_to_attend_in_challenge = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "money_needed_to_attend_in_challenge", ConstantValue = "3000000", IsActive = true, Description = "موجودی ریالی برای شرکت در چالش", Created = DateTime.Now, CreatedBy = sina.Id, Category = "چالش", PriorityIndex = 30 };
-            ConstantDictionaries prize_for_invite_to_challenge = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "prize_for_invite_to_challenge", ConstantValue = "1000000", IsActive = true, Description = "کارمزد برای معرفی کاربران به چالش", Created = DateTime.Now, CreatedBy = sina.Id, Category = "چالش", PriorityIndex = 31 };
-            ConstantDictionaries order_of_prize_payment = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "order_of_prize_payment", ConstantValue = "3,5,2,10", IsActive = true, Description = "ترتیب پرداخت کارمزدها", Created = DateTime.Now, CreatedBy = sina.Id, Category = "چالش", PriorityIndex = 32 };
-            ConstantDictionaries maximum_number_of_prize_payment = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "maximum_number_of_prize_payment", ConstantValue = "1000", IsActive = true, Description = "حداکثر تعداد پرداخت کارمزدها", Created = DateTime.Now, CreatedBy = sina.Id, Category = "چالش", PriorityIndex = 33 };
+            ConstantDictionaries expire_dates_for_challenge_1 = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "expire_dates_for_challenge_1", ConstantValue = "30", IsActive = true, Description = "تعداد روزهای مجاز برای چالش نوع 1", Created = DateTime.Now, CreatedBy = sina.Id, Category = "چالش", PriorityIndex = 29 };
+            ConstantDictionaries money_needed_to_attend_in_challenge_1 = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "money_needed_to_attend_in_challenge_1", ConstantValue = "300000", IsActive = true, Description = "موجودی ریالی برای شرکت در چالش نوع 1", Created = DateTime.Now, CreatedBy = sina.Id, Category = "چالش", PriorityIndex = 30 };
+            ConstantDictionaries prize_for_invite_to_challenge_1 = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "prize_for_invite_to_challenge_1", ConstantValue = "100000", IsActive = true, Description = "کارمزد برای معرفی کاربران به چالش نوع 1", Created = DateTime.Now, CreatedBy = sina.Id, Category = "چالش", PriorityIndex = 31 };
+            ConstantDictionaries order_of_prize_payment_1 = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "order_of_prize_payment_1", ConstantValue = "3,5,2,10", IsActive = true, Description = "ترتیب پرداخت کارمزدها نوع 1", Created = DateTime.Now, CreatedBy = sina.Id, Category = "چالش", PriorityIndex = 32 };
+            ConstantDictionaries maximum_number_of_prize_payment_1 = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "maximum_number_of_prize_payment_1", ConstantValue = "1000", IsActive = true, Description = "حداکثر تعداد پرداخت کارمزدها نوع 1", Created = DateTime.Now, CreatedBy = sina.Id, Category = "چالش", PriorityIndex = 33 };
+
+            ConstantDictionaries expire_dates_for_challenge_2 = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "expire_dates_for_challenge_2", ConstantValue = "60", IsActive = true, Description = "تعداد روزهای مجاز برای چالش نوع 2", Created = DateTime.Now, CreatedBy = sina.Id, Category = "چالش", PriorityIndex = 34 };
+            ConstantDictionaries money_needed_to_attend_in_challenge_2 = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "money_needed_to_attend_in_challenge_2", ConstantValue = "3550000", IsActive = true, Description = "موجودی ریالی برای شرکت در چالش نوع 2", Created = DateTime.Now, CreatedBy = sina.Id, Category = "چالش", PriorityIndex = 35 };
+            ConstantDictionaries prize_for_invite_to_challenge_2 = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "prize_for_invite_to_challenge_2", ConstantValue = "1000000", IsActive = true, Description = "کارمزد برای معرفی کاربران به چالش نوع 2", Created = DateTime.Now, CreatedBy = sina.Id, Category = "چالش", PriorityIndex = 36 };
+            ConstantDictionaries order_of_prize_payment_2 = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "order_of_prize_payment_2", ConstantValue = "3,5,2,10", IsActive = true, Description = "ترتیب پرداخت کارمزدها نوع 2", Created = DateTime.Now, CreatedBy = sina.Id, Category = "چالش", PriorityIndex = 37 };
+            ConstantDictionaries maximum_number_of_prize_payment_2 = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "maximum_number_of_prize_payment_2", ConstantValue = "1000", IsActive = true, Description = "حداکثر تعداد پرداخت کارمزدها نوع 2", Created = DateTime.Now, CreatedBy = sina.Id, Category = "چالش", PriorityIndex = 38 };
+
+            ConstantDictionaries expire_dates_for_challenge_3 = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "expire_dates_for_challenge_3", ConstantValue = "90", IsActive = true, Description = "تعداد روزهای مجاز برای چالش نوع 3", Created = DateTime.Now, CreatedBy = sina.Id, Category = "چالش", PriorityIndex = 39 };
+            ConstantDictionaries money_needed_to_attend_in_challenge_3 = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "money_needed_to_attend_in_challenge_3", ConstantValue = "30000000", IsActive = true, Description = "موجودی ریالی برای شرکت در چالش نوع 3", Created = DateTime.Now, CreatedBy = sina.Id, Category = "چالش", PriorityIndex = 40 };
+            ConstantDictionaries prize_for_invite_to_challenge_3 = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "prize_for_invite_to_challenge_3", ConstantValue = "10000000", IsActive = true, Description = "کارمزد برای معرفی کاربران به چالش نوع 3", Created = DateTime.Now, CreatedBy = sina.Id, Category = "چالش", PriorityIndex = 41 };
+            ConstantDictionaries order_of_prize_payment_3 = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "order_of_prize_payment_3", ConstantValue = "2,3,5", IsActive = true, Description = "ترتیب پرداخت کارمزدها نوع 3", Created = DateTime.Now, CreatedBy = sina.Id, Category = "چالش", PriorityIndex = 42 };
+            ConstantDictionaries maximum_number_of_prize_payment_3 = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "maximum_number_of_prize_payment_3", ConstantValue = "1000", IsActive = true, Description = "حداکثر تعداد پرداخت کارمزدها نوع 3", Created = DateTime.Now, CreatedBy = sina.Id, Category = "چالش", PriorityIndex = 43 };
 
 
 
@@ -286,11 +298,21 @@ namespace SirooWebAPP.Infrastructure.Contexts
             modelBuilder.Entity<ConstantDictionaries>().HasData(diamond_tenth_priority);
             modelBuilder.Entity<ConstantDictionaries>().HasData(min_points_to_spin_diamond_wheel);
             modelBuilder.Entity<ConstantDictionaries>().HasData(added_points_to_each_spin_diamond_wheel_after_first_time);
-            modelBuilder.Entity<ConstantDictionaries>().HasData(expire_dates_for_challenge);
-            modelBuilder.Entity<ConstantDictionaries>().HasData(money_needed_to_attend_in_challenge);
-            modelBuilder.Entity<ConstantDictionaries>().HasData(prize_for_invite_to_challenge);
-            modelBuilder.Entity<ConstantDictionaries>().HasData(order_of_prize_payment);
-            modelBuilder.Entity<ConstantDictionaries>().HasData(maximum_number_of_prize_payment);
+            modelBuilder.Entity<ConstantDictionaries>().HasData(expire_dates_for_challenge_1);
+            modelBuilder.Entity<ConstantDictionaries>().HasData(money_needed_to_attend_in_challenge_1);
+            modelBuilder.Entity<ConstantDictionaries>().HasData(prize_for_invite_to_challenge_1);
+            modelBuilder.Entity<ConstantDictionaries>().HasData(order_of_prize_payment_1);
+            modelBuilder.Entity<ConstantDictionaries>().HasData(maximum_number_of_prize_payment_1);
+            modelBuilder.Entity<ConstantDictionaries>().HasData(expire_dates_for_challenge_2);
+            modelBuilder.Entity<ConstantDictionaries>().HasData(money_needed_to_attend_in_challenge_2);
+            modelBuilder.Entity<ConstantDictionaries>().HasData(prize_for_invite_to_challenge_2);
+            modelBuilder.Entity<ConstantDictionaries>().HasData(order_of_prize_payment_2);
+            modelBuilder.Entity<ConstantDictionaries>().HasData(maximum_number_of_prize_payment_2);
+            modelBuilder.Entity<ConstantDictionaries>().HasData(expire_dates_for_challenge_3);
+            modelBuilder.Entity<ConstantDictionaries>().HasData(money_needed_to_attend_in_challenge_3);
+            modelBuilder.Entity<ConstantDictionaries>().HasData(prize_for_invite_to_challenge_3);
+            modelBuilder.Entity<ConstantDictionaries>().HasData(order_of_prize_payment_3);
+            modelBuilder.Entity<ConstantDictionaries>().HasData(maximum_number_of_prize_payment_3);
 
 
 

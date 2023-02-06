@@ -21,6 +21,7 @@ namespace SirooWebAPP.Application.Interfaces
         List<Users> GetUsers(int pageNumber);
         DTOUserProfile GetUserProfile(Guid userId);
         List<Users> GetAllUsers();
+        List<Users> GetAllUsersEvenDeleted();
         List<Users> GetAllDeletedUsers();
         List<DTOUserSmall> GetAllLesserPriorityUsers(Guid requesterUserId);
 
