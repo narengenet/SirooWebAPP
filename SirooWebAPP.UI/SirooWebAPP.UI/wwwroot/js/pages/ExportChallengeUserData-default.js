@@ -2,7 +2,7 @@
     $('.waitingPlease').css('display', 'flex');
 
     $.ajax({
-        url: '/exportChallengeUserData/',
+        url: '/exportChallengeUserData/' + $('#ddlPackage').val(),
         type: 'GET',
         success: function (result) {
             $('.waitingPlease').css('display', 'none');
@@ -20,7 +20,7 @@ function ExportNewChallengeData() {
     $('.waitingPlease').css('display', 'flex');
 
     $.ajax({
-        url: '/exportnewChallengeUserData/',
+        url: '/exportnewChallengeUserData/' + $('#ddlPackage').val(),
         type: 'GET',
         success: function (result) {
             $('.waitingPlease').css('display', 'none');

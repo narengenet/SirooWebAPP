@@ -48,6 +48,9 @@ namespace SirooWebAPP.UI.Controllers
         [Display(Name = "تاریخ ثبت")]
         public string Created { get; set; }
 
+        [Display(Name = "نوع چالش")]
+        public string ChallengeType { get; set; }
+
 
     }
     public class CsvWriter

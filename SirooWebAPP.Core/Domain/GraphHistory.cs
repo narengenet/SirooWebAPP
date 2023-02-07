@@ -14,6 +14,7 @@ namespace SirooWebAPP.Core.Domain
         public Guid Graph { get; set; }
         public Guid User { get; set; }
         public Guid ToUser{ get; set; }
+        public int? GraphModeIndex { get; set; }
 
     }
 }

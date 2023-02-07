@@ -98,13 +98,35 @@ namespace SirooWebAPP.UI.Pages.Clients
                 List<Graphs> _graphs = _usersServices.GetAllGraphs().Where(g => g.User == theUser.Id && g.IsDeleted == false).ToList<Graphs>();
                 if (_graphs.Count != 0)
                 {
-                    HasHistory = true;
+                    
                     List<Graphs> _validGraphs = _graphs.Where(g => g.ExpireDate > DateTime.Today).ToList<Graphs>();
+                    ChallengeUserData challengeUserData = _usersServices.GetAllChallengeUserData().Where(cud => cud.User == theUser.Id).FirstOrDefault();
+
+                    AddChallenge = new AddChallenge();
+                    if (challengeUserData != null)
+                    {
+                        HasHistory = true;
+                        AddChallenge.IsMarried = challengeUserData.IsMarried ? 1 : 2;
+                        AddChallenge.TheFatherName = challengeUserData.FatherName;
+                        AddChallenge.TheName = challengeUserData.Name;
+                        AddChallenge.TheBirthDate = challengeUserData.BirthDate;
+                        AddChallenge.TheFamily = challengeUserData.Family;
+                        AddChallenge.TheNationalID = challengeUserData.NationalID;
+                        AddChallenge.TheIDNumber = challengeUserData.IdentityID;
+                        AddChallenge.TheMobileNumber = challengeUserData.Cellphone;
+                    }
+                    else
+                    {
+                        HasHistory = false;
+                    }
+
+
+
                     if (_validGraphs != null)
                     {
                         ValidGraphHistoryAttended = _validGraphs.Select(g => g.GraphTypeIndex).ToList<int?>();
 
-                        if (ValidGraphHistoryAttended.Count(g=>g.Value==1)== 0)
+                        if (ValidGraphHistoryAttended.Count(g => g.Value == 1) == 0)
                         {
                             UserChallengesOptions.Add(new SelectListItem
                             {
@@ -156,6 +178,12 @@ namespace SirooWebAPP.UI.Pages.Clients
                 }
                 else
                 {
+
+                    preDefinedChallenge.TheName = theUser.Name;
+                    preDefinedChallenge.TheFamily = theUser.Family;
+                    preDefinedChallenge.TheMobileNumber = theUser.Cellphone;
+
+
                     UserChallengesOptions.Add(new SelectListItem
                     {
                         Text = "پکیج " + neededMoney1 / 10 + " تومانی",
@@ -220,9 +248,9 @@ namespace SirooWebAPP.UI.Pages.Clients
         }
 
 
-        void AddPaymentToUser(int[] orders, int sharedReceived, Guid userId, GraphHistory graphHistory)
+        void AddPaymentToUser(int[] orders, int sharedReceived, Guid userId, GraphHistory graphHistory, int graphType)
         {
-            int maxShareToPayment = Convert.ToInt32(_usersServices.GetConstantDictionary("maximum_number_of_prize_payment").ConstantValue);
+            int maxShareToPayment = Convert.ToInt32(_usersServices.GetConstantDictionary("maximum_number_of_prize_payment_" + graphType).ConstantValue);
             if (sharedReceived > maxShareToPayment)
             {
                 return;
@@ -254,7 +282,7 @@ namespace SirooWebAPP.UI.Pages.Clients
 
             if (currentOrder != -1)
             {
-                long paymentValue = currentOrder * Convert.ToInt64(_usersServices.GetConstantDictionary("prize_for_invite_to_challenge").ConstantValue);
+                long paymentValue = currentOrder * Convert.ToInt64(_usersServices.GetConstantDictionary("prize_for_invite_to_challenge_" + graphType).ConstantValue);
 
                 _usersServices.AddTransactionPercent(new TransactionPercents
                 {
@@ -266,7 +294,7 @@ namespace SirooWebAPP.UI.Pages.Clients
                     Percentage = -2,
                     ReferenceID = graphHistory.Id.ToString(),
                     Transaction = graphHistory.Graph,
-                    Description = "جایزه ثبت نام پکیچ ویژه " + _usersServices.GetUser(graphHistory.User).Username
+                    Description = "جایزه ثبت نام پکیچ ویژه نوع " + graphType + " " + _usersServices.GetUser(graphHistory.User).Username
 
                 });
 
@@ -282,7 +310,7 @@ namespace SirooWebAPP.UI.Pages.Clients
         {
             InitiateValidations();
 
-            if (ModelState.IsValid)
+            if (HasHistory ^ ModelState.IsValid)
             {
 
 
@@ -292,6 +320,18 @@ namespace SirooWebAPP.UI.Pages.Clients
                 Guid creatorID = Guid.Parse(_creatorId);
                 Users theUser = _usersServices.GetUser(creatorID);
                 Graphs theParentGraph = null;
+                if (ChallengeModeIndex == 1)
+                {
+                    NeededMoneyToAttendInChallenge = neededMoney1;
+                }
+                if (ChallengeModeIndex == 2)
+                {
+                    NeededMoneyToAttendInChallenge = neededMoney2;
+                }
+                if (ChallengeModeIndex == 3)
+                {
+                    NeededMoneyToAttendInChallenge = neededMoney3;
+                }
 
                 // check validity to challenge
                 if (theUser != null && theUser.Money >= NeededMoneyToAttendInChallenge)
@@ -300,14 +340,14 @@ namespace SirooWebAPP.UI.Pages.Clients
                     Users theParentUser = _usersServices.GetAllUsers().Where(u => u.Username == addChallenge.Parent).FirstOrDefault();
                     Guid? theGrandParentUser = null;
                     bool isFirstChildOfParent = true;
-                    int addedDaysToExpireGraph = Convert.ToInt32(_usersServices.GetConstantDictionary("expire_dates_for_challenge").ConstantValue);
+                    int addedDaysToExpireGraph = Convert.ToInt32(_usersServices.GetConstantDictionary("expire_dates_for_challenge_" + ChallengeModeIndex.ToString()).ConstantValue);
 
 
                     // if parent user is not null
                     if (theParentUser != null)
                     {
                         //theParentGraph = _usersServices.GetAllGraphs().Where(g => g.User == theParentUser.Id && g.ExpireDate > DateTime.Today.AddDays(-1 * addedDaysToExpireGraph)).FirstOrDefault();
-                        theParentGraph = _usersServices.GetAllGraphs().Where(g => g.User == theParentUser.Id).FirstOrDefault();
+                        theParentGraph = _usersServices.GetAllGraphs().Where(g => g.User == theParentUser.Id && g.GraphTypeIndex == ChallengeModeIndex).FirstOrDefault();
                         if (theParentGraph == null)
                         {
                             ResultMessage = "نام کاربری معرف اشتباه است.";
@@ -315,7 +355,7 @@ namespace SirooWebAPP.UI.Pages.Clients
                         }
 
                         // check if parent has another child 
-                        if (_usersServices.GetAllGraphs().Where(g => g.Parent == theParentUser.Id).FirstOrDefault() != null)
+                        if (_usersServices.GetAllGraphs().Where(g => g.Parent == theParentUser.Id && g.GraphTypeIndex == ChallengeModeIndex).FirstOrDefault() != null)
                         {
                             //parent has not any child
                             isFirstChildOfParent = false;
@@ -361,14 +401,15 @@ namespace SirooWebAPP.UI.Pages.Clients
                         IsFirstChildOfParent = isFirstChildOfParent,
                         Created = DateTime.Now,
                         IsExpired = false,
-                        ReceivedShared = 0
+                        ReceivedShared = 0,
+                        GraphTypeIndex = ChallengeModeIndex
 
                     };
 
                     _usersServices.AddGraph(newGraph);
 
 
-                    string _orderOfPayments = _usersServices.GetConstantDictionary("order_of_prize_payment").ConstantValue;
+                    string _orderOfPayments = _usersServices.GetConstantDictionary("order_of_prize_payment_" + ChallengeModeIndex.ToString()).ConstantValue;
                     string[] tmpArray = _orderOfPayments.Split(',').ToArray();
                     List<int> tmpList = new List<int>();
 
@@ -392,10 +433,11 @@ namespace SirooWebAPP.UI.Pages.Clients
                                 User = creatorID,
                                 ToUser = theParentUser.Id,
                                 Graph = newGraph.Id,
+                                GraphModeIndex = ChallengeModeIndex
                             };
                             _usersServices.AddGraphHistory(_graphHistory);
 
-                            AddPaymentToUser(orderOfPayments, theParentGraph.ReceivedShared, theParentUser.Id, _graphHistory);
+                            AddPaymentToUser(orderOfPayments, theParentGraph.ReceivedShared, theParentUser.Id, _graphHistory, Convert.ToInt32(ChallengeModeIndex));
                         }
 
 
@@ -407,7 +449,7 @@ namespace SirooWebAPP.UI.Pages.Clients
                     if (theGrandParentUser != null && isFirstChildOfParent && theGrandParentUser != creatorID)
                     {
                         //Graphs theGrandParentGraph = _usersServices.GetAllGraphs().Where(g => g.User == theGrandParentUser && g.ExpireDate > DateTime.Today.AddDays(-1 * addedDaysToExpireGraph)).FirstOrDefault();
-                        Graphs theGrandParentGraph = _usersServices.GetAllGraphs().Where(g => g.User == theGrandParentUser && g.ExpireDate > DateTime.Today).FirstOrDefault();
+                        Graphs theGrandParentGraph = _usersServices.GetAllGraphs().Where(g => g.User == theGrandParentUser && g.ExpireDate > DateTime.Today && g.GraphTypeIndex == ChallengeModeIndex).FirstOrDefault();
                         if (theGrandParentGraph != null)
                         {
                             theGrandParentGraph.ReceivedShared += 1;
@@ -418,38 +460,53 @@ namespace SirooWebAPP.UI.Pages.Clients
                                 Created = DateTime.Now,
                                 Graph = newGraph.Id,
                                 User = creatorID,
-                                ToUser = Guid.Parse(theGrandParentUser.ToString())
+                                ToUser = Guid.Parse(theGrandParentUser.ToString()),
+                                GraphModeIndex = ChallengeModeIndex
                             };
 
                             _usersServices.AddGraphHistory(_graphHistory);
 
-                            AddPaymentToUser(orderOfPayments, theGrandParentGraph.ReceivedShared, theParentUser.Id, _graphHistory);
+                            AddPaymentToUser(orderOfPayments, theGrandParentGraph.ReceivedShared, theParentUser.Id, _graphHistory, Convert.ToInt32(ChallengeModeIndex));
                         }
 
                     }
 
 
 
-                    if (_usersServices.GetAllChallengeUserData().Where(ud => ud.NationalID == addChallenge.TheNationalID).ToList<ChallengeUserData>().Count == 0)
+                    if (_usersServices.GetAllChallengeUserData().Where(ud => ud.User==theUser.Id && ud.ChallengeModeIndex==ChallengeModeIndex).ToList<ChallengeUserData>().Count == 0)
                     {
-                        _usersServices.AddChallengeUserData(new ChallengeUserData
+                        if (HasHistory)
                         {
-                            Cellphone = addChallenge.TheMobileNumber,
-                            BirthDate = addChallenge.TheBirthDate,
-                            Name = addChallenge.TheName,
-                            Family = addChallenge.TheFamily,
-                            FatherName = addChallenge.TheFatherName,
-                            IdentityID = addChallenge.TheIDNumber,
-                            NationalID = addChallenge.TheNationalID,
-                            IsMarried = (addChallenge.IsMarried == 2) ? false : true,
-                            User = creatorID,
-                            Graph = newGraph.Id,
-                            Created = DateTime.Now,
-                            Username = theUser.Username,
-                            IsExported = false
+                            ChallengeUserData historyChallengeUserData = _usersServices.GetAllChallengeUserData().Where(ud => ud.User==theUser.Id).FirstOrDefault();
+                            historyChallengeUserData.ChallengeModeIndex = ChallengeModeIndex;
+                            historyChallengeUserData.Id = Guid.NewGuid();
+                            _usersServices.AddChallengeUserData(historyChallengeUserData);
+                        }
+                        else
+                        {
+                            _usersServices.AddChallengeUserData(new ChallengeUserData
+                            {
+                                Cellphone = addChallenge.TheMobileNumber,
+                                BirthDate = addChallenge.TheBirthDate,
+                                Name = addChallenge.TheName,
+                                Family = addChallenge.TheFamily,
+                                FatherName = addChallenge.TheFatherName,
+                                IdentityID = addChallenge.TheIDNumber,
+                                NationalID = addChallenge.TheNationalID,
+                                IsMarried = (addChallenge.IsMarried == 2) ? false : true,
+                                User = creatorID,
+                                Graph = newGraph.Id,
+                                Created = DateTime.Now,
+                                Username = theUser.Username,
+                                IsExported = false,
+                                ChallengeModeIndex = ChallengeModeIndex
 
-                        });
+                            });
+                        }
+
                     }
+
+
 
 
 
@@ -458,7 +515,7 @@ namespace SirooWebAPP.UI.Pages.Clients
                         Amount = -1 * NeededMoneyToAttendInChallenge,
                         Created = DateTime.Now,
                         ReferenceID = newGraph.Id.ToString(),
-                        Status = "خرید پک ویژه تبلیغاتی",
+                        Status = "خرید پک ویژه تبلیغاتی نوع " + ChallengeModeIndex.ToString(),
                         User = creatorID
                     });
 

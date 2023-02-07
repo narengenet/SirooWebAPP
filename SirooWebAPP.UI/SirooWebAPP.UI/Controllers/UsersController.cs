@@ -624,6 +624,39 @@ namespace SirooWebAPP.UI.Controllers
                     theDic.LastModified = DateTime.Now;
                     _usersServices.UpdateConstantDictionary(theDic);
 
+                    if (theDic.ConstantKey== "expire_dates_for_challenge_1")
+                    {
+                        List<Graphs> allGraphs = _usersServices.GetAllGraphs().Where(g => g.GraphTypeIndex == 1).ToList<Graphs>();
+                        int addedDays = Convert.ToInt32(theDic.ConstantValue);
+                        foreach (Graphs item in allGraphs)
+                        {
+                            item.ExpireDate = Convert.ToDateTime(item.Created).AddDays(addedDays);
+                            _usersServices.UpdateGraph(item);
+                        }
+                    }
+
+                    if (theDic.ConstantKey == "expire_dates_for_challenge_2")
+                    {
+                        List<Graphs> allGraphs = _usersServices.GetAllGraphs().Where(g => g.GraphTypeIndex == 2).ToList<Graphs>();
+                        int addedDays = Convert.ToInt32(theDic.ConstantValue);
+                        foreach (Graphs item in allGraphs)
+                        {
+                            item.ExpireDate = Convert.ToDateTime(item.Created).AddDays(addedDays);
+                            _usersServices.UpdateGraph(item);
+                        }
+                    }
+
+                    if (theDic.ConstantKey == "expire_dates_for_challenge_3")
+                    {
+                        List<Graphs> allGraphs = _usersServices.GetAllGraphs().Where(g => g.GraphTypeIndex == 3).ToList<Graphs>();
+                        int addedDays = Convert.ToInt32(theDic.ConstantValue);
+                        foreach (Graphs item in allGraphs)
+                        {
+                            item.ExpireDate = Convert.ToDateTime(item.Created).AddDays(addedDays);
+                            _usersServices.UpdateGraph(item);
+                        }
+                    }
+
                     CachedContents.DiamondCounts.Clear();
                     CachedContents.DiamondPriorities.Clear();
                     CachedContents.DiamondCountsList.Clear();
@@ -715,15 +748,32 @@ namespace SirooWebAPP.UI.Controllers
 
 
         [TypeFilter(typeof(SampleAsyncActionLoginFilter))]
-        [HttpGet("exportChallengeUserData")]
-        public IActionResult exportChallengeUserData()
+        [HttpGet("exportChallengeUserData/{thetype:int}")]
+        public IActionResult exportChallengeUserData(int thetype)
         {
             string _userid = HttpContext.Request.Cookies["userid"];
             Guid userId = Guid.Parse(_userid);
             if (_session.GetString("userrolename") == "super" || _session.GetString("userrolename") == "admin")
             {
-                List<ChallengeUserData> challengeUserData = _usersServices.GetAllChallengeUserData();
+                List<ChallengeUserData> challengeUserData = new List<ChallengeUserData>();
+                
+                if (thetype==0)
+                {
+                    challengeUserData = _usersServices.GetAllChallengeUserData().ToList<ChallengeUserData>();
+                }
+                else
+                {
+                    challengeUserData = _usersServices.GetAllChallengeUserData().Where(cd => cd.ChallengeModeIndex == thetype).ToList<ChallengeUserData>();
+                }
+                
                 List<CSVChallengeUserData> csvUserData = new List<CSVChallengeUserData>();
+
+                List<string> challengeTypes = new List<string>();
+                challengeTypes.Add((Convert.ToInt64(_usersServices.GetConstantDictionary("money_needed_to_attend_in_challenge_1").ConstantValue) / 10).ToString() + " تومانی");
+                challengeTypes.Add((Convert.ToInt64(_usersServices.GetConstantDictionary("money_needed_to_attend_in_challenge_2").ConstantValue) / 10).ToString() + " تومانی");
+                challengeTypes.Add((Convert.ToInt64(_usersServices.GetConstantDictionary("money_needed_to_attend_in_challenge_3").ConstantValue) / 10).ToString() + " تومانی");
+
+
 
                 foreach (ChallengeUserData item in challengeUserData)
                 {
@@ -739,13 +789,16 @@ namespace SirooWebAPP.UI.Controllers
                             IsMarried = item.IsMarried ? "متاهل" : "مجرد",
                             Mobile = item.Cellphone,
                             Username = item.Username,
-                            Created = item.Created.ToString()
+                            Created = item.Created.ToString(),
+                            ChallengeType = challengeTypes[Convert.ToInt32(item.ChallengeModeIndex) - 1]
 
 
                         });
-                    if (item.IsExported == null)
+                    if (item.IsExported != true)
                     {
                         item.IsExported = true;
+                        item.LastModified = DateTime.Now;
+                        item.LastModifiedBy = userId.ToString();
                         _usersServices.UpdateChallengeUserData(item);
                     }
 
@@ -771,15 +824,29 @@ namespace SirooWebAPP.UI.Controllers
 
 
         [TypeFilter(typeof(SampleAsyncActionLoginFilter))]
-        [HttpGet("exportnewChallengeUserData")]
-        public IActionResult exportnewChallengeUserData()
+        [HttpGet("exportnewChallengeUserData/{thetype:int}")]
+        public IActionResult exportnewChallengeUserData(int thetype)
         {
             string _userid = HttpContext.Request.Cookies["userid"];
             Guid userId = Guid.Parse(_userid);
             if (_session.GetString("userrolename") == "super" || _session.GetString("userrolename") == "admin")
             {
-                List<ChallengeUserData> challengeUserData = _usersServices.GetAllChallengeUserData().Where(cd => cd.IsExported != true).ToList<ChallengeUserData>();
+                List<ChallengeUserData> challengeUserData = new List<ChallengeUserData>();
+                if (thetype==0)
+                {
+                    challengeUserData = _usersServices.GetAllChallengeUserData().Where(cd => cd.IsExported != true).ToList<ChallengeUserData>();
+                }
+                else
+                {
+                    challengeUserData = _usersServices.GetAllChallengeUserData().Where(cd => cd.IsExported != true && cd.ChallengeModeIndex == thetype).ToList<ChallengeUserData>();
+                }
+                
                 List<CSVChallengeUserData> csvUserData = new List<CSVChallengeUserData>();
+
+                List<string> challengeTypes = new List<string>();
+                challengeTypes.Add((Convert.ToInt64(_usersServices.GetConstantDictionary("money_needed_to_attend_in_challenge_1").ConstantValue) / 10).ToString() + " تومانی");
+                challengeTypes.Add((Convert.ToInt64(_usersServices.GetConstantDictionary("money_needed_to_attend_in_challenge_2").ConstantValue) / 10).ToString() + " تومانی");
+                challengeTypes.Add((Convert.ToInt64(_usersServices.GetConstantDictionary("money_needed_to_attend_in_challenge_3").ConstantValue) / 10).ToString() + " تومانی");
 
                 foreach (ChallengeUserData item in challengeUserData)
                 {
@@ -795,11 +862,11 @@ namespace SirooWebAPP.UI.Controllers
                             IsMarried = item.IsMarried ? "متاهل" : "مجرد",
                             Mobile = item.Cellphone,
                             Username = item.Username,
-                            Created = item.Created.ToString()
-
+                            Created = item.Created.ToString(),
+                            ChallengeType = challengeTypes[Convert.ToInt32(item.ChallengeModeIndex) - 1]
 
                         });
-                    if (item.IsExported == null)
+                    if (item.IsExported !=true)
                     {
                         item.IsExported = true;
                         item.LastModified = DateTime.Now;
@@ -811,7 +878,7 @@ namespace SirooWebAPP.UI.Controllers
 
                 }
 
-                if (challengeUserData.Count==0)
+                if (challengeUserData.Count == 0)
                 {
                     return Ok("-2");
                 }

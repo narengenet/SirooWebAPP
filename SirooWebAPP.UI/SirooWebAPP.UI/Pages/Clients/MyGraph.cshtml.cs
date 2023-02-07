@@ -31,12 +31,13 @@ namespace SirooWebAPP.UI.Pages.Clients
         }
         public void OnGet()
         {
+            int myGraphType = Convert.ToInt32(Request.Query["graphtype"]);
             // get current user
             string _creatorId = HelperFunctions.GetCookie("userid", Request);
             Guid creatorID = Guid.Parse(_creatorId);
             Users theUser = _usersServices.GetUser(creatorID);
 
-            allGraphs = _usersServices.GetAllGraphs().Where(g => g.User== creatorID).ToList<Graphs>();
+            allGraphs = _usersServices.GetAllGraphs().Where(g => g.User== creatorID && g.GraphTypeIndex==myGraphType).ToList<Graphs>();
 
             allGrandParentCount = allGraphs.Count;
             allGraphCounts = _usersServices.GetAllGraphs().Count;
@@ -67,8 +68,10 @@ namespace SirooWebAPP.UI.Pages.Clients
 
         List<GraphShape> GetChildren(Guid parentID)
         {
+            int myGraphType = Convert.ToInt32(Request.Query["graphtype"]);
+
             List<GraphShape> result = new List<GraphShape>();
-            List<Graphs> childrens = _usersServices.GetAllGraphs().Where(g => g.Parent == parentID).ToList<Graphs>();
+            List<Graphs> childrens = _usersServices.GetAllGraphs().Where(g => g.Parent == parentID && g.GraphTypeIndex==myGraphType).ToList<Graphs>();
             foreach (Graphs item in childrens)
             {
                 result.Add(new GraphShape

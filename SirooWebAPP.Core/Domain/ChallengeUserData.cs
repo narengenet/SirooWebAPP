@@ -22,7 +22,7 @@ namespace SirooWebAPP.Core.Domain
         public bool IsMarried { get; set; }
         public string? Username { get; set; }
         public bool? IsExported { get; set; }
-
+        public int? ChallengeModeIndex { get; set; }
 
 
     }

@@ -17,6 +17,18 @@
 
 </style>
 
+
+<div class="row justify-content-center">
+    <div class="col-12 siroo-label">پکیج های ویژه</div>
+</div>
+
+<div class="col-12 Textbox">
+    <select id="ddlPackage" asp-items="@Model.UserChallengesOptions" asp-for="ChallengeModeIndex">
+        <option value="0">--انتخاب پکیج ویژه--</option>
+    </select>
+    @*<span asp-validation-for="ChallengeModelIndex"></span>*@
+</div>
+
 <div class="row justify-content-center mb-3">
     <div class="col-12 siroo-header">تعداد همه اعضاء: @Model.allGraphCounts</div>
     <div class="col-12 siroo-header">تعداد همه سرگروه‌ها: @Model.allGrandParentCount</div>
@@ -25,9 +37,10 @@
 
 
 @*<script src="https://cdn.amcharts.com/lib/5/index.js"></script>
-<script src="https://cdn.amcharts.com/lib/5/hierarchy.js"></script>
-<script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
-<script src="https://cdn.amcharts.com/lib/5/themes/Material.js"></script>*@
+    <script src="https://cdn.amcharts.com/lib/5/hierarchy.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
+    <script src="https://cdn.amcharts.com/lib/5/themes/Material.js"></script>*@
+
 <script src="~/js/amcharts/index.js"></script>
 <script src="~/js/amcharts/hierarchy.js"></script>
 <script src="~/js/amcharts/Animated.js"></script>
@@ -106,3 +119,44 @@
 
 
 </script>
+
+
+
+@section Scripts{
+<script>
+
+    $(document).ready(function () {
+
+            $("#ddlPackage").change(function () {
+
+                var end = $('#ddlPackage').val();
+
+                if(end!="0"){
+                   // $('.challengeHidden').css('display','block');
+                }else{
+                   // $('.challengeHidden').css('display','none');
+                }
+
+                if(end=="1"){
+                    window.location="/Superadmins/GraphDiagram?challenge=1";
+                    console.log(1);
+                }
+
+                if(end=="2"){
+                    window.location="/Superadmins/GraphDiagram?challenge=2";
+                    console.log(2);
+                }
+
+                if(end=="3"){
+                    window.location="/Superadmins/GraphDiagram?challenge=3";
+                    console.log(3);
+                }
+
+            });
+
+
+
+
+    });
+</script>
+}
