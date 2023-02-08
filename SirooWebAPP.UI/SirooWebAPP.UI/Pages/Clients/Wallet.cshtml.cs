@@ -23,7 +23,7 @@ namespace SirooWebAPP.UI.Pages.Clients
 
         public string? ResultMessage = "";
         public string ResultMessageSuccess = "danger";
-        public string Amount = "1000000";
+        public string Amount = "100000";
         public bool IsValidToChallenge = false;
         public long RemainingMoneyToAttendChallenge = -1;
 
@@ -73,7 +73,7 @@ namespace SirooWebAPP.UI.Pages.Clients
             Guid creatorID = Guid.Parse(_creatorId);
             Users theUser = _usersServices.GetUser(creatorID);
 
-            if (theUser != null && addMoney.NewAmount >= 500000)
+            if (theUser != null && addMoney.NewAmount >= 50000)
             {
                 Guid transacId = _usersServices.AddTransaction(new Transactions
                 {
