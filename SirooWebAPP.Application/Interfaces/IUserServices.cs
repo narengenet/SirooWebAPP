@@ -146,5 +146,10 @@ namespace SirooWebAPP.Application.Interfaces
         void AddChatMessages(ChatMessages chatMessages);
 
 
+        List<ChatBlocks> GetAllChatBlocks();
+        void AddChatBlocks(ChatBlocks chatBlock);
+
+
+
     }
 }

@@ -1,0 +1,134 @@
+﻿@page
+@using SirooWebAPP.Core.Domain
+@model SirooWebAPP.UI.Pages.Clients.ChatHistoryModel
+@{
+    Layout = "_LayoutClients";
+}
+
+<style>
+
+    .MainDashboard {
+        display: none !important;
+    }
+
+</style>
+
+
+
+
+
+@if (Model.ConversationPage == false || Model.ChatSelf==true)
+{
+    <div class="siroo-header-h2 mb-2">
+        پیام ها
+    </div>
+    <hr />
+    <div class="direction-rtl">
+        @foreach (var item in Model.ChatConversation)
+        {
+            <div class="d-flex flex-row justify-content-center mb-2">
+                <div class="col-10" onclick="window.location='/Clients/ChatHistory?touser=@item.UserID';">
+                    <input type="button" value="@item.Username" />
+                </div>
+            </div>
+
+        }
+    </div>
+}
+else
+{
+    <div class="d-flex flex-row justify-content-center mb-2 usernameBlock">
+        <div class="col-3 backToChat">
+            <i class="fa fa-arrow-left" onclick="window.location='/Clients/ChatHistory';" aria-hidden="true"></i>
+            <span style="
+                font-size: 0.8rem;
+                font-family: 'Yekan';
+            ">بازگشت
+                </span>
+        </div>
+        <div class="col-9" style="padding-right:1rem;">
+            <input type="text" id="UserName" style="font-size:0.8rem;" placeholder="@Model.ToUsername" disabled />
+        </div>
+    </div>
+    <div class="direction-rtl conversationPanel">
+
+        @foreach (ChatMessages chatMessage in Model.conversationMessages)
+        {
+            <div class="d-flex flex-row justify-content-center mb-1">
+                <div class="d-flex flex-row justify-content-left mb-1 col-12 messageHolder" sender="@chatMessage.FromUser">
+                    <div class="col-9 text-warning text-center theMessage" id="themessage-@chatMessage.Id">
+                        @chatMessage.TheMessage
+                    </div>
+                    <div class="col-3 datetime" id="themessagedatetime-@chatMessage.Id">
+                        @chatMessage.Created
+                        @if (chatMessage.IsRead)
+                        {
+                            <i class="fa-solid fa-check-double"></i>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+
+    </div>
+    <div class="d-flex flex-row justify-content-center" style="padding: 0 0.5rem 0 0.5rem;">
+        <div class="col-12 Textbox fa fa-text Textarea">
+            <textarea type="text" class="col-10 text-warning text-center" placeholder="متن پیام ..." rows="2" id="chatMessage"></textarea>
+        </div>
+    </div>
+    <div class="d-flex flex-row justify-content-center">
+        <div class="col-4">
+            <input id="SendChat" type="button" value="ارسال" onclick="_sendMessageChat();" />
+        </div>
+    </div>
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+@section Scripts {
+<script src="~/js/pages/ChatHistory-default.js"></script>
+
+<script type="text/javascript">
+    var myguid='@Model.MyGuid';
+        $(document).ready(function () {
+
+            rearrengeMessages();
+            $('body').css('min-height','100vh');
+            $('.back-to-top').hide();
+
+        });
+
+        function rearrengeMessages(){
+            var allMessages= $('.messageHolder');
+            for(i=0;i<allMessages.length;i++){
+                if($(allMessages[i]).attr('sender')==myguid){
+                    $(allMessages[i]).removeClass('flex-row-reverse');
+                    $(allMessages[i]).addClass('flex-row');
+                    $(allMessages[i]).addClass('myMessage');
+                    $(allMessages[i]).addClass('justify-content-start');
+                    $(allMessages[i]).removeClass('justify-content-left');
+
+                }else{
+                    $(allMessages[i]).removeClass('flex-row');
+                    $(allMessages[i]).addClass('flex-row-reverse');
+                    $(allMessages[i]).addClass('otherMessage');
+                    $(allMessages[i]).addClass('justify-content-left');
+                    $(allMessages[i]).removeClass('justify-content-start');
+                }
+            }
+        }
+</script>
+
+}

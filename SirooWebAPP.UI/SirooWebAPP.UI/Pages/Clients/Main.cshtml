@@ -304,7 +304,13 @@
                 <a class="profile-media col-2   {{if isSpecial==1}}fa fa-tag{{/if}}  " href="#">
                     <img src="../${owner.profileMediaURL}" />
                 </a>
-                <a href="#" class="col-8 profile-fullname">${owner.username}</a>
+                <a href="/Clients/ChatHistory?touser=${owner.username}" class="col-8 profile-fullname">
+                    ${owner.username}
+                    <div class="sendMessageIcon" style="color:#00ff2b!important;">
+                        ارسال پیام
+                        <i class="fa fa-envelope"></i>
+                    </div>
+                </a>
                 <a href="#" class="col-2 profile-date">${creationDate}</a>
         </div>
         <div class="row">

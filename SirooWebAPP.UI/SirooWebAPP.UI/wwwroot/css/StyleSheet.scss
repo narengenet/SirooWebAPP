@@ -1407,3 +1407,63 @@ a#currentPoint:before {
     }
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+.myMessage .theMessage {
+    padding: 1rem;
+    background-color: aquamarine;
+    color: black !important;
+    border-radius: 0.5rem 0.5rem 0 0.5rem;
+    margin-right: 0.5rem;
+    text-align: -webkit-auto !important;
+}
+
+.otherMessage .theMessage {
+    padding: 1rem;
+    background-color: white;
+    color: black !important;
+    border-radius: 0.5rem 0.5rem 0.5rem 0;
+    margin-left: 0.5rem;
+    text-align: -webkit-auto !important;
+}
+
+.conversationPanel {
+    height: 60vh;
+    overflow: scroll;
+}
+
+.usernameBlock {
+    position: -webkit-sticky; /* Safari */
+    position: sticky;
+    top: -20px;
+    background-color: indigo;
+}
+
+.backToChat {
+    display: flex;
+    align-items: center;
+    font-size: 2rem;
+    justify-content: space-evenly;
+}
+
+.datetime {
+    font-size: 0.5rem;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.sendMessageIcon {
+    color: lawngreen;
+}

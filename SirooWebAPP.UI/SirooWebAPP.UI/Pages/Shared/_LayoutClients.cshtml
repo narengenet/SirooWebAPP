@@ -75,6 +75,10 @@
                                 <a class="nav-link text-light" asp-area="" asp-page="/Clients/Wallet">کیف پول من</a>
                             </li>
                             <li class="nav-item for-clients">
+                                <a class="nav-link" style="color:#00ff2b!important;" asp-area="" asp-page="/Clients/ChatHistory"><i class="fa fa-envelope">&nbsp</i>چت آنلاین </a>
+                                <a class="nav-link text-light" asp-area="" asp-page="/Clients/Tickets">پشتیبانی آنلاین</a>
+                            </li>
+                            <li class="nav-item for-clients">
                                 <a class="nav-link text-light" asp-area="" asp-page="/Clients/Tickets">پشتیبانی آنلاین</a>
                             </li>
                             <li class="nav-item for-clients">
@@ -236,6 +240,22 @@
             }
 
         }
+
+
+
+        var qs = (function(a) {
+            if (a == "") return {};
+            var b = {};
+            for (var i = 0; i < a.length; ++i)
+            {
+                var p=a[i].split('=', 2);
+                if (p.length == 1)
+                    b[p[0]] = "";
+                else
+                    b[p[0]] = decodeURIComponent(p[1].replace(/\+/g, " "));
+            }
+            return b;
+        })(window.location.search.substr(1).split('&'));
     </script>
 
 </body>

@@ -1327,6 +1327,14 @@ namespace SirooWebAPP.UI.Controllers
             public string adNote { get; set; }
         }
 
+
+        public class TheChatMessage
+        {
+            public string receiverUsername { get; set; }
+            public string theMessageBody { get; set; }
+            public string receiverUserid { get; set; }
+        }
+
         public class TheMessagecontact
         {
             public string messageBody { get; set; }
@@ -1501,7 +1509,99 @@ namespace SirooWebAPP.UI.Controllers
         }
 
 
+        [TypeFilter(typeof(SampleAsyncActionLoginFilter))]
+        [HttpPost("sendMessageChat")]
+        public IActionResult SendMessageChat([FromBody] TheChatMessage theChatMessage)
+        {
 
+            string _userid = HttpContext.Request.Cookies["userid"];
+            Guid userId = Guid.Parse(_userid);
+
+            Users theSender = _usersServices.GetUser(userId);
+            Users theReceiver = new Users();
+            try
+            {
+                theReceiver = _usersServices.GetAllUsers().Where(u => u.Id == Guid.Parse(theChatMessage.receiverUserid)).FirstOrDefault();
+            }
+            catch (Exception)
+            {
+                theReceiver = _usersServices.GetAllUsers().Where(u => u.Username == theChatMessage.receiverUserid).FirstOrDefault();
+
+
+            }
+
+
+
+            if (theSender != null && theReceiver != null)
+            {
+                if (_usersServices.GetAllChatBlocks().Where(cb => cb.fromUser == theSender.Id && cb.toUser == theReceiver.Id).ToList<ChatBlocks>().Count > 0)
+                {
+                    return Ok("-2");
+
+                }
+                else
+                {
+                    if (_usersServices.GetAllChatBlocks().Where(cb => cb.fromUser == theReceiver.Id && cb.toUser == theSender.Id).ToList<ChatBlocks>().Count > 0)
+                    {
+                        return Ok("-2");
+                    }
+                }
+
+                _usersServices.AddChatMessages(new ChatMessages
+                {
+                    FromUser = theSender.Id,
+                    ToUser = theReceiver.Id,
+                    TheMessage = theChatMessage.theMessageBody,
+                    Created = DateTime.Now
+                });
+
+                return Ok("1");
+            }
+            else
+            {
+                return Ok("-1");
+            }
+
+
+            //if (_session.GetString("userrolename") == "super" || _session.GetString("userrolename") == "admin")
+            //{
+            //    Guid adId = Guid.Parse(post.adId);
+            //    Advertise ad = _usersServices.GetAdvertise(adId);
+            //    if (ad != null)
+            //    {
+            //        ad.IsAvtivated = true;
+            //        ad.LastModified = DateTime.Now;
+            //        ad.LastModifiedBy = userId.ToString();
+            //        ad.Notes = post.adNote;
+            //        _usersServices.UpdateAdvertisement(ad);
+            //        if (CachedContents.Advertises.Find(a => a.Id == ad.Id) == null)
+            //        {
+            //            CachedContents.Advertises.Insert(0, ad);
+            //        }
+
+
+            //        if (ad.IsPremium == true)
+            //        {
+            //            Users adOwner = _usersServices.GetUser(ad.Owner);
+
+            //            string pointsRewardKeyName = (ad.IsVideo == true) ? "points_reward_premium_video_ads" : "points_reward_premium_image_ads";
+            //            int pointsReward = Convert.ToInt32(_usersServices.GetConstantDictionary(pointsRewardKeyName).ConstantValue);
+
+            //            if (adOwner != null)
+            //            {
+            //                adOwner.Points += pointsReward;
+            //                _usersServices.UpdateUser(adOwner);
+            //            }
+
+            //        }
+
+
+            //        return Ok(true);
+            //    }
+            //}
+            //List<DTODraws> draws = _usersServices.GetAllActiveDrawsByUser(userId);
+            //return Ok(false);
+        }
 
 
 

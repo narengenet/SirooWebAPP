@@ -9,9 +9,8 @@ namespace SirooWebAPP.Core.Domain
 {
     public class ChatBlocks : AuditableBaseEntity
     {
-        public Guid FromUser { get; set; }
-        public Guid ToUser { get; set; }
+        public Guid fromUser { get; set; }
+        public Guid toUser { get; set; }
 
     }
 }
-

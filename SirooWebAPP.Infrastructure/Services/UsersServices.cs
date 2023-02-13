@@ -83,7 +83,9 @@ namespace SirooWebAPP.Infrastructure.Services
         private readonly IGraphsRepository _graphRepo;
         private readonly IChallengeUserDataRepository _challengeUserDataRepo;
         private readonly IGraphHistoryRepository _graphHistoryRepo;
+
         private readonly IChatMessagesRepository _chatMessagesRepo;
+        private readonly IChatBlocksRepository _chatBlocksRepo;
 
 
 
@@ -117,6 +119,7 @@ namespace SirooWebAPP.Infrastructure.Services
             IChallengeUserDataRepository challengeUserDataRepo,
             IGraphHistoryRepository graphHistoryRepo,
             IChatMessagesRepository chatMessageRepo,
+            IChatBlocksRepository chatBlocksRepository,
 
             IMapper mapper
             )
@@ -144,6 +147,8 @@ namespace SirooWebAPP.Infrastructure.Services
             _challengeUserDataRepo = challengeUserDataRepo;
             _graphHistoryRepo = graphHistoryRepo;
             _chatMessagesRepo = chatMessageRepo;
+            _chatBlocksRepo = chatBlocksRepository;
+
 
             _mapper = mapper;
         }
@@ -1422,6 +1427,16 @@ namespace SirooWebAPP.Infrastructure.Services
         public void AddChatMessages(ChatMessages chatMessages)
         {
             _chatMessagesRepo.Add(chatMessages);
+        }
+
+        List<ChatBlocks> IUserServices.GetAllChatBlocks()
+        {
+            return _chatBlocksRepo.GetAll().Where(cb => cb.IsDeleted == false).ToList<ChatBlocks>();
+        }
+
+        void IUserServices.AddChatBlocks(ChatBlocks chatBlock)
+        {
+            _chatBlocksRepo.Add(chatBlock);
         }
     }
 }
