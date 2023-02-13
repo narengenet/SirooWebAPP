@@ -656,7 +656,7 @@ namespace SirooWebAPP.Infrastructure.Services
         {
             return _adverticeRepo.GetAll().Where(a => a.Id == adsID && a.IsDeleted == false).FirstOrDefault();
         }
-        public List<DTOAdvertise> GetPendingAdvertises(Guid userID)
+        public List<DTOAdvertise> GetPendingAdvertises(Guid userID,int page)
         {
 
             // get current user
@@ -672,7 +672,9 @@ namespace SirooWebAPP.Infrastructure.Services
                     (ads, users) => ads
                     //new Advertise { Id=ads.Id, Name=ads.Name, Owner=ads.Owner, Caption=ads.Caption, Created=ads.Created, CreatedBy=ads.CreatedBy, CreationDate=ads.CreationDate, Expiracy=ads.Expiracy, IsAvtivated=ads.IsAvtivated, IsDeleted=ads.IsDeleted, IsSpecial=ads.IsSpecial, IsVideo=ads.IsVideo, LastModified=ads.LastModified, LastModifiedBy=ads.LastModifiedBy, LikeReward=ads.LikeReward, MediaSourceURL=ads.MediaSourceURL, RemainedViewQuota=ads.RemainedViewQuota, ViewQuota=ads.ViewQuota, ViewReward=ads.ViewReward}
                 )
-                .OrderByDescending(l => l.CreationDate)
+                .OrderBy(l => l.CreationDate)
+                .Skip(3*page)
+                .Take(3)
                 .ToList<Advertise>();
 
             // create return data model object

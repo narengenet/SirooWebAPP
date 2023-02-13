@@ -43,6 +43,7 @@ namespace SirooWebAPP.Infrastructure.Contexts
         public DbSet<ChallengeUserData> ChallengeUserData{ get; set; }
         public DbSet<GraphHistory> GraphHistory{ get; set; }
         public DbSet<ChatMessages> ChatMessages{ get; set; }
+        public DbSet<ChatBlocks> ChatBlocks{ get; set; }
         
 
 

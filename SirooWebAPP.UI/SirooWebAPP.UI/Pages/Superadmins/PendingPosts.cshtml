@@ -42,7 +42,7 @@
             </button>
         </div>
         <div class="d-flex justify-content-center row">
-            {{if isPremium==1}} *** تجاری *** {{/if}} 
+            {{if isPremium==1}} *** تجاری *** {{/if}}
         </div>
         <div class="d-flex justify-content-center row Textbox Textarea">
                 <textarea type="text" class="col-10 text-warning text-center" placeholder="دلایل عدم تایید..." rows="2"  id="note-${advertiseID}">${notes}</textarea>
@@ -125,6 +125,10 @@
 <div class="posts" id="adsContainer">
 </div>
 
+<div class="getMoreAds">
+    <div class="siroo-normal-text" onclick="getPendingAds();">بیشتر <span class="circle">+</span></div>
+</div>
+
 @section Scripts {
 <script src="~/js/jquery.tmpl.min.js"></script>
 <script src="~/js/jquery.timeago.js"></script>
@@ -132,25 +136,67 @@
 <script type="text/javascript">
     $(document).ready(function () {
         $.ajax({
-            url: '/pendingads',
+            url: '/pendingads/0',
             type: 'GET',
             success: function (result) {
+                $('.waitingPlease').css('display', 'none');
                 if(result=="gologin"){
                     window.location="/login/login";
                 }else{
                     //var ads = jQuery.parseJSON(result);
-                    sina="{ads:"+result+"}";
-                    $('#adsTemplate').tmpl(result).appendTo('#adsContainer');
 
-                    var dates=$('.profile-date');
-                    for(i=0;i<dates.length;i++){
-                        $(dates[i]).text(jQuery.timeago($(dates[i]).text()));
+                    if(result=="-1"){
+                        $('.getMoreAds').hide();
+
+                    }else{
+                        sina="{ads:"+result+"}";
+                        $('#adsTemplate').tmpl(result).appendTo('#adsContainer');
+
+                        var dates=$('.profile-date');
+                        for(i=0;i<dates.length;i++){
+                            $(dates[i]).text(jQuery.timeago($(dates[i]).text()));
+                        }
                     }
+
+                }
+
+            },
+        });        
+    });
+
+    var currentPage=0;
+    function getPendingAds(){
+        currentPage+=1;
+        $('.waitingPlease').css('display', 'flex');
+
+        $.ajax({
+            url: '/pendingads/'+currentPage,
+            type: 'GET',
+            success: function (result) {
+                $('.waitingPlease').css('display', 'none');
+                if(result=="gologin"){
+                    window.location="/login/login";
+                }else{
+                    //var ads = jQuery.parseJSON(result);
+
+                    if(result=="-1"){
+                        $('.getMoreAds').hide();
+
+                    }else{
+                        sina="{ads:"+result+"}";
+                        $('#adsTemplate').tmpl(result).appendTo('#adsContainer');
+
+                        var dates=$('.profile-date');
+                        for(i=0;i<dates.length;i++){
+                            $(dates[i]).text(jQuery.timeago($(dates[i]).text()));
+                        }
+                    }
+
                 }
 
             },
         });
-    });
+    }
 
     var delId=-1;
     var acceptId=-1;

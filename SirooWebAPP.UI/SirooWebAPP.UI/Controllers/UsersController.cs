@@ -165,14 +165,21 @@ namespace SirooWebAPP.UI.Controllers
 
         }
         [TypeFilter(typeof(SampleAsyncActionLoginFilter))]
-        [HttpGet("pendingads")]
-        public IActionResult GetPendingAdvertisements()
+        [HttpGet("pendingads/{page:int}")]
+        public IActionResult GetPendingAdvertisements(int page)
         {
-
             string _userid = HttpContext.Request.Cookies["userid"];
             Guid userId = Guid.Parse(_userid);
-            List<DTOAdvertise> ads = _usersServices.GetPendingAdvertises(userId);
-            return Ok(ads);
+            List<DTOAdvertise> ads = _usersServices.GetPendingAdvertises(userId,page);
+
+            if (ads.Count > 0)
+            {
+                return Ok(ads);
+            }
+            else
+            {
+                return Ok("-1");
+            }
         }
         [TypeFilter(typeof(SampleAsyncActionLoginFilter))]
         [HttpGet("gettransactions")]
