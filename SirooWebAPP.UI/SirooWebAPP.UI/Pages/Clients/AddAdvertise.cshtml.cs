@@ -67,7 +67,8 @@ namespace SirooWebAPP.UI.Pages.Clients
         public IActionResult OnPostAddAdvertisements(AddAds addAds)
         {
             bool condition = true;
-            bool usecredit=false;
+            bool usecredit = false;
+            bool hasInGraph = false;
 
             Guid tmp_userid = addAds.UserID;
             bool isGif = false;
@@ -107,22 +108,62 @@ namespace SirooWebAPP.UI.Pages.Clients
                     {
                         string moneyRequiredKeyName = (addAds.isVideo == true) ? "def_money_to_premium_video_ads" : "def_money_to_premium_image_ads";
                         moneyNeeded = Convert.ToInt32(_usersServices.GetConstantDictionary(moneyRequiredKeyName).ConstantValue);
-                        if (addOwner.Money < moneyNeeded)
+                        List<Graphs> graphs = _usersServices.GetAllGraphs().Where(g => g.User == tmp_userid && g.ExpireDate > DateTime.Today).ToList<Graphs>();
+                        int firstExpireDays = Convert.ToInt32(_usersServices.GetConstantDictionary("expire_dates_for_ads_1").ConstantValue);
+                        int secondExpireDays = Convert.ToInt32(_usersServices.GetConstantDictionary("expire_dates_for_ads_2").ConstantValue);
+                        int thirdExpireDays = Convert.ToInt32(_usersServices.GetConstantDictionary("expire_dates_for_ads_3").ConstantValue);
+                        if (graphs.Count > 0)
                         {
-                            if (addOwner.Credits<moneyNeeded)
+                            foreach (Graphs item in graphs)
                             {
-                                ResultMessage += "برای ثبت آگهی تجاری";
-                                ResultMessage += (addAds.isVideo) ? " ویدئویی " : " تصویری ";
-                                ResultMessage += " مبلغ " + moneyNeeded + " ریال مورد نیاز است. لطفا کیف پول خود را شارژ نمایید.";
-                                ResultMessageSuccess = "danger";
-                                condition = false;
+                                if (item.GraphTypeIndex == 1)
+                                {
+                                    if (Convert.ToDateTime(item.Created).AddDays(firstExpireDays-1) > DateTime.Today)
+                                    {
+                                        hasInGraph = true;
+                                        break;
+                                    }
+                                }
+                                if (item.GraphTypeIndex == 2)
+                                {
+                                    if (Convert.ToDateTime(item.Created).AddDays(secondExpireDays) > DateTime.Today)
+                                    {
+                                        hasInGraph = true;
+                                        break;
+                                    }
+                                }
+                                if (item.GraphTypeIndex == 3)
+                                {
+                                    if (Convert.ToDateTime(item.Created).AddDays(thirdExpireDays) > DateTime.Today)
+                                    {
+                                        hasInGraph = true;
+                                        break;
+                                    }
+                                }
                             }
-                            else
-                            {
-                                usecredit = true;
-                            }
-
                         }
+
+                        if (hasInGraph == false)
+                        {
+                            if (addOwner.Money < moneyNeeded)
+                            {
+                                if (addOwner.Credits < moneyNeeded)
+                                {
+                                    ResultMessage += "برای ثبت آگهی تجاری";
+                                    ResultMessage += (addAds.isVideo) ? " ویدئویی " : " تصویری ";
+                                    ResultMessage += " مبلغ " + moneyNeeded + " ریال مورد نیاز است. لطفا کیف پول خود را شارژ نمایید.";
+                                    ResultMessageSuccess = "danger";
+                                    condition = false;
+                                }
+                                else
+                                {
+                                    usecredit = true;
+                                }
+
+                            }
+                        }
+
+
                     }
 
 
@@ -165,29 +206,34 @@ namespace SirooWebAPP.UI.Pages.Clients
                         };
 
                         _usersServices.AddAvertise(ads, tmp_userid);
+
                         if (addAds.IsPremium)
                         {
-                            if (usecredit)
+                            if (hasInGraph == false)
                             {
-                                addOwner.Credits -= moneyNeeded;
-                            }
-                            else
-                            {
-                                addOwner.Money -= moneyNeeded;
-                            }
-                            
-                            _usersServices.UpdateUser(addOwner);
+                                if (usecredit)
+                                {
+                                    addOwner.Credits -= moneyNeeded;
+                                }
+                                else
+                                {
+                                    addOwner.Money -= moneyNeeded;
+                                }
 
-                            _usersServices.AddTransaction(new Transactions
-                            {
-                                Amount = -1*moneyNeeded,
-                                ReferenceID = ads.Id.ToString(),
-                                Created = DateTime.Now,
-                                User = addAds.UserID,
-                                IsSuccessfull = true,
-                                Status = "آگهی تجاری"
+                                _usersServices.UpdateUser(addOwner);
 
-                            });
+                                _usersServices.AddTransaction(new Transactions
+                                {
+                                    Amount = -1 * moneyNeeded,
+                                    ReferenceID = ads.Id.ToString(),
+                                    Created = DateTime.Now,
+                                    User = addAds.UserID,
+                                    IsSuccessfull = true,
+                                    Status = "آگهی تجاری"
+
+                                });
+                            }
+
                         }
 
 
@@ -201,15 +247,20 @@ namespace SirooWebAPP.UI.Pages.Clients
                         ResultMessage = "پَست جدید ارسال شد. لطفا منتظر تایید بمانید.";
                         if (addAds.IsPremium)
                         {
-                            if (usecredit)
+                            if (hasInGraph == false)
                             {
-                                ResultMessage += " معادل بلغ " + moneyNeeded + " ریال از اعتبار کیف پول شما برداشت شد.";
+                                if (usecredit)
+                                {
+                                    ResultMessage += " معادل بلغ " + moneyNeeded + " ریال از اعتبار کیف پول شما برداشت شد.";
+                                }
+                                else
+                                {
+                                    ResultMessage += " مبلغ " + moneyNeeded + " ریال از کیف پول شما برداشت شد.";
+                                }
                             }
-                            else
-                            {
-                                ResultMessage += " مبلغ " + moneyNeeded + " ریال از کیف پول شما برداشت شد.";
-                            }
-                            
+
+
+
                         }
                         ResultMessageSuccess = "success";
                     }

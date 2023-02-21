@@ -7,8 +7,14 @@ function _sendMessageChat() {
         return;
     }
     $('#chatMessage').prop("disabled", true);
+    var _receiverId = "";
+    if (qs["touser"] == "") {
+        _receiverId = _receiverUsername;
+    } else {
+        _receiverId = qs["touser"];
+    }
 
-    var data = {receiverUserid:qs['touser'], receiverUsername: _receiverUsername, theMessageBody: _theMessage };
+    var data = {receiverUserid:_receiverId, receiverUsername: _receiverUsername, theMessageBody: _theMessage };
 
     $.ajax({
         type: "POST",
@@ -20,14 +26,22 @@ function _sendMessageChat() {
             //if (data) {
             //    $('.post.' + adv).fadeOut(300, function () { $(this).remove(); });
             //}
-            if (data!="-1" || data!="-2") {
+            if (data!="-1" && data!="-2") {
                 console.log('sent');
                 $('#SendChat').prop("disabled", false);
                 $('#chatMessage').prop("disabled", false);
                 $('#chatMessage').val('');
-                $('.conversationPanel').append(theTemplate.replace('@@chatMessage.theMessageBody', _theMessage).replace('@@chatMessage.Created', new Date().toLocaleString("fa-IR")).replace('@@chatMessage.Id',data));
+                $('.conversationPanel').append(theTemplate.replace('@@chatMessage.theMessageBody', _theMessage).replace('@@chatMessage.Created', new Date().toLocaleString("fa-IR")).replace('@@chatMessage.Id', data));
+                return;
             }
-
+            if (data == "-1") {
+                alert('نام کاربری دریافت کننده موجود نیست!');
+                return;
+            }
+            if (data == "-2") {
+                alert('امکان ارسال پیام به این کاربر وچود ندارد.');
+                return;
+            }
         },
         error: function (errMsg) {
             alert(errMsg);
@@ -37,4 +51,10 @@ function _sendMessageChat() {
     });
 
     return;
+}
+
+function _goNewChat() {
+    if ($('#UserName').val().length > 4) {
+        window.location = "/Clients/ChatHistory?touser=" + $('#UserName').val();
+    }
 }

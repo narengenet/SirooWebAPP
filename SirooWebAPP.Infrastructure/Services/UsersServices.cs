@@ -884,6 +884,12 @@ namespace SirooWebAPP.Infrastructure.Services
                         // then add ads like reward to liker
                         _liker.Points += _ad.LikeReward;
                         _userRepo.Update(_liker);
+                        if (_ad.IsPremium==true)
+                        {
+                            Users owner_ads= _userRepo.GetById(_ad.Owner);
+                            owner_ads.Points += 1;
+                            _userRepo.Update(owner_ads);
+                        }
                         return _ad.LikeReward;
                     }
 

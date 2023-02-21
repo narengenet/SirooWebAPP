@@ -17,13 +17,32 @@
 
 
 
-@if (Model.ConversationPage == false || Model.ChatSelf==true)
+@if ((Model.ConversationPage == false || Model.ChatSelf == true) && Model.IsNewChat == false)
 {
-    <div class="siroo-header-h2 mb-2">
-        پیام ها
-    </div>
-    <hr />
+
     <div class="direction-rtl">
+        <div class="siroo-header-h2 mb-2">
+            پیام جدید:
+        </div>
+        <hr />
+
+        <div class="d-flex flex-row justify-content-center m-2" style="align-items:center;">
+            <div class="col-4 mb-3">
+                <i class="fa fa-pencil-square"></i>
+                <span class="siroo-header-h2">پیام جدید به:</span>
+            </div>
+            <div class="col-6 mb-3">
+                <input type="text" id="UserName" placeholder="نام کاربری دریافت کننده ..." style="font-size:0.8rem;" />
+            </div>
+            <div class="col-2 mb-3">
+                <input type="button" value="برو" onclick="_goNewChat();" />
+            </div>
+        </div>
+
+        <div class="siroo-header-h2 mb-2">
+            پیام های قبلی
+        </div>
+        <hr />
         @foreach (var item in Model.ChatConversation)
         {
             <div class="d-flex flex-row justify-content-center mb-2">
@@ -33,42 +52,63 @@
             </div>
 
         }
+
+
     </div>
 }
 else
 {
+    <div class="direction-rtl">
+        <h2 class="siroo-header-h2">پیام‌های شما به دریافت کننده پیام:</h2>
+    </div>
     <div class="d-flex flex-row justify-content-center mb-2 usernameBlock">
         <div class="col-3 backToChat">
             <i class="fa fa-arrow-left" onclick="window.location='/Clients/ChatHistory';" aria-hidden="true"></i>
             <span style="
                 font-size: 0.8rem;
                 font-family: 'Yekan';
-            ">بازگشت
-                </span>
+            ">
+                بازگشت
+            </span>
         </div>
         <div class="col-9" style="padding-right:1rem;">
-            <input type="text" id="UserName" style="font-size:0.8rem;" placeholder="@Model.ToUsername" disabled />
+            @if (Model.IsNewChat)
+            {
+                <input type="text" id="UserName" style="font-size:0.8rem;" />
+            }
+            else
+            {
+                <input type="text" id="UserName" style="font-size:0.8rem;" placeholder="@Model.ToUsername" disabled />
+            }
+
         </div>
     </div>
     <div class="direction-rtl conversationPanel">
-
-        @foreach (ChatMessages chatMessage in Model.conversationMessages)
+        @if (Model.IsNewChat)
         {
-            <div class="d-flex flex-row justify-content-center mb-1">
-                <div class="d-flex flex-row justify-content-left mb-1 col-12 messageHolder" sender="@chatMessage.FromUser">
-                    <div class="col-9 text-warning text-center theMessage" id="themessage-@chatMessage.Id">
-                        @chatMessage.TheMessage
-                    </div>
-                    <div class="col-3 datetime" id="themessagedatetime-@chatMessage.Id">
-                        @chatMessage.Created
-                        @if (chatMessage.IsRead)
-                        {
-                            <i class="fa-solid fa-check-double"></i>
-                        }
+
+        }
+        else
+        {
+            @foreach (ChatMessages chatMessage in Model.conversationMessages)
+            {
+                <div class="d-flex flex-row justify-content-center mb-1">
+                    <div class="d-flex flex-row justify-content-left mb-1 col-12 messageHolder" sender="@chatMessage.FromUser">
+                        <div class="col-9 text-warning text-center theMessage" id="themessage-@chatMessage.Id">
+                            @chatMessage.TheMessage
+                        </div>
+                        <div class="col-3 datetime" id="themessagedatetime-@chatMessage.Id">
+                            @chatMessage.Created
+                            @if (chatMessage.IsRead)
+                            {
+                                <i class="fa-solid fa-check-double"></i>
+                            }
+                        </div>
                     </div>
                 </div>
-            </div>
+            }
         }
+
 
     </div>
     <div class="d-flex flex-row justify-content-center" style="padding: 0 0.5rem 0 0.5rem;">
@@ -98,7 +138,7 @@ else
 
 
 @section Scripts {
-<script src="~/js/pages/ChatHistory-default.js"></script>
+<script src="~/js/pages/ChatHistory-default.js?i=2"></script>
 
 <script type="text/javascript">
     var myguid='@Model.MyGuid';

@@ -33,6 +33,7 @@ namespace SirooWebAPP.UI.Pages.Clients
 
         public List<ChatMessages> conversationMessages { get; set; }
         public Guid MyGuid { get; set; }
+        public bool IsNewChat { get; set; }
 
 
 
@@ -65,12 +66,20 @@ namespace SirooWebAPP.UI.Pages.Clients
 
                 MyGuid = theUser.Id;
 
-                if (touser.Id==theUser.Id)
+                if (touser!=null)
                 {
-                    ChatSelf = true;
-                    InitiateChats();
-                    return;
+                    if (touser.Id == theUser.Id)
+                    {
+                        ChatSelf = true;
+                        InitiateChats();
+                        return;
+                    }
                 }
+                else
+                {
+                    IsNewChat = true;
+                }
+
 
 
 
@@ -79,7 +88,7 @@ namespace SirooWebAPP.UI.Pages.Clients
                     ConversationPage = true;
                     conversationMessages = new List<ChatMessages>();
                     ToUsername = touser.Username;
-                    conversationMessages = _usersServices.GetAllChatMessages().Where(c => c.ToUser == touser.Id || c.FromUser==touser.Id).OrderByDescending(c => c.Created).Take(500).ToList<ChatMessages>();
+                    conversationMessages = _usersServices.GetAllChatMessages().Where(c => (c.ToUser == touser.Id && c.FromUser==theUser.Id)||(c.ToUser==theUser.Id && c.FromUser==touser.Id)).OrderByDescending(c => c.Created).Take(500).ToList<ChatMessages>();
                     conversationMessages = conversationMessages.OrderBy(c => c.Created).ToList<ChatMessages>();
 
                 }

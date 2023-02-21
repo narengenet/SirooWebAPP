@@ -535,7 +535,10 @@ function _doLike(obj, adv) {
     if ($(' .like-btn.' + adv).hasClass('liked')) {
         return;
     }
+
     if ($('.post.' + adv).hasClass('finished')) {
+        $('.' + adv + ' .like-btn').addClass('liked');
+
         $.ajax({
             url: '/dolike/' + adv,
             type: 'GET',
