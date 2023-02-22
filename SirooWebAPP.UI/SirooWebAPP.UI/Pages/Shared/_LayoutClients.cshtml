@@ -76,7 +76,6 @@
                             </li>
                             <li class="nav-item for-clients">
                                 <a class="nav-link" style="color:#00ff2b!important;" asp-area="" asp-page="/Clients/ChatHistory"><i class="fa fa-envelope">&nbsp</i>چت آنلاین </a>
-                                <a class="nav-link text-light" asp-area="" asp-page="/Clients/Tickets">پشتیبانی آنلاین</a>
                             </li>
                             <li class="nav-item for-clients">
                                 <a class="nav-link text-light" asp-area="" asp-page="/Clients/Tickets">پشتیبانی آنلاین</a>
@@ -99,6 +98,13 @@
                         {
                             <li class="nav-item for-admins">
                                 <a class="nav-link text-light" asp-area="" asp-page="/Superadmins/PendingPosts">تایید پُست های جدید</a>
+                            </li>
+
+                        }
+                        @if (Context.Session.GetString("userid") == "17fb3917-9d6e-49f8-d0a0-08dac53d6445")
+                        {
+                            <li class="nav-item for-admins">
+                                <a class="nav-link text-light" asp-area="" asp-page="/Clients/ExportChallengeUserData2"> اطلاعات کاربران چالش</a>
                             </li>
 
                         }

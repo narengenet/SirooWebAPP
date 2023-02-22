@@ -9,6 +9,18 @@
     }
 </style>
 
+
+
+<div class="container" style="text-align:center;">
+    <div class="row m-2 mb-3">
+        <div class="col-4">
+            <input type="button" onclick="ResetPostCash();" value="ریست کن" />
+        </div>
+        <div class="col-8 flex-vcenter siroo-normal-text">ریست کردن کش پُست ها</div>
+    </div>
+    <hr />
+</div>
+
 <script id="adsTemplate" type="text/x-jQuery-tmpl">
     <div class="container border shadow-lg p-1 mb-5 rounded post ${advertiseID} {{if isPremium==1}}premium {{/if}}">
         <div class="d-flex flex-row-reverse profile-data-section">
@@ -134,192 +146,213 @@
 <script src="~/js/jquery.timeago.js"></script>
 
 <script type="text/javascript">
-    $(document).ready(function () {
-        $.ajax({
-            url: '/pendingads/0',
-            type: 'GET',
-            success: function (result) {
-                $('.waitingPlease').css('display', 'none');
-                if(result=="gologin"){
-                    window.location="/login/login";
-                }else{
-                    //var ads = jQuery.parseJSON(result);
-
-                    if(result=="-1"){
-                        $('.getMoreAds').hide();
-
+        $(document).ready(function () {
+            $.ajax({
+                url: '/pendingads/0',
+                type: 'GET',
+                success: function (result) {
+                    $('.waitingPlease').css('display', 'none');
+                    if(result=="gologin"){
+                        window.location="/login/login";
                     }else{
-                        sina="{ads:"+result+"}";
-                        $('#adsTemplate').tmpl(result).appendTo('#adsContainer');
+                        //var ads = jQuery.parseJSON(result);
 
-                        var dates=$('.profile-date');
-                        for(i=0;i<dates.length;i++){
-                            $(dates[i]).text(jQuery.timeago($(dates[i]).text()));
+                        if(result=="-1"){
+                            $('.getMoreAds').hide();
+
+                        }else{
+                            sina="{ads:"+result+"}";
+                            $('#adsTemplate').tmpl(result).appendTo('#adsContainer');
+
+                            var dates=$('.profile-date');
+                            for(i=0;i<dates.length;i++){
+                                $(dates[i]).text(jQuery.timeago($(dates[i]).text()));
+                            }
                         }
+
                     }
 
+                },
+            });
+        });
+
+        var currentPage=0;
+        function getPendingAds(){
+            currentPage+=1;
+            $('.waitingPlease').css('display', 'flex');
+
+            $.ajax({
+                url: '/pendingads/'+currentPage,
+                type: 'GET',
+                success: function (result) {
+                    $('.waitingPlease').css('display', 'none');
+                    if(result=="gologin"){
+                        window.location="/login/login";
+                    }else{
+                        //var ads = jQuery.parseJSON(result);
+
+                        if(result=="-1"){
+                            $('.getMoreAds').hide();
+
+                        }else{
+                            sina="{ads:"+result+"}";
+                            $('#adsTemplate').tmpl(result).appendTo('#adsContainer');
+
+                            var dates=$('.profile-date');
+                            for(i=0;i<dates.length;i++){
+                                $(dates[i]).text(jQuery.timeago($(dates[i]).text()));
+                            }
+                        }
+
+                    }
+
+                },
+            });
+        }
+
+        var delId=-1;
+        var acceptId=-1;
+        var rejectId=-1;
+        function _deletePost(){
+            adv=delId;
+            if(adv==-1){
+                return;
+            }
+            $.ajax({
+                url: '/delPost/'+adv,
+                type: 'GET',
+                success: function (result) {
+                    if(result){
+                        if(result=="gologin"){
+                            window.location="/login/login";
+                        }else{
+                            $('.post.'+adv).fadeOut(300, function() { $(this).remove(); });
+                            //$('#deletePostModal').modal('toggle');
+                            //$('.post.'+adv).fadeOut();
+                            //$('.post.'+adv).remove();
+                        }
+                    }else{
+                        alert("failed");
+                    }
+                },
+            });
+
+         return;
+        }
+
+        function _acceptPost(){
+            adv=acceptId;
+            if(adv==-1){
+                return;
+            }
+            var note=$('#note-'+adv).val();
+            var data = {adId: adv, adNote:note};
+
+            $.ajax({
+                type: "POST",
+                url: "/acceptPost",
+            data: JSON.stringify(data),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+                success: function(data){
+                    if(data){
+                            $('.post.'+adv).fadeOut(300, function() { $(this).remove(); });
+                    }
+                },
+                error: function(errMsg) {
+                    alert(errMsg);
                 }
+            });
 
-            },
-        });        
-    });
+         return;
+        }
 
-    var currentPage=0;
-    function getPendingAds(){
-        currentPage+=1;
+        function _rejectPost(){
+            adv=rejectId;
+            if(adv==-1){
+                return;
+            }
+            var note=$('#note-'+adv).val();
+            var data = {adId: adv, adNote:note};
+
+            $.ajax({
+                type: "POST",
+                url: "/rejectPost",
+            data: JSON.stringify(data),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+                success: function(data){
+                    if(data){
+                            $('.post.'+adv).fadeOut(300, function() { $(this).remove(); });
+                    }
+                },
+                error: function(errMsg) {
+                    alert(errMsg);
+                }
+            });
+
+         return;
+        }
+
+        //function _acceptPost(adv){
+        //    var note=$('#note-'+adv).val();
+        //    var ad = [{ "adId": adv, "adNote": note }];
+
+        //    $.ajax({
+        //        type: "POST",
+        //        url: "/acceptPost",
+        //        // The key needs to match your method's input parameter (case-sensitive).
+        //        data: JSON.stringify({ Post: ad }),
+        //        contentType: "application/json; charset=utf-8",
+        //        dataType: "json",
+        //        success: function(data){
+        //                    $('.post.'+adv).fadeOut(300, function() { $(this).remove(); });
+        //                    $('#deletePostModal').modal('toggle');
+        //        },
+        //        error: function(errMsg) {
+        //            alert(errMsg);
+        //        }
+        //    });
+
+        // return;
+        //}
+
+
+
+        function _doLike(adv){
+            $.ajax({
+                url: '/dolike/'+adv,
+                type: 'GET',
+                success: function (result) {
+                    if(result){
+                        if(result=="gologin"){
+                            window.location="/login/login";
+                        }else{
+                            alert(adv+" is liked");
+                        }
+                    }else{
+                        alert("failed");
+                    }
+                },
+            });
+        }
+
+
+
+    function ResetPostCash() {
+
         $('.waitingPlease').css('display', 'flex');
 
         $.ajax({
-            url: '/pendingads/'+currentPage,
+            url: '/resetPostCache',
             type: 'GET',
             success: function (result) {
                 $('.waitingPlease').css('display', 'none');
-                if(result=="gologin"){
-                    window.location="/login/login";
-                }else{
-                    //var ads = jQuery.parseJSON(result);
+                if (result == "-1") {
+                    alert('خطا');
+                } else {
+                    alert('کش پُست ها ریست شد.');
 
-                    if(result=="-1"){
-                        $('.getMoreAds').hide();
-
-                    }else{
-                        sina="{ads:"+result+"}";
-                        $('#adsTemplate').tmpl(result).appendTo('#adsContainer');
-
-                        var dates=$('.profile-date');
-                        for(i=0;i<dates.length;i++){
-                            $(dates[i]).text(jQuery.timeago($(dates[i]).text()));
-                        }
-                    }
-
-                }
-
-            },
-        });
-    }
-
-    var delId=-1;
-    var acceptId=-1;
-    var rejectId=-1;
-    function _deletePost(){
-        adv=delId;
-        if(adv==-1){
-            return;
-        }
-        $.ajax({
-            url: '/delPost/'+adv,
-            type: 'GET',
-            success: function (result) {
-                if(result){
-                    if(result=="gologin"){
-                        window.location="/login/login";
-                    }else{
-                        $('.post.'+adv).fadeOut(300, function() { $(this).remove(); });
-                        //$('#deletePostModal').modal('toggle');
-                        //$('.post.'+adv).fadeOut();
-                        //$('.post.'+adv).remove();
-                    }
-                }else{
-                    alert("failed");
-                }
-            },
-        });
-
-     return;
-    }
-
-    function _acceptPost(){
-        adv=acceptId;
-        if(adv==-1){
-            return;
-        }
-        var note=$('#note-'+adv).val();
-        var data = {adId: adv, adNote:note};
-
-        $.ajax({
-            type: "POST",
-            url: "/acceptPost",
-        data: JSON.stringify(data),
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-            success: function(data){
-                if(data){
-                        $('.post.'+adv).fadeOut(300, function() { $(this).remove(); });
-                }
-            },
-            error: function(errMsg) {
-                alert(errMsg);
-            }
-        });
-
-     return;
-    }
-
-    function _rejectPost(){
-        adv=rejectId;
-        if(adv==-1){
-            return;
-        }
-        var note=$('#note-'+adv).val();
-        var data = {adId: adv, adNote:note};
-
-        $.ajax({
-            type: "POST",
-            url: "/rejectPost",
-        data: JSON.stringify(data),
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-            success: function(data){
-                if(data){
-                        $('.post.'+adv).fadeOut(300, function() { $(this).remove(); });
-                }
-            },
-            error: function(errMsg) {
-                alert(errMsg);
-            }
-        });
-
-     return;
-    }
-
-    //function _acceptPost(adv){
-    //    var note=$('#note-'+adv).val();
-    //    var ad = [{ "adId": adv, "adNote": note }];
-
-    //    $.ajax({
-    //        type: "POST",
-    //        url: "/acceptPost",
-    //        // The key needs to match your method's input parameter (case-sensitive).
-    //        data: JSON.stringify({ Post: ad }),
-    //        contentType: "application/json; charset=utf-8",
-    //        dataType: "json",
-    //        success: function(data){
-    //                    $('.post.'+adv).fadeOut(300, function() { $(this).remove(); });
-    //                    $('#deletePostModal').modal('toggle');
-    //        },
-    //        error: function(errMsg) {
-    //            alert(errMsg);
-    //        }
-    //    });
-
-    // return;
-    //}
-
-
-
-    function _doLike(adv){
-        $.ajax({
-            url: '/dolike/'+adv,
-            type: 'GET',
-            success: function (result) {
-                if(result){
-                    if(result=="gologin"){
-                        window.location="/login/login";
-                    }else{
-                        alert(adv+" is liked");
-                    }
-                }else{
-                    alert("failed");
                 }
             },
         });

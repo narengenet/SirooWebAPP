@@ -525,16 +525,16 @@ namespace SirooWebAPP.Infrastructure.Services
 
 
                 /// Temperory
-                int viewerCount = 0;
+                int viewerCount = _viewers.Count;
                 if (_viewers.Count > 5)
                 {
-                    viewerCount = _viewers.Count * 10;
+                    viewerCount = _viewers.Count * 13;
                 }
 
-                int likerCount = 0;
+                int likerCount = _likers.Count;
                 if (_likers.Count > 5)
                 {
-                    likerCount = _likers.Count * 10;
+                    likerCount = _likers.Count * 13;
                 }
 
 

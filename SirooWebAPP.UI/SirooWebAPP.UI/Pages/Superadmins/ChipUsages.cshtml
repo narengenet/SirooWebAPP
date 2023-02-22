@@ -24,11 +24,16 @@
 <div class="direction-rtl" style="margin-bottom:25vh;">
     <div>تعداد کارت‌های استفاده‌شده: @Model.allUsedChipsCount</div>
     <br />
+    @if (Model.isSearch)
+    {
+        <div>تعداد نتایج: @Model.SearchCount</div>
+    }
+
     <br />
 
     <div class="d-flex flex-row justify-content-center">
         <div class="col-8">
-            <input type="text" id="searchpin" style="font-size:0.8rem;" placeholder="جستجو پین کد/شماره سریال..." />
+            <input type="text" id="searchpin" style="font-size:0.8rem;" placeholder="جستجو پین/سریال/نام کاربری/موبایل..." />
         </div>
         <div class="col-4">
             <input type="button" value="جستجو" onclick="window.location='/superadmins/chipusages?serialorpin='+$('#searchpin').val()+'&handler=Search';" />

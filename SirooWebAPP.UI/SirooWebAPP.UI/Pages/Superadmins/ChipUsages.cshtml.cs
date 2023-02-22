@@ -29,6 +29,8 @@ namespace SirooWebAPP.UI.Pages.Superadmins
         [BindProperty(Name = "serialorpin", SupportsGet = true)]
         public string? serialorpin { get; set; }
 
+        public int SearchCount { get; set; }
+
 
 
         public void OnGetSearch()
@@ -37,9 +39,36 @@ namespace SirooWebAPP.UI.Pages.Superadmins
 
 
             allUsedChipsCount = _usersServices.GetAllChips().Where(t => t.IsUsed == true).ToList<Chips>().Count;
-            List<Chips> usedChips = _usersServices.GetAllChips().Where(t => t.SerialNumber == Convert.ToInt64(serialorpin.Trim()) || t.PIN==serialorpin).OrderByDescending(t => t.LastModified).ToList<Chips>();
+
+            long _serialNumber = 0;
+            try
+            {
+                _serialNumber = Convert.ToInt64(serialorpin.Trim());
+            }
+            catch (Exception)
+            {
+
+                
+            }
+
+            Guid _searchIsUser = Guid.NewGuid();
+            try
+            {
+                Users _searchedUser= _usersServices.GetAllUsers().Where(u => u.Username == serialorpin || u.Cellphone == serialorpin).FirstOrDefault();
+                if (_searchedUser != null)
+                {
+                    _searchIsUser = _searchedUser.Id;
+                }
+            }
+            catch (Exception)
+            {
+
+                
+            }
+            List<Chips> usedChips = _usersServices.GetAllChips().Where(t => t.SerialNumber == _serialNumber || t.PIN==serialorpin || t.UsedBy== _searchIsUser).OrderByDescending(t => t.LastModified).ToList<Chips>();
             if (usedChips.Count > 0)
             {
+                SearchCount=usedChips.Count;
                 transacs = new List<RequestMoneyUser>();
                 foreach (Chips item in usedChips)
                 {

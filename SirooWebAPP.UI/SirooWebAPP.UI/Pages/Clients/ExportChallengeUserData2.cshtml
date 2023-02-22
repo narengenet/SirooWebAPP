@@ -1,0 +1,131 @@
+﻿@page
+@model SirooWebAPP.UI.Pages.Superadmins.ExportChallengeUserData2Model
+@{
+    Layout = "_LayoutClients";
+}
+<style>
+    table td {
+        width: 20%;
+        text-align: center;
+        font-family: 'Yekan';
+    }
+
+    table tr {
+        border: 1px solid white;
+    }
+
+    .MainDashboard {
+        display: none !important;
+    }
+
+</style>
+
+
+
+
+
+<div class="row col-12 mb-2">
+
+    <div class="row justify-content-center">
+        <div class="col-12 siroo-label">انتخاب پکیج های ویژه </div>
+    </div>
+
+    <div class="col-12 Textbox">
+        <select id="ddlPackage" asp-items="@Model.UserChallengesOptions" asp-for="ChallengeModeIndex">
+            <option value="0">--انتخاب پکیج ویژه--</option>
+        </select>
+        @*<span asp-validation-for="ChallengeModelIndex"></span>*@
+    </div>
+
+</div>
+
+<div class="row justify-content-center mb-3 mt-3">
+    <div class="col-12 siroo-header">تعداد همه رکوردهای این پکیج: @Model.allChallengeUserData </div>
+</div>
+
+<div class="row col-12 mb-3 justify-content-center">
+    <div class="col-8 SirooBtn">
+        <input type="submit" class="col-12" onclick="ExportChallengeData();" value="خروجی کلیه ثبت نام ها">
+    </div>
+</div>
+
+
+<div class="row">&nbsp;</div>
+<div class="row justify-content-center mb-3">
+    <div class="col-12 siroo-header">تعداد رکوردهای جدید این پکیج: @Model.newChallengeUserData </div>
+</div>
+
+
+<div class="row col-12 mb-3 justify-content-center">
+    <div class="col-8 SirooBtn">
+        <input type="submit" class="col-12" onclick="ExportNewChallengeData();" value="خروجی ثبت نام های جدید">
+    </div>
+</div>
+
+
+@if (Model.isValidUser==false)
+{
+    <script>
+        window.location='/Clients/Main';
+    </script>
+}
+
+@section Scripts {
+<script src="~/js/pages/ExportChallengeUserData-default.js?i=2"></script>
+
+
+
+
+<script>
+    _noInviter=false;
+        var neededMoney1='@string.Format("{0:C}", Model.neededMoney1).Replace(".00","").Replace("$","")';
+        var neededMoney2='@string.Format("{0:C}", Model.neededMoney2).Replace(".00","").Replace("$","")';
+        var neededMoney3='@string.Format("{0:C}", Model.neededMoney3).Replace(".00","").Replace("$","")';
+
+
+
+
+
+
+
+    function confirmWithoutInviter(){
+        _noInviter=true;
+        $('#GoChallenge').click();
+    }
+
+    $(document).ready(function () {
+
+            $("#ddlPackage").change(function () {
+
+                var end = $('#ddlPackage').val();
+
+                if(end=="0"){
+                    window.location="/Superadmins/ExportChallengeUserData";
+                    console.log(1);
+                }
+
+                if(end=="1"){
+                    window.location="/Superadmins/ExportChallengeUserData?challenge=1";
+                    console.log(1);
+                }
+
+                if(end=="2"){
+                    window.location="/Superadmins/ExportChallengeUserData?challenge=2";
+                    console.log(2);
+                }
+
+                if(end=="3"){
+                    window.location="/Superadmins/ExportChallengeUserData?challenge=3";
+                    console.log(3);
+                }
+
+            });
+
+
+    });
+</script>
+
+}
+
+
+
