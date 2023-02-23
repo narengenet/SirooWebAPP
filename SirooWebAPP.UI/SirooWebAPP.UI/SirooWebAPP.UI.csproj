@@ -17,10 +17,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="wwwroot\uploads\2022\**" />
-    <Content Remove="wwwroot\uploads\2022\**" />
-    <EmbeddedResource Remove="wwwroot\uploads\2022\**" />
-    <None Remove="wwwroot\uploads\2022\**" />
+    <None Include="wwwroot\uploads\challenge.csv" />
+    <None Include="wwwroot\uploads\test.csv" />
   </ItemGroup>
 
   <ItemGroup>
