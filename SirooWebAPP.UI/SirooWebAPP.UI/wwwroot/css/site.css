@@ -130,6 +130,16 @@ body {
     background-color: rgba(0,0,0,0.5);
     backdrop-filter: blur(10px);
 }
+.video-timer {
+    display: block;
+    position: absolute;
+    top: 70px;
+    right: 10px;
+    font-family: Yekan;
+    z-index: 10;
+    color: white;
+    text-shadow: 1px 1px 0px black;
+}
 .post .profile-date {
     font-size: 0.7rem!important;
     margin-right: 0px!important;

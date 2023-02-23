@@ -572,6 +572,7 @@ $(window).scroll(function () {
             if ($(this).is(":in-viewport")) {
                 $(this)[0].muted = mute;
                 $(this)[0].play();
+
             } else {
                 $(this)[0].pause();
             }
@@ -579,6 +580,14 @@ $(window).scroll(function () {
     }
 
 });
+
+function _onProgress(obj) {
+    console.log(obj.currentTime);
+    var theId = obj.id;
+    var theMins = Math.round((obj.duration-obj.currentTime)/60);
+    var theSeconds = Math.round((obj.duration-obj.currentTime)%60);
+    $("#timer_" + theId).html(theMins+":"+theSeconds);
+}
 
 
 var mute = false;

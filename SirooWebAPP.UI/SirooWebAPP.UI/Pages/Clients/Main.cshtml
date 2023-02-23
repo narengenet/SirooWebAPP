@@ -316,7 +316,8 @@
         <div class="row">
             <div class="col-12">
                 {{if isVideo==1}}
-                    <video class="col-12" ondblclick="_doLike(this,'${advertiseID}');" onclick="toggleMute('video_${advertiseID}');" id="video_${advertiseID}"  onended="_dobLike(this,'${advertiseID}')" playsinline>
+                    <span class="video-timer" id="timer_video_${advertiseID}"></span>
+                    <video class="col-12" ondblclick="_doLike(this,'${advertiseID}');" onclick="toggleMute('video_${advertiseID}');" id="video_${advertiseID}"  onended="_dobLike(this,'${advertiseID}')" ontimeupdate="_onProgress(this);" playsinline>
                                 <source src="../${mediaSourceURL}">
                                 Your browser does not support the video tag.
                     </video>
@@ -397,7 +398,7 @@
 <script src="~/js/persian-date.min.js"></script>
 <script src="~/js/isInViewport.min.js"></script>
 <script src="~/js/pages/Main-db.js?i=1"></script>
-<script src="~/js/pages/Main-default.js?i=9"></script>
+<script src="~/js/pages/Main-default.js?i=10"></script>
 
 
 <script src="~/js/draws.js"></script>
