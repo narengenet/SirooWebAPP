@@ -1564,45 +1564,78 @@ namespace SirooWebAPP.UI.Controllers
                 return Ok("-1");
             }
 
+        }
+        
+        [TypeFilter(typeof(SampleAsyncActionLoginFilter))]
+        [HttpPost("blockChatUser")]
+        public IActionResult blockChatUser([FromBody] TheChatMessage theChatMessage)
+        {
 
-            //if (_session.GetString("userrolename") == "super" || _session.GetString("userrolename") == "admin")
-            //{
-            //    Guid adId = Guid.Parse(post.adId);
-            //    Advertise ad = _usersServices.GetAdvertise(adId);
-            //    if (ad != null)
-            //    {
-            //        ad.IsAvtivated = true;
-            //        ad.LastModified = DateTime.Now;
-            //        ad.LastModifiedBy = userId.ToString();
-            //        ad.Notes = post.adNote;
-            //        _usersServices.UpdateAdvertisement(ad);
-            //        if (CachedContents.Advertises.Find(a => a.Id == ad.Id) == null)
-            //        {
-            //            CachedContents.Advertises.Insert(0, ad);
-            //        }
+            string _userid = HttpContext.Request.Cookies["userid"];
+            Guid userId = Guid.Parse(_userid);
 
-
-            //        if (ad.IsPremium == true)
-            //        {
-            //            Users adOwner = _usersServices.GetUser(ad.Owner);
-
-            //            string pointsRewardKeyName = (ad.IsVideo == true) ? "points_reward_premium_video_ads" : "points_reward_premium_image_ads";
-            //            int pointsReward = Convert.ToInt32(_usersServices.GetConstantDictionary(pointsRewardKeyName).ConstantValue);
-
-            //            if (adOwner != null)
-            //            {
-            //                adOwner.Points += pointsReward;
-            //                _usersServices.UpdateUser(adOwner);
-            //            }
-
-            //        }
+            Users theSender = _usersServices.GetUser(userId);
+            Users theReceiver = new Users();
+            try
+            {
+                theReceiver = _usersServices.GetAllUsers().Where(u => u.Id == Guid.Parse(theChatMessage.receiverUserid)).FirstOrDefault();
+            }
+            catch (Exception)
+            {
+                theReceiver = _usersServices.GetAllUsers().Where(u => u.Username == theChatMessage.receiverUserid).FirstOrDefault();
 
 
-            //        return Ok(true);
-            //    }
-            //}
-            //List<DTODraws> draws = _usersServices.GetAllActiveDrawsByUser(userId);
-            //return Ok(false);
+            }
+
+
+
+            if (theSender != null && theReceiver != null)
+            {
+                ChatBlocks chtBlocks = _usersServices.GetAllChatBlocksWithDeleteds().Where(cb => cb.fromUser == theSender.Id && cb.toUser == theReceiver.Id).FirstOrDefault();
+                if (chtBlocks!=null)
+                {
+                    if (chtBlocks.IsDeleted)
+                    {
+                        chtBlocks.IsDeleted = false;
+                    }
+                    else
+                    {
+                        chtBlocks.IsDeleted = true;
+                    }
+
+                    chtBlocks.LastModified = DateTime.Now;
+                    _usersServices.UpdateChatBlocks(chtBlocks);
+                    if (chtBlocks.IsDeleted)
+                    {
+                        return Ok("-2");
+                    }
+                    else
+                    {
+                        return Ok("-1");
+                    }
+                }
+                else
+                {
+                    _usersServices.AddChatBlocks(new ChatBlocks
+                    {
+                        fromUser = theSender.Id,
+                        toUser = theReceiver.Id,
+                        Created = DateTime.Now
+
+                    });
+
+                    return Ok("-1");
+                }
+
+
+
+                
+            }
+            else
+            {
+                return Ok("-3");
+            }
+
         }
 
 

@@ -267,6 +267,8 @@ namespace SirooWebAPP.Infrastructure.Contexts
             ConstantDictionaries order_of_prize_payment_3 = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "order_of_prize_payment_3", ConstantValue = "2,3,5", IsActive = true, Description = "ترتیب پرداخت کارمزدها نوع 3", Created = DateTime.Now, CreatedBy = sina.Id, Category = "چالش", PriorityIndex = 44 };
             ConstantDictionaries maximum_number_of_prize_payment_3 = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "maximum_number_of_prize_payment_3", ConstantValue = "1000", IsActive = true, Description = "حداکثر تعداد پرداخت کارمزدها نوع 3", Created = DateTime.Now, CreatedBy = sina.Id, Category = "چالش", PriorityIndex = 45 };
             ConstantDictionaries expire_dates_for_ads_3 = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "expire_dates_for_ads_3", ConstantValue = "20", IsActive = true, Description = "تعداد روزهای آگهی تجاری نوع 3", Created = DateTime.Now, CreatedBy = sina.Id, Category = "چالش", PriorityIndex = 46 };
+            
+            
 
 
 

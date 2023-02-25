@@ -887,7 +887,7 @@ namespace SirooWebAPP.Infrastructure.Services
                         if (_ad.IsPremium==true)
                         {
                             Users owner_ads= _userRepo.GetById(_ad.Owner);
-                            owner_ads.Points += 1;
+                            owner_ads.Points += 13;
                             _userRepo.Update(owner_ads);
                         }
                         return _ad.LikeReward;
@@ -1439,10 +1439,26 @@ namespace SirooWebAPP.Infrastructure.Services
         {
             return _chatBlocksRepo.GetAll().Where(cb => cb.IsDeleted == false).ToList<ChatBlocks>();
         }
+        
+        List<ChatBlocks> IUserServices.GetAllChatBlocksWithDeleteds()
+        {
+            return _chatBlocksRepo.GetAll().ToList<ChatBlocks>();
+        }
 
         void IUserServices.AddChatBlocks(ChatBlocks chatBlock)
         {
             _chatBlocksRepo.Add(chatBlock);
+        }
+
+        public void UpdateChatMessage(ChatMessages chatMessage)
+        {
+            _chatMessagesRepo.Update(chatMessage);
+            
+        }
+
+        void IUserServices.UpdateChatBlocks(ChatBlocks chatBlock)
+        {
+            _chatBlocksRepo.Update(chatBlock);
         }
     }
 }

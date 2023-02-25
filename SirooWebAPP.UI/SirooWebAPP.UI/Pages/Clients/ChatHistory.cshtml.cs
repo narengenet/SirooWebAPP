@@ -35,6 +35,9 @@ namespace SirooWebAPP.UI.Pages.Clients
         public Guid MyGuid { get; set; }
         public bool IsNewChat { get; set; }
 
+        public Guid ToUserId { get; set; }
+
+        public bool IsBlockedByYou { get; set; }
 
 
         public void OnGet()
@@ -55,7 +58,7 @@ namespace SirooWebAPP.UI.Pages.Clients
                 Users touser = new Users();
                 try
                 {
-                    _touserId= Guid.Parse(_touser);
+                    _touserId = Guid.Parse(_touser);
                     touser = _usersServices.GetUser(Guid.Parse(_touser));
                 }
                 catch (Exception)
@@ -66,7 +69,7 @@ namespace SirooWebAPP.UI.Pages.Clients
 
                 MyGuid = theUser.Id;
 
-                if (touser!=null)
+                if (touser != null)
                 {
                     if (touser.Id == theUser.Id)
                     {
@@ -88,9 +91,28 @@ namespace SirooWebAPP.UI.Pages.Clients
                     ConversationPage = true;
                     conversationMessages = new List<ChatMessages>();
                     ToUsername = touser.Username;
-                    conversationMessages = _usersServices.GetAllChatMessages().Where(c => (c.ToUser == touser.Id && c.FromUser==theUser.Id)||(c.ToUser==theUser.Id && c.FromUser==touser.Id)).OrderByDescending(c => c.Created).Take(500).ToList<ChatMessages>();
+                    conversationMessages = _usersServices.GetAllChatMessages().Where(c => (c.ToUser == touser.Id && c.FromUser == theUser.Id) || (c.ToUser == theUser.Id && c.FromUser == touser.Id)).OrderByDescending(c => c.Created).Take(500).ToList<ChatMessages>();
                     conversationMessages = conversationMessages.OrderBy(c => c.Created).ToList<ChatMessages>();
 
+
+                    List<ChatMessages> _allUnreadChats = _usersServices.GetAllChatMessages().Where(cm => cm.ToUser == theUser.Id && cm.FromUser == touser.Id && cm.IsRead == false).ToList<ChatMessages>();
+                    if (_allUnreadChats.Count > 0)
+                    {
+                        foreach (ChatMessages item in _allUnreadChats)
+                        {
+                            item.IsRead = true;
+                            _usersServices.UpdateChatMessage(item);
+                        }
+                    }
+
+                    if (_usersServices.GetAllChatBlocks().Where(cb=>cb.fromUser==theUser.Id && cb.toUser==touser.Id).FirstOrDefault()!=null)
+                    {
+                        IsBlockedByYou = true;
+                    }
+                    else
+                    {
+                        IsBlockedByYou = false;
+                    }
                 }
             }
 
@@ -112,6 +134,9 @@ namespace SirooWebAPP.UI.Pages.Clients
                 var items = _usersServices.GetAllChatMessages().Where(c => c.FromUser == theUser.Id).OrderByDescending(c => c.Created).GroupBy(g => g.ToUser).Take(500);
                 var items2 = _usersServices.GetAllChatMessages().Where(c => c.ToUser == theUser.Id).OrderByDescending(c => c.Created).GroupBy(g => g.FromUser).Take(500);
 
+
+
+
                 //var CustomerGroup = from T in _usersServices.GetAllChatMessages().Where(c => c.FromUser == theUser.Id)
                 //                    orderby T.Created descending
                 //                    group T by T.ToUser;
@@ -120,7 +145,7 @@ namespace SirooWebAPP.UI.Pages.Clients
                 {
                     ChatConversation.Add(new ChatConversationsModel
                     {
-                        HasUnread = true,
+                        HasUnread = _usersServices.GetAllChatMessages().Where(c => c.ToUser == theUser.Id && c.FromUser == item.Key && c.IsRead == false).ToList<ChatMessages>().Count,
                         LastMessage = DateTime.Now,
                         UserID = item.Key,
                         Username = _usersServices.GetUser(item.Key).Username
@@ -128,20 +153,20 @@ namespace SirooWebAPP.UI.Pages.Clients
                 }
                 foreach (var item in items2)
                 {
-                    if (ChatConversation.Where(c=>c.UserID==item.Key).ToList<ChatConversationsModel>().Count>0)
+                    if (ChatConversation.Where(c => c.UserID == item.Key).ToList<ChatConversationsModel>().Count > 0)
                     {
                         continue;
                     }
                     ChatConversation.Add(new ChatConversationsModel
                     {
-                        HasUnread = true,
+                        HasUnread = _usersServices.GetAllChatMessages().Where(c => c.ToUser == theUser.Id && c.FromUser == item.Key && c.IsRead == false).ToList<ChatMessages>().Count,
                         LastMessage = DateTime.Now,
                         UserID = item.Key,
                         Username = _usersServices.GetUser(item.Key).Username
                     });
                 }
 
-                ChatConversation.OrderByDescending(c=>c.LastMessage).ToList<ChatConversationsModel>();
+                ChatConversation.OrderByDescending(c => c.LastMessage).ToList<ChatConversationsModel>();
 
             }
 

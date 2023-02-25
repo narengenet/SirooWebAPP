@@ -46,8 +46,12 @@
         @foreach (var item in Model.ChatConversation)
         {
             <div class="d-flex flex-row justify-content-center mb-2">
-                <div class="col-10" onclick="window.location='/Clients/ChatHistory?touser=@item.UserID';">
+                <div class="col-10" style="position:relative;" onclick="window.location='/Clients/ChatHistory?touser=@item.UserID';">
                     <input type="button" value="@item.Username" />
+                    @if (item.HasUnread > 0)
+                    {
+                        <span class="unreadMessageNumbers">@item.HasUnread</span>
+                    }
                 </div>
             </div>
 
@@ -58,6 +62,51 @@
 }
 else
 {
+
+
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="blockUserModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">بلاک کاربر</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="بازگشت">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    مطمئن هستید که میخواهید این کاربر را بلاک (Block) کنید؟
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="$('#blockUserModal').modal('toggle');" data-dismiss="modal">خیر</button>
+                    <button type="button" class="btn btn-danger" onclick="_blockUser();$('#blockUserModal').modal('toggle');">بلی</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="unblockUserModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">آنبلاک کاربر</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="بازگشت">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    مطمئن هستید که میخواهید این کاربر را آنبلاک (Unblock) کنید؟
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="$('#unblockUserModal').modal('toggle');" data-dismiss="modal">خیر</button>
+                    <button type="button" class="btn btn-success" onclick="_blockUser();$('#unblockUserModal').modal('toggle');">بلی</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="direction-rtl">
         <h2 class="siroo-header-h2">پیام‌های شما به دریافت کننده پیام:</h2>
     </div>
@@ -78,7 +127,20 @@ else
             }
             else
             {
-                <input type="text" id="UserName" style="font-size:0.8rem;" placeholder="@Model.ToUsername" disabled />
+
+                @if (Model.IsBlockedByYou)
+                {
+                    <input type="text" id="UserName" class="btn btn-danger" style="font-size:0.8rem;" placeholder="@Model.ToUsername (بلاک شده)" disabled />
+                    <span class="block_user" style="right:1.5rem;top:1rem;" onclick="$('#unblockUserModal').modal('toggle');">آنبلاک</span>
+                    <img src="~/images/unblock.png" class="block_user" onclick="$('#unblockUserModal').modal('toggle');" />
+                }
+                else
+                {
+                    <input type="text" id="UserName" style="font-size:0.8rem;" placeholder="@Model.ToUsername" disabled />
+                    <span class="block_user" style="right:1.5rem;top:1rem;" onclick="$('#blockUserModal').modal('toggle');">بلاک</span>
+                    <img src="~/images/block.png" class="block_user" onclick="$('#blockUserModal').modal('toggle');" />
+                }
+
             }
 
         </div>
@@ -98,10 +160,13 @@ else
                             @chatMessage.TheMessage
                         </div>
                         <div class="col-3 datetime" id="themessagedatetime-@chatMessage.Id">
-                            @chatMessage.Created
+                            <span class="chat_date">
+                                @chatMessage.Created
+                            </span>
+
                             @if (chatMessage.IsRead)
                             {
-                                <i class="fa-solid fa-check-double"></i>
+                                <i style="font-size:1rem;" class="p-1 text-primary fa-solid fa-check-double"></i>
                             }
                         </div>
                     </div>
@@ -113,13 +178,36 @@ else
     </div>
     <div class="d-flex flex-row justify-content-center" style="padding: 0 0.5rem 0 0.5rem;">
         <div class="col-12 Textbox fa fa-text Textarea">
-            <textarea type="text" class="col-10 text-warning text-center" placeholder="متن پیام ..." rows="2" id="chatMessage"></textarea>
+            @if (Model.IsBlockedByYou)
+            {
+                <textarea type="text" class="col-10 text-warning text-center" placeholder="امکان ارسال وجود ندارد (بلاک شده)" rows="2" disabled id="chatMessage"></textarea>
+            }
+            else
+            {
+                <textarea type="text" class="col-10 text-warning text-center" placeholder="متن پیام ..." rows="2" id="chatMessage"></textarea>
+            }
         </div>
     </div>
     <div class="d-flex flex-row justify-content-center">
-        <div class="col-4">
-            <input id="SendChat" type="button" value="ارسال" onclick="_sendMessageChat();" />
+        @if (Model.IsBlockedByYou)
+        {
+            <div class="col-4" style="position:relative;">
+                <span class="block_user" style="right:1.5rem;top:1rem;" onclick="$('#unblockUserModal').modal('toggle');">آنبلاک</span>
+                <img src="/images/unblock.png" class="block_user" onclick="$('#unblockUserModal').modal('toggle');">
+            </div>
+        }
+        <div class="col-4 mt-2">
+            @if (Model.IsBlockedByYou)
+            {
+                <input id="SendChat" class="btn btn-danger" type="button" value=" (بلاک شده)" disabled />
+
+            }
+            else
+            {
+                <input id="SendChat" type="button" value="ارسال" onclick="_sendMessageChat();" />
+            }
         </div>
+
     </div>
 
 
@@ -138,15 +226,31 @@ else
 
 
 @section Scripts {
-<script src="~/js/pages/ChatHistory-default.js?i=2"></script>
+<script src="~/js/pages/ChatHistory-default.js?i=5"></script>
+
 
 <script type="text/javascript">
     var myguid='@Model.MyGuid';
+    var audioElement="";
         $(document).ready(function () {
-
+            $('header nav').removeClass('mb-3');
             rearrengeMessages();
             $('body').css('min-height','100vh');
             $('.back-to-top').hide();
+
+            var dates=$('.chat_date');
+            for(i=0;i<dates.length;i++){
+                $(dates[i]).text(milToShamsiWithTime($(dates[i]).text()));
+                $(dates[i]).removeClass('chat_date');
+                $(dates[i]).addClass('chat_date_shamsi');
+            }
+            if($('.conversationPanel')){
+                $('.conversationPanel').scrollTop($('.conversationPanel')[0].scrollHeight);
+                audioElement = document.createElement('audio');
+                audioElement.setAttribute('src', '/sounds/message_sent.wav');
+
+            }
+
 
         });
 
@@ -169,6 +273,45 @@ else
                 }
             }
         }
+
+
+                function milToShamsiWithTime(mysql_timestamp){
+
+                    //let date_convert_y = parseInt(mysql_timestamp.substr(6, 4));
+                    //let date_convert_m = parseInt(mysql_timestamp.substr(0, 2));
+                    //let date_convert_d = parseInt(mysql_timestamp.substr(3, 2));
+
+                    let date_convert_y = new Date(mysql_timestamp).getFullYear();
+                    let date_convert_m = (new Date(mysql_timestamp).getMonth()+1);
+                    let date_convert_d = new Date(mysql_timestamp).getDate();
+                    let date_convert_h = new Date(mysql_timestamp).getHours();
+                    let date_convert_min = new Date(mysql_timestamp).getMinutes();
+                    let result="";
+                    result=miladi_be_shamsi(date_convert_y, date_convert_m, date_convert_d);
+                    return date_convert_h+":"+date_convert_min+" "+result;
+                }
+    function miladi_be_shamsi(gy, gm, gd) {
+        var g_d_m, jy, jm, jd, gy2, days;
+        g_d_m = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334];
+        gy2 = (gm > 2) ? (gy + 1) : gy;
+        days = 355666 + (365 * gy) + ~~((gy2 + 3) / 4) - ~~((gy2 + 99) / 100) + ~~((gy2 + 399) / 400) + gd + g_d_m[gm - 1];
+        jy = -1595 + (33 * ~~(days / 12053));
+        days %= 12053;
+        jy += 4 * ~~(days / 1461);
+        days %= 1461;
+        if (days > 365) {
+            jy += ~~((days - 1) / 365);
+            days = (days - 1) % 365;
+        }
+        if (days < 186) {
+            jm = 1 + ~~(days / 31);
+            jd = 1 + (days % 31);
+        } else {
+            jm = 7 + ~~((days - 186) / 30);
+            jd = 1 + ((days - 186) % 30);
+        }
+        return [jy + '/' + jm + '/' + jd];
+    }
 </script>
 
 }
