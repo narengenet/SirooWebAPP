@@ -98,13 +98,24 @@ namespace SirooWebAPP.UI.Controllers
 
 
         [TypeFilter(typeof(SampleAsyncActionLoginFilter))]
-        [HttpGet("ads")]
+        [HttpGet("ads/")]
         public IActionResult GetAdvertisements()
         {
 
             string _userid = HttpContext.Request.Cookies["userid"];
             Guid userId = Guid.Parse(_userid);
-            List<DTOAdvertise> ads = _usersServices.GetAdvertises(userId, false, 0, null);
+            List<DTOAdvertise> ads = _usersServices.GetAdvertises(userId, false, 0, null,null);
+            return Ok(ads);
+        }
+
+        [TypeFilter(typeof(SampleAsyncActionLoginFilter))]
+        [HttpGet("ads2/{username}/{rnd}")]
+        public IActionResult GetAdvertisements2(string username,string rnd)
+        {
+
+            string _userid = HttpContext.Request.Cookies["userid"];
+            Guid userId = Guid.Parse(_userid);
+            List<DTOAdvertise> ads = _usersServices.GetAdvertises(userId, false, 0, null,username);
             return Ok(ads);
         }
         [TypeFilter(typeof(SampleAsyncActionLoginFilter))]
@@ -116,10 +127,10 @@ namespace SirooWebAPP.UI.Controllers
 
             Advertise lastFetchedAds = _usersServices.GetAllPermenantAdvertises().Where(a => a.Id == lastFetchDate).FirstOrDefault();
 
-            List<DTOAdvertise> ads = _usersServices.GetAdvertises(userId, false, 0, lastFetchedAds.CreationDate);
+            List<DTOAdvertise> ads = _usersServices.GetAdvertises(userId, false, 0, lastFetchedAds.CreationDate,null);
             if (ads.Count == 0)
             {
-                ads = _usersServices.GetAdvertises(userId, true, 0, lastFetchedAds.CreationDate);
+                ads = _usersServices.GetAdvertises(userId, true, 0, lastFetchedAds.CreationDate,null);
             }
 
             return Ok(ads);
@@ -141,7 +152,22 @@ namespace SirooWebAPP.UI.Controllers
 
             Advertise lastFetchedAds = _usersServices.GetAllPermenantAdvertises().Where(a => a.Id == lastfetchedid).FirstOrDefault();
 
-            List<DTOAdvertise> ads = _usersServices.GetAdvertises(userId, true, 0, lastFetchedAds.CreationDate);
+            List<DTOAdvertise> ads = _usersServices.GetAdvertises(userId, true, 0, lastFetchedAds.CreationDate,null);
+            return Ok(ads);
+        }
+        
+        
+        [TypeFilter(typeof(SampleAsyncActionLoginFilter))]
+        [HttpGet("beforeads2/{lastfetchedid:guid}/{username}")]
+        public IActionResult GetAdvertismentsBefore(Guid lastfetchedid,string username)
+        {
+
+            string _userid = HttpContext.Request.Cookies["userid"];
+            Guid userId = Guid.Parse(_userid);
+
+            Advertise lastFetchedAds = _usersServices.GetAllPermenantAdvertises().Where(a => a.Id == lastfetchedid).FirstOrDefault();
+
+            List<DTOAdvertise> ads = _usersServices.GetAdvertises(userId, true, 0, lastFetchedAds.CreationDate,username);
             return Ok(ads);
         }
 

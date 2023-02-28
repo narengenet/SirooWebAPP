@@ -85,7 +85,7 @@ namespace SirooWebAPP.UI.Pages.Superadmins
                                 Data1 = item.SerialNumber.ToString(),
                                 Data2 = item.PIN,
                                 RequestID = item.Id,
-                                RequestedDate = (DateTime)item.Created
+                                RequestedDate = (DateTime)item.LastModified
                             });
                         }
                     }
@@ -99,7 +99,7 @@ namespace SirooWebAPP.UI.Pages.Superadmins
                             Data1 = item.SerialNumber.ToString(),
                             Data2 = item.PIN,
                             RequestID = item.Id,
-                            RequestedDate = (DateTime)item.Created
+                            RequestedDate = (DateTime)item.LastModified
                         });
                     }
 

@@ -1480,6 +1480,8 @@ a#currentPoint:before {
 
 .sendMessageIcon {
     color: lawngreen;
+    float:left;
+    text-decoration:none;
 }
 #chatMessage{
     font-size:1rem;
@@ -1501,4 +1503,44 @@ span.chat_date_shamsi {
     font-family: 'Yekan';
     font-size: .65rem;
     margin: 0.5rem;
+}
+.profiles-header {
+    display: flex;
+    font-family: 'Yekan';
+    align-items: center;
+    justify-content: space-around;
+}
+
+.profiles-right-section, .profiles-center-section, .profiles-left-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.profiles-allposts{
+    font-size:2rem;
+}
+.profile-username-link{
+    display:block;
+    color:white;
+    text-decoration:none;
+}
+img.profiles-photo {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 2px solid white;
+}
+img.profiles-photo2 {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid white;
+}
+.profiles-settings, .profiles-settings-texts {
+    color: white;
+    font-size: 2rem;
+    text-decoration: none;
+}
+.profiles-settings-texts{
+    font-size:1rem;
 }

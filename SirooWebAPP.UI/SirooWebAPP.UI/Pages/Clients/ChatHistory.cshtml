@@ -45,7 +45,8 @@
         <hr />
         @foreach (var item in Model.ChatConversation)
         {
-            <div class="d-flex flex-row justify-content-center mb-2">
+            <div class="d-flex flex-row justify-content-center mb-2" style="align-items: center;">
+
                 <div class="col-10" style="position:relative;" onclick="window.location='/Clients/ChatHistory?touser=@item.UserID';">
                     <input type="button" value="@item.Username" />
                     @if (item.HasUnread > 0)
@@ -53,6 +54,10 @@
                         <span class="unreadMessageNumbers">@item.HasUnread</span>
                     }
                 </div>
+
+                <a href="~/Clients/Profiles?username=@item.Username" class="col-2" style="display: flex;justify-content: center;">
+                    <img class="profiles-photo2" src="~/@item.ProfileImage" />
+                </a>
             </div>
 
         }
@@ -75,6 +80,7 @@ else
                     <button type="button" class="close" data-dismiss="modal" aria-label="بازگشت">
                         <span aria-hidden="true">&times;</span>
                     </button>
+
                 </div>
                 <div class="modal-body">
                     مطمئن هستید که میخواهید این کاربر را بلاک (Block) کنید؟
@@ -120,7 +126,8 @@ else
                 بازگشت
             </span>
         </div>
-        <div class="col-9" style="padding-right:1rem;">
+        <div class="col-9" style="padding-right:1rem;position:relative;display: flex;align-items: center;">
+            <img class="profiles-photo2" style="position:absolute;left:0.25rem;" src="~/@Model.ToUserProfileImage" />
             @if (Model.IsNewChat)
             {
                 <input type="text" id="UserName" style="font-size:0.8rem;" />

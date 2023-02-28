@@ -44,7 +44,7 @@ namespace SirooWebAPP.UI.Helpers
         }
 
 
-        public static string UploadFileToDateBasedFolder(string filename_prefix,IFormFile formFile, bool isVideo,IWebHostEnvironment _environment)
+        public static string UploadFileToDateBasedFolder(string filename_prefix,IFormFile formFile, bool isVideo,IWebHostEnvironment _environment,bool resizeImage=true, int newWidth=500)
         {
             string strYear = DateTime.Now.Year.ToString();
             string strMonth = DateTime.Now.Month.ToString();
@@ -74,12 +74,16 @@ namespace SirooWebAPP.UI.Helpers
                     // Read from file
                     using (var image = new MagickImage(path))
                     {
-                        var size = new MagickGeometry(500, 500);
-                        // This will resize the image to a fixed size without maintaining the aspect ratio.
-                        // Normally an image will be resized to fit inside the specified size.
-                        size.IgnoreAspectRatio = false;
+                        if (resizeImage)
+                        {
+                            var size = new MagickGeometry(newWidth, newWidth);
+                            // This will resize the image to a fixed size without maintaining the aspect ratio.
+                            // Normally an image will be resized to fit inside the specified size.
+                            size.IgnoreAspectRatio = false;
 
-                        image.Resize(size);
+                            image.Resize(size);
+                        }
+
 
                         // Save the result
                         string finalpath = Path.Combine(_environment.WebRootPath, "uploads/" + strYear + "/" + strMonth, "re" + FileName);

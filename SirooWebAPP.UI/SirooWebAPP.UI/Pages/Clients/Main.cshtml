@@ -301,16 +301,18 @@
 
     <div adid="${advertiseID}" id="postobject${advertiseID}" class="container mb-5 post ${advertiseID} {{if isVideo!=1}}finished {{/if}} {{if isPremium==1}}premium {{/if}} SirooPost">
         <div class="d-flex flex-row-reverse profile-data-section">
-                <a class="profile-media col-2   {{if isSpecial==1}}fa fa-tag{{/if}}  " href="#">
+                <a class="profile-media col-2   {{if isSpecial==1}}fa fa-tag{{/if}}  " href="/Clients/Profiles?username=${owner.username}">
                     <img src="../${owner.profileMediaURL}" />
                 </a>
-                <a href="/Clients/ChatHistory?touser=${owner.username}" class="col-8 profile-fullname">
-                    ${owner.username}
-                    <div class="sendMessageIcon" style="color:#00ff2b!important;">
+                <div class="col-8 profile-fullname">
+                    <a class="profile-username-link" href="/Clients/Profiles?username=${owner.username}">
+                        ${owner.username}
+                    </a>
+                    <a href="/Clients/ChatHistory?touser=${owner.username}" class="sendMessageIcon" style="color:#00ff2b!important;">
                         ارسال پیام
                         <i class="fa fa-envelope"></i>
-                    </div>
-                </a>
+                    </a>
+                </div>
                 <a href="#" class="col-2 profile-date">${creationDate}</a>
         </div>
         <div class="row">

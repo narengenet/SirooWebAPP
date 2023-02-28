@@ -39,6 +39,8 @@ namespace SirooWebAPP.UI.Pages.Clients
 
         public bool IsBlockedByYou { get; set; }
 
+        public string ToUserProfileImage { get; set; }
+
 
         public void OnGet()
         {
@@ -93,7 +95,7 @@ namespace SirooWebAPP.UI.Pages.Clients
                     ToUsername = touser.Username;
                     conversationMessages = _usersServices.GetAllChatMessages().Where(c => (c.ToUser == touser.Id && c.FromUser == theUser.Id) || (c.ToUser == theUser.Id && c.FromUser == touser.Id)).OrderByDescending(c => c.Created).Take(500).ToList<ChatMessages>();
                     conversationMessages = conversationMessages.OrderBy(c => c.Created).ToList<ChatMessages>();
-
+                    ToUserProfileImage = touser.ProfileMediaURL;
 
                     List<ChatMessages> _allUnreadChats = _usersServices.GetAllChatMessages().Where(cm => cm.ToUser == theUser.Id && cm.FromUser == touser.Id && cm.IsRead == false).ToList<ChatMessages>();
                     if (_allUnreadChats.Count > 0)
@@ -143,12 +145,14 @@ namespace SirooWebAPP.UI.Pages.Clients
 
                 foreach (var item in items)
                 {
+                    Users tmpusr = _usersServices.GetUser(item.Key);
                     ChatConversation.Add(new ChatConversationsModel
                     {
                         HasUnread = _usersServices.GetAllChatMessages().Where(c => c.ToUser == theUser.Id && c.FromUser == item.Key && c.IsRead == false).ToList<ChatMessages>().Count,
                         LastMessage = DateTime.Now,
                         UserID = item.Key,
-                        Username = _usersServices.GetUser(item.Key).Username
+                        Username = tmpusr.Username,
+                        ProfileImage=tmpusr.ProfileMediaURL
                     });
                 }
                 foreach (var item in items2)
@@ -157,12 +161,14 @@ namespace SirooWebAPP.UI.Pages.Clients
                     {
                         continue;
                     }
+                    Users tmpusr = _usersServices.GetUser(item.Key);
                     ChatConversation.Add(new ChatConversationsModel
                     {
                         HasUnread = _usersServices.GetAllChatMessages().Where(c => c.ToUser == theUser.Id && c.FromUser == item.Key && c.IsRead == false).ToList<ChatMessages>().Count,
                         LastMessage = DateTime.Now,
                         UserID = item.Key,
-                        Username = _usersServices.GetUser(item.Key).Username
+                        Username = tmpusr.Username,
+                        ProfileImage= tmpusr.ProfileMediaURL
                     });
                 }
 

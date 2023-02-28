@@ -1,0 +1,249 @@
+﻿@page
+@model SirooWebAPP.UI.Pages.Clients.ProfilesModel
+@{
+    Layout = "_LayoutClients";
+}
+
+
+
+
+
+@if (Model.ProfilesUsername == "-1")
+{
+    <h3 !importantlass="siroo-header-h3">یافت نشد</h3>
+}
+else
+{
+    <style>
+
+        .MainDashboard {
+            display: none !important;
+        }
+
+    </style>
+    <script>
+        var profileUsername='@Model.ProfilesUsername';
+    </script>
+
+    <div class="profiles-header m-2">
+        <div class="profiles-right-section">
+            <img class="profiles-photo mb-1" src="~/@Model.ProfilesMediaURL" />
+            <div class="profiles-username">@Model.ProfilesUsername</div>
+            <div class="profiles-fullname">@Model.ProfilesFullName</div>
+
+        </div>
+        <div class="profiles-center-section">
+            <div class="profiles-allposts">@Model.ProfilesAllPosts</div>
+            <div>تعداد پَست‌ها</div>
+        </div>
+        <div class="profiles-left-section">
+            @if (Model.MyUsername == Model.ProfilesUsername)
+            {
+                <a href="~/Clients/Profile" class="fa fa-gear profiles-settings mb-2">
+                </a>
+                <a href="~/Clients/Profile" class="profiles-settings-texts">
+                    تنظیمات
+                </a>
+            }
+            else
+            {
+
+                <a href="/Clients/ChatHistory?touser=@Model.ProfilesUsername" class="sendMessageIcon" style="color:#00ff2b!important;">
+                    ارسال پیام
+                    <i class="fa fa-envelope"></i>
+                </a>
+            }
+
+        </div>
+    </div>
+
+
+
+
+    <div class="threeDots" style="display:none;">
+        <div class="col-10 mb-2 theThreeDots">
+            &#9679; &#9679; &#9679;
+        </div>
+    </div>
+
+    @if (Model.ResultMessage.Length > 1)
+    {
+        <div class="alert alert-@Model.ResultMessageSuccess fade show" role="alert">
+            @Model.ResultMessage
+            <button type="button" class="close" data-dismiss="alert" onclick="closeAlert();" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    }
+
+    @if (Model.RoleName == "super" || Model.RoleName == "admin")
+    {
+        <!-- Modal -->
+        <div class="modal fade" id="deletePostModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel5" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel5">حذف پست</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="بازگشت">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        مطمئن هستید؟
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" onclick="$('#deletePostModal').modal('toggle');" data-dismiss="modal">خیر</button>
+                        <button type="button" class="btn btn-danger" onclick="_deletePost();">بلی</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="modal fade" id="pinPostModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel3" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel3">سنجاق پُست</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="بازگشت">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        مطمئن هستید که میخواهید وضعیت سنجاق پست را تغییر دهید؟
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" onclick="$('#pinPostModal').modal('toggle');" data-dismiss="modal">خیر</button>
+                        <button type="button" class="btn btn-danger" onclick="_pinPost();$('#pinPostModal').modal('toggle');">بلی</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+    <script id="adsTemplate" type="text/x-jQuery-tmpl">
+
+            <div adid="${advertiseID}" id="postobject${advertiseID}" class="container mb-5 post ${advertiseID} {{if isVideo!=1}}finished {{/if}} {{if isPremium==1}}premium {{/if}} SirooPost">
+                <div class="d-flex flex-row-reverse profile-data-section">
+                        <a class="profile-media col-2   {{if isSpecial==1}}fa fa-tag{{/if}}  " href="/Clients/Profiles?username=${owner.username}">
+                            <img src="../${owner.profileMediaURL}" />
+                        </a>
+                        <div class="col-8 profile-fullname">
+                            <a class="profile-username-link" href="/Clients/Profiles?username=${owner.username}">
+                                ${owner.username}
+                            </a>
+        @*                    <a href="/Clients/ChatHistory?touser=${owner.username}" class="sendMessageIcon" style="color:#00ff2b!important;">
+            ارسال پیام
+            <i class="fa fa-envelope"></i>
+            </a>*@
+                        </div>
+                        <a href="#" class="col-2 profile-date">${creationDate}</a>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        {{if isVideo==1}}
+                            <span class="video-timer" id="timer_video_${advertiseID}"></span>
+                            <video class="col-12" ondblclick="_doLike(this,'${advertiseID}');" onclick="toggleMute('video_${advertiseID}');" id="video_${advertiseID}"  onended="_dobLike(this,'${advertiseID}')" ontimeupdate="_onProgress(this);" playsinline>
+                                        <source src="../${mediaSourceURL}">
+                                        Your browser does not support the video tag.
+                            </video>
+                        {{else}}
+                            <img class="col-12 finished" ondblclick="_doLike(this,'${advertiseID}');" src="../${mediaSourceURL}" />
+                        {{/if}}
+                    </div>
+
+                </div>
+                <div class="d-flex flex-row-reverse post-data-section">
+                        <div class="col-12 post-caption">
+                                ${caption}
+                        </div>
+        @if (Model.RoleName == "super" || Model.RoleName == "admin")
+        {
+                                                                            <div class="col-6 delPostAdmin mt-1 mb-1">
+                                                                                    <input type="button" class="btn btn-danger" value="حذف این پست" onclick="delId='${advertiseID}';$('#deletePostModal').modal('toggle');" />
+
+                                                                            </div>
+
+                                                                            <div class="col-6 delPostAdmin mt-1 mb-1">
+                                                                                    <input type="button" class="btn btn-primary" value="سنجاق این پست" onclick="pinId='${advertiseID}';$('#pinPostModal').modal('toggle');" />
+                                                                            </div>
+
+
+
+        }
+            <div class="col-1 like-btn ${advertiseID} {{if youLiked}}liked{{/if}}" {{if isVideo==1}} onclick="_doLike(this,'${advertiseID}')" {{else}} onclick="_doLike(this,'${advertiseID}')" {{/if}} >+${likeReward}</div>
+                        <div class="col-2 like-details ${advertiseID}"><b>${likerCount}</b> <i>liked</i></div>
+                        <div class="col-1 view-btn">&nbsp;</div>
+                        <div class="col-2 view-details"><b>${viewerCount}</b> <i>view</i></div>
+                        <div class="col-5 like-points">
+                            <div class="pics">
+                                <img class="col-8" src="../images/points.png" />
+                                ${likeReward}
+                            </div>
+                            <div class="points-texts">
+                                امتیاز لایک این پست
+                            </div>
+                        </div>
+                </div>
+            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </script>
+
+    <div class="posts" id="adsContainer">
+        <div class="threeDotsLoading" style="top:1rem;">
+            <img src="~/images/loading.gif" style="width:3rem;" />
+            <div class="siroo-header-h3 direction-rtl">
+                در حال بروزرسانی...
+            </div>
+        </div>
+    </div>
+    <div id="afterLastPost">
+        <div class="threeDotsLoading2">
+            <img src="~/images/loading.gif" style="width:3rem;" />
+            <div class="siroo-header-h3 direction-rtl">
+                در حال بروزرسانی...
+            </div>
+        </div>
+    </div>
+
+    @section Scripts {
+<script src="~/js/jquery.tmpl.min.js"></script>
+<script src="~/js/jquery.timeago.js"></script>
+<script src="~/js/persian-date.min.js"></script>
+<script src="~/js/isInViewport.min.js"></script>
+<script src="~/js/pages/Main-db.js?i=1"></script>
+<script src="~/js/pages/Profiles-default.js?i=4"></script>
+
+
+<script>
+    var myUsername = '@Model.MyUsername';
+    var myPoint = '@Model.MyPoints';
+    var arraysofDiamonds=JSON.parse('@Html.Raw(Model.DiamondCountList)');
+
+
+    $(document).ready(function () {
+
+    });
+
+
+</script>
+
+    @if (Model.RoleName == "super" || Model.RoleName == "admin")
+    {
+<script src="~/js/pages/Main-super-admin.js?i=4"></script>
+
+    }
+}
+}

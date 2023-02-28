@@ -5,11 +5,22 @@
     Layout = "_LayoutClients";
 }
 
+@if (Model.ResultMessage.Length > 1)
+{
+    <div class="alert alert-@Model.ResultMessageSuccess fade show" role="alert">
+        @Model.ResultMessage
+        <button type="button" class="close" data-dismiss="alert" onclick="closeAlert();" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+
+
 <div class="SirooRightBlockContainer">
     <div class="mb-5 SirooRightBlock  col-12">
         <div class="d-flex flex-row-reverse SirooRightBlockHeader">
             <a class="profile-media col-2" href="#">
-                <img src="~/uploads/assets/profile.jpg" />
+                <img src="~/@Model._currentUser.ProfileMediaURL" />
             </a>
             <a href="#" class="col-8 profile-fullname siroo-text-shadow">@Model._currentUser.Name @Model._currentUser.Family</a>
             <a href="#" class="col-2 profile-date">@Model._currentUser.Username</a>
@@ -17,9 +28,36 @@
         <div class="d-flex flex-column justify-content-center SirooContainer">
             <div class="SirooItems">
                 <div class="row justify-content-center mb-3">
-                    <div class="col-12 siroo-header">پروفایل شما</div>
+                    <div class="col-12 siroo-header">تنظیمات پروفایل شما</div>
                 </div>
                 <div class="row">&nbsp;</div>
+
+                <div class="row justify-content-center mb-2">
+                    <div class="col-12 siroo-label siroo-text-shadow">تصویر پروفایل</div>
+                </div>
+                <div class="row col-12 mb-3">
+                    <div class="col-12" style="text-align:center;">
+                        <img class="profiles-photo mb-1" src="~/@Model._currentUser.ProfileMediaURL" />
+                    </div>
+                </div>
+
+                <form method="post" class="row justify-content-center mb-3" enctype="multipart/form-data">
+                    <div class="row justify-content-center mb-1">
+                        <div class="col-12 siroo-header-h3">انتخاب تصویر: (حداکثر 3 مگابایت)</div>
+                    </div>
+                    <div class="row col-12 mb-3">
+                        <div class="col-12" style="text-align:center;">
+                            <input asp-for="UploadProfile" type="file">
+                        </div>
+                    </div>
+
+                    <div class="row col-12 mb-3 justify-content-center">
+                        <div class="col-10 SirooBtn">
+                            <input id="myInput" type="submit" class="col-12" asp-page-handler="AddProfileImage" value="تغییر تصویر پروفایل">
+                        </div>
+                    </div>
+
+                </form>
 
                 <div class="row justify-content-center">
                     <div class="col-12 siroo-label siroo-text-shadow">نام و نام خانوادگی</div>

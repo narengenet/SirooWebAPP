@@ -39,7 +39,7 @@ namespace SirooWebAPP.Application.Interfaces
 
         public Guid AddAvertise(Advertise advertise,Guid userId);
         public List<Advertise> GetAllPermenantAdvertises();
-        public List<DTOAdvertise> GetAdvertises(Guid userID, bool beforeDate,int pageIndex, DateTime? afterThisDate);
+        public List<DTOAdvertise> GetAdvertises(Guid userID, bool beforeDate,int pageIndex, DateTime? afterThisDate, string? username);
         public List<DTOAdvertise> GetMyAdvertises(Guid userID,int page);
         public List<DTOAdvertise> GetPendingAdvertises(Guid userID,int page);
         public bool UpdateAdvertisement(Advertise ads);
