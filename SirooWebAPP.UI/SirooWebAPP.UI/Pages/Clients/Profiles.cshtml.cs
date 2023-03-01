@@ -63,7 +63,15 @@ namespace SirooWebAPP.UI.Pages.Clients
             Users profilesUser = _usersServices.GetUserByUsername(ProfilesUsername);
             if (profilesUser != null)
             {
-                ProfilesFullName = profilesUser.FullName();
+                if (profilesUser.ShowMyFullNameInPublic==true)
+                {
+                    ProfilesFullName = profilesUser.FullName();
+                }
+                else
+                {
+                    ProfilesFullName = "";
+                }
+
                 ProfilesAllPosts = CachedContents.Advertises.Where(ads => ads.Owner == profilesUser.Id).ToList<Advertise>().Count;
                 ProfilesUsername = profilesUser.Username;
                 ProfilesMediaURL = profilesUser.ProfileMediaURL;

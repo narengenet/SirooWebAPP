@@ -582,7 +582,7 @@ $(window).scroll(function () {
 });
 
 function _onProgress(obj) {
-    console.log(obj.currentTime);
+    //console.log(obj.currentTime);
     var theId = obj.id;
     var theMins = Math.round((obj.duration-obj.currentTime)/60);
     var theSeconds = Math.round((obj.duration-obj.currentTime)%60);

@@ -25,5 +25,6 @@ namespace SirooWebAPP.Application.DTO
         public long Credits { get; set; }
         public DateTime CreationDate { get; set; }
         public string RoleName { get; set; }
+        public bool? ShowMyFullNameInPublic { get; set; }
     }
 }

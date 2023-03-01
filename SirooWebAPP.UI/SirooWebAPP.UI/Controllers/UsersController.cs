@@ -104,18 +104,18 @@ namespace SirooWebAPP.UI.Controllers
 
             string _userid = HttpContext.Request.Cookies["userid"];
             Guid userId = Guid.Parse(_userid);
-            List<DTOAdvertise> ads = _usersServices.GetAdvertises(userId, false, 0, null,null);
+            List<DTOAdvertise> ads = _usersServices.GetAdvertises(userId, false, 0, null, null);
             return Ok(ads);
         }
 
         [TypeFilter(typeof(SampleAsyncActionLoginFilter))]
         [HttpGet("ads2/{username}/{rnd}")]
-        public IActionResult GetAdvertisements2(string username,string rnd)
+        public IActionResult GetAdvertisements2(string username, string rnd)
         {
 
             string _userid = HttpContext.Request.Cookies["userid"];
             Guid userId = Guid.Parse(_userid);
-            List<DTOAdvertise> ads = _usersServices.GetAdvertises(userId, false, 0, null,username);
+            List<DTOAdvertise> ads = _usersServices.GetAdvertises(userId, false, 0, null, username);
             return Ok(ads);
         }
         [TypeFilter(typeof(SampleAsyncActionLoginFilter))]
@@ -127,10 +127,10 @@ namespace SirooWebAPP.UI.Controllers
 
             Advertise lastFetchedAds = _usersServices.GetAllPermenantAdvertises().Where(a => a.Id == lastFetchDate).FirstOrDefault();
 
-            List<DTOAdvertise> ads = _usersServices.GetAdvertises(userId, false, 0, lastFetchedAds.CreationDate,null);
+            List<DTOAdvertise> ads = _usersServices.GetAdvertises(userId, false, 0, lastFetchedAds.CreationDate, null);
             if (ads.Count == 0)
             {
-                ads = _usersServices.GetAdvertises(userId, true, 0, lastFetchedAds.CreationDate,null);
+                ads = _usersServices.GetAdvertises(userId, true, 0, lastFetchedAds.CreationDate, null);
             }
 
             return Ok(ads);
@@ -152,14 +152,14 @@ namespace SirooWebAPP.UI.Controllers
 
             Advertise lastFetchedAds = _usersServices.GetAllPermenantAdvertises().Where(a => a.Id == lastfetchedid).FirstOrDefault();
 
-            List<DTOAdvertise> ads = _usersServices.GetAdvertises(userId, true, 0, lastFetchedAds.CreationDate,null);
+            List<DTOAdvertise> ads = _usersServices.GetAdvertises(userId, true, 0, lastFetchedAds.CreationDate, null);
             return Ok(ads);
         }
-        
-        
+
+
         [TypeFilter(typeof(SampleAsyncActionLoginFilter))]
         [HttpGet("beforeads2/{lastfetchedid:guid}/{username}")]
-        public IActionResult GetAdvertismentsBefore(Guid lastfetchedid,string username)
+        public IActionResult GetAdvertismentsBefore(Guid lastfetchedid, string username)
         {
 
             string _userid = HttpContext.Request.Cookies["userid"];
@@ -167,7 +167,7 @@ namespace SirooWebAPP.UI.Controllers
 
             Advertise lastFetchedAds = _usersServices.GetAllPermenantAdvertises().Where(a => a.Id == lastfetchedid).FirstOrDefault();
 
-            List<DTOAdvertise> ads = _usersServices.GetAdvertises(userId, true, 0, lastFetchedAds.CreationDate,username);
+            List<DTOAdvertise> ads = _usersServices.GetAdvertises(userId, true, 0, lastFetchedAds.CreationDate, username);
             return Ok(ads);
         }
 
@@ -196,7 +196,7 @@ namespace SirooWebAPP.UI.Controllers
         {
             string _userid = HttpContext.Request.Cookies["userid"];
             Guid userId = Guid.Parse(_userid);
-            List<DTOAdvertise> ads = _usersServices.GetPendingAdvertises(userId,page);
+            List<DTOAdvertise> ads = _usersServices.GetPendingAdvertises(userId, page);
 
             if (ads.Count > 0)
             {
@@ -659,7 +659,7 @@ namespace SirooWebAPP.UI.Controllers
                     theDic.LastModified = DateTime.Now;
                     _usersServices.UpdateConstantDictionary(theDic);
 
-                    if (theDic.ConstantKey== "expire_dates_for_challenge_1")
+                    if (theDic.ConstantKey == "expire_dates_for_challenge_1")
                     {
                         List<Graphs> allGraphs = _usersServices.GetAllGraphs().Where(g => g.GraphTypeIndex == 1).ToList<Graphs>();
                         int addedDays = Convert.ToInt32(theDic.ConstantValue);
@@ -788,11 +788,11 @@ namespace SirooWebAPP.UI.Controllers
         {
             string _userid = HttpContext.Request.Cookies["userid"];
             Guid userId = Guid.Parse(_userid);
-            if (_session.GetString("userrolename") == "super" || _session.GetString("userrolename") == "admin" || _userid== "17fb3917-9d6e-49f8-d0a0-08dac53d6445")
+            if (_session.GetString("userrolename") == "super" || _session.GetString("userrolename") == "admin" || _userid == "17fb3917-9d6e-49f8-d0a0-08dac53d6445")
             {
                 List<ChallengeUserData> challengeUserData = new List<ChallengeUserData>();
-                
-                if (thetype==0)
+
+                if (thetype == 0)
                 {
                     challengeUserData = _usersServices.GetAllChallengeUserData().ToList<ChallengeUserData>();
                 }
@@ -800,7 +800,7 @@ namespace SirooWebAPP.UI.Controllers
                 {
                     challengeUserData = _usersServices.GetAllChallengeUserData().Where(cd => cd.ChallengeModeIndex == thetype).ToList<ChallengeUserData>();
                 }
-                
+
                 List<CSVChallengeUserData> csvUserData = new List<CSVChallengeUserData>();
 
                 List<string> challengeTypes = new List<string>();
@@ -867,7 +867,7 @@ namespace SirooWebAPP.UI.Controllers
             if (_session.GetString("userrolename") == "super" || _session.GetString("userrolename") == "admin")
             {
                 List<ChallengeUserData> challengeUserData = new List<ChallengeUserData>();
-                if (thetype==0)
+                if (thetype == 0)
                 {
                     challengeUserData = _usersServices.GetAllChallengeUserData().Where(cd => cd.IsExported != true).ToList<ChallengeUserData>();
                 }
@@ -875,7 +875,7 @@ namespace SirooWebAPP.UI.Controllers
                 {
                     challengeUserData = _usersServices.GetAllChallengeUserData().Where(cd => cd.IsExported != true && cd.ChallengeModeIndex == thetype).ToList<ChallengeUserData>();
                 }
-                
+
                 List<CSVChallengeUserData> csvUserData = new List<CSVChallengeUserData>();
 
                 List<string> challengeTypes = new List<string>();
@@ -901,7 +901,7 @@ namespace SirooWebAPP.UI.Controllers
                             ChallengeType = challengeTypes[Convert.ToInt32(item.ChallengeModeIndex) - 1]
 
                         });
-                    if (item.IsExported !=true)
+                    if (item.IsExported != true)
                     {
                         item.IsExported = true;
                         item.LastModified = DateTime.Now;
@@ -1591,7 +1591,7 @@ namespace SirooWebAPP.UI.Controllers
             }
 
         }
-        
+
         [TypeFilter(typeof(SampleAsyncActionLoginFilter))]
         [HttpPost("blockChatUser")]
         public IActionResult blockChatUser([FromBody] TheChatMessage theChatMessage)
@@ -1618,7 +1618,7 @@ namespace SirooWebAPP.UI.Controllers
             if (theSender != null && theReceiver != null)
             {
                 ChatBlocks chtBlocks = _usersServices.GetAllChatBlocksWithDeleteds().Where(cb => cb.fromUser == theSender.Id && cb.toUser == theReceiver.Id).FirstOrDefault();
-                if (chtBlocks!=null)
+                if (chtBlocks != null)
                 {
                     if (chtBlocks.IsDeleted)
                     {
@@ -1655,11 +1655,34 @@ namespace SirooWebAPP.UI.Controllers
 
 
 
-                
+
             }
             else
             {
                 return Ok("-3");
+            }
+
+        }
+
+        [TypeFilter(typeof(SampleAsyncActionLoginFilter))]
+        [HttpGet("showMyFullName")]
+        public IActionResult showMyFullName()
+        {
+
+            string _userid = HttpContext.Request.Cookies["userid"];
+            Guid userId = Guid.Parse(_userid);
+
+            Users theuser = _usersServices.GetUser(userId);
+
+            if (theuser != null)
+            {
+                theuser.ShowMyFullNameInPublic = !theuser.ShowMyFullNameInPublic;
+                _usersServices.UpdateUser(theuser);
+                return Ok(theuser.ShowMyFullNameInPublic==true?"1":"0");
+            }
+            else
+            {
+                return Ok("-1");
             }
 
         }

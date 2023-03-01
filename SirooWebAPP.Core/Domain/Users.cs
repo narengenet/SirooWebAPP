@@ -26,6 +26,7 @@ namespace SirooWebAPP.Core.Domain
         public Guid? Inviter { get; set; }
         public string? Notes { get; set; }
         public int? Diamonds { get; set; }
+        public bool? ShowMyFullNameInPublic { get; set; }
 
         public string FullName()
         {

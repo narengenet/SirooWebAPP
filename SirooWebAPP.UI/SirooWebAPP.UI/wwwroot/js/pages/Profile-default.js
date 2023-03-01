@@ -66,3 +66,54 @@ function copyToClipboard() {
     // Alert the copied text
     //alert("کپی شد.");
 }
+
+
+
+function showMyFullName() {
+
+
+    $('.waitingPlease').css('display', 'flex');
+
+
+    var thechecked = $('#showMyFullName').is(":checked") ? '1' : '0';
+
+    $.ajax({
+        url: '/showMyFullName/' ,
+        type: 'GET',
+        success: function (result) {
+            $('.waitingPlease').css('display', 'none');
+            if (result == "-1") {
+                alert('خطا');
+                return;
+            };
+            if (result == "0") {
+                alert('بروز شد. زین پس نام و نام خانوادگی شما برای سایرین نمایش داده نخواهد شد.');
+                return;
+            };
+            if (result == "1") {
+                alert('بروز شد. زین پس نام و نام خانوادگی شما برای سایرین نمایش داده خواهد شد.');
+                return;
+            };
+        },
+    });
+
+    //$.ajax({
+    //    url: '/showMyFullName/' + $('#showMyFullName').is(":checked") ? '1' : '0',
+    //    type: 'GET',
+    //    success: function (result) {
+    //        $('.waitingPlease').css('display', 'none');
+    //        if (result == "-1") {
+    //            alert('خطا');
+    //            return;
+    //        };
+    //        if (result == "0") {
+    //            alert('بروز شد. زین پس نام و نام خانوادگی شما برای سایرین نمایش داده نخواهد شد.');
+    //            return;
+    //        };
+    //        if (result == "1") {
+    //            alert('بروز شد. زین پس نام و نام خانوادگی شما برای سایرین نمایش داده خواهد شد.');
+    //            return;
+    //        };
+    //    },
+    //});
+}
