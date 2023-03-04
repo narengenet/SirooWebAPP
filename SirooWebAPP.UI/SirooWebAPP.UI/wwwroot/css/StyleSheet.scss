@@ -1544,3 +1544,20 @@ img.profiles-photo2 {
 .profiles-settings-texts{
     font-size:1rem;
 }
+
+.newChatMessage {
+    position: absolute;
+    right: 1.5rem;
+    top: 1.5rem;
+    background-color: #ff0058;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+}
+.hasnewmessage {
+    color: #fff;
+    font-size: .8rem;
+    background-color: #ff0058;
+    padding: 0.4rem;
+    border-radius: 0.5rem;
+}

@@ -61,6 +61,7 @@ namespace SirooWebAPP.UI.Pages
                         context.HttpContext.Session.SetString("userpoints", _currentUser.Points.ToString());
                         context.HttpContext.Session.SetString("userdiamonds", _currentUser.Diamonds.ToString());
                         context.HttpContext.Session.SetString("usercredits", _currentUser.Credits.ToString());
+                        context.HttpContext.Session.SetString("hasnewmessage", _currentUser.HasNewMessage == true ? "1" : "0");
 
                     }
                     else

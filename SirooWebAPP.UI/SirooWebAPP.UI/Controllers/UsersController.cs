@@ -1583,6 +1583,8 @@ namespace SirooWebAPP.UI.Controllers
                     Created = DateTime.Now
                 });
 
+                theReceiver.HasNewMessage = true;
+                _usersServices.UpdateUser(theReceiver);
                 return Ok("1");
             }
             else

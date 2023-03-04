@@ -47,7 +47,11 @@ namespace SirooWebAPP.UI.Pages.Clients
             string _creatorId = HelperFunctions.GetCookie("userid", Request);
             Guid creatorID = Guid.Parse(_creatorId);
             Users theUser = _usersServices.GetUser(creatorID);
-
+            if (theUser.HasNewMessage==true)
+            {
+                theUser.HasNewMessage=false;
+                _usersServices.UpdateUser(theUser);
+            }
 
             if (Request.Query["touser"].Count == 0)
             {

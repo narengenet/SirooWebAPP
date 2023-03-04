@@ -21,7 +21,7 @@ namespace SirooWebAPP.UI.Pages
             // read cookies if user has an online record in context device or not
             string tmpUserID = (HelperFunctions.GetCookie("userid", context.HttpContext.Request) != null) ? HelperFunctions.GetCookie("userid", context.HttpContext.Request) : null;
             string tmpUserToken = (HelperFunctions.GetCookie("usertoken", context.HttpContext.Request) != null) ? HelperFunctions.GetCookie("usertoken", context.HttpContext.Request) : null;
-            
+
             // user has an online record cookie in his current device
             if (tmpUserID != null && tmpUserToken != null)
             {
@@ -57,6 +57,7 @@ namespace SirooWebAPP.UI.Pages
                         context.HttpContext.Session.SetString("userpoints", _currentUser.Points.ToString());
                         context.HttpContext.Session.SetString("userdiamonds", _currentUser.Diamonds.ToString());
                         context.HttpContext.Session.SetString("usercredits", _currentUser.Credits.ToString());
+                        context.HttpContext.Session.SetString("hasnewmessage", _currentUser.HasNewMessage == true ? "1" : "0");
 
 
                     }

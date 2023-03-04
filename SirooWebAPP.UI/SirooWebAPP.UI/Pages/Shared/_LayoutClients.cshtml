@@ -30,8 +30,12 @@
                 </a>
                 <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon">
+                    <span class="navbar-toggler-icon" style="position:relative;">
                         <i class="fas fa-bars" style="color:#fff; font-size:28px;"></i>
+                        @if (Context.Session.GetString("hasnewmessage") == "1")
+                        {
+                            <i class="newChatMessage">&nbsp;</i>
+                        }
                     </span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
@@ -75,7 +79,13 @@
                                 <a class="nav-link text-light" asp-area="" asp-page="/Clients/Wallet">کیف پول من</a>
                             </li>
                             <li class="nav-item for-clients">
-                                <a class="nav-link" style="color:#00ff2b!important;" asp-area="" asp-page="/Clients/ChatHistory"><i class="fa fa-envelope">&nbsp</i>چت آنلاین </a>
+                                <a class="nav-link" style="color:#00ff2b!important;" asp-area="" asp-page="/Clients/ChatHistory">
+                                    <i class="fa fa-envelope">&nbsp</i>چت آنلاین
+                                    @if (Context.Session.GetString("hasnewmessage") == "1")
+                                    {
+                                        <span class="hasnewmessage">(پیام جدید)</span>
+                                    }
+                                </a>
                             </li>
                             <li class="nav-item for-clients">
                                 <a class="nav-link text-light" asp-area="" asp-page="/Clients/Tickets">پشتیبانی آنلاین</a>

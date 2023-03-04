@@ -27,6 +27,7 @@ namespace SirooWebAPP.Core.Domain
         public string? Notes { get; set; }
         public int? Diamonds { get; set; }
         public bool? ShowMyFullNameInPublic { get; set; }
+        public bool? HasNewMessage { get; set; }
 
         public string FullName()
         {
