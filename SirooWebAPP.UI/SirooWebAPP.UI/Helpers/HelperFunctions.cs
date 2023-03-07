@@ -44,7 +44,7 @@ namespace SirooWebAPP.UI.Helpers
         }
 
 
-        public static string UploadFileToDateBasedFolder(string filename_prefix,IFormFile formFile, bool isVideo,IWebHostEnvironment _environment,bool resizeImage=true, int newWidth=500)
+        public static string UploadFileToDateBasedFolder(string filename_prefix,IFormFile formFile, bool isVideo,bool isAudio ,IWebHostEnvironment _environment,bool resizeImage=true, int newWidth=500)
         {
             string strYear = DateTime.Now.Year.ToString();
             string strMonth = DateTime.Now.Month.ToString();
@@ -69,7 +69,7 @@ namespace SirooWebAPP.UI.Helpers
 
             try
             {
-                if (!isVideo)
+                if (!isVideo && !isAudio)
                 {
                     // Read from file
                     using (var image = new MagickImage(path))

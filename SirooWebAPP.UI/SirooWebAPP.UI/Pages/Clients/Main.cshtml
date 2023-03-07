@@ -299,7 +299,7 @@
 
 <script id="adsTemplate" type="text/x-jQuery-tmpl">
 
-    <div adid="${advertiseID}" id="postobject${advertiseID}" class="container mb-5 post ${advertiseID} {{if isVideo!=1}}finished {{/if}} {{if isPremium==1}}premium {{/if}} SirooPost">
+    <div adid="${advertiseID}" id="postobject${advertiseID}" class="container mb-5 post ${advertiseID} {{if isVideo!=1 && isAudio!=1}}finished {{/if}} {{if isPremium==1}}premium {{/if}} SirooPost">
         <div class="d-flex flex-row-reverse profile-data-section">
                 <a class="profile-media col-2   {{if isSpecial==1}}fa fa-tag{{/if}}  " href="/Clients/Profiles?username=${owner.username}">
                     <img src="../${owner.profileMediaURL}" />
@@ -323,7 +323,19 @@
                                 <source src="../${mediaSourceURL}">
                                 Your browser does not support the video tag.
                     </video>
-                {{else}}
+                {{/if}}
+                {{if isAudio==1}}
+                    <span class="video-timer" id="timer_video_${advertiseID}"></span>
+                    <img class="picture_of_audio" id="the_audio_${advertiseID}_image" src="" alt= "picture extracted from ID3" />	
+                    <div class="the_Audio" id="the_audio_${advertiseID}" data-theURL="../${mediaSourceURL}" onclick="toggleMuteAudio('#the_audio_${advertiseID}');" >
+                        
+                    </div>
+@*                    <audio class="col-12" ondblclick="_doLike(this,'${advertiseID}');" onclick="toggleMute('video_${advertiseID}');" id="video_${advertiseID}"  onended="_dobLike(this,'${advertiseID}')" ontimeupdate="_onProgress(this);" playsinline>
+                                <source src="../${mediaSourceURL}">
+                                Your browser does not support the video tag.
+                    </audio>*@
+                {{/if}}
+                {{if isVideo!=1 && isAudio!=1}}
                     <img class="col-12 finished" ondblclick="_doLike(this,'${advertiseID}');" src="../${mediaSourceURL}" />
                 {{/if}}
             </div>
@@ -364,17 +376,6 @@
     </div>
 
 
-
-
-
-
-
-
-
-
-
-
-
 </script>
 
 <div class="posts" id="adsContainer">
@@ -394,13 +395,23 @@
     </div>
 </div>
 
+
+
+
+
+<img id="unmute_btn" src="../images/unmute.png" class="MuteAndUnmute" onclick="hideUnmute();" />
+<img id="mute_btn" src="../images/mute.png" class="MuteAndUnmute" onclick="hideMute();" />
+
+<link rel="stylesheet" href="~/css/jsRapAudio.css" asp-append-version="true" />
 @section Scripts {
 <script src="~/js/jquery.tmpl.min.js"></script>
 <script src="~/js/jquery.timeago.js"></script>
 <script src="~/js/persian-date.min.js"></script>
 <script src="~/js/isInViewport.min.js"></script>
-<script src="~/js/pages/Main-db.js?i=1"></script>
-<script src="~/js/pages/Main-default.js?i=10"></script>
+<script src="~/js/pages/Main-db.js?i=2"></script>
+<script src="~/js/pages/Main-default.js?i=11"></script>
+<script src="~/js/id3-minimized.js"></script>
+<script src="~/js/jsRapAudio.js"></script>
 
 
 <script src="~/js/draws.js"></script>

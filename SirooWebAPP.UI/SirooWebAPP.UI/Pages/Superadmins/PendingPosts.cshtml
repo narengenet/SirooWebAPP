@@ -37,9 +37,18 @@
                                 <source src="../${mediaSourceURL}">
                                 Your browser does not support the video tag.
                     </video>
-                {{else}}
+                {{/if}}
+                {{if isAudio==1}}
+                    <audio class="col-12" controls onended="_doLike(this,'${advertiseID}')">
+                                <source src="../${mediaSourceURL}">
+                                Your browser does not support the video tag.
+                    </audio>
+                {{/if}}
+                
+                {{if isAudio!=1 && isVideo!=1}}
                     <img class="col-12" src="../${mediaSourceURL}" />
                 {{/if}}
+
             </div>
         </div>
         <div class="row m-2">

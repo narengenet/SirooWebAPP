@@ -30,6 +30,7 @@ namespace SirooWebAPP.UI.Pages.Clients
         public AddAds? AddAds { get; set; }
         public string FileName { get; set; }
         public bool IsVideo { get; set; }
+        public bool IsAudio { get; set; }
 
         public string ResultMessage = "";
         public string ResultMessageSuccess = "danger";
@@ -88,15 +89,19 @@ namespace SirooWebAPP.UI.Pages.Clients
                 {
                     addAds.isVideo = true;
                 }
+                if (addAds.Upload.ContentType == "audio/mpeg")
+                {
+                    addAds.IsMusic = true;
+                }
                 if (addAds.Upload.ContentType == "image/gif")
                 {
                     addAds.isVideo = false;
                     isGif = true;
                 }
-                string[] filetypes = { "image/gif", "image/jpeg", "image/png", "image/bmp", "video/mpeg", "video/mp4" };
+                string[] filetypes = { "image/gif", "image/jpeg", "image/png", "image/bmp", "video/mpeg", "video/mp4", "audio/mpeg" };
                 if (!filetypes.Contains(addAds.Upload.ContentType))
                 {
-                    ResultMessage += " فایل باید یکی از فرمت های: jpg,png,bmp,gif,mpeg,mp4 باشد.";
+                    ResultMessage += " فایل باید یکی از فرمت های: jpg,png,bmp,gif,mpeg,mp4,mp3 باشد.";
                     ResultMessageSuccess = "danger";
                     condition = false;
                 }
@@ -175,7 +180,7 @@ namespace SirooWebAPP.UI.Pages.Clients
             string prefix = tmp_userid.ToString() + "-" + random_number.ToString() + "-";// + addAds.Upload.FileName;
             if (addAds.Upload != null && addAds.Caption != null && condition)
             {
-                FileName = HelperFunctions.UploadFileToDateBasedFolder(prefix, addAds.Upload, addAds.isVideo, _environment);
+                FileName = HelperFunctions.UploadFileToDateBasedFolder(prefix, addAds.Upload, addAds.isVideo,addAds.IsMusic ,_environment);
                 if (FileName != "-1")
                 {
                     string _creatorId = HelperFunctions.GetCookie("userid", Request);
@@ -183,11 +188,21 @@ namespace SirooWebAPP.UI.Pages.Clients
 
                     int defPointsImage = Convert.ToInt32(_usersServices.GetConstantDictionary("def_points_for_image_like").ConstantValue);
                     int defPointsVideo = Convert.ToInt32(_usersServices.GetConstantDictionary("def_points_for_video_like").ConstantValue);
+                    int defPointsAudio = Convert.ToInt32(_usersServices.GetConstantDictionary("def_points_for_audio_like").ConstantValue);
 
 
 
                     if (condition)
                     {
+                        int defPoints = defPointsImage;
+                        if (addAds.isVideo)
+                        {
+                            defPoints = defPointsVideo;
+                        }
+                        if (addAds.IsMusic)
+                        {
+                            defPoints = defPointsAudio;
+                        }
                         Advertise ads = new Advertise
                         {
                             //Notes = addAds.Notes,
@@ -196,12 +211,14 @@ namespace SirooWebAPP.UI.Pages.Clients
                             Expiracy = addAds.Expiracy,
                             Owner = addAds.UserID,
                             IsVideo = addAds.isVideo,
-                            LikeReward = (addAds.isVideo) ? defPointsVideo : defPointsImage,
+                            //LikeReward = (addAds.isVideo) ? defPointsVideo : defPointsImage,
+                            LikeReward = defPoints,
                             ViewReward = addAds.ViewReward,
                             ViewQuota = addAds.ViewQuota,
                             CreatedBy = creatorID,
                             MediaSourceURL = FileName,
-                            IsPremium = addAds.IsPremium
+                            IsPremium = addAds.IsPremium,
+                            IsMusic = addAds.IsMusic
 
                         };
 
@@ -244,6 +261,8 @@ namespace SirooWebAPP.UI.Pages.Clients
                         CreateOptionList();
 
                         IsVideo = ads.IsVideo;
+                        IsAudio = ads.IsMusic==true?true:false;
+
                         ResultMessage = "پَست جدید ارسال شد. لطفا منتظر تایید بمانید.";
                         if (addAds.IsPremium)
                         {

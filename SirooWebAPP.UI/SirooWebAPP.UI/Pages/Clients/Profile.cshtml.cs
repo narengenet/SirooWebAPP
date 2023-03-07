@@ -103,7 +103,7 @@ namespace SirooWebAPP.UI.Pages.Clients
             string prefix = _creatorId.ToString() + "-" + random_number.ToString() + "-";// + addAds.Upload.FileName;
             if (UploadProfile != null && condition)
             {
-                string FileName = HelperFunctions.UploadFileToDateBasedFolder(prefix, UploadProfile, false, _environment,true,200);
+                string FileName = HelperFunctions.UploadFileToDateBasedFolder(prefix, UploadProfile, false,false, _environment,true,200);
                 if (FileName != "-1")
                 {
                     _currentUser.ProfileMediaURL = FileName;

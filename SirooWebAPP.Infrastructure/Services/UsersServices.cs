@@ -429,17 +429,17 @@ namespace SirooWebAPP.Infrastructure.Services
         }
 
 
-        public List<DTOAdvertise> GetAdvertises(Guid userID, bool beforeDate, int pageIndex, DateTime? afterThisDate = null, string? username=null)
+        public List<DTOAdvertise> GetAdvertises(Guid userID, bool beforeDate, int pageIndex, DateTime? afterThisDate = null, string? username = null)
         {
             // get current user
             Users user = _userRepo.GetById(userID);
 
             Users profileUser = new Users();
-            if (username!=null)
+            if (username != null)
             {
                 profileUser = _userRepo.GetAll().Where(u => u.Username == username).FirstOrDefault();
             }
-            
+
 
             if (CachedContents.Advertises.Count == 0)
             {
@@ -486,11 +486,11 @@ namespace SirooWebAPP.Infrastructure.Services
             List<DTOAdvertise> dTOAdvertise = new List<DTOAdvertise>();
 
             List<Advertise> tmpAds = CachedContents.Advertises.Skip(pageIndex * 3).Take(3).ToList<Advertise>();
-            
+
             // check if request if for exact profile or not
-            if (username!=null && profileUser!=null)
+            if (username != null && profileUser != null)
             {
-                tmpAds= CachedContents.Advertises.Where(ad=>ad.Owner==profileUser.Id).Skip(pageIndex * 3).Take(3).ToList<Advertise>();
+                tmpAds = CachedContents.Advertises.Where(ad => ad.Owner == profileUser.Id).Skip(pageIndex * 3).Take(3).ToList<Advertise>();
             }
 
             if (afterThisDate != null)
@@ -500,13 +500,13 @@ namespace SirooWebAPP.Infrastructure.Services
                     // check if request if for exact profile or not
                     if (username != null && profileUser != null)
                     {
-                        tmpAds = CachedContents.Advertises.Where(a => a.CreationDate < afterThisDate && a.IsSpecial != true && a.Owner==profileUser.Id).Skip(pageIndex * 3).Take(3).ToList<Advertise>();
+                        tmpAds = CachedContents.Advertises.Where(a => a.CreationDate < afterThisDate && a.IsSpecial != true && a.Owner == profileUser.Id).Skip(pageIndex * 3).Take(3).ToList<Advertise>();
                     }
                     else
                     {
                         tmpAds = CachedContents.Advertises.Where(a => a.CreationDate < afterThisDate && a.IsSpecial != true).Skip(pageIndex * 3).Take(3).ToList<Advertise>();
                     }
-                    
+
                 }
                 else
                 {
@@ -514,13 +514,13 @@ namespace SirooWebAPP.Infrastructure.Services
                     // check if request if for exact profile or not
                     if (username != null && profileUser != null)
                     {
-                        tmpAds = CachedContents.Advertises.Where(a => a.CreationDate > afterThisDate && a.Owner==profileUser.Id).Skip(pageIndex * 3).Take(3).ToList<Advertise>();
+                        tmpAds = CachedContents.Advertises.Where(a => a.CreationDate > afterThisDate && a.Owner == profileUser.Id).Skip(pageIndex * 3).Take(3).ToList<Advertise>();
                     }
                     else
                     {
                         tmpAds = CachedContents.Advertises.Where(a => a.CreationDate > afterThisDate).Skip(pageIndex * 3).Take(3).ToList<Advertise>();
                     }
-                    
+
                 }
 
             }
@@ -586,6 +586,7 @@ namespace SirooWebAPP.Infrastructure.Services
                 _dtoAds.ViewerCount = viewerCount;
                 _dtoAds.LikeReward = item.LikeReward;
                 _dtoAds.ViewReward = item.ViewReward;
+                _dtoAds.IsAudio = item.IsMusic == true ? true : false;
                 _dtoAds.IsPremium = item.IsPremium == null ? false : Convert.ToBoolean(item.IsPremium);
                 _dtoAds.IsSpecial = item.IsSpecial == null ? false : Convert.ToBoolean(item.IsSpecial);
 
@@ -673,6 +674,7 @@ namespace SirooWebAPP.Infrastructure.Services
                 _dtoAds.LikeReward = item.LikeReward;
                 _dtoAds.ViewReward = item.ViewReward;
                 _dtoAds.IsAvtivated = item.IsAvtivated;
+                _dtoAds.IsAudio = item.IsMusic == true ? true : false;
                 _dtoAds.YouLiked = (_likersRepo.GetAll().Where(l => l.Advertise == item.Id && l.LikedBy == userID).ToList<Likers>().Count == 0) ? false : true;
 
                 dTOAdvertise.Add(_dtoAds);
@@ -693,7 +695,7 @@ namespace SirooWebAPP.Infrastructure.Services
         {
             return _adverticeRepo.GetAll().Where(a => a.Id == adsID && a.IsDeleted == false).FirstOrDefault();
         }
-        public List<DTOAdvertise> GetPendingAdvertises(Guid userID,int page)
+        public List<DTOAdvertise> GetPendingAdvertises(Guid userID, int page)
         {
 
             // get current user
@@ -710,7 +712,7 @@ namespace SirooWebAPP.Infrastructure.Services
                     //new Advertise { Id=ads.Id, Name=ads.Name, Owner=ads.Owner, Caption=ads.Caption, Created=ads.Created, CreatedBy=ads.CreatedBy, CreationDate=ads.CreationDate, Expiracy=ads.Expiracy, IsAvtivated=ads.IsAvtivated, IsDeleted=ads.IsDeleted, IsSpecial=ads.IsSpecial, IsVideo=ads.IsVideo, LastModified=ads.LastModified, LastModifiedBy=ads.LastModifiedBy, LikeReward=ads.LikeReward, MediaSourceURL=ads.MediaSourceURL, RemainedViewQuota=ads.RemainedViewQuota, ViewQuota=ads.ViewQuota, ViewReward=ads.ViewReward}
                 )
                 .OrderBy(l => l.CreationDate)
-                .Skip(3*page)
+                .Skip(3 * page)
                 .Take(3)
                 .ToList<Advertise>();
 
@@ -743,6 +745,7 @@ namespace SirooWebAPP.Infrastructure.Services
                 _dtoAds.ViewerCount = _viewers.Count;
                 _dtoAds.LikeReward = item.LikeReward;
                 _dtoAds.ViewReward = item.ViewReward;
+                _dtoAds.IsAudio = item.IsMusic == true ? true : false;
                 _dtoAds.YouLiked = (_likersRepo.GetAll().Where(l => l.Advertise == item.Id && l.LikedBy == userID).ToList<Likers>().Count == 0) ? false : true;
 
                 dTOAdvertise.Add(_dtoAds);
@@ -916,9 +919,9 @@ namespace SirooWebAPP.Infrastructure.Services
                         // then add ads like reward to liker
                         _liker.Points += _ad.LikeReward;
                         _userRepo.Update(_liker);
-                        if (_ad.IsPremium==true)
+                        if (_ad.IsPremium == true)
                         {
-                            Users owner_ads= _userRepo.GetById(_ad.Owner);
+                            Users owner_ads = _userRepo.GetById(_ad.Owner);
                             owner_ads.Points += 13;
                             _userRepo.Update(owner_ads);
                         }
@@ -1471,7 +1474,7 @@ namespace SirooWebAPP.Infrastructure.Services
         {
             return _chatBlocksRepo.GetAll().Where(cb => cb.IsDeleted == false).ToList<ChatBlocks>();
         }
-        
+
         List<ChatBlocks> IUserServices.GetAllChatBlocksWithDeleteds()
         {
             return _chatBlocksRepo.GetAll().ToList<ChatBlocks>();
@@ -1485,7 +1488,7 @@ namespace SirooWebAPP.Infrastructure.Services
         public void UpdateChatMessage(ChatMessages chatMessage)
         {
             _chatMessagesRepo.Update(chatMessage);
-            
+
         }
 
         void IUserServices.UpdateChatBlocks(ChatBlocks chatBlock)

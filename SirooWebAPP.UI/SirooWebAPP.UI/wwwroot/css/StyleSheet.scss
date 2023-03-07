@@ -1452,7 +1452,8 @@ a#currentPoint:before {
 
 .conversationPanel {
     height: 58vh;
-    overflow: scroll;
+    overflow-y: scroll;
+    overflow-x: hidden;
     margin-bottom:.5rem;
 }
 
@@ -1560,4 +1561,19 @@ img.profiles-photo2 {
     background-color: #ff0058;
     padding: 0.4rem;
     border-radius: 0.5rem;
+}
+.picture_of_audio{
+    display:none;
+}
+
+.MuteAndUnmute {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 150px;
+    height: 150px;
+    margin-left: -75px;
+    margin-top: -75px;
+    display:none;
+    z-index:1000000;
 }

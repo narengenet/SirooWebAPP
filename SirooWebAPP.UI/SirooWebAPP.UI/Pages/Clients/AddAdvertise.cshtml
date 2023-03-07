@@ -32,7 +32,7 @@
             <div class="d-flex flex-column justify-content-center SirooContainer">
                 <div class="SirooItems">
                     <div class="row justify-content-center mb-3">
-                        <div class="col-12 siroo-header-h2 direction-rtl">برای تایید پُست، حجم فایل کمتر از 15 مگابایت و ویدئو باید کمتر از 30 ثانیه باشند.</div>
+                        <div class="col-12 siroo-header-h2 direction-rtl">برای تایید پُست، حجم فایل (تصویر، ویدئو و موزیک) کمتر از 15 مگابایت و ویدئو باید کمتر از 30 ثانیه باشند.</div>
                     </div>
                     <div class="row">&nbsp;</div>
 
@@ -83,7 +83,7 @@ else
 {
 
     <div class="d-flex justify-content-center row">
-        @if (!string.IsNullOrEmpty(Model.FileName) && !Model.IsVideo)
+        @if (!string.IsNullOrEmpty(Model.FileName) && !Model.IsVideo && !Model.IsAudio)
         {
             <img class="col-10 rounded-3" src="~/@Model.FileName" />
         }
@@ -93,6 +93,13 @@ else
                 <source src="~/@Model.FileName">
                 Your browser does not support the video tag.
             </video>
+        }
+        @if (!string.IsNullOrEmpty(Model.FileName) && Model.IsAudio)
+        {
+            <audio class="col-10 rounded-3" controls>
+                <source src="~/@Model.FileName">
+                Your browser does not support the video tag.
+            </audio>
         }
     </div>
 

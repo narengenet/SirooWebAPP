@@ -29,6 +29,7 @@ namespace SirooWebAPP.Core.Domain
         public bool IsRejected { get; set; }
         public Guid Owner { get; set; }
         public bool? IsPremium { get; set; }
+        public bool? IsMusic { get; set; }
 
 
 

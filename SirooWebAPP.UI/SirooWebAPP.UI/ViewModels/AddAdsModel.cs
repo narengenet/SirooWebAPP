@@ -17,6 +17,7 @@ namespace SirooWebAPP.UI.Pages
         public IFormFile Upload { get; set; }
         public bool IsPremium { get; set; }
         public bool IsSpecial { get; set; }
+        public bool IsMusic { get; set; }
 
     }
 }
