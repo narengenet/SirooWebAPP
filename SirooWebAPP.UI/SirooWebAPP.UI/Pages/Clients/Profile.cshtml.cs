@@ -108,6 +108,8 @@ namespace SirooWebAPP.UI.Pages.Clients
                 {
                     _currentUser.ProfileMediaURL = FileName;
                     _usersServices.UpdateUser(_currentUser);
+
+                    
                     ResultMessage = "تصویر پروفایل شما بروز شد.";
                     ResultMessageSuccess = "success";
                 }

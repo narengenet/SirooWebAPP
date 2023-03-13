@@ -154,6 +154,11 @@ namespace SirooWebAPP.Application.Interfaces
         void UpdateChatBlocks(ChatBlocks chatBlock);
 
 
+        List<Followers> GetAllFollowers(bool forceAll=false);
+        void AddFollower(Followers follower);
+        void UpdateFollower(Followers followers);
+
+
 
     }
 }

@@ -38,6 +38,7 @@ namespace SirooWebAPP.Infrastructure
             services.AddScoped<IGraphHistoryRepository, GraphHistoryRepository>();
             services.AddScoped<IChatMessagesRepository, ChatMessagesRepository>();
             services.AddScoped<IChatBlocksRepository, ChatBlocksRepository>();
+            services.AddScoped<IFollowersRepository, FollowersRepository>();
 
 
             services.AddScoped<IUserServices, UsersServices>();

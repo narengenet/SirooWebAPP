@@ -25,18 +25,43 @@ else
         var profileUsername='@Model.ProfilesUsername';
     </script>
 
-    <div class="profiles-header m-2">
-        <div class="profiles-right-section">
+    <div class="profiles-header m-2 mb-4">
+        <div class="profiles-right-section col-10 mb-4">
             <img class="profiles-photo mb-1" src="~/@Model.ProfilesMediaURL" />
             <div class="profiles-username">@Model.ProfilesUsername</div>
             <div class="profiles-fullname">@Model.ProfilesFullName</div>
+            @if (Model.MyUsername != Model.ProfilesUsername)
+            {
+                @if (Model.AmIFollowedBefore)
+                {
+                    <div class="profiles-followbtn SirooBtn fa fa-user-minus col-10">
+                        <input id="followBTN" type="button" class="btn btn-danger col-12" value="دنبال نکردن" onclick="" />
+                    </div>
+                }
+                else
+                {
+                    <div class="profiles-followbtn SirooBtn fa fa-user-plus col-10">
+                        <input id="followBTN" type="button" class="col-12" value="دنبال کردن" onclick="_doFollow('@Model.ProfileUserId');" />
+
+                    </div>
+                }
+
+            }
 
         </div>
-        <div class="profiles-center-section">
+        <div class="profiles-center-section col-3">
             <div class="profiles-allposts">@Model.ProfilesAllPosts</div>
             <div>تعداد پَست‌ها</div>
         </div>
-        <div class="profiles-left-section">
+        <div class="profiles-center-section col-3 clickable-section" onclick="_getFollowers('@Model.ProfileUserId',0);">
+            <div class="profiles-allposts">@Model.TheFollowers</div>
+            <div>دنبال‌کننده‌گان</div>
+        </div>
+        <div class="profiles-center-section col-3 clickable-section" onclick="_getFollowings('@Model.ProfileUserId',0);">
+            <div class="profiles-allposts">@Model.TheFollowings</div>
+            <div>دنبال‌شوندگان</div>
+        </div>
+        <div class="profiles-left-section col-3">
             @if (Model.MyUsername == Model.ProfilesUsername)
             {
                 <a href="~/Clients/Profile" class="fa fa-gear profiles-settings mb-2">
@@ -171,14 +196,14 @@ else
                                     </div>
         @if (Model.RoleName == "super" || Model.RoleName == "admin")
         {
-                                                                                                        <div class="col-6 delPostAdmin mt-1 mb-1">
-                                                                                                                <input type="button" class="btn btn-danger" value="حذف این پست" onclick="delId='${advertiseID}';$('#deletePostModal').modal('toggle');" />
+                                                                                                                    <div class="col-6 delPostAdmin mt-1 mb-1">
+                                                                                                                            <input type="button" class="btn btn-danger" value="حذف این پست" onclick="delId='${advertiseID}';$('#deletePostModal').modal('toggle');" />
 
-                                                                                                        </div>
+                                                                                                                    </div>
 
-                                                                                                        <div class="col-6 delPostAdmin mt-1 mb-1">
-                                                                                                                <input type="button" class="btn btn-primary" value="سنجاق این پست" onclick="pinId='${advertiseID}';$('#pinPostModal').modal('toggle');" />
-                                                                                                        </div>
+                                                                                                                    <div class="col-6 delPostAdmin mt-1 mb-1">
+                                                                                                                            <input type="button" class="btn btn-primary" value="سنجاق این پست" onclick="pinId='${advertiseID}';$('#pinPostModal').modal('toggle');" />
+                                                                                                                    </div>
 
 
 
@@ -240,6 +265,58 @@ else
 
     <link rel="stylesheet" href="~/css/jsRapAudio.css" asp-append-version="true" />
 
+    <div class="followersList followers">
+        <div class="closeList" onclick="closeList();">X</div>
+        <div class="listHeaderTitle">دنبال کننده‌گان</div>
+        <div id="followerListContainer">
+            درحال دریافت اطلاعات ...
+        </div>
+        <div class="loadMore SirooBtn">
+            <input type="button" class="col-10" value="+" onclick="loadMoreFollowers();" />
+        </div>
+    </div>
+    
+    <div class="followersList followings">
+        <div class="closeList" onclick="closeList();">X</div>
+        <div class="listHeaderTitle">دنبال شونده‌گان</div>
+        <div id="followingListContainer">
+            درحال دریافت اطلاعات ...
+        </div>
+        <div class="loadMore SirooBtn">
+            <input type="button" class="col-10" value="+" onclick="loadMoreFollowings();" />
+        </div>
+    </div>
+
+
+
+    <script id="followersTemplate" type="text/x-jQuery-tmpl">
+        <div class="draw">
+            <div class="header">
+                <div class="profile-link">
+                    <a class="profile-media" href="/Clients/Profiles?username=${username}">
+                        <img src="../${profileMediaURL}" />
+                    </a>
+                    <a href="/Clients/Profiles?username=${username}" class="profile-fullname">${username}</a>
+                    {{if isMe}}
+
+                    {{else}}
+                        {{if amIFollowUser}}
+                            <div class="profiles-followbtn small-follow small-followed col-3" id="smallFollowBtn_${userId}">
+                                دنبال میکنید
+                            </div> 
+                        {{else}}
+                            <div class="profiles-followbtn SirooBtn small-follow fa fa-user-plus col-2" id="smallFollowBtn_${userId}">
+                                <input id="followBTN" type="button" class="col-12" value="" onclick="_doFollowSmall('${userId}');" />
+                            </div>                    
+                        {{/if}}
+                    {{/if}}
+                    
+                </div>
+            </div>
+        </div>
+
+    </script>
+
     @section Scripts {
 <script src="~/js/jquery.tmpl.min.js"></script>
 <script src="~/js/jquery.timeago.js"></script>
@@ -248,7 +325,7 @@ else
 <script src="~/js/pages/Main-db.js?i=2"></script>
 <script src="~/js/id3-minimized.js"></script>
 <script src="~/js/jsRapAudio.js"></script>
-<script src="~/js/pages/Profiles-default.js?i=5"></script>
+<script src="~/js/pages/Profiles-default.js?i=7"></script>
 
 
 <script>

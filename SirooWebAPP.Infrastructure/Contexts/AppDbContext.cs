@@ -44,6 +44,7 @@ namespace SirooWebAPP.Infrastructure.Contexts
         public DbSet<GraphHistory> GraphHistory{ get; set; }
         public DbSet<ChatMessages> ChatMessages{ get; set; }
         public DbSet<ChatBlocks> ChatBlocks{ get; set; }
+        public DbSet<Followers> Followers{ get; set; }
         
 
 
@@ -324,6 +325,7 @@ namespace SirooWebAPP.Infrastructure.Contexts
             modelBuilder.Entity<ConstantDictionaries>().HasData(order_of_prize_payment_3);
             modelBuilder.Entity<ConstantDictionaries>().HasData(maximum_number_of_prize_payment_3);
             modelBuilder.Entity<ConstantDictionaries>().HasData(expire_dates_for_ads_3);
+            
 
 
 

@@ -30,12 +30,16 @@ namespace SirooWebAPP.UI.Pages.Clients
         public string? ProfilesFullName { get; set; }
         public string? ProfilesMediaURL { get; set; }
         public int? ProfilesAllPosts{ get; set; }
+        public int? TheFollowings{ get; set; }
+        public int? TheFollowers{ get; set; }
+        public bool AmIFollowedBefore{ get; set; }
+        public Guid ProfileUserId { get; set; }
 
         public string? DiamondCountList { get; set; }
 
         public void OnGet()
         {
-
+            AmIFollowedBefore = false;
             RoleName = session.GetString("userrolename");
             MyUsername = session.GetString("username");
             //MyPoints = session.GetString("userpoints");
@@ -59,7 +63,9 @@ namespace SirooWebAPP.UI.Pages.Clients
 
         private void InitializeProfiles()
         {
-            
+            string _creatorId = HelperFunctions.GetCookie("userid", Request);
+            Guid creatorID = Guid.Parse(_creatorId);
+
             Users profilesUser = _usersServices.GetUserByUsername(ProfilesUsername);
             if (profilesUser != null)
             {
@@ -73,8 +79,12 @@ namespace SirooWebAPP.UI.Pages.Clients
                 }
 
                 ProfilesAllPosts = CachedContents.Advertises.Where(ads => ads.Owner == profilesUser.Id).ToList<Advertise>().Count;
+                TheFollowers = CachedContents.Followers.Where(f=>f.FollowedPerson==profilesUser.Id).ToList<Followers>().Count;
+                TheFollowings = CachedContents.Followers.Where(f=>f.FollowPerson==profilesUser.Id).ToList<Followers>().Count;
+                AmIFollowedBefore = CachedContents.Followers.Where(f => f.FollowedPerson == profilesUser.Id && f.FollowPerson == creatorID).FirstOrDefault() == null ? false : true;
                 ProfilesUsername = profilesUser.Username;
                 ProfilesMediaURL = profilesUser.ProfileMediaURL;
+                ProfileUserId = profilesUser.Id;
 
             }
             else

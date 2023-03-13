@@ -83,6 +83,7 @@ namespace SirooWebAPP.Infrastructure.Services
         private readonly IGraphsRepository _graphRepo;
         private readonly IChallengeUserDataRepository _challengeUserDataRepo;
         private readonly IGraphHistoryRepository _graphHistoryRepo;
+        private readonly IFollowersRepository _followersRepo;
 
         private readonly IChatMessagesRepository _chatMessagesRepo;
         private readonly IChatBlocksRepository _chatBlocksRepo;
@@ -120,6 +121,7 @@ namespace SirooWebAPP.Infrastructure.Services
             IGraphHistoryRepository graphHistoryRepo,
             IChatMessagesRepository chatMessageRepo,
             IChatBlocksRepository chatBlocksRepository,
+            IFollowersRepository followersRepo,
 
             IMapper mapper
             )
@@ -148,6 +150,7 @@ namespace SirooWebAPP.Infrastructure.Services
             _graphHistoryRepo = graphHistoryRepo;
             _chatMessagesRepo = chatMessageRepo;
             _chatBlocksRepo = chatBlocksRepository;
+            _followersRepo = followersRepo;
 
 
             _mapper = mapper;
@@ -297,6 +300,14 @@ namespace SirooWebAPP.Infrastructure.Services
         public bool UpdateUser(Users user)
         {
             _userRepo.Update(user);
+            
+            Users tmpUser= CachedContents.AllUsers.Where(u => u.Id == user.Id).FirstOrDefault();
+            CachedContents.AllUsers.Remove(tmpUser);
+            if (tmpUser.IsDeleted==false)
+            {
+                CachedContents.AllUsers.Add(user);
+            }
+            
 
             return true;
         }
@@ -443,6 +454,8 @@ namespace SirooWebAPP.Infrastructure.Services
 
             if (CachedContents.Advertises.Count == 0)
             {
+                CachedContents.Followers = _followersRepo.GetAll().Where(f=>f.IsDeleted==false).ToList<Followers>();
+                CachedContents.AllUsers = _userRepo.GetAll().Where(u => u.IsDeleted == false).ToList<Users>();
                 // get all ads if owner quota is not ended and ads is not expired
 
 
@@ -1494,6 +1507,25 @@ namespace SirooWebAPP.Infrastructure.Services
         void IUserServices.UpdateChatBlocks(ChatBlocks chatBlock)
         {
             _chatBlocksRepo.Update(chatBlock);
+        }
+
+        public List<Followers> GetAllFollowers(bool forceAll=false)
+        {
+            if (forceAll)
+            {
+                return _followersRepo.GetAll().ToList<Followers>();
+            }
+            return _followersRepo.GetAll().Where(f => f.IsDeleted == false).ToList<Followers>();
+        }
+
+        public void AddFollower(Followers follower)
+        {
+            _followersRepo.Add(follower);
+        }
+
+        public void UpdateFollower(Followers followers)
+        {
+            _followersRepo.Update(followers);
         }
     }
 }

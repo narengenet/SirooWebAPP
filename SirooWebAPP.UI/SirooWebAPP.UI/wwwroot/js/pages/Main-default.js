@@ -604,8 +604,11 @@ $(window).scroll(function () {
 function _onProgress(obj) {
     //console.log(obj.currentTime);
     var theId = obj.id;
-    var theMins = Math.round((obj.duration - obj.currentTime) / 60);
+    var theMins = Math.floor((obj.duration - obj.currentTime) / 60);
     var theSeconds = Math.round((obj.duration - obj.currentTime) % 60);
+    if (theSeconds<10) {
+        theSeconds = '0' + theSeconds;
+    }
     $("#timer_" + theId).html(theMins + ":" + theSeconds);
 }
 

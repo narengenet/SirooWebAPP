@@ -10,10 +10,14 @@ namespace SirooWebAPP.Infrastructure.Services
         public static List<Advertise> Advertises = new List<Advertise>();
         public static List<Likers> Likers = new List<Likers>();
         public static List<Viewers> Viewers = new List<Viewers>();
+        public static List<Users> AllUsers = new List<Users>();
+
 
         public static List<int> DiamondPriorities = new List<int>();
         public static List<string> DiamondCounts = new List<string>();
         public static List<string> DiamondCountsList=new List<string>();
+        public static List<Followers> Followers=new List<Followers>();
+
     //    public CachedContents(IUsersRepository userRepo, IAdverticeRepository adverticeRepo)
     //    {
     //        _userRepo = userRepo;

@@ -4,7 +4,7 @@ var lastRequest = 0;
 $(document).ready(function () {
     //debugger;
 
-//    alert(username);
+    //    alert(username);
 
     $('.threeDotsLoading2').hide();
 
@@ -53,7 +53,7 @@ function setVersion() {
 function getNewPosts() {
 
     $.ajax({
-        url: '/ads2/' + profileUsername +'/' + Math.random(),
+        url: '/ads2/' + profileUsername + '/' + Math.random(),
         type: 'GET',
         success: function (result) {
             if (result == "gologin") {
@@ -95,8 +95,8 @@ function getNewPosts() {
                 observerEndPosts.observe(document.querySelector('#afterLastPost'));
                 $('#alldrawsBTN').show();
 
-                if (result.length==0) {
-                    $('#adsContainer').html('<div class="siroo-header-h3">'+ 'هنوز پستی ارسال نشده.'+'</div>');
+                if (result.length == 0) {
+                    $('#adsContainer').html('<div class="siroo-header-h3">' + 'هنوز پستی ارسال نشده.' + '</div>');
                     $('.threeDotsLoading2').hide();
                     $('#afterLastPost').hide();
                 }
@@ -147,7 +147,7 @@ function GoToFindLocalPosts() {
 function GetBeforeAds(fromAdsId) {
     //debugger;
 
-    if (fromAdsId==undefined) {
+    if (fromAdsId == undefined) {
         return;
     }
 
@@ -345,9 +345,9 @@ $(window).scroll(function () {
 function _onProgress(obj) {
     console.log(obj.currentTime);
     var theId = obj.id;
-    var theMins = Math.round((obj.duration-obj.currentTime)/60);
-    var theSeconds = Math.round((obj.duration-obj.currentTime)%60);
-    $("#timer_" + theId).html(theMins+":"+theSeconds);
+    var theMins = Math.round((obj.duration - obj.currentTime) / 60);
+    var theSeconds = Math.round((obj.duration - obj.currentTime) % 60);
+    $("#timer_" + theId).html(theMins + ":" + theSeconds);
 }
 
 
@@ -465,4 +465,195 @@ function showTags(theContainer, url) {
     } else {
         document.getElementById('picture').style.display = "none";
     }
+}
+
+
+
+function _doFollow(userid) {
+
+
+    $.ajax({
+        url: '/dofollow/' + userid,
+        type: 'GET',
+        success: function (result) {
+
+            if (result == "gologin") {
+                window.location = "/login/login";
+            } else {
+
+                if (result == "1") {
+                    $('#followBTN').addClass('btn');
+                    $('#followBTN').addClass('btn-danger');
+                    $('#followBTN').val('دنبال نکردن');
+                    $('.profiles-followbtn').removeClass('fa-user-plus');
+                    $('.profiles-followbtn').addClass('fa-user-minus');
+                    alert('اکنون شما این کاربر را دنبال می‌کنید.')
+                } else if (result == "0") {
+                    $('#followBTN').removeClass('btn');
+                    $('#followBTN').removeClass('btn-danger');
+                    $('#followBTN').val('دنبال کردن');
+                    $('.profiles-followbtn').addClass('fa-user-plus');
+                    $('.profiles-followbtn').removeClass('fa-user-minus');
+                    alert(' شما این کاربر را  دیگر دنبال نمی‌کنید.')
+                }
+
+            }
+        },
+    });
+
+}
+function _doFollowSmall(userid) {
+
+
+    $.ajax({
+        url: '/dofollow/' + userid,
+        type: 'GET',
+        success: function (result) {
+
+            if (result == "gologin") {
+                window.location = "/login/login";
+            } else {
+
+                if (result == "1") {
+                    $('#smallFollowBtn_' + userid).hide();
+                    alert(' اکنون شما این کاربر را دنبال می‌کنید.')
+                } else if (result == "0") {
+                    //$('#followBTN').removeClass('btn');
+                    //$('#followBTN').removeClass('btn-danger');
+                    //$('#followBTN').val('دنبال کردن');
+                    //$('.profiles-followbtn').addClass('fa-user-plus');
+                    //$('.profiles-followbtn').removeClass('fa-user-minus');
+                    //alert('از اکنون شما این کاربر را  دیگر دنبال نمی‌کنید.')
+                }
+
+            }
+        },
+    });
+
+}
+
+var theCurrentUserID = -1;
+var theCurrentPageIndex = 0;
+
+function _getFollowers(userid,pageindex=0) {
+
+    $('.followersList.followers').css('display', 'flex');
+    theCurrentUserID = userid;
+
+    if (theCurrentPageIndex == 0 || pageindex == 0) {
+        $('#followerListContainer').html('درحال دریافت اطلاعات');
+        $('.loadMore.SirooBtn').show();
+
+        if (pageindex==0) {
+            theCurrentPageIndex = 0;
+        }
+    }
+
+    $.ajax({
+        url: '/getfollowers/'+pageindex+'/' + userid,
+        type: 'GET',
+        success: function (result) {
+
+            if (result == "gologin") {
+                window.location = "/login/login";
+            } else {
+                if (result != "-1") {
+
+                    if (pageindex==0) {
+                        $('#followerListContainer').html('');
+                    }
+
+                    AddFollowersToTemplate(result);
+                    theCurrentPageIndex += 1;
+                } else {
+                    $('#followerListContainer').html('یافت نشد');
+                    $('.loadMore.SirooBtn').hide();
+                }
+                
+
+
+            }
+        },
+    });
+
+}
+
+
+
+
+function _getFollowings(userid, pageindex = 0) {
+
+    $('.followersList.followings').css('display', 'flex');
+    theCurrentUserID = userid;
+
+    if (theCurrentPageIndex == 0 || pageindex == 0) {
+        $('#followingListContainer').html('درحال دریافت اطلاعات');
+        $('.loadMore.SirooBtn').show();
+
+        if (pageindex == 0) {
+            theCurrentPageIndex = 0;
+        }
+    }
+
+    $.ajax({
+        url: '/getfollowings/' + pageindex + '/' + userid,
+        type: 'GET',
+        success: function (result) {
+
+            if (result == "gologin") {
+                window.location = "/login/login";
+            } else {
+                if (result != "-1") {
+
+                    if (pageindex == 0) {
+                        $('#followingListContainer').html('');
+                    }
+
+                    AddFollowingsToTemplate(result);
+                    theCurrentPageIndex += 1;
+                } else {
+                    $('#followingListContainer').html('یافت نشد');
+                    $('.loadMore.SirooBtn').hide();
+                }
+
+
+
+            }
+        },
+    });
+
+}
+
+function loadMoreFollowers() {
+    _getFollowers(theCurrentUserID, theCurrentPageIndex);
+}
+function loadMoreFollowings() {
+    _getFollowings(theCurrentUserID, theCurrentPageIndex);
+}
+function closeList() {
+    $('.followersList').hide();
+}
+
+function AddFollowersToTemplate(ad, prepend = false) {
+
+    if (prepend) {
+        $('#followersTemplate').tmpl(ad).prependTo('#followerListContainer');
+    } else {
+        $('#followersTemplate').tmpl(ad).appendTo('#followerListContainer');
+    }
+
+    $('#followerListContainer').scrollTop($('#followerListContainer')[0].scrollHeight);
+
+
+}
+function AddFollowingsToTemplate(ad, prepend = false) {
+
+    if (prepend) {
+        $('#followersTemplate').tmpl(ad).prependTo('#followingListContainer');
+    } else {
+        $('#followersTemplate').tmpl(ad).appendTo('#followingListContainer');
+    }
+
+    $('#followingListContainer').scrollTop($('#followingListContainer')[0].scrollHeight);
+
 }

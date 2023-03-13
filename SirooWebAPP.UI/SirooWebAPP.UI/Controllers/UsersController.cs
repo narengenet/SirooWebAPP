@@ -266,6 +266,138 @@ namespace SirooWebAPP.UI.Controllers
 
             return Ok(result);
         }
+
+
+        [TypeFilter(typeof(SampleAsyncActionLoginFilter))]
+        [HttpGet("dofollow/{userID:guid}")]
+        public IActionResult DoFollow(Guid userID)
+        {
+            string _userid = HttpContext.Request.Cookies["userid"];
+            Guid currentUserId = Guid.Parse(_userid);
+
+            string result = "-1";
+
+            Users followedPerson = _usersServices.GetUser(userID);
+            if (followedPerson!=null)
+            {
+                Followers followship = _usersServices.GetAllFollowers(true).Where(f => f.FollowedPerson == followedPerson.Id && f.FollowPerson == currentUserId).FirstOrDefault();
+                if (followship == null)
+                {
+                    followship = new Followers
+                    {
+                        FollowedPerson = userID,
+                        FollowPerson = currentUserId,
+                        Created = DateTime.Now
+                    };
+                    _usersServices.AddFollower(followship);
+
+                    CachedContents.Followers.Add(followship);
+
+                    result = "1";
+                }
+                else
+                {
+                    followship.IsDeleted = !followship.IsDeleted;
+                    followship.LastModified = DateTime.Now;
+                    _usersServices.UpdateFollower(followship);
+
+                    if (followship.IsDeleted)
+                    {
+                        Followers tmpFollowship = CachedContents.Followers.Where(f => f.Id == followship.Id).FirstOrDefault();
+                        CachedContents.Followers.Remove(tmpFollowship);
+                    }
+                    else
+                    {
+                        CachedContents.Followers.Add(followship);
+                    }
+
+                    result = followship.IsDeleted ? "0" : "1";
+                }
+            }
+
+            return Ok(result);
+        }
+
+
+        [TypeFilter(typeof(SampleAsyncActionLoginFilter))]
+        [HttpGet("getfollowers/{pageIndex:int}/{userId:guid}")]
+        public IActionResult GetFollowers(int pageIndex, Guid userId)
+        {
+            string _userid = HttpContext.Request.Cookies["userid"];
+            Guid currentUserId = Guid.Parse(_userid);
+            List<Followers> theFollowers = CachedContents.Followers.Where(f => f.FollowedPerson == userId).Skip(pageIndex*5).Take(5).ToList<Followers>();
+            List<Guid> myFollowings=CachedContents.Followers.Where(f=>f.FollowPerson==currentUserId).Select(u=>u.FollowedPerson).ToList();
+
+            List<DTOUserSmallProfile> theResult = new List<DTOUserSmallProfile>();
+
+            foreach (Followers item in theFollowers)
+            {
+                Users tmpUser = CachedContents.AllUsers.Where(u => u.Id == item.FollowPerson).FirstOrDefault();
+                if (tmpUser != null)
+                {
+                    theResult.Add(new DTOUserSmallProfile
+                    {
+                        UserId = tmpUser.Id,
+                        Username = tmpUser.Username,
+                        ProfileMediaURL = tmpUser.ProfileMediaURL,
+                        AmIFollowUser = myFollowings.Contains(tmpUser.Id),
+                        IsMe=tmpUser.Id==currentUserId?true:false
+                    });
+                }
+            }
+
+            if (theResult.Count>0)
+            {
+                return Ok(theResult.OrderByDescending(f=>f.IsMe));
+            }
+            else
+            {
+                return Ok("-1");
+            }
+
+            
+        }
+        
+        [TypeFilter(typeof(SampleAsyncActionLoginFilter))]
+        [HttpGet("getfollowings/{pageIndex:int}/{userId:guid}")]
+        public IActionResult GetFollowings(int pageIndex, Guid userId)
+        {
+            string _userid = HttpContext.Request.Cookies["userid"];
+            Guid currentUserId = Guid.Parse(_userid);
+            List<Followers> theFollowings = CachedContents.Followers.Where(f => f.FollowPerson == userId).Skip(pageIndex*5).Take(5).ToList<Followers>();
+            List<Guid> myFollowings=CachedContents.Followers.Where(f=>f.FollowPerson==currentUserId).Select(u=>u.FollowedPerson).ToList();
+
+            List<DTOUserSmallProfile> theResult = new List<DTOUserSmallProfile>();
+
+            foreach (Followers item in theFollowings)
+            {
+                Users tmpUser = CachedContents.AllUsers.Where(u => u.Id == item.FollowedPerson).FirstOrDefault();
+                if (tmpUser != null)
+                {
+                    theResult.Add(new DTOUserSmallProfile
+                    {
+                        UserId = tmpUser.Id,
+                        Username = tmpUser.Username,
+                        ProfileMediaURL = tmpUser.ProfileMediaURL,
+                        AmIFollowUser = myFollowings.Contains(tmpUser.Id),
+                        IsMe=tmpUser.Id==currentUserId?true:false
+                    });
+                }
+            }
+
+            if (theResult.Count>0)
+            {
+                return Ok(theResult.OrderByDescending(f=>f.IsMe));
+            }
+            else
+            {
+                return Ok("-1");
+            }
+
+            
+        }
+
+
         [TypeFilter(typeof(SampleAsyncActionLoginFilter))]
         [HttpGet("delqr/{qrID:guid}")]
         public IActionResult DelQR(Guid qrID)
@@ -568,6 +700,8 @@ namespace SirooWebAPP.UI.Controllers
                     theUser.IsDeleted = true;
                     theUser.Notes = reason;
                     _usersServices.UpdateUser(theUser);
+                    //Users tmpUser = CachedContents.AllUsers.Where(u => u.Id == theUser.Id).FirstOrDefault();
+                    //CachedContents.AllUsers.Remove(tmpUser);
                     return Ok("ok");
                 }
             }
@@ -589,6 +723,7 @@ namespace SirooWebAPP.UI.Controllers
                 {
                     theUser.IsDeleted = false;
                     _usersServices.UpdateUser(theUser);
+                    //CachedContents.AllUsers.Add(theUser);
                     return Ok("ok");
                 }
             }
@@ -629,6 +764,9 @@ namespace SirooWebAPP.UI.Controllers
                 CachedContents.Advertises.Clear();
                 CachedContents.Likers.Clear();
                 CachedContents.Viewers.Clear();
+                CachedContents.Followers.Clear();
+                CachedContents.AllUsers.Clear();
+
                 return Ok("1");
             }
 
