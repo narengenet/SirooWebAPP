@@ -326,12 +326,12 @@ namespace SirooWebAPP.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("a8dffc0b-b5e2-4ea3-9d9b-6bd351d6ea01"),
+                            Id = new Guid("ae8d38f1-88bd-466d-87de-43bef25a8efc"),
                             Category = "فروشگاه",
                             ConstantKey = "store_def_credit_reg",
                             ConstantValue = "0",
-                            Created = new DateTime(2023, 3, 13, 3, 47, 18, 815, DateTimeKind.Local).AddTicks(152),
-                            CreatedBy = new Guid("c8a22863-11f3-41bf-bec8-7cdbcb90d442"),
+                            Created = new DateTime(2023, 5, 1, 4, 1, 21, 695, DateTimeKind.Local).AddTicks(2369),
+                            CreatedBy = new Guid("15f24ccf-6c07-4d75-af21-22256a46e651"),
                             Description = "اعتبار اولیه فروشگاه برای ثبت نام اولین بار",
                             IsActive = true,
                             IsDeleted = false,
@@ -339,12 +339,12 @@ namespace SirooWebAPP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("bed73f2b-92ac-4b22-8f95-67ade6313195"),
+                            Id = new Guid("458cc996-f8d3-47b4-bfac-aba359403fba"),
                             Category = "فروشگاه",
                             ConstantKey = "store_point_usage_per_day",
                             ConstantValue = "-1",
-                            Created = new DateTime(2023, 3, 13, 3, 47, 18, 815, DateTimeKind.Local).AddTicks(159),
-                            CreatedBy = new Guid("c8a22863-11f3-41bf-bec8-7cdbcb90d442"),
+                            Created = new DateTime(2023, 5, 1, 4, 1, 21, 695, DateTimeKind.Local).AddTicks(2376),
+                            CreatedBy = new Guid("15f24ccf-6c07-4d75-af21-22256a46e651"),
                             Description = "تعداد دفعات استفاده از کارت تخفیف هر فروشگاه در روز برای یک مشتری",
                             IsActive = true,
                             IsDeleted = false,
@@ -352,12 +352,12 @@ namespace SirooWebAPP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("b12b5837-011a-480d-b7d4-c3389a4e78f2"),
+                            Id = new Guid("1524a05d-2e77-4592-9d22-2fe81bc13786"),
                             Category = "فروشگاه",
                             ConstantKey = "stores_max_donnation_point",
                             ConstantValue = "500",
-                            Created = new DateTime(2023, 3, 13, 3, 47, 18, 815, DateTimeKind.Local).AddTicks(163),
-                            CreatedBy = new Guid("c8a22863-11f3-41bf-bec8-7cdbcb90d442"),
+                            Created = new DateTime(2023, 5, 1, 4, 1, 21, 695, DateTimeKind.Local).AddTicks(2384),
+                            CreatedBy = new Guid("15f24ccf-6c07-4d75-af21-22256a46e651"),
                             Description = "حداکثر امتیازی که فروشگاه میتواند در هر نوتب هدیه بدهد",
                             IsActive = true,
                             IsDeleted = false,
@@ -365,12 +365,12 @@ namespace SirooWebAPP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("1283c8af-2998-4b38-b743-397be7717b58"),
+                            Id = new Guid("11525e0c-908c-4f69-8dff-f43324868e65"),
                             Category = "مالی",
                             ConstantKey = "money_to_credit_ratio",
                             ConstantValue = "1000",
-                            Created = new DateTime(2023, 3, 13, 3, 47, 18, 815, DateTimeKind.Local).AddTicks(170),
-                            CreatedBy = new Guid("c8a22863-11f3-41bf-bec8-7cdbcb90d442"),
+                            Created = new DateTime(2023, 5, 1, 4, 1, 21, 695, DateTimeKind.Local).AddTicks(2392),
+                            CreatedBy = new Guid("15f24ccf-6c07-4d75-af21-22256a46e651"),
                             Description = "نسبت هر اعتبار به تومان",
                             IsActive = true,
                             IsDeleted = false,
@@ -378,12 +378,12 @@ namespace SirooWebAPP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("f3a34088-1138-4a13-b681-040581dce66a"),
+                            Id = new Guid("c08df044-0215-4e5d-93da-63e0083c1904"),
                             Category = "اعتبار",
                             ConstantKey = "credit_for_image_ads",
                             ConstantValue = "500",
-                            Created = new DateTime(2023, 3, 13, 3, 47, 18, 815, DateTimeKind.Local).AddTicks(188),
-                            CreatedBy = new Guid("c8a22863-11f3-41bf-bec8-7cdbcb90d442"),
+                            Created = new DateTime(2023, 5, 1, 4, 1, 21, 695, DateTimeKind.Local).AddTicks(2411),
+                            CreatedBy = new Guid("15f24ccf-6c07-4d75-af21-22256a46e651"),
                             Description = "اعتبار لازم برای ثبت آگهی تصویری",
                             IsActive = true,
                             IsDeleted = false,
@@ -391,12 +391,12 @@ namespace SirooWebAPP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("386822f8-0e34-407b-b722-909a1dcf694b"),
+                            Id = new Guid("b58e5f78-d398-4e85-968b-799f50c1f323"),
                             Category = "اعتبار",
                             ConstantKey = "credit_for_video_ads",
                             ConstantValue = "1000",
-                            Created = new DateTime(2023, 3, 13, 3, 47, 18, 815, DateTimeKind.Local).AddTicks(195),
-                            CreatedBy = new Guid("c8a22863-11f3-41bf-bec8-7cdbcb90d442"),
+                            Created = new DateTime(2023, 5, 1, 4, 1, 21, 695, DateTimeKind.Local).AddTicks(2415),
+                            CreatedBy = new Guid("15f24ccf-6c07-4d75-af21-22256a46e651"),
                             Description = "اعتبار لازم برای ثبت آگهی ویدئویی",
                             IsActive = true,
                             IsDeleted = false,
@@ -404,12 +404,12 @@ namespace SirooWebAPP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("b3a7421e-5acf-42ce-8d47-2024ea7121f0"),
+                            Id = new Guid("ac9c8b8a-6ca5-44b6-955e-1636057500aa"),
                             Category = "فروشگاه",
                             ConstantKey = "credit_for_client_registration_by_store_invitation",
                             ConstantValue = "50",
-                            Created = new DateTime(2023, 3, 13, 3, 47, 18, 815, DateTimeKind.Local).AddTicks(167),
-                            CreatedBy = new Guid("c8a22863-11f3-41bf-bec8-7cdbcb90d442"),
+                            Created = new DateTime(2023, 5, 1, 4, 1, 21, 695, DateTimeKind.Local).AddTicks(2388),
+                            CreatedBy = new Guid("15f24ccf-6c07-4d75-af21-22256a46e651"),
                             Description = "اعتبار برای فروشنده ای که باعث ثبت نام مشتری شد",
                             IsActive = true,
                             IsDeleted = false,
@@ -417,12 +417,12 @@ namespace SirooWebAPP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("d53a04aa-45ca-4371-86b0-adcc50f365eb"),
+                            Id = new Guid("985a00e9-f7dc-4ee4-ac8f-c41b19dcf6ab"),
                             Category = "ثبت نام",
                             ConstantKey = "def_points_for_client_registration",
                             ConstantValue = "100",
-                            Created = new DateTime(2023, 3, 13, 3, 47, 18, 815, DateTimeKind.Local).AddTicks(142),
-                            CreatedBy = new Guid("c8a22863-11f3-41bf-bec8-7cdbcb90d442"),
+                            Created = new DateTime(2023, 5, 1, 4, 1, 21, 695, DateTimeKind.Local).AddTicks(2358),
+                            CreatedBy = new Guid("15f24ccf-6c07-4d75-af21-22256a46e651"),
                             Description = "امتیاز اولیه برای کاربری که ثبت نام میکند.",
                             IsActive = true,
                             IsDeleted = false,
@@ -430,12 +430,12 @@ namespace SirooWebAPP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("fe8ac958-10ed-4a88-a035-23fbc771b8ac"),
+                            Id = new Guid("e5c9d24f-3b55-4278-bc24-12828a67038a"),
                             Category = "ثبت نام",
                             ConstantKey = "def_points_for_client_invitation",
                             ConstantValue = "50",
-                            Created = new DateTime(2023, 3, 13, 3, 47, 18, 815, DateTimeKind.Local).AddTicks(147),
-                            CreatedBy = new Guid("c8a22863-11f3-41bf-bec8-7cdbcb90d442"),
+                            Created = new DateTime(2023, 5, 1, 4, 1, 21, 695, DateTimeKind.Local).AddTicks(2362),
+                            CreatedBy = new Guid("15f24ccf-6c07-4d75-af21-22256a46e651"),
                             Description = "امتیاز برای معرف وقتی کاربر ثبت نام کرد.",
                             IsActive = true,
                             IsDeleted = false,
@@ -443,12 +443,12 @@ namespace SirooWebAPP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("345d39e1-e974-4fcf-8f5b-0b5a8543051e"),
+                            Id = new Guid("020cce39-f246-4d9e-8bfb-37dec1c93b62"),
                             Category = "لایک ها",
                             ConstantKey = "def_points_for_image_like",
                             ConstantValue = "1",
-                            Created = new DateTime(2023, 3, 13, 3, 47, 18, 815, DateTimeKind.Local).AddTicks(130),
-                            CreatedBy = new Guid("c8a22863-11f3-41bf-bec8-7cdbcb90d442"),
+                            Created = new DateTime(2023, 5, 1, 4, 1, 21, 695, DateTimeKind.Local).AddTicks(2345),
+                            CreatedBy = new Guid("15f24ccf-6c07-4d75-af21-22256a46e651"),
                             Description = "امتیاز پیش فرض برای لایک پست تصویری",
                             IsActive = true,
                             IsDeleted = false,
@@ -456,12 +456,12 @@ namespace SirooWebAPP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("d778bd1b-4da6-472f-919e-388819720750"),
+                            Id = new Guid("95a03104-fc84-4d5b-b4ad-87b96d7d96b7"),
                             Category = "لایک ها",
                             ConstantKey = "def_points_for_video_like",
                             ConstantValue = "15",
-                            Created = new DateTime(2023, 3, 13, 3, 47, 18, 815, DateTimeKind.Local).AddTicks(134),
-                            CreatedBy = new Guid("c8a22863-11f3-41bf-bec8-7cdbcb90d442"),
+                            Created = new DateTime(2023, 5, 1, 4, 1, 21, 695, DateTimeKind.Local).AddTicks(2349),
+                            CreatedBy = new Guid("15f24ccf-6c07-4d75-af21-22256a46e651"),
                             Description = "امتیاز پیش فرض برای لایک پست ویدئویی",
                             IsActive = true,
                             IsDeleted = false,
@@ -469,12 +469,12 @@ namespace SirooWebAPP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("18933927-7ee8-4b46-9dfd-45319600fe77"),
+                            Id = new Guid("7c74a9a4-865f-4d36-9b99-61844caedc59"),
                             Category = "لایک ها",
                             ConstantKey = "def_points_for_audio_like",
                             ConstantValue = "5",
-                            Created = new DateTime(2023, 3, 13, 3, 47, 18, 815, DateTimeKind.Local).AddTicks(138),
-                            CreatedBy = new Guid("c8a22863-11f3-41bf-bec8-7cdbcb90d442"),
+                            Created = new DateTime(2023, 5, 1, 4, 1, 21, 695, DateTimeKind.Local).AddTicks(2354),
+                            CreatedBy = new Guid("15f24ccf-6c07-4d75-af21-22256a46e651"),
                             Description = "امتیاز پیش فرض برای لایک پست صوتی",
                             IsActive = true,
                             IsDeleted = false,
@@ -482,12 +482,12 @@ namespace SirooWebAPP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("97be6a97-1ab9-4c9d-97ae-05c96b76dae0"),
+                            Id = new Guid("7a88f42f-954c-4c51-a46d-3f7e05deaf7c"),
                             Category = "درصدها",
                             ConstantKey = "def_percent_for_marketer",
                             ConstantValue = "10",
-                            Created = new DateTime(2023, 3, 13, 3, 47, 18, 815, DateTimeKind.Local).AddTicks(174),
-                            CreatedBy = new Guid("c8a22863-11f3-41bf-bec8-7cdbcb90d442"),
+                            Created = new DateTime(2023, 5, 1, 4, 1, 21, 695, DateTimeKind.Local).AddTicks(2397),
+                            CreatedBy = new Guid("15f24ccf-6c07-4d75-af21-22256a46e651"),
                             Description = "درصد بازاریاب",
                             IsActive = true,
                             IsDeleted = false,
@@ -495,12 +495,12 @@ namespace SirooWebAPP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("4df7864f-f625-4046-94c5-e6e7336ff2b8"),
+                            Id = new Guid("0ff54104-89eb-467a-b8df-ac8fb21e87c8"),
                             Category = "درصدها",
                             ConstantKey = "def_percent_for_zoneadmin",
                             ConstantValue = "6",
-                            Created = new DateTime(2023, 3, 13, 3, 47, 18, 815, DateTimeKind.Local).AddTicks(178),
-                            CreatedBy = new Guid("c8a22863-11f3-41bf-bec8-7cdbcb90d442"),
+                            Created = new DateTime(2023, 5, 1, 4, 1, 21, 695, DateTimeKind.Local).AddTicks(2401),
+                            CreatedBy = new Guid("15f24ccf-6c07-4d75-af21-22256a46e651"),
                             Description = "درصد مدیر منطقه",
                             IsActive = true,
                             IsDeleted = false,
@@ -508,12 +508,12 @@ namespace SirooWebAPP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("7a9c3401-3ce1-472c-a55c-15589cc0a0e4"),
+                            Id = new Guid("a534129d-2680-4874-9a2a-2b997e037651"),
                             Category = "درصدها",
                             ConstantKey = "def_percent_for_countryadmin",
                             ConstantValue = "4",
-                            Created = new DateTime(2023, 3, 13, 3, 47, 18, 815, DateTimeKind.Local).AddTicks(183),
-                            CreatedBy = new Guid("c8a22863-11f3-41bf-bec8-7cdbcb90d442"),
+                            Created = new DateTime(2023, 5, 1, 4, 1, 21, 695, DateTimeKind.Local).AddTicks(2405),
+                            CreatedBy = new Guid("15f24ccf-6c07-4d75-af21-22256a46e651"),
                             Description = "درصد مدیر مناطق",
                             IsActive = true,
                             IsDeleted = false,
@@ -521,12 +521,12 @@ namespace SirooWebAPP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("b1c7412c-f34b-4d8d-bc5d-0d2823041c7d"),
+                            Id = new Guid("eef3ae4d-2eb4-4d50-b507-f4806a7470b5"),
                             Category = "کارت اعتباری",
                             ConstantKey = "def_chips_usage_perday",
                             ConstantValue = "-1",
-                            Created = new DateTime(2023, 3, 13, 3, 47, 18, 815, DateTimeKind.Local).AddTicks(125),
-                            CreatedBy = new Guid("c8a22863-11f3-41bf-bec8-7cdbcb90d442"),
+                            Created = new DateTime(2023, 5, 1, 4, 1, 21, 695, DateTimeKind.Local).AddTicks(2339),
+                            CreatedBy = new Guid("15f24ccf-6c07-4d75-af21-22256a46e651"),
                             Description = "تعداد استفاده از کارت اعتباری هر کاربر در روز",
                             IsActive = true,
                             IsDeleted = false,
@@ -534,12 +534,12 @@ namespace SirooWebAPP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("523390ac-4848-4d89-95d2-0f060f2a8e19"),
+                            Id = new Guid("574b4c26-41db-4630-ba9d-da88f142fbf7"),
                             Category = "آگهی تبلیغاتی",
                             ConstantKey = "def_money_to_premium_video_ads",
                             ConstantValue = "1000000",
-                            Created = new DateTime(2023, 3, 13, 3, 47, 18, 815, DateTimeKind.Local).AddTicks(106),
-                            CreatedBy = new Guid("c8a22863-11f3-41bf-bec8-7cdbcb90d442"),
+                            Created = new DateTime(2023, 5, 1, 4, 1, 21, 695, DateTimeKind.Local).AddTicks(2316),
+                            CreatedBy = new Guid("15f24ccf-6c07-4d75-af21-22256a46e651"),
                             Description = "هزینه درج آگهی تبلیغاتی ویدئویی",
                             IsActive = true,
                             IsDeleted = false,
@@ -547,12 +547,12 @@ namespace SirooWebAPP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("56ad4abe-2dc2-4930-9180-b729ebd713c5"),
+                            Id = new Guid("e7859737-428c-478c-b23f-496e97db46d2"),
                             Category = "آگهی تبلیغاتی",
                             ConstantKey = "def_money_to_premium_image_ads",
                             ConstantValue = "200000",
-                            Created = new DateTime(2023, 3, 13, 3, 47, 18, 815, DateTimeKind.Local).AddTicks(111),
-                            CreatedBy = new Guid("c8a22863-11f3-41bf-bec8-7cdbcb90d442"),
+                            Created = new DateTime(2023, 5, 1, 4, 1, 21, 695, DateTimeKind.Local).AddTicks(2320),
+                            CreatedBy = new Guid("15f24ccf-6c07-4d75-af21-22256a46e651"),
                             Description = "هزینه درج آگهی تبلیغاتی تصویری",
                             IsActive = true,
                             IsDeleted = false,
@@ -560,12 +560,12 @@ namespace SirooWebAPP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("b507e813-87d1-4813-9d12-608a13e13f9a"),
+                            Id = new Guid("7ab04f74-2b8a-4a87-9fc1-faaa63ccd9a8"),
                             Category = "آگهی تبلیغاتی",
                             ConstantKey = "points_reward_premium_video_ads",
                             ConstantValue = "200",
-                            Created = new DateTime(2023, 3, 13, 3, 47, 18, 815, DateTimeKind.Local).AddTicks(115),
-                            CreatedBy = new Guid("c8a22863-11f3-41bf-bec8-7cdbcb90d442"),
+                            Created = new DateTime(2023, 5, 1, 4, 1, 21, 695, DateTimeKind.Local).AddTicks(2328),
+                            CreatedBy = new Guid("15f24ccf-6c07-4d75-af21-22256a46e651"),
                             Description = "امتیاز ثبت آگهی تبلیغاتی ویدئویی",
                             IsActive = true,
                             IsDeleted = false,
@@ -573,12 +573,12 @@ namespace SirooWebAPP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("d6b575b3-75aa-4e46-bff3-4ddcad0f2ab7"),
+                            Id = new Guid("9ab3db3c-5742-43ff-8f24-4adef607f71f"),
                             Category = "آگهی تبلیغاتی",
                             ConstantKey = "points_reward_premium_image_ads",
                             ConstantValue = "1000",
-                            Created = new DateTime(2023, 3, 13, 3, 47, 18, 815, DateTimeKind.Local).AddTicks(122),
-                            CreatedBy = new Guid("c8a22863-11f3-41bf-bec8-7cdbcb90d442"),
+                            Created = new DateTime(2023, 5, 1, 4, 1, 21, 695, DateTimeKind.Local).AddTicks(2335),
+                            CreatedBy = new Guid("15f24ccf-6c07-4d75-af21-22256a46e651"),
                             Description = "امتیاز ثبت آگهی تبلیغاتی تصویری",
                             IsActive = true,
                             IsDeleted = false,
@@ -586,13 +586,13 @@ namespace SirooWebAPP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("22b8ee56-eed9-4f90-bf7c-e23841c6b171"),
+                            Id = new Guid("d7ee7a34-3f2b-4c1f-8e5b-4692298decb1"),
                             Category = "گردونه",
                             ConstantKey = "diamond_first_priority",
                             ConstantSecondValue = "50",
                             ConstantValue = "1,5",
-                            Created = new DateTime(2023, 3, 13, 3, 47, 18, 815, DateTimeKind.Local).AddTicks(22),
-                            CreatedBy = new Guid("c8a22863-11f3-41bf-bec8-7cdbcb90d442"),
+                            Created = new DateTime(2023, 5, 1, 4, 1, 21, 695, DateTimeKind.Local).AddTicks(2247),
+                            CreatedBy = new Guid("15f24ccf-6c07-4d75-af21-22256a46e651"),
                             Description = "اولویت اول تعداد الماس و درصد شانس",
                             IsActive = true,
                             IsDeleted = false,
@@ -600,13 +600,13 @@ namespace SirooWebAPP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("6cab05f9-285f-41e3-bd44-1bae7329bb18"),
+                            Id = new Guid("8ebe2153-01e1-4d8b-96f4-a267dfbf5a44"),
                             Category = "گردونه",
                             ConstantKey = "diamond_second_priority",
                             ConstantSecondValue = "20",
                             ConstantValue = "6,10",
-                            Created = new DateTime(2023, 3, 13, 3, 47, 18, 815, DateTimeKind.Local).AddTicks(26),
-                            CreatedBy = new Guid("c8a22863-11f3-41bf-bec8-7cdbcb90d442"),
+                            Created = new DateTime(2023, 5, 1, 4, 1, 21, 695, DateTimeKind.Local).AddTicks(2251),
+                            CreatedBy = new Guid("15f24ccf-6c07-4d75-af21-22256a46e651"),
                             Description = "اولویت دوم تعداد الماس و درصد شانس",
                             IsActive = true,
                             IsDeleted = false,
@@ -614,13 +614,13 @@ namespace SirooWebAPP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("03e22a15-b740-413b-b505-1f445a7675ce"),
+                            Id = new Guid("0936debe-738d-4d01-9b54-5d643e678dc3"),
                             Category = "گردونه",
                             ConstantKey = "diamond_third_priority",
                             ConstantSecondValue = "10",
                             ConstantValue = "11,20",
-                            Created = new DateTime(2023, 3, 13, 3, 47, 18, 815, DateTimeKind.Local).AddTicks(30),
-                            CreatedBy = new Guid("c8a22863-11f3-41bf-bec8-7cdbcb90d442"),
+                            Created = new DateTime(2023, 5, 1, 4, 1, 21, 695, DateTimeKind.Local).AddTicks(2268),
+                            CreatedBy = new Guid("15f24ccf-6c07-4d75-af21-22256a46e651"),
                             Description = "اولویت سوم تعداد الماس و درصد شانس",
                             IsActive = true,
                             IsDeleted = false,
@@ -628,13 +628,13 @@ namespace SirooWebAPP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("f3173027-3fd8-4f6a-850f-9a066b834738"),
+                            Id = new Guid("9a72dfef-25ca-4dbd-b109-9954fce04968"),
                             Category = "گردونه",
                             ConstantKey = "diamond_fourth_priority",
                             ConstantSecondValue = "6",
                             ConstantValue = "21,30",
-                            Created = new DateTime(2023, 3, 13, 3, 47, 18, 815, DateTimeKind.Local).AddTicks(35),
-                            CreatedBy = new Guid("c8a22863-11f3-41bf-bec8-7cdbcb90d442"),
+                            Created = new DateTime(2023, 5, 1, 4, 1, 21, 695, DateTimeKind.Local).AddTicks(2274),
+                            CreatedBy = new Guid("15f24ccf-6c07-4d75-af21-22256a46e651"),
                             Description = "اولویت چهارم تعداد الماس و درصد شانس",
                             IsActive = true,
                             IsDeleted = false,
@@ -642,13 +642,13 @@ namespace SirooWebAPP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("6e1c41b5-c5a7-43ce-9905-a4f0bb14c6eb"),
+                            Id = new Guid("14da51b6-72e2-47fe-92d0-3f9becad18b3"),
                             Category = "گردونه",
                             ConstantKey = "diamond_fivth_priority",
                             ConstantSecondValue = "5",
                             ConstantValue = "31,50",
-                            Created = new DateTime(2023, 3, 13, 3, 47, 18, 815, DateTimeKind.Local).AddTicks(40),
-                            CreatedBy = new Guid("c8a22863-11f3-41bf-bec8-7cdbcb90d442"),
+                            Created = new DateTime(2023, 5, 1, 4, 1, 21, 695, DateTimeKind.Local).AddTicks(2283),
+                            CreatedBy = new Guid("15f24ccf-6c07-4d75-af21-22256a46e651"),
                             Description = "اولویت پنجم تعداد الماس و درصد شانس",
                             IsActive = true,
                             IsDeleted = false,
@@ -656,13 +656,13 @@ namespace SirooWebAPP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("461bce33-71d2-4fbc-a3f8-577976e83e87"),
+                            Id = new Guid("dc0ef891-eac2-44ff-85f7-641d4ea96584"),
                             Category = "گردونه",
                             ConstantKey = "diamond_sixth_priority",
                             ConstantSecondValue = "4",
                             ConstantValue = "51,100",
-                            Created = new DateTime(2023, 3, 13, 3, 47, 18, 815, DateTimeKind.Local).AddTicks(47),
-                            CreatedBy = new Guid("c8a22863-11f3-41bf-bec8-7cdbcb90d442"),
+                            Created = new DateTime(2023, 5, 1, 4, 1, 21, 695, DateTimeKind.Local).AddTicks(2291),
+                            CreatedBy = new Guid("15f24ccf-6c07-4d75-af21-22256a46e651"),
                             Description = "اولویت ششم تعداد الماس و درصد شانس",
                             IsActive = true,
                             IsDeleted = false,
@@ -670,13 +670,13 @@ namespace SirooWebAPP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("592f9c04-4bfe-4a42-851b-818f3fca2e0d"),
+                            Id = new Guid("74d5dcaa-df67-4f47-b01b-1c7d4a09f37e"),
                             Category = "گردونه",
                             ConstantKey = "diamond_seventh_priority",
                             ConstantSecondValue = "3",
                             ConstantValue = "101,200",
-                            Created = new DateTime(2023, 3, 13, 3, 47, 18, 815, DateTimeKind.Local).AddTicks(51),
-                            CreatedBy = new Guid("c8a22863-11f3-41bf-bec8-7cdbcb90d442"),
+                            Created = new DateTime(2023, 5, 1, 4, 1, 21, 695, DateTimeKind.Local).AddTicks(2295),
+                            CreatedBy = new Guid("15f24ccf-6c07-4d75-af21-22256a46e651"),
                             Description = "اولویت هفتم تعداد الماس و درصد شانس",
                             IsActive = true,
                             IsDeleted = false,
@@ -684,13 +684,13 @@ namespace SirooWebAPP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("d7389455-6796-408f-b107-d09e981e9f84"),
+                            Id = new Guid("f0977cda-022d-479f-8103-ebf651bb1ed2"),
                             Category = "گردونه",
                             ConstantKey = "diamond_eighth_priority",
                             ConstantSecondValue = "2",
                             ConstantValue = "201,300",
-                            Created = new DateTime(2023, 3, 13, 3, 47, 18, 815, DateTimeKind.Local).AddTicks(56),
-                            CreatedBy = new Guid("c8a22863-11f3-41bf-bec8-7cdbcb90d442"),
+                            Created = new DateTime(2023, 5, 1, 4, 1, 21, 695, DateTimeKind.Local).AddTicks(2301),
+                            CreatedBy = new Guid("15f24ccf-6c07-4d75-af21-22256a46e651"),
                             Description = "اولویت هشتم تعداد الماس و درصد شانس",
                             IsActive = true,
                             IsDeleted = false,
@@ -698,13 +698,13 @@ namespace SirooWebAPP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("8a589c09-8984-4e8a-9f8b-3c682c72a7ba"),
+                            Id = new Guid("19f7b0d9-baa3-434d-a1e4-509bc030e3ed"),
                             Category = "گردونه",
                             ConstantKey = "diamond_nineth_priority",
                             ConstantSecondValue = "0",
                             ConstantValue = "301,500",
-                            Created = new DateTime(2023, 3, 13, 3, 47, 18, 815, DateTimeKind.Local).AddTicks(60),
-                            CreatedBy = new Guid("c8a22863-11f3-41bf-bec8-7cdbcb90d442"),
+                            Created = new DateTime(2023, 5, 1, 4, 1, 21, 695, DateTimeKind.Local).AddTicks(2308),
+                            CreatedBy = new Guid("15f24ccf-6c07-4d75-af21-22256a46e651"),
                             Description = "امتیاز نهم آگهی تبلیغاتی تصویری",
                             IsActive = true,
                             IsDeleted = false,
@@ -712,13 +712,13 @@ namespace SirooWebAPP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("e33e01fb-2ce9-4990-a652-5b3eac120154"),
+                            Id = new Guid("3b80d721-14d1-4bf5-bc50-45d19fc522ff"),
                             Category = "گردونه",
                             ConstantKey = "diamond_tenth_priority",
                             ConstantSecondValue = "0",
                             ConstantValue = "999,1000",
-                            Created = new DateTime(2023, 3, 13, 3, 47, 18, 815, DateTimeKind.Local).AddTicks(100),
-                            CreatedBy = new Guid("c8a22863-11f3-41bf-bec8-7cdbcb90d442"),
+                            Created = new DateTime(2023, 5, 1, 4, 1, 21, 695, DateTimeKind.Local).AddTicks(2312),
+                            CreatedBy = new Guid("15f24ccf-6c07-4d75-af21-22256a46e651"),
                             Description = "امتیاز دهم آگهی تبلیغاتی تصویری",
                             IsActive = true,
                             IsDeleted = false,
@@ -726,12 +726,12 @@ namespace SirooWebAPP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("562f1b8f-c6ca-4833-9591-cc557e9eb34f"),
+                            Id = new Guid("50ac2859-5b64-4ef9-aea1-9d03f220a338"),
                             Category = "گردونه",
                             ConstantKey = "min_points_to_spin_diamond_wheel",
                             ConstantValue = "200",
-                            Created = new DateTime(2023, 3, 13, 3, 47, 18, 815, DateTimeKind.Local).AddTicks(6),
-                            CreatedBy = new Guid("c8a22863-11f3-41bf-bec8-7cdbcb90d442"),
+                            Created = new DateTime(2023, 5, 1, 4, 1, 21, 695, DateTimeKind.Local).AddTicks(2230),
+                            CreatedBy = new Guid("15f24ccf-6c07-4d75-af21-22256a46e651"),
                             Description = "حداقل امتیاز برای چرخاندن گردونه شانس الماس بار اول",
                             IsActive = true,
                             IsDeleted = false,
@@ -739,12 +739,12 @@ namespace SirooWebAPP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("7bdd39fa-2e6a-4dfd-85d6-175e323272d8"),
+                            Id = new Guid("31b73a21-19c0-4dcd-9dd0-17ba7ab2877b"),
                             Category = "گردونه",
                             ConstantKey = "added_points_to_each_spin_diamond_wheel_after_first_time",
                             ConstantValue = "100",
-                            Created = new DateTime(2023, 3, 13, 3, 47, 18, 815, DateTimeKind.Local).AddTicks(17),
-                            CreatedBy = new Guid("c8a22863-11f3-41bf-bec8-7cdbcb90d442"),
+                            Created = new DateTime(2023, 5, 1, 4, 1, 21, 695, DateTimeKind.Local).AddTicks(2242),
+                            CreatedBy = new Guid("15f24ccf-6c07-4d75-af21-22256a46e651"),
                             Description = "افزایش تعداد امتیاز به اضای هر بار چرخاندن گردونه شانس در یک روز",
                             IsActive = true,
                             IsDeleted = false,
@@ -752,12 +752,12 @@ namespace SirooWebAPP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("6d385685-b66c-4b00-b4b9-67a9cde5634f"),
+                            Id = new Guid("304b6ff2-769b-451c-b218-22760fbd86cf"),
                             Category = "چالش",
                             ConstantKey = "expire_dates_for_challenge_1",
                             ConstantValue = "30",
-                            Created = new DateTime(2023, 3, 13, 3, 47, 18, 815, DateTimeKind.Local).AddTicks(199),
-                            CreatedBy = new Guid("c8a22863-11f3-41bf-bec8-7cdbcb90d442"),
+                            Created = new DateTime(2023, 5, 1, 4, 1, 21, 695, DateTimeKind.Local).AddTicks(2421),
+                            CreatedBy = new Guid("15f24ccf-6c07-4d75-af21-22256a46e651"),
                             Description = "تعداد روزهای مجاز برای چالش نوع 1",
                             IsActive = true,
                             IsDeleted = false,
@@ -765,12 +765,12 @@ namespace SirooWebAPP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("1bcf3c09-f386-4044-8dc5-5cc9175a3c1b"),
+                            Id = new Guid("b7263f1a-2776-4823-a5d5-118ffffb70c2"),
                             Category = "چالش",
                             ConstantKey = "money_needed_to_attend_in_challenge_1",
                             ConstantValue = "300000",
-                            Created = new DateTime(2023, 3, 13, 3, 47, 18, 815, DateTimeKind.Local).AddTicks(202),
-                            CreatedBy = new Guid("c8a22863-11f3-41bf-bec8-7cdbcb90d442"),
+                            Created = new DateTime(2023, 5, 1, 4, 1, 21, 695, DateTimeKind.Local).AddTicks(2425),
+                            CreatedBy = new Guid("15f24ccf-6c07-4d75-af21-22256a46e651"),
                             Description = "موجودی ریالی برای شرکت در چالش نوع 1",
                             IsActive = true,
                             IsDeleted = false,
@@ -778,12 +778,12 @@ namespace SirooWebAPP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("cbfb78de-f724-487e-8121-b75a6be6994a"),
+                            Id = new Guid("5c3a5569-3ade-4b32-98fb-1774d2055a85"),
                             Category = "چالش",
                             ConstantKey = "prize_for_invite_to_challenge_1",
                             ConstantValue = "100000",
-                            Created = new DateTime(2023, 3, 13, 3, 47, 18, 815, DateTimeKind.Local).AddTicks(206),
-                            CreatedBy = new Guid("c8a22863-11f3-41bf-bec8-7cdbcb90d442"),
+                            Created = new DateTime(2023, 5, 1, 4, 1, 21, 695, DateTimeKind.Local).AddTicks(2429),
+                            CreatedBy = new Guid("15f24ccf-6c07-4d75-af21-22256a46e651"),
                             Description = "کارمزد برای معرفی کاربران به چالش نوع 1",
                             IsActive = true,
                             IsDeleted = false,
@@ -791,12 +791,12 @@ namespace SirooWebAPP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("6d686b82-8b6b-4915-9bfa-6e54acc28c2e"),
+                            Id = new Guid("ecee10d8-f4ff-4dd1-8b98-da90724b73d1"),
                             Category = "چالش",
                             ConstantKey = "order_of_prize_payment_1",
                             ConstantValue = "2,3,5",
-                            Created = new DateTime(2023, 3, 13, 3, 47, 18, 815, DateTimeKind.Local).AddTicks(210),
-                            CreatedBy = new Guid("c8a22863-11f3-41bf-bec8-7cdbcb90d442"),
+                            Created = new DateTime(2023, 5, 1, 4, 1, 21, 695, DateTimeKind.Local).AddTicks(2434),
+                            CreatedBy = new Guid("15f24ccf-6c07-4d75-af21-22256a46e651"),
                             Description = "ترتیب پرداخت کارمزدها نوع 1",
                             IsActive = true,
                             IsDeleted = false,
@@ -804,12 +804,12 @@ namespace SirooWebAPP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("7d9f1c0c-f513-4940-9bf3-5e051ee6ca5a"),
+                            Id = new Guid("8be23bf3-b9f5-450f-a303-5e0fff26d283"),
                             Category = "چالش",
                             ConstantKey = "maximum_number_of_prize_payment_1",
                             ConstantValue = "1000",
-                            Created = new DateTime(2023, 3, 13, 3, 47, 18, 815, DateTimeKind.Local).AddTicks(214),
-                            CreatedBy = new Guid("c8a22863-11f3-41bf-bec8-7cdbcb90d442"),
+                            Created = new DateTime(2023, 5, 1, 4, 1, 21, 695, DateTimeKind.Local).AddTicks(2438),
+                            CreatedBy = new Guid("15f24ccf-6c07-4d75-af21-22256a46e651"),
                             Description = "حداکثر تعداد پرداخت کارمزدها نوع 1",
                             IsActive = true,
                             IsDeleted = false,
@@ -817,12 +817,12 @@ namespace SirooWebAPP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("29fe261c-f05b-4b7e-bbf8-e678b468f811"),
+                            Id = new Guid("48979d65-d561-4edd-a1c7-428c7b9f7e29"),
                             Category = "چالش",
                             ConstantKey = "expire_dates_for_ads_1",
                             ConstantValue = "20",
-                            Created = new DateTime(2023, 3, 13, 3, 47, 18, 815, DateTimeKind.Local).AddTicks(217),
-                            CreatedBy = new Guid("c8a22863-11f3-41bf-bec8-7cdbcb90d442"),
+                            Created = new DateTime(2023, 5, 1, 4, 1, 21, 695, DateTimeKind.Local).AddTicks(2442),
+                            CreatedBy = new Guid("15f24ccf-6c07-4d75-af21-22256a46e651"),
                             Description = "تعداد روزهای آگهی تجاری نوع 1",
                             IsActive = true,
                             IsDeleted = false,
@@ -830,12 +830,12 @@ namespace SirooWebAPP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("30685463-66e4-4e67-85d6-f7387a3027c4"),
+                            Id = new Guid("97fc6613-2e62-4328-bd2d-c85803e7a4f9"),
                             Category = "چالش",
                             ConstantKey = "expire_dates_for_challenge_2",
                             ConstantValue = "60",
-                            Created = new DateTime(2023, 3, 13, 3, 47, 18, 815, DateTimeKind.Local).AddTicks(223),
-                            CreatedBy = new Guid("c8a22863-11f3-41bf-bec8-7cdbcb90d442"),
+                            Created = new DateTime(2023, 5, 1, 4, 1, 21, 695, DateTimeKind.Local).AddTicks(2449),
+                            CreatedBy = new Guid("15f24ccf-6c07-4d75-af21-22256a46e651"),
                             Description = "تعداد روزهای مجاز برای چالش نوع 2",
                             IsActive = true,
                             IsDeleted = false,
@@ -843,12 +843,12 @@ namespace SirooWebAPP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("932fa1a2-db99-4a4a-ba2b-825a65b1100b"),
+                            Id = new Guid("37e3af81-fabe-42dc-bc90-0c68e2e9a35f"),
                             Category = "چالش",
                             ConstantKey = "money_needed_to_attend_in_challenge_2",
                             ConstantValue = "3550000",
-                            Created = new DateTime(2023, 3, 13, 3, 47, 18, 815, DateTimeKind.Local).AddTicks(231),
-                            CreatedBy = new Guid("c8a22863-11f3-41bf-bec8-7cdbcb90d442"),
+                            Created = new DateTime(2023, 5, 1, 4, 1, 21, 695, DateTimeKind.Local).AddTicks(2453),
+                            CreatedBy = new Guid("15f24ccf-6c07-4d75-af21-22256a46e651"),
                             Description = "موجودی ریالی برای شرکت در چالش نوع 2",
                             IsActive = true,
                             IsDeleted = false,
@@ -856,12 +856,12 @@ namespace SirooWebAPP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("96ccb82f-8028-4fe4-8bb7-fc47c70a571f"),
+                            Id = new Guid("0c6b5c8f-4ed1-462c-9947-f09acb5c710e"),
                             Category = "چالش",
                             ConstantKey = "prize_for_invite_to_challenge_2",
                             ConstantValue = "1000000",
-                            Created = new DateTime(2023, 3, 13, 3, 47, 18, 815, DateTimeKind.Local).AddTicks(235),
-                            CreatedBy = new Guid("c8a22863-11f3-41bf-bec8-7cdbcb90d442"),
+                            Created = new DateTime(2023, 5, 1, 4, 1, 21, 695, DateTimeKind.Local).AddTicks(2499),
+                            CreatedBy = new Guid("15f24ccf-6c07-4d75-af21-22256a46e651"),
                             Description = "کارمزد برای معرفی کاربران به چالش نوع 2",
                             IsActive = true,
                             IsDeleted = false,
@@ -869,12 +869,12 @@ namespace SirooWebAPP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("4f85ea5f-0883-4e32-bc23-b73263254199"),
+                            Id = new Guid("ad438134-9e75-4ab8-8392-85530e680ffd"),
                             Category = "چالش",
                             ConstantKey = "order_of_prize_payment_2",
                             ConstantValue = "2,3,5",
-                            Created = new DateTime(2023, 3, 13, 3, 47, 18, 815, DateTimeKind.Local).AddTicks(239),
-                            CreatedBy = new Guid("c8a22863-11f3-41bf-bec8-7cdbcb90d442"),
+                            Created = new DateTime(2023, 5, 1, 4, 1, 21, 695, DateTimeKind.Local).AddTicks(2505),
+                            CreatedBy = new Guid("15f24ccf-6c07-4d75-af21-22256a46e651"),
                             Description = "ترتیب پرداخت کارمزدها نوع 2",
                             IsActive = true,
                             IsDeleted = false,
@@ -882,12 +882,12 @@ namespace SirooWebAPP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("21f72f09-b4d2-4fc3-9128-0cf829b84ddc"),
+                            Id = new Guid("3d8b9486-60d0-4501-84bc-07d84fba72b4"),
                             Category = "چالش",
                             ConstantKey = "maximum_number_of_prize_payment_2",
                             ConstantValue = "1000",
-                            Created = new DateTime(2023, 3, 13, 3, 47, 18, 815, DateTimeKind.Local).AddTicks(243),
-                            CreatedBy = new Guid("c8a22863-11f3-41bf-bec8-7cdbcb90d442"),
+                            Created = new DateTime(2023, 5, 1, 4, 1, 21, 695, DateTimeKind.Local).AddTicks(2509),
+                            CreatedBy = new Guid("15f24ccf-6c07-4d75-af21-22256a46e651"),
                             Description = "حداکثر تعداد پرداخت کارمزدها نوع 2",
                             IsActive = true,
                             IsDeleted = false,
@@ -895,12 +895,12 @@ namespace SirooWebAPP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("1911a3d2-b0f7-40ca-807a-56101780690e"),
+                            Id = new Guid("d8f0f00a-7ac2-4065-8880-a6597578f77a"),
                             Category = "چالش",
                             ConstantKey = "expire_dates_for_ads_2",
                             ConstantValue = "20",
-                            Created = new DateTime(2023, 3, 13, 3, 47, 18, 815, DateTimeKind.Local).AddTicks(247),
-                            CreatedBy = new Guid("c8a22863-11f3-41bf-bec8-7cdbcb90d442"),
+                            Created = new DateTime(2023, 5, 1, 4, 1, 21, 695, DateTimeKind.Local).AddTicks(2513),
+                            CreatedBy = new Guid("15f24ccf-6c07-4d75-af21-22256a46e651"),
                             Description = "تعداد روزهای آگهی تجاری نوع 2",
                             IsActive = true,
                             IsDeleted = false,
@@ -908,12 +908,12 @@ namespace SirooWebAPP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("cbf85263-df74-4618-a175-bffb698221b6"),
+                            Id = new Guid("102bf1b5-acfd-4ab2-986c-a1c12743a461"),
                             Category = "چالش",
                             ConstantKey = "expire_dates_for_challenge_3",
                             ConstantValue = "90",
-                            Created = new DateTime(2023, 3, 13, 3, 47, 18, 815, DateTimeKind.Local).AddTicks(250),
-                            CreatedBy = new Guid("c8a22863-11f3-41bf-bec8-7cdbcb90d442"),
+                            Created = new DateTime(2023, 5, 1, 4, 1, 21, 695, DateTimeKind.Local).AddTicks(2517),
+                            CreatedBy = new Guid("15f24ccf-6c07-4d75-af21-22256a46e651"),
                             Description = "تعداد روزهای مجاز برای چالش نوع 3",
                             IsActive = true,
                             IsDeleted = false,
@@ -921,12 +921,12 @@ namespace SirooWebAPP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("1ef159fc-9f5c-4a9c-bd3d-0b6f4cf30f3a"),
+                            Id = new Guid("f7e740a0-bae5-40a7-b6b5-15d51edf6cc9"),
                             Category = "چالش",
                             ConstantKey = "money_needed_to_attend_in_challenge_3",
                             ConstantValue = "30000000",
-                            Created = new DateTime(2023, 3, 13, 3, 47, 18, 815, DateTimeKind.Local).AddTicks(254),
-                            CreatedBy = new Guid("c8a22863-11f3-41bf-bec8-7cdbcb90d442"),
+                            Created = new DateTime(2023, 5, 1, 4, 1, 21, 695, DateTimeKind.Local).AddTicks(2521),
+                            CreatedBy = new Guid("15f24ccf-6c07-4d75-af21-22256a46e651"),
                             Description = "موجودی ریالی برای شرکت در چالش نوع 3",
                             IsActive = true,
                             IsDeleted = false,
@@ -934,12 +934,12 @@ namespace SirooWebAPP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("84ecf5f2-ce0b-4425-9cce-d536beda3e75"),
+                            Id = new Guid("9cbfd7dc-6dd1-4a2c-8b95-274d1e3fae20"),
                             Category = "چالش",
                             ConstantKey = "prize_for_invite_to_challenge_3",
                             ConstantValue = "10000000",
-                            Created = new DateTime(2023, 3, 13, 3, 47, 18, 815, DateTimeKind.Local).AddTicks(261),
-                            CreatedBy = new Guid("c8a22863-11f3-41bf-bec8-7cdbcb90d442"),
+                            Created = new DateTime(2023, 5, 1, 4, 1, 21, 695, DateTimeKind.Local).AddTicks(2528),
+                            CreatedBy = new Guid("15f24ccf-6c07-4d75-af21-22256a46e651"),
                             Description = "کارمزد برای معرفی کاربران به چالش نوع 3",
                             IsActive = true,
                             IsDeleted = false,
@@ -947,12 +947,12 @@ namespace SirooWebAPP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("313a4088-7cb9-41bf-9736-8d8ae8f843d4"),
+                            Id = new Guid("7fe9b03b-c1fd-4ce7-9803-9a311b340545"),
                             Category = "چالش",
                             ConstantKey = "order_of_prize_payment_3",
                             ConstantValue = "2,3,5",
-                            Created = new DateTime(2023, 3, 13, 3, 47, 18, 815, DateTimeKind.Local).AddTicks(270),
-                            CreatedBy = new Guid("c8a22863-11f3-41bf-bec8-7cdbcb90d442"),
+                            Created = new DateTime(2023, 5, 1, 4, 1, 21, 695, DateTimeKind.Local).AddTicks(2533),
+                            CreatedBy = new Guid("15f24ccf-6c07-4d75-af21-22256a46e651"),
                             Description = "ترتیب پرداخت کارمزدها نوع 3",
                             IsActive = true,
                             IsDeleted = false,
@@ -960,12 +960,12 @@ namespace SirooWebAPP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("4c94c289-b56e-4be7-9011-0bc5752fd377"),
+                            Id = new Guid("b9a5e3c7-cb1f-453c-b135-1921f98e874c"),
                             Category = "چالش",
                             ConstantKey = "maximum_number_of_prize_payment_3",
                             ConstantValue = "1000",
-                            Created = new DateTime(2023, 3, 13, 3, 47, 18, 815, DateTimeKind.Local).AddTicks(274),
-                            CreatedBy = new Guid("c8a22863-11f3-41bf-bec8-7cdbcb90d442"),
+                            Created = new DateTime(2023, 5, 1, 4, 1, 21, 695, DateTimeKind.Local).AddTicks(2537),
+                            CreatedBy = new Guid("15f24ccf-6c07-4d75-af21-22256a46e651"),
                             Description = "حداکثر تعداد پرداخت کارمزدها نوع 3",
                             IsActive = true,
                             IsDeleted = false,
@@ -973,16 +973,29 @@ namespace SirooWebAPP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("f3743b4a-3d9a-49cd-bfc8-29b0e740c169"),
+                            Id = new Guid("7707942c-daa9-4854-99ee-ba910a209be8"),
                             Category = "چالش",
                             ConstantKey = "expire_dates_for_ads_3",
                             ConstantValue = "20",
-                            Created = new DateTime(2023, 3, 13, 3, 47, 18, 815, DateTimeKind.Local).AddTicks(277),
-                            CreatedBy = new Guid("c8a22863-11f3-41bf-bec8-7cdbcb90d442"),
+                            Created = new DateTime(2023, 5, 1, 4, 1, 21, 695, DateTimeKind.Local).AddTicks(2542),
+                            CreatedBy = new Guid("15f24ccf-6c07-4d75-af21-22256a46e651"),
                             Description = "تعداد روزهای آگهی تجاری نوع 3",
                             IsActive = true,
                             IsDeleted = false,
                             PriorityIndex = 47
+                        },
+                        new
+                        {
+                            Id = new Guid("f2f05381-26d4-4820-a923-4678c5c16652"),
+                            Category = "بیمه",
+                            ConstantKey = "money_needed_to_attend_in_insurance",
+                            ConstantValue = "35000000",
+                            Created = new DateTime(2023, 5, 1, 4, 1, 21, 695, DateTimeKind.Local).AddTicks(2546),
+                            CreatedBy = new Guid("15f24ccf-6c07-4d75-af21-22256a46e651"),
+                            Description = "موجودی ریالی برای خرید پکیج بیمه",
+                            IsActive = true,
+                            IsDeleted = false,
+                            PriorityIndex = 48
                         });
                 });
 
@@ -1263,6 +1276,124 @@ namespace SirooWebAPP.Infrastructure.Migrations
                     b.ToTable("Graphs");
                 });
 
+            modelBuilder.Entity("SirooWebAPP.Core.Domain.InsuranceUserData", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("AddressCity")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("AddressDetails")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("AddressPostalCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("AddressProvience")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("BirthDate")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Cellphone")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("Created")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Family")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("FatherIsAlive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("FatherName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Gender")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Height")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("IdentityID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<bool?>("IsExported")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsMarried")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsPaid")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("IssuePlace")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("JobTitle")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("LastModified")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MilitaryServiceStatus")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("MotherIsAlive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NationalID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ResidentialPhone")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("TheParent")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("User")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Username")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Weight")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("InsuranceUserData");
+                });
+
             modelBuilder.Entity("SirooWebAPP.Core.Domain.Likers", b =>
                 {
                     b.Property<Guid>("Id")
@@ -1527,7 +1658,7 @@ namespace SirooWebAPP.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("7d4165ac-67dd-468b-84cb-f10d78d9fd98"),
+                            Id = new Guid("e846edd8-2e15-4812-9e06-493e3e1eade3"),
                             IsActivated = true,
                             IsDeleted = false,
                             Priority = 0,
@@ -1536,7 +1667,7 @@ namespace SirooWebAPP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("58b8a632-ef9f-4b86-87d5-bfd4f514f684"),
+                            Id = new Guid("b75e38bd-7dc9-4bab-864b-c28cc4ef7c98"),
                             IsActivated = true,
                             IsDeleted = false,
                             Priority = 1,
@@ -1545,7 +1676,7 @@ namespace SirooWebAPP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("b7403080-9d6d-4bdb-9244-e3fa5e49cfc9"),
+                            Id = new Guid("31b5dee3-f15a-4c8d-9154-1020c91b9a20"),
                             IsActivated = true,
                             IsDeleted = false,
                             Priority = 2,
@@ -1554,7 +1685,7 @@ namespace SirooWebAPP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("91bc3716-a57a-4de7-8e1a-f982fea242b9"),
+                            Id = new Guid("6a3531d8-498e-438f-8167-bf95076946c9"),
                             IsActivated = true,
                             IsDeleted = false,
                             Priority = 3,
@@ -1563,7 +1694,7 @@ namespace SirooWebAPP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("7567f8e5-b2fc-4dba-9afe-2893bfc930ba"),
+                            Id = new Guid("7026b207-5dac-4ed9-a805-01e11ccd06c5"),
                             IsActivated = true,
                             IsDeleted = false,
                             Priority = 4,
@@ -1572,7 +1703,7 @@ namespace SirooWebAPP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("ccbc9815-e43e-4485-a21e-9d7bf0577b66"),
+                            Id = new Guid("badc40d6-95b9-4bc1-a054-31c50799fcb9"),
                             IsActivated = true,
                             IsDeleted = false,
                             Priority = 5,
@@ -1581,7 +1712,7 @@ namespace SirooWebAPP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("e12f4427-b0f1-4ca2-910d-0880e6eafda1"),
+                            Id = new Guid("743587ae-f5bc-46f0-9bef-4d1babb657b8"),
                             IsActivated = true,
                             IsDeleted = false,
                             Priority = 6,
@@ -1759,16 +1890,16 @@ namespace SirooWebAPP.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("c8a22863-11f3-41bf-bec8-7cdbcb90d442"),
+                            Id = new Guid("15f24ccf-6c07-4d75-af21-22256a46e651"),
                             Cellphone = "09394125130",
                             ConfirmationCode = "111111",
-                            Created = new DateTime(2023, 3, 13, 3, 47, 18, 814, DateTimeKind.Local).AddTicks(9383),
+                            Created = new DateTime(2023, 5, 1, 4, 1, 21, 695, DateTimeKind.Local).AddTicks(1398),
                             Credits = 0L,
                             DefaultCredit = 0L,
                             Diamonds = 0,
                             DonnationActive = false,
                             Family = "Jouybari",
-                            Inviter = new Guid("79f7b058-1826-41fc-8f33-d1e20df4d077"),
+                            Inviter = new Guid("1c0e3c92-86ac-4aea-972b-ac812e44ff1c"),
                             IsActivated = true,
                             IsDeleted = false,
                             Money = 850000L,
@@ -1779,9 +1910,9 @@ namespace SirooWebAPP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("79f7b058-1826-41fc-8f33-d1e20df4d077"),
+                            Id = new Guid("1c0e3c92-86ac-4aea-972b-ac812e44ff1c"),
                             Cellphone = "09901069557",
-                            Created = new DateTime(2023, 3, 13, 3, 47, 18, 814, DateTimeKind.Local).AddTicks(9330),
+                            Created = new DateTime(2023, 5, 1, 4, 1, 21, 695, DateTimeKind.Local).AddTicks(1318),
                             Credits = 1000L,
                             DefaultCredit = 0L,
                             Diamonds = 0,
@@ -1797,10 +1928,10 @@ namespace SirooWebAPP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("5dcd5c2b-97a1-4176-bfed-a050985eac66"),
+                            Id = new Guid("4cb4f556-9660-4e51-9e1d-9a47dfc7ca1e"),
                             Cellphone = "09111111111",
                             ConfirmationCode = "111111",
-                            Created = new DateTime(2023, 3, 13, 3, 47, 18, 814, DateTimeKind.Local).AddTicks(9388),
+                            Created = new DateTime(2023, 5, 1, 4, 1, 21, 695, DateTimeKind.Local).AddTicks(1407),
                             Credits = 0L,
                             DefaultCredit = 0L,
                             Diamonds = 0,
@@ -1816,10 +1947,10 @@ namespace SirooWebAPP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("c069339b-6be9-4322-bf4e-47e498dab864"),
+                            Id = new Guid("00512c2f-ce1b-422d-8d90-886225576ba7"),
                             Cellphone = "09122222222",
                             ConfirmationCode = "111111",
-                            Created = new DateTime(2023, 3, 13, 3, 47, 18, 814, DateTimeKind.Local).AddTicks(9392),
+                            Created = new DateTime(2023, 5, 1, 4, 1, 21, 695, DateTimeKind.Local).AddTicks(1412),
                             Credits = 0L,
                             DefaultCredit = 0L,
                             Diamonds = 0,
@@ -1835,10 +1966,10 @@ namespace SirooWebAPP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("a6d1e427-fd1d-45ff-917b-e8f6c3137583"),
+                            Id = new Guid("a5e6e61d-6c21-4f7d-a2fa-0b3c86b1b427"),
                             Cellphone = "09133333333",
                             ConfirmationCode = "111111",
-                            Created = new DateTime(2023, 3, 13, 3, 47, 18, 814, DateTimeKind.Local).AddTicks(9395),
+                            Created = new DateTime(2023, 5, 1, 4, 1, 21, 695, DateTimeKind.Local).AddTicks(1418),
                             Credits = 0L,
                             DefaultCredit = 0L,
                             Diamonds = 0,
@@ -1854,10 +1985,10 @@ namespace SirooWebAPP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("b04365fe-c567-45df-8b0c-a45b81404b16"),
+                            Id = new Guid("9dda00b1-46dd-48af-93a6-f40c29d50091"),
                             Cellphone = "09144444444",
                             ConfirmationCode = "111111",
-                            Created = new DateTime(2023, 3, 13, 3, 47, 18, 814, DateTimeKind.Local).AddTicks(9399),
+                            Created = new DateTime(2023, 5, 1, 4, 1, 21, 695, DateTimeKind.Local).AddTicks(1422),
                             Credits = 0L,
                             DefaultCredit = 0L,
                             Diamonds = 0,
@@ -1873,10 +2004,10 @@ namespace SirooWebAPP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("7d396286-99d0-4279-8b28-8c3c8390bde2"),
+                            Id = new Guid("6cfae818-b833-45ac-ad42-4984a9135cd3"),
                             Cellphone = "09155555555",
                             ConfirmationCode = "111111",
-                            Created = new DateTime(2023, 3, 13, 3, 47, 18, 814, DateTimeKind.Local).AddTicks(9405),
+                            Created = new DateTime(2023, 5, 1, 4, 1, 21, 695, DateTimeKind.Local).AddTicks(1427),
                             Credits = 0L,
                             DefaultCredit = 0L,
                             Diamonds = 0,
@@ -1892,10 +2023,10 @@ namespace SirooWebAPP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("09ca6dac-610e-41a8-b0ea-99c81222f323"),
+                            Id = new Guid("b0ae55cc-3a1c-4d59-ae8a-fb402c30b5f4"),
                             Cellphone = "09166666666",
                             ConfirmationCode = "111111",
-                            Created = new DateTime(2023, 3, 13, 3, 47, 18, 814, DateTimeKind.Local).AddTicks(9409),
+                            Created = new DateTime(2023, 5, 1, 4, 1, 21, 695, DateTimeKind.Local).AddTicks(1462),
                             Credits = 0L,
                             DefaultCredit = 0L,
                             Diamonds = 0,
@@ -1911,10 +2042,10 @@ namespace SirooWebAPP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("ed673e26-c5eb-447d-a6f3-c7b0e88f1bf3"),
+                            Id = new Guid("a103c7c8-e2fd-4892-a5b9-9a42c6b09426"),
                             Cellphone = "09177777777",
                             ConfirmationCode = "111111",
-                            Created = new DateTime(2023, 3, 13, 3, 47, 18, 814, DateTimeKind.Local).AddTicks(9417),
+                            Created = new DateTime(2023, 5, 1, 4, 1, 21, 695, DateTimeKind.Local).AddTicks(1472),
                             Credits = 0L,
                             DefaultCredit = 0L,
                             Diamonds = 0,
@@ -1930,10 +2061,10 @@ namespace SirooWebAPP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("ffc06b55-623d-43e0-a604-2c020f430504"),
+                            Id = new Guid("f6a5dd48-3779-498a-8ef3-5b583a11f544"),
                             Cellphone = "09188888888",
                             ConfirmationCode = "111111",
-                            Created = new DateTime(2023, 3, 13, 3, 47, 18, 814, DateTimeKind.Local).AddTicks(9422),
+                            Created = new DateTime(2023, 5, 1, 4, 1, 21, 695, DateTimeKind.Local).AddTicks(1477),
                             Credits = 0L,
                             DefaultCredit = 0L,
                             Diamonds = 0,
@@ -1949,10 +2080,10 @@ namespace SirooWebAPP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("b70f7f53-6885-48ac-8f83-ddf997d9c60e"),
+                            Id = new Guid("78150ba5-73fb-4a80-905b-da4dcd223fd8"),
                             Cellphone = "09199999999",
                             ConfirmationCode = "111111",
-                            Created = new DateTime(2023, 3, 13, 3, 47, 18, 814, DateTimeKind.Local).AddTicks(9427),
+                            Created = new DateTime(2023, 5, 1, 4, 1, 21, 695, DateTimeKind.Local).AddTicks(1484),
                             Credits = 0L,
                             DefaultCredit = 0L,
                             Diamonds = 0,
@@ -1968,10 +2099,10 @@ namespace SirooWebAPP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("928a83f6-7c46-4afa-b3cc-21db99473550"),
+                            Id = new Guid("360b35c1-f205-467e-bfd8-3f57bda626d7"),
                             Cellphone = "09100000000",
                             ConfirmationCode = "111111",
-                            Created = new DateTime(2023, 3, 13, 3, 47, 18, 814, DateTimeKind.Local).AddTicks(9431),
+                            Created = new DateTime(2023, 5, 1, 4, 1, 21, 695, DateTimeKind.Local).AddTicks(1488),
                             Credits = 0L,
                             DefaultCredit = 0L,
                             Diamonds = 0,
@@ -1987,10 +2118,10 @@ namespace SirooWebAPP.Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("5273fd3c-f916-486d-a235-7ff9e010c521"),
+                            Id = new Guid("87e90fd4-3497-4c53-841a-5246be8825b4"),
                             Cellphone = "09011000000",
                             ConfirmationCode = "111111",
-                            Created = new DateTime(2023, 3, 13, 3, 47, 18, 814, DateTimeKind.Local).AddTicks(9435),
+                            Created = new DateTime(2023, 5, 1, 4, 1, 21, 695, DateTimeKind.Local).AddTicks(1545),
                             Credits = 0L,
                             DefaultCredit = 0L,
                             Diamonds = 0,
@@ -2040,107 +2171,107 @@ namespace SirooWebAPP.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("aa151aaf-9343-47ce-8888-5d26256d0c2a"),
-                            CreatedBy = new Guid("c8a22863-11f3-41bf-bec8-7cdbcb90d442"),
+                            Id = new Guid("7f714418-ad7f-4dd0-a4b8-0117394a7634"),
+                            CreatedBy = new Guid("15f24ccf-6c07-4d75-af21-22256a46e651"),
                             IsDeleted = false,
-                            Role = new Guid("7d4165ac-67dd-468b-84cb-f10d78d9fd98"),
-                            User = new Guid("c8a22863-11f3-41bf-bec8-7cdbcb90d442")
+                            Role = new Guid("e846edd8-2e15-4812-9e06-493e3e1eade3"),
+                            User = new Guid("15f24ccf-6c07-4d75-af21-22256a46e651")
                         },
                         new
                         {
-                            Id = new Guid("cede9313-e55a-44f3-9adf-03943ba32126"),
-                            CreatedBy = new Guid("79f7b058-1826-41fc-8f33-d1e20df4d077"),
+                            Id = new Guid("26dd360d-5e51-494b-b51e-b251cb1a16d0"),
+                            CreatedBy = new Guid("1c0e3c92-86ac-4aea-972b-ac812e44ff1c"),
                             IsDeleted = false,
-                            Role = new Guid("ccbc9815-e43e-4485-a21e-9d7bf0577b66"),
-                            User = new Guid("79f7b058-1826-41fc-8f33-d1e20df4d077")
+                            Role = new Guid("badc40d6-95b9-4bc1-a054-31c50799fcb9"),
+                            User = new Guid("1c0e3c92-86ac-4aea-972b-ac812e44ff1c")
                         },
                         new
                         {
-                            Id = new Guid("212816ba-e9ae-419e-bd37-16a2373f184a"),
-                            CreatedBy = new Guid("5dcd5c2b-97a1-4176-bfed-a050985eac66"),
+                            Id = new Guid("2500b291-688e-43d7-aec8-d9a7e001ff45"),
+                            CreatedBy = new Guid("4cb4f556-9660-4e51-9e1d-9a47dfc7ca1e"),
                             IsDeleted = false,
-                            Role = new Guid("e12f4427-b0f1-4ca2-910d-0880e6eafda1"),
-                            User = new Guid("5dcd5c2b-97a1-4176-bfed-a050985eac66")
+                            Role = new Guid("743587ae-f5bc-46f0-9bef-4d1babb657b8"),
+                            User = new Guid("4cb4f556-9660-4e51-9e1d-9a47dfc7ca1e")
                         },
                         new
                         {
-                            Id = new Guid("6738abbe-5308-4a2b-b879-2ad440e3ee1c"),
-                            CreatedBy = new Guid("c069339b-6be9-4322-bf4e-47e498dab864"),
+                            Id = new Guid("e4c440c0-fbb0-4848-861b-c267ad3c6578"),
+                            CreatedBy = new Guid("00512c2f-ce1b-422d-8d90-886225576ba7"),
                             IsDeleted = false,
-                            Role = new Guid("e12f4427-b0f1-4ca2-910d-0880e6eafda1"),
-                            User = new Guid("c069339b-6be9-4322-bf4e-47e498dab864")
+                            Role = new Guid("743587ae-f5bc-46f0-9bef-4d1babb657b8"),
+                            User = new Guid("00512c2f-ce1b-422d-8d90-886225576ba7")
                         },
                         new
                         {
-                            Id = new Guid("7a2f31c2-2fe3-4b88-9b3e-0c7a6d0fd96d"),
-                            CreatedBy = new Guid("a6d1e427-fd1d-45ff-917b-e8f6c3137583"),
+                            Id = new Guid("09744107-bc74-4f3f-b643-48b0de74114a"),
+                            CreatedBy = new Guid("a5e6e61d-6c21-4f7d-a2fa-0b3c86b1b427"),
                             IsDeleted = false,
-                            Role = new Guid("e12f4427-b0f1-4ca2-910d-0880e6eafda1"),
-                            User = new Guid("a6d1e427-fd1d-45ff-917b-e8f6c3137583")
+                            Role = new Guid("743587ae-f5bc-46f0-9bef-4d1babb657b8"),
+                            User = new Guid("a5e6e61d-6c21-4f7d-a2fa-0b3c86b1b427")
                         },
                         new
                         {
-                            Id = new Guid("50200f6f-df1f-4d43-9813-bb40466478be"),
-                            CreatedBy = new Guid("b04365fe-c567-45df-8b0c-a45b81404b16"),
+                            Id = new Guid("30b11911-f4c8-4111-8c42-aa4fc090cd46"),
+                            CreatedBy = new Guid("9dda00b1-46dd-48af-93a6-f40c29d50091"),
                             IsDeleted = false,
-                            Role = new Guid("e12f4427-b0f1-4ca2-910d-0880e6eafda1"),
-                            User = new Guid("b04365fe-c567-45df-8b0c-a45b81404b16")
+                            Role = new Guid("743587ae-f5bc-46f0-9bef-4d1babb657b8"),
+                            User = new Guid("9dda00b1-46dd-48af-93a6-f40c29d50091")
                         },
                         new
                         {
-                            Id = new Guid("18ae83ef-1fed-43c0-a5b0-487bfdf88207"),
-                            CreatedBy = new Guid("7d396286-99d0-4279-8b28-8c3c8390bde2"),
+                            Id = new Guid("0b7e7fc7-322c-40cd-a0ec-4c77792e38ed"),
+                            CreatedBy = new Guid("6cfae818-b833-45ac-ad42-4984a9135cd3"),
                             IsDeleted = false,
-                            Role = new Guid("e12f4427-b0f1-4ca2-910d-0880e6eafda1"),
-                            User = new Guid("7d396286-99d0-4279-8b28-8c3c8390bde2")
+                            Role = new Guid("743587ae-f5bc-46f0-9bef-4d1babb657b8"),
+                            User = new Guid("6cfae818-b833-45ac-ad42-4984a9135cd3")
                         },
                         new
                         {
-                            Id = new Guid("f0f3cf95-4e4b-4500-9da0-003c4848068a"),
-                            CreatedBy = new Guid("09ca6dac-610e-41a8-b0ea-99c81222f323"),
+                            Id = new Guid("a35ca985-f316-4f33-a471-6b25de6a1673"),
+                            CreatedBy = new Guid("b0ae55cc-3a1c-4d59-ae8a-fb402c30b5f4"),
                             IsDeleted = false,
-                            Role = new Guid("e12f4427-b0f1-4ca2-910d-0880e6eafda1"),
-                            User = new Guid("09ca6dac-610e-41a8-b0ea-99c81222f323")
+                            Role = new Guid("743587ae-f5bc-46f0-9bef-4d1babb657b8"),
+                            User = new Guid("b0ae55cc-3a1c-4d59-ae8a-fb402c30b5f4")
                         },
                         new
                         {
-                            Id = new Guid("58711ca9-c620-418c-9a62-6c131350aa36"),
-                            CreatedBy = new Guid("ed673e26-c5eb-447d-a6f3-c7b0e88f1bf3"),
+                            Id = new Guid("9b337f3a-eb25-46ce-98aa-ce9dcb43f457"),
+                            CreatedBy = new Guid("a103c7c8-e2fd-4892-a5b9-9a42c6b09426"),
                             IsDeleted = false,
-                            Role = new Guid("e12f4427-b0f1-4ca2-910d-0880e6eafda1"),
-                            User = new Guid("ed673e26-c5eb-447d-a6f3-c7b0e88f1bf3")
+                            Role = new Guid("743587ae-f5bc-46f0-9bef-4d1babb657b8"),
+                            User = new Guid("a103c7c8-e2fd-4892-a5b9-9a42c6b09426")
                         },
                         new
                         {
-                            Id = new Guid("5fb63100-5ea7-49db-8ea1-fe80dc71bd3c"),
-                            CreatedBy = new Guid("ffc06b55-623d-43e0-a604-2c020f430504"),
+                            Id = new Guid("c0c1b740-cc77-4016-8add-683850b08010"),
+                            CreatedBy = new Guid("f6a5dd48-3779-498a-8ef3-5b583a11f544"),
                             IsDeleted = false,
-                            Role = new Guid("e12f4427-b0f1-4ca2-910d-0880e6eafda1"),
-                            User = new Guid("ffc06b55-623d-43e0-a604-2c020f430504")
+                            Role = new Guid("743587ae-f5bc-46f0-9bef-4d1babb657b8"),
+                            User = new Guid("f6a5dd48-3779-498a-8ef3-5b583a11f544")
                         },
                         new
                         {
-                            Id = new Guid("be6ed49e-3041-4a9d-ac62-c88cf203f57b"),
-                            CreatedBy = new Guid("b70f7f53-6885-48ac-8f83-ddf997d9c60e"),
+                            Id = new Guid("c28d5980-7cd9-4915-960b-e6d41142a333"),
+                            CreatedBy = new Guid("78150ba5-73fb-4a80-905b-da4dcd223fd8"),
                             IsDeleted = false,
-                            Role = new Guid("e12f4427-b0f1-4ca2-910d-0880e6eafda1"),
-                            User = new Guid("b70f7f53-6885-48ac-8f83-ddf997d9c60e")
+                            Role = new Guid("743587ae-f5bc-46f0-9bef-4d1babb657b8"),
+                            User = new Guid("78150ba5-73fb-4a80-905b-da4dcd223fd8")
                         },
                         new
                         {
-                            Id = new Guid("0ec14921-fada-4fa0-ac73-acef5993d22d"),
-                            CreatedBy = new Guid("928a83f6-7c46-4afa-b3cc-21db99473550"),
+                            Id = new Guid("2da45df7-40ec-4053-ae4b-1e494395ff70"),
+                            CreatedBy = new Guid("360b35c1-f205-467e-bfd8-3f57bda626d7"),
                             IsDeleted = false,
-                            Role = new Guid("e12f4427-b0f1-4ca2-910d-0880e6eafda1"),
-                            User = new Guid("928a83f6-7c46-4afa-b3cc-21db99473550")
+                            Role = new Guid("743587ae-f5bc-46f0-9bef-4d1babb657b8"),
+                            User = new Guid("360b35c1-f205-467e-bfd8-3f57bda626d7")
                         },
                         new
                         {
-                            Id = new Guid("093d631b-03ec-400f-ba56-32b6a0dd434f"),
-                            CreatedBy = new Guid("5273fd3c-f916-486d-a235-7ff9e010c521"),
+                            Id = new Guid("4c2b6d61-1e9b-4bda-b7a3-5fd4443757ac"),
+                            CreatedBy = new Guid("87e90fd4-3497-4c53-841a-5246be8825b4"),
                             IsDeleted = false,
-                            Role = new Guid("e12f4427-b0f1-4ca2-910d-0880e6eafda1"),
-                            User = new Guid("5273fd3c-f916-486d-a235-7ff9e010c521")
+                            Role = new Guid("743587ae-f5bc-46f0-9bef-4d1babb657b8"),
+                            User = new Guid("87e90fd4-3497-4c53-841a-5246be8825b4")
                         });
                 });
 

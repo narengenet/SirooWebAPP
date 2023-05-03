@@ -45,6 +45,7 @@ namespace SirooWebAPP.Infrastructure.Contexts
         public DbSet<ChatMessages> ChatMessages{ get; set; }
         public DbSet<ChatBlocks> ChatBlocks{ get; set; }
         public DbSet<Followers> Followers{ get; set; }
+        public DbSet<InsuranceUserData> InsuranceUserData{ get; set; }
         
 
 
@@ -270,7 +271,8 @@ namespace SirooWebAPP.Infrastructure.Contexts
             ConstantDictionaries maximum_number_of_prize_payment_3 = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "maximum_number_of_prize_payment_3", ConstantValue = "1000", IsActive = true, Description = "حداکثر تعداد پرداخت کارمزدها نوع 3", Created = DateTime.Now, CreatedBy = sina.Id, Category = "چالش", PriorityIndex = 46 };
             ConstantDictionaries expire_dates_for_ads_3 = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "expire_dates_for_ads_3", ConstantValue = "20", IsActive = true, Description = "تعداد روزهای آگهی تجاری نوع 3", Created = DateTime.Now, CreatedBy = sina.Id, Category = "چالش", PriorityIndex = 47 };
             
-            
+            ConstantDictionaries money_needed_to_attend_in_insurance= new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "money_needed_to_attend_in_insurance", ConstantValue = "35000000", IsActive = true, Description = "موجودی ریالی برای خرید پکیج بیمه", Created = DateTime.Now, CreatedBy = sina.Id, Category = "بیمه", PriorityIndex = 48 };
+
 
 
 
@@ -325,6 +327,7 @@ namespace SirooWebAPP.Infrastructure.Contexts
             modelBuilder.Entity<ConstantDictionaries>().HasData(order_of_prize_payment_3);
             modelBuilder.Entity<ConstantDictionaries>().HasData(maximum_number_of_prize_payment_3);
             modelBuilder.Entity<ConstantDictionaries>().HasData(expire_dates_for_ads_3);
+            modelBuilder.Entity<ConstantDictionaries>().HasData(money_needed_to_attend_in_insurance);
             
 
 

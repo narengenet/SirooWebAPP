@@ -84,6 +84,8 @@ namespace SirooWebAPP.Infrastructure.Services
         private readonly IChallengeUserDataRepository _challengeUserDataRepo;
         private readonly IGraphHistoryRepository _graphHistoryRepo;
         private readonly IFollowersRepository _followersRepo;
+        private readonly IInsuranceUserDataRepository _insuranceRepo;
+
 
         private readonly IChatMessagesRepository _chatMessagesRepo;
         private readonly IChatBlocksRepository _chatBlocksRepo;
@@ -122,6 +124,7 @@ namespace SirooWebAPP.Infrastructure.Services
             IChatMessagesRepository chatMessageRepo,
             IChatBlocksRepository chatBlocksRepository,
             IFollowersRepository followersRepo,
+            IInsuranceUserDataRepository insuranceRepo,
 
             IMapper mapper
             )
@@ -151,7 +154,7 @@ namespace SirooWebAPP.Infrastructure.Services
             _chatMessagesRepo = chatMessageRepo;
             _chatBlocksRepo = chatBlocksRepository;
             _followersRepo = followersRepo;
-
+            _insuranceRepo = insuranceRepo;
 
             _mapper = mapper;
         }
@@ -303,10 +306,18 @@ namespace SirooWebAPP.Infrastructure.Services
             
             Users tmpUser= CachedContents.AllUsers.Where(u => u.Id == user.Id).FirstOrDefault();
             CachedContents.AllUsers.Remove(tmpUser);
-            if (tmpUser.IsDeleted==false)
+            if (tmpUser!=null)
+            {
+                if (tmpUser.IsDeleted == false)
+                {
+                    CachedContents.AllUsers.Add(user);
+                }
+            }
+            else
             {
                 CachedContents.AllUsers.Add(user);
             }
+
             
 
             return true;
@@ -1526,6 +1537,21 @@ namespace SirooWebAPP.Infrastructure.Services
         public void UpdateFollower(Followers followers)
         {
             _followersRepo.Update(followers);
+        }
+
+        public List<InsuranceUserData> GetAllInsuranceUserData()
+        {
+            return _insuranceRepo.GetAll().Where(x => x.IsDeleted == false).ToList<InsuranceUserData>();
+        }
+
+        public void AddInsuranceUserData(InsuranceUserData insuranceUserData)
+        {
+            _insuranceRepo.Add(insuranceUserData);
+        }
+
+        public void UpdateInsuranceUserData(InsuranceUserData insuranceUserData)
+        {
+            _insuranceRepo.Update(insuranceUserData);
         }
     }
 }

@@ -1933,7 +1933,7 @@ namespace SirooWebAPP.UI.Controllers
         string description = "خرید تستی ";
 
 #if DEBUG
-        string callbackurl = "https://localhost:7051/VerifyByHttpClient";
+        string callbackurl = "https://localhost:33333/VerifyByHttpClient";
 #else
         string callbackurl = "https://sirooapp.ir/VerifyByHttpClient";
 #endif

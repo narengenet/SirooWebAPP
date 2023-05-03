@@ -147,38 +147,46 @@
 
 
 <div class="shortCuts">
-    <div class="shortcut" onclick="toggleRoullete();">
+@*    <div class="shortcut" onclick="toggleRoullete();">
         <div class="roullet-icon">
             &nbsp;
         </div>
         <div class="theText">
             گردونه الماس
         </div>
-    </div>
-    <div class="shortcut" onclick="gotoChallenge();">
+    </div>*@
+@*    <div class="shortcut" onclick="gotoChallenge();">
         <div class="challenge-icon">
             &nbsp;
         </div>
         <div class="theText">
             پکیج ویژه سیرو
         </div>
+    </div>*@
+    <div class="shortcut" onclick="gotoInsurance();">
+        <div class="challenge-icon">
+            &nbsp;
+        </div>
+        <div class="theText">
+            پکیج تخفیف بیمه ای سیرو
+        </div>
     </div>
-    <div class="shortcut" onclick="gotoChallengePrizes();">
+    @*<div class="shortcut" onclick="gotoChallengePrizes();">
         <div class="challengeprizes-icon">
             &nbsp;
         </div>
         <div class="theText">
             برندگان پکیج ویژه
         </div>
-    </div>
-    <div class="shortcut" onclick="gotoTrainings();">
+    </div>*@
+@*    <div class="shortcut" onclick="gotoTrainings();">
         <div class="training-icon">
             &nbsp;
         </div>
         <div class="theText">
             آموزش استفاده سیرو
         </div>
-    </div>
+    </div>*@
 </div>
 
 
@@ -187,10 +195,10 @@
 </div>
 
 
-<div id="alldrawsBTN" class"container justify-content-center" style="text-align:center;">
+@*<div id="alldrawsBTN" class"container justify-content-center" style="text-align:center;">
     <a href="/Clients/Draws" class="btn-primary m-2 col-6 text-center SirooSimpleBtn">برندگان دوره‌های قبل</a>
     <a onclick="$('#useChipModal').modal('toggle');" class="btn-primary m-2 col-5 text-center SirooSimpleBtn">ثبت کد امتیاز</a>
-</div>
+</div>*@
 
 
 @*<div id="mainbox" class="mainbox">
@@ -452,6 +460,9 @@
     }
     function gotoTrainings(){
         window.location="../Public/TrainingCenter";
+    }
+    function gotoInsurance(){
+        window.location="/Clients/Insurance";
     }
 </script>
 

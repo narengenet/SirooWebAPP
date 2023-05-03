@@ -51,9 +51,9 @@
                             <li class="nav-item for-clients">
                                 <a class="nav-link text-light" asp-area="" asp-page="/Clients/Profiles">پروفایل</a>
                             </li>
-                            <li class="nav-item for-clients">
+                            @*                            <li class="nav-item for-clients">
                                 <a class="nav-link text-light" asp-area="" asp-page="/Clients/MyPosts">پُست های من</a>
-                            </li>
+                                </li>*@
                         }
                         @if (Context.Session.GetString("userrolename") == "store")
                         {
@@ -69,12 +69,12 @@
                         }
                         @if (Context.Session.GetString("userrolename") != "anonymous")
                         {
-                            <li class="nav-item for-clients">
+                            @*                            <li class="nav-item for-clients">
                                 <a class="nav-link text-light" asp-area="" asp-page="/Clients/AddAdvertise">ایجاد پُست جدید</a>
-                            </li>
-                            <li class="nav-item for-clients">
+                                </li>*@
+@*                            <li class="nav-item for-clients">
                                 <a class="nav-link text-light" asp-area="" asp-page="/Clients/Draws">دوره های جوایز</a>
-                            </li>
+                            </li>*@
                             <li class="nav-item for-clients">
                                 <a class="nav-link text-light" asp-area="" asp-page="/Clients/Wallet">کیف پول من</a>
                             </li>
@@ -91,25 +91,39 @@
                                 <a class="nav-link text-light" asp-area="" asp-page="/Clients/Tickets">پشتیبانی آنلاین</a>
                             </li>
                             <li class="nav-item for-clients">
+                                <a class="nav-link text-warning" asp-area="" asp-page="/Clients/Insurance"><i class="fa fa-star">&nbsp</i>پکیج تخفیف بیمه‌ای</a>
+                            </li>
+                            @*                            <li class="nav-item for-clients">
+                                <a class="nav-link text-info" href="/Clients/ChallengePrizeHistory?pagee=0&handler=Display"><i class="fa fa-star">&nbsp</i>برندگان پکیج ویژه تبلیغاتی</a>
+                                </li>*@
+                            @if (Context.Session.GetString("userrolename") != "admin" && Context.Session.GetString("userrolename") != "super")
+                            {
+
+                                @*                                <li class="nav-item for-clients">
+                                    <a class="nav-link text-light" href="/clients/diamondhistory?pagee=0&handler=Display">الماس‌های دریافت‌شده</a>
+                                    </li>*@
+                            }
+                        }
+                        @if (Context.Session.GetString("userrolename") == "admin" || Context.Session.GetString("userrolename") == "super")
+                        {
+                            <li class="nav-item for-clients">
+                                <a class="nav-link text-light" asp-area="" asp-page="/Clients/Draws">دوره های جوایز</a>
+                            </li>
+                            <li class="nav-item for-admins">
+                                <a class="nav-link text-light" asp-area="" asp-page="/Superadmins/PendingPosts">تایید پُست های جدید</a>
+                            </li>
+                            <li class="nav-item for-clients">
+                                <a class="nav-link text-light" asp-area="" asp-page="/Clients/AddAdvertise">ایجاد پُست جدید</a>
+                            </li>
+                            <li class="nav-item for-clients">
                                 <a class="nav-link text-warning" asp-area="" asp-page="/Clients/Challenge"><i class="fa fa-star">&nbsp</i>پکیج ویژه تبلیغاتی</a>
                             </li>
                             <li class="nav-item for-clients">
                                 <a class="nav-link text-info" href="/Clients/ChallengePrizeHistory?pagee=0&handler=Display"><i class="fa fa-star">&nbsp</i>برندگان پکیج ویژه تبلیغاتی</a>
                             </li>
-                            @if (Context.Session.GetString("userrolename") != "admin" && Context.Session.GetString("userrolename") != "super")
-                            {
-
-                                <li class="nav-item for-clients">
-                                    <a class="nav-link text-light" href="/clients/diamondhistory?pagee=0&handler=Display">الماس‌های دریافت‌شده</a>
-                                </li>
-                            }
-                        }
-                        @if (Context.Session.GetString("userrolename") == "admin" || Context.Session.GetString("userrolename") == "super")
-                        {
-                            <li class="nav-item for-admins">
-                                <a class="nav-link text-light" asp-area="" asp-page="/Superadmins/PendingPosts">تایید پُست های جدید</a>
+                            <li class="nav-item for-clients">
+                                <a class="nav-link text-light" asp-area="" asp-page="/Clients/MyPosts">پُست های من</a>
                             </li>
-
                         }
                         @if (Context.Session.GetString("userid") == "17fb3917-9d6e-49f8-d0a0-08dac53d6445")
                         {
@@ -212,7 +226,12 @@
                 <a id="currentPoint" href="~/Clients/Main">@Context.Session.GetString("userpoints")</a>
                 <span id="currentDiamond" class="currentDiamond">@Context.Session.GetString("userdiamonds")</span>
             </div>
-            <div class="newPost miniCircle"><a href="~/Clients/AddAdvertise">آگهی جدید</a></div>
+            <div class="newPost miniCircle">
+                @if (Context.Session.GetString("userrolename") == "admin" || Context.Session.GetString("userrolename") == "super")
+                {
+                    <a href="~/Clients/AddAdvertise">آگهی جدید</a>
+                }
+            </div>
         </div>
     </div>
 

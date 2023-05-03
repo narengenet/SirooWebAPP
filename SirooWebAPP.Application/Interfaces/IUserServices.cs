@@ -158,7 +158,9 @@ namespace SirooWebAPP.Application.Interfaces
         void AddFollower(Followers follower);
         void UpdateFollower(Followers followers);
 
-
+        List<InsuranceUserData> GetAllInsuranceUserData();
+        void AddInsuranceUserData(InsuranceUserData insuranceUserData);
+        void UpdateInsuranceUserData(InsuranceUserData insuranceUserData);
 
     }
 }

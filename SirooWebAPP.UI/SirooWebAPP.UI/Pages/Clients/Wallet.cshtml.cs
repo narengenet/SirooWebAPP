@@ -63,6 +63,22 @@ namespace SirooWebAPP.UI.Pages.Clients
                     RemainingMoneyToAttendChallenge = _neededMoneyToAttentdInChallenge - theUser.Money;
 
                 }
+
+                if (Request.Query["reason"] == "buyinsurance")
+                {
+                    // check validity to attend in new challenge
+                    long _neededMoneyToAttentdInInsurance = Convert.ToInt64(_usersServices.GetConstantDictionary("money_needed_to_attend_in_insurance").ConstantValue);
+                    if (theUser.Money >= _neededMoneyToAttentdInInsurance)
+                    {
+                        InsuranceUserData insuranceUser = _usersServices.GetAllInsuranceUserData().Where(g => g.User == creatorID).FirstOrDefault();
+                        if (insuranceUser == null)
+                        {
+                            IsValidToChallenge = true;
+                        }
+                    }
+                    RemainingMoneyToAttendChallenge = _neededMoneyToAttentdInInsurance - theUser.Money;
+
+                }
             }
         }
         public IActionResult OnPostAddMoney(AddMoney addMoney)
