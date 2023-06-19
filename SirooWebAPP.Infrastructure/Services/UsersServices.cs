@@ -85,6 +85,7 @@ namespace SirooWebAPP.Infrastructure.Services
         private readonly IGraphHistoryRepository _graphHistoryRepo;
         private readonly IFollowersRepository _followersRepo;
         private readonly IInsuranceUserDataRepository _insuranceRepo;
+        private readonly IInsuranceSecondUserDataRepository _insuranceSecondRepo;
 
 
         private readonly IChatMessagesRepository _chatMessagesRepo;
@@ -125,6 +126,7 @@ namespace SirooWebAPP.Infrastructure.Services
             IChatBlocksRepository chatBlocksRepository,
             IFollowersRepository followersRepo,
             IInsuranceUserDataRepository insuranceRepo,
+            IInsuranceSecondUserDataRepository insuranceSecondRepo,
 
             IMapper mapper
             )
@@ -155,6 +157,7 @@ namespace SirooWebAPP.Infrastructure.Services
             _chatBlocksRepo = chatBlocksRepository;
             _followersRepo = followersRepo;
             _insuranceRepo = insuranceRepo;
+            _insuranceSecondRepo = insuranceSecondRepo;
 
             _mapper = mapper;
         }
@@ -1552,6 +1555,24 @@ namespace SirooWebAPP.Infrastructure.Services
         public void UpdateInsuranceUserData(InsuranceUserData insuranceUserData)
         {
             _insuranceRepo.Update(insuranceUserData);
+        }
+
+
+
+
+        List<InsuranceSecondUserData> IUserServices.GetAllInsuranceSecondUserData()
+        {
+            return _insuranceSecondRepo.GetAll().Where(x => x.IsDeleted == false).ToList<InsuranceSecondUserData>();
+        }
+
+        void IUserServices.AddInsuranceSecondUserData(InsuranceSecondUserData insuranceUserData)
+        {
+            _insuranceSecondRepo.Add(insuranceUserData);
+        }
+
+        void IUserServices.UpdateInsuranceSecondUserData(InsuranceSecondUserData insuranceUserData)
+        {
+            _insuranceSecondRepo.Update(insuranceUserData);
         }
     }
 }

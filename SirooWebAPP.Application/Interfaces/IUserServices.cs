@@ -161,6 +161,10 @@ namespace SirooWebAPP.Application.Interfaces
         List<InsuranceUserData> GetAllInsuranceUserData();
         void AddInsuranceUserData(InsuranceUserData insuranceUserData);
         void UpdateInsuranceUserData(InsuranceUserData insuranceUserData);
+        
+        List<InsuranceSecondUserData> GetAllInsuranceSecondUserData();
+        void AddInsuranceSecondUserData(InsuranceSecondUserData insuranceUserData);
+        void UpdateInsuranceSecondUserData(InsuranceSecondUserData insuranceUserData);
 
     }
 }

@@ -46,6 +46,7 @@ namespace SirooWebAPP.Infrastructure.Contexts
         public DbSet<ChatBlocks> ChatBlocks{ get; set; }
         public DbSet<Followers> Followers{ get; set; }
         public DbSet<InsuranceUserData> InsuranceUserData{ get; set; }
+        public DbSet<InsuranceSecondUserData> InsuranceSecondUserData{ get; set; }
         
 
 

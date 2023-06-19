@@ -40,6 +40,7 @@ namespace SirooWebAPP.Infrastructure
             services.AddScoped<IChatBlocksRepository, ChatBlocksRepository>();
             services.AddScoped<IFollowersRepository, FollowersRepository>();
             services.AddScoped<IInsuranceUserDataRepository, InsuranceUserDataRepository>();
+            services.AddScoped<IInsuranceSecondUserDataRepository, InsuranceSecondUserDataRepository>();
 
 
             services.AddScoped<IUserServices, UsersServices>();
