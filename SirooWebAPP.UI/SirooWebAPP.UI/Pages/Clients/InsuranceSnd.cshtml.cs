@@ -253,11 +253,13 @@ namespace SirooWebAPP.UI.Pages.Clients
                             User = theUser.Id
                         });
 
+                        int prizeForMarketer = Convert.ToInt32(_usersServices.GetConstantDictionary("prize_marketer_to_invite_in_insurance").ConstantValue);
+                        int prizeForZoneadmin = Convert.ToInt32(_usersServices.GetConstantDictionary("prize_zoneadmin_to_invite_in_insurance").ConstantValue);
 
 
                         if (parentRole.RoleName == "zoneadmin")
                         {
-                            parentUser.Money += 10000000;
+                            parentUser.Money += prizeForMarketer+prizeForZoneadmin;
                             _usersServices.UpdateUser(parentUser);
 
                             _usersServices.AddTransactionPercent(new TransactionPercents
@@ -265,19 +267,19 @@ namespace SirooWebAPP.UI.Pages.Clients
                                 Created = DateTime.Now,
                                 FromUser = theUser.Id,
                                 ToUser = parentUser.Id,
-                                FromAmount = 10000000,
-                                ToAmount = 10000000,
+                                FromAmount = prizeForMarketer + prizeForZoneadmin,
+                                ToAmount = prizeForMarketer + prizeForZoneadmin,
                                 Percentage = 0,
                                 ReferenceID = insuranceUserData.Id.ToString(),
                                 Transaction = insuranceUserData.Id,
-                                Description = "پورسانت خرید پکیج بیمه توسط " + theUser.Username
+                                Description = "پورسانت خرید پکیج بیمه حوادث توسط " + theUser.Username
 
                             });
                         }
 
                         if (parentRole.RoleName == "marketer")
                         {
-                            parentUser.Money += 5000000;
+                            parentUser.Money += prizeForMarketer;
                             _usersServices.UpdateUser(parentUser);
 
                             _usersServices.AddTransactionPercent(new TransactionPercents
@@ -285,18 +287,18 @@ namespace SirooWebAPP.UI.Pages.Clients
                                 Created = DateTime.Now,
                                 FromUser = theUser.Id,
                                 ToUser = parentUser.Id,
-                                FromAmount = 5000000,
-                                ToAmount = 5000000,
+                                FromAmount = prizeForMarketer,
+                                ToAmount = prizeForMarketer,
                                 Percentage = 0,
                                 ReferenceID = insuranceUserData.Id.ToString(),
                                 Transaction = insuranceUserData.Id,
-                                Description = "پورسانت خرید پکیج بیمه توسط " + theUser.Username
+                                Description = "پورسانت خرید پکیج بیمه  حوادث توسط " + theUser.Username
 
                             });
 
                             UsersRoles paretn_parent = _usersServices.GetAllUsersRoles().Where(x => x.User == parentUser.Id).FirstOrDefault();
                             Users parent_parentUser = _usersServices.GetUser(paretn_parent.CreatedBy);
-                            parent_parentUser.Money += 5000000;
+                            parent_parentUser.Money += prizeForZoneadmin;
                             _usersServices.UpdateUser(parent_parentUser);
 
                             _usersServices.AddTransactionPercent(new TransactionPercents
@@ -304,12 +306,12 @@ namespace SirooWebAPP.UI.Pages.Clients
                                 Created = DateTime.Now,
                                 FromUser = theUser.Id,
                                 ToUser = parent_parentUser.Id,
-                                FromAmount = 5000000,
-                                ToAmount = 5000000,
+                                FromAmount = prizeForZoneadmin,
+                                ToAmount = prizeForZoneadmin,
                                 Percentage = 0,
                                 ReferenceID = insuranceUserData.Id.ToString(),
                                 Transaction = insuranceUserData.Id,
-                                Description = "پورسانت خرید پکیج بیمه توسط " + theUser.Username
+                                Description = "پورسانت خرید پکیج بیمه حوادث توسط " + theUser.Username
 
                             });
                         }
