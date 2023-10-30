@@ -35,31 +35,33 @@ namespace SirooWebAPP.Infrastructure.Contexts
         public DbSet<PrizesWinners> PrizesWinners { get; set; }
         public DbSet<Transactions> Transactions { get; set; }
         public DbSet<Purchases> Purchases { get; set; }
-        public DbSet<TransactionPercents>  TransactionPercents{ get; set; }
-        public DbSet<Chips>  Chips{ get; set; }
+        public DbSet<TransactionPercents> TransactionPercents { get; set; }
+        public DbSet<Chips> Chips { get; set; }
         public DbSet<Contacts> Contacts { get; set; }
         public DbSet<DiamondUsages> DiamondUsages { get; set; }
-        public DbSet<Graphs> Graphs{ get; set; }
-        public DbSet<ChallengeUserData> ChallengeUserData{ get; set; }
-        public DbSet<GraphHistory> GraphHistory{ get; set; }
-        public DbSet<ChatMessages> ChatMessages{ get; set; }
-        public DbSet<ChatBlocks> ChatBlocks{ get; set; }
-        public DbSet<Followers> Followers{ get; set; }
-        public DbSet<InsuranceUserData> InsuranceUserData{ get; set; }
-        public DbSet<InsuranceSecondUserData> InsuranceSecondUserData{ get; set; }
-        
+        public DbSet<Graphs> Graphs { get; set; }
+        public DbSet<ChallengeUserData> ChallengeUserData { get; set; }
+        public DbSet<GraphHistory> GraphHistory { get; set; }
+        public DbSet<ChatMessages> ChatMessages { get; set; }
+        public DbSet<ChatBlocks> ChatBlocks { get; set; }
+        public DbSet<Followers> Followers { get; set; }
+        public DbSet<InsuranceUserData> InsuranceUserData { get; set; }
+        public DbSet<InsuranceSecondUserData> InsuranceSecondUserData { get; set; }
+        public DbSet<InsuranceThirdUserData> InsuranceThirdUserData { get; set; }
+        public DbSet<InsuranceFourthUserData> InsuranceFourthUserData { get; set; }
+
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             Guid rahmanId = Guid.NewGuid();
-            Users dabouei = new Users { Id = rahmanId, Name = "عبدالرحمن", Family = "دابویی مشک آبادی", Cellphone = "09901069557", Username = "dabooei", ProfileMediaURL = "uploads/2022/9/photo.jpg", DonnationActive = true, Credits = 1000, IsActivated = true, Created = DateTime.Now, Points = 100, Diamonds=0 };
+            Users dabouei = new Users { Id = rahmanId, Name = "عبدالرحمن", Family = "دابویی مشک آبادی", Cellphone = "09901069557", Username = "dabooei", ProfileMediaURL = "uploads/2022/9/photo.jpg", DonnationActive = true, Credits = 1000, IsActivated = true, Created = DateTime.Now, Points = 100, Diamonds = 0 };
             Guid sinId = Guid.NewGuid();
-            Users sina = new Users { Id = sinId, Name = "Sina", Family = "Jouybari", Cellphone = "09394125130", Username = "sinful", ProfileMediaURL = "uploads/2022/9/sina2.jpg", Inviter=rahmanId, IsActivated = true, Created = DateTime.Now, Points = 90, ConfirmationCode="111111", Money=850000, Diamonds=0 };
-            
+            Users sina = new Users { Id = sinId, Name = "Sina", Family = "Jouybari", Cellphone = "09394125130", Username = "sinful", ProfileMediaURL = "uploads/2022/9/sina2.jpg", Inviter = rahmanId, IsActivated = true, Created = DateTime.Now, Points = 90, ConfirmationCode = "111111", Money = 850000, Diamonds = 0 };
+
             Guid firstId = Guid.NewGuid();
             Users firstUser = new Users { Id = firstId, Name = "first", Family = "user1", Cellphone = "09111111111", Username = "firstuser", ProfileMediaURL = "uploads/2022/9/sina2.jpg", IsActivated = true, Created = DateTime.Now, Points = 90, ConfirmationCode = "111111", Money = 3000000, Diamonds = 0 };
-            
+
             Guid secondId = Guid.NewGuid();
             Users secondUser = new Users { Id = secondId, Name = "second", Family = "user2", Cellphone = "09122222222", Username = "seconduser", ProfileMediaURL = "uploads/2022/9/sina2.jpg", IsActivated = true, Created = DateTime.Now, Points = 90, ConfirmationCode = "111111", Money = 3000000, Diamonds = 0 };
 
@@ -74,7 +76,7 @@ namespace SirooWebAPP.Infrastructure.Contexts
 
             Guid sixthId = Guid.NewGuid();
             Users sixthUser = new Users { Id = sixthId, Name = "sixth", Family = "user6", Cellphone = "09166666666", Username = "sixthuser", ProfileMediaURL = "uploads/2022/9/sina2.jpg", IsActivated = true, Created = DateTime.Now, Points = 90, ConfirmationCode = "111111", Money = 3000000, Diamonds = 0 };
-            
+
             Guid seventhId = Guid.NewGuid();
             Users seventhUser = new Users { Id = seventhId, Name = "seventh", Family = "user7", Cellphone = "09177777777", Username = "seventhuser", ProfileMediaURL = "uploads/2022/9/sina2.jpg", IsActivated = true, Created = DateTime.Now, Points = 90, ConfirmationCode = "111111", Money = 3000000, Diamonds = 0 };
 
@@ -139,13 +141,13 @@ namespace SirooWebAPP.Infrastructure.Contexts
             UsersRoles client_2 = new UsersRoles { Id = Guid.NewGuid(), Role = role_client.Id, User = secondId, CreatedBy = secondId };
             UsersRoles client_3 = new UsersRoles { Id = Guid.NewGuid(), Role = role_client.Id, User = thirdId, CreatedBy = thirdId };
             UsersRoles client_4 = new UsersRoles { Id = Guid.NewGuid(), Role = role_client.Id, User = fourthId, CreatedBy = fourthId };
-            UsersRoles client_5 = new UsersRoles { Id = Guid.NewGuid(), Role = role_client.Id, User = fivthId, CreatedBy = fivthId};
+            UsersRoles client_5 = new UsersRoles { Id = Guid.NewGuid(), Role = role_client.Id, User = fivthId, CreatedBy = fivthId };
             UsersRoles client_6 = new UsersRoles { Id = Guid.NewGuid(), Role = role_client.Id, User = sixthId, CreatedBy = sixthId };
             UsersRoles client_7 = new UsersRoles { Id = Guid.NewGuid(), Role = role_client.Id, User = seventhId, CreatedBy = seventhId };
             UsersRoles client_8 = new UsersRoles { Id = Guid.NewGuid(), Role = role_client.Id, User = eighthId, CreatedBy = eighthId };
-            UsersRoles client_9 = new UsersRoles { Id = Guid.NewGuid(), Role = role_client.Id, User = ninthId, CreatedBy = ninthId};
+            UsersRoles client_9 = new UsersRoles { Id = Guid.NewGuid(), Role = role_client.Id, User = ninthId, CreatedBy = ninthId };
             UsersRoles client_10 = new UsersRoles { Id = Guid.NewGuid(), Role = role_client.Id, User = tenthId, CreatedBy = tenthId };
-            UsersRoles client_11 = new UsersRoles { Id = Guid.NewGuid(), Role = role_client.Id, User = eleventhId, CreatedBy = eleventhId};
+            UsersRoles client_11 = new UsersRoles { Id = Guid.NewGuid(), Role = role_client.Id, User = eleventhId, CreatedBy = eleventhId };
             //UsersRoles client_amir = new UsersRoles { Id = Guid.NewGuid(), Role = role_client.Id, User = amir.Id, CreatedBy = abdolah.Id };
             //UsersRoles client_maryam = new UsersRoles { Id = Guid.NewGuid(), Role = role_client.Id, User = maryam.Id, CreatedBy = abdolah.Id };
             //UsersRoles client_haji = new UsersRoles { Id = Guid.NewGuid(), Role = role_client.Id, User = haji.Id, CreatedBy = abdolah.Id };
@@ -155,7 +157,7 @@ namespace SirooWebAPP.Infrastructure.Contexts
             //modelBuilder.Entity<UsersRoles>().HasData(zoneadmin_mohsen);
             //modelBuilder.Entity<UsersRoles>().HasData(client_abdolah);
             modelBuilder.Entity<UsersRoles>().HasData(store_dabouei);
-            
+
             modelBuilder.Entity<UsersRoles>().HasData(client_1);
             modelBuilder.Entity<UsersRoles>().HasData(client_2);
             modelBuilder.Entity<UsersRoles>().HasData(client_3);
@@ -209,20 +211,20 @@ namespace SirooWebAPP.Infrastructure.Contexts
             //modelBuilder.Entity<Prizes>().HasData(prize_c_three);
 
 
-            
-            ConstantDictionaries min_points_to_spin_diamond_wheel = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "min_points_to_spin_diamond_wheel", ConstantValue = "200", IsActive = true, Description = "حداقل امتیاز برای چرخاندن گردونه شانس الماس بار اول", Created = DateTime.Now, CreatedBy = sina.Id, Category = "گردونه" , PriorityIndex=-2 };
-            ConstantDictionaries added_points_to_each_spin_diamond_wheel_after_first_time = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "added_points_to_each_spin_diamond_wheel_after_first_time", ConstantValue = "100",  IsActive = true, Description = "افزایش تعداد امتیاز به اضای هر بار چرخاندن گردونه شانس در یک روز", Created = DateTime.Now, CreatedBy = sina.Id, Category = "گردونه" , PriorityIndex=-1 };
-            ConstantDictionaries diamond_first_priority = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "diamond_first_priority", ConstantValue = "1,5", ConstantSecondValue="50", IsActive = true, Description = "اولویت اول تعداد الماس و درصد شانس", Created = DateTime.Now, CreatedBy = sina.Id, Category = "گردونه" , PriorityIndex=0 };
-            ConstantDictionaries diamond_second_priority = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "diamond_second_priority", ConstantValue = "6,10", ConstantSecondValue="20", IsActive = true, Description = "اولویت دوم تعداد الماس و درصد شانس", Created = DateTime.Now, CreatedBy = sina.Id, Category = "گردونه" , PriorityIndex=1 };
-            ConstantDictionaries diamond_third_priority = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "diamond_third_priority", ConstantValue = "11,20", ConstantSecondValue="10", IsActive = true, Description = "اولویت سوم تعداد الماس و درصد شانس", Created = DateTime.Now, CreatedBy = sina.Id, Category = "گردونه" , PriorityIndex=2 };
-            ConstantDictionaries diamond_fourth_priority = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "diamond_fourth_priority", ConstantValue = "21,30", ConstantSecondValue="6", IsActive = true, Description = "اولویت چهارم تعداد الماس و درصد شانس", Created = DateTime.Now, CreatedBy = sina.Id, Category = "گردونه" , PriorityIndex=3 };
-            ConstantDictionaries diamond_fivth_priority = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "diamond_fivth_priority", ConstantValue = "31,50", ConstantSecondValue="5", IsActive = true, Description = "اولویت پنجم تعداد الماس و درصد شانس", Created = DateTime.Now, CreatedBy = sina.Id, Category = "گردونه" , PriorityIndex=4 };
-            ConstantDictionaries diamond_sixth_priority = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "diamond_sixth_priority", ConstantValue = "51,100", ConstantSecondValue="4", IsActive = true, Description = "اولویت ششم تعداد الماس و درصد شانس", Created = DateTime.Now, CreatedBy = sina.Id, Category = "گردونه" , PriorityIndex=5 };
-            ConstantDictionaries diamond_seventh_priority = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "diamond_seventh_priority", ConstantValue = "101,200", ConstantSecondValue="3", IsActive = true, Description = "اولویت هفتم تعداد الماس و درصد شانس", Created = DateTime.Now, CreatedBy = sina.Id, Category = "گردونه" , PriorityIndex=6 };
-            ConstantDictionaries diamond_eighth_priority = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "diamond_eighth_priority", ConstantValue = "201,300", ConstantSecondValue="2", IsActive = true, Description = "اولویت هشتم تعداد الماس و درصد شانس", Created = DateTime.Now, CreatedBy = sina.Id, Category = "گردونه" , PriorityIndex=7 };
-            ConstantDictionaries diamond_nineth_priority = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "diamond_nineth_priority", ConstantValue = "301,500", ConstantSecondValue="0", IsActive = true, Description = "امتیاز نهم آگهی تبلیغاتی تصویری", Created = DateTime.Now, CreatedBy = sina.Id, Category = "گردونه" , PriorityIndex=8 };
-            ConstantDictionaries diamond_tenth_priority = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "diamond_tenth_priority", ConstantValue = "999,1000", ConstantSecondValue="0", IsActive = true, Description = "امتیاز دهم آگهی تبلیغاتی تصویری", Created = DateTime.Now, CreatedBy = sina.Id, Category = "گردونه" , PriorityIndex=9 };
-           
+
+            ConstantDictionaries min_points_to_spin_diamond_wheel = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "min_points_to_spin_diamond_wheel", ConstantValue = "200", IsActive = true, Description = "حداقل امتیاز برای چرخاندن گردونه شانس الماس بار اول", Created = DateTime.Now, CreatedBy = sina.Id, Category = "گردونه", PriorityIndex = -2 };
+            ConstantDictionaries added_points_to_each_spin_diamond_wheel_after_first_time = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "added_points_to_each_spin_diamond_wheel_after_first_time", ConstantValue = "100", IsActive = true, Description = "افزایش تعداد امتیاز به اضای هر بار چرخاندن گردونه شانس در یک روز", Created = DateTime.Now, CreatedBy = sina.Id, Category = "گردونه", PriorityIndex = -1 };
+            ConstantDictionaries diamond_first_priority = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "diamond_first_priority", ConstantValue = "1,5", ConstantSecondValue = "50", IsActive = true, Description = "اولویت اول تعداد الماس و درصد شانس", Created = DateTime.Now, CreatedBy = sina.Id, Category = "گردونه", PriorityIndex = 0 };
+            ConstantDictionaries diamond_second_priority = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "diamond_second_priority", ConstantValue = "6,10", ConstantSecondValue = "20", IsActive = true, Description = "اولویت دوم تعداد الماس و درصد شانس", Created = DateTime.Now, CreatedBy = sina.Id, Category = "گردونه", PriorityIndex = 1 };
+            ConstantDictionaries diamond_third_priority = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "diamond_third_priority", ConstantValue = "11,20", ConstantSecondValue = "10", IsActive = true, Description = "اولویت سوم تعداد الماس و درصد شانس", Created = DateTime.Now, CreatedBy = sina.Id, Category = "گردونه", PriorityIndex = 2 };
+            ConstantDictionaries diamond_fourth_priority = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "diamond_fourth_priority", ConstantValue = "21,30", ConstantSecondValue = "6", IsActive = true, Description = "اولویت چهارم تعداد الماس و درصد شانس", Created = DateTime.Now, CreatedBy = sina.Id, Category = "گردونه", PriorityIndex = 3 };
+            ConstantDictionaries diamond_fivth_priority = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "diamond_fivth_priority", ConstantValue = "31,50", ConstantSecondValue = "5", IsActive = true, Description = "اولویت پنجم تعداد الماس و درصد شانس", Created = DateTime.Now, CreatedBy = sina.Id, Category = "گردونه", PriorityIndex = 4 };
+            ConstantDictionaries diamond_sixth_priority = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "diamond_sixth_priority", ConstantValue = "51,100", ConstantSecondValue = "4", IsActive = true, Description = "اولویت ششم تعداد الماس و درصد شانس", Created = DateTime.Now, CreatedBy = sina.Id, Category = "گردونه", PriorityIndex = 5 };
+            ConstantDictionaries diamond_seventh_priority = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "diamond_seventh_priority", ConstantValue = "101,200", ConstantSecondValue = "3", IsActive = true, Description = "اولویت هفتم تعداد الماس و درصد شانس", Created = DateTime.Now, CreatedBy = sina.Id, Category = "گردونه", PriorityIndex = 6 };
+            ConstantDictionaries diamond_eighth_priority = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "diamond_eighth_priority", ConstantValue = "201,300", ConstantSecondValue = "2", IsActive = true, Description = "اولویت هشتم تعداد الماس و درصد شانس", Created = DateTime.Now, CreatedBy = sina.Id, Category = "گردونه", PriorityIndex = 7 };
+            ConstantDictionaries diamond_nineth_priority = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "diamond_nineth_priority", ConstantValue = "301,500", ConstantSecondValue = "0", IsActive = true, Description = "امتیاز نهم آگهی تبلیغاتی تصویری", Created = DateTime.Now, CreatedBy = sina.Id, Category = "گردونه", PriorityIndex = 8 };
+            ConstantDictionaries diamond_tenth_priority = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "diamond_tenth_priority", ConstantValue = "999,1000", ConstantSecondValue = "0", IsActive = true, Description = "امتیاز دهم آگهی تبلیغاتی تصویری", Created = DateTime.Now, CreatedBy = sina.Id, Category = "گردونه", PriorityIndex = 9 };
+
             ConstantDictionaries def_money_to_premium_video_ads = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "def_money_to_premium_video_ads", ConstantValue = "1000000", IsActive = true, Description = "هزینه درج آگهی تبلیغاتی ویدئویی", Created = DateTime.Now, CreatedBy = sina.Id, Category = "آگهی تبلیغاتی", PriorityIndex = 10 };
             ConstantDictionaries def_money_to_premium_image_ads = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "def_money_to_premium_image_ads", ConstantValue = "200000", IsActive = true, Description = "هزینه درج آگهی تبلیغاتی تصویری", Created = DateTime.Now, CreatedBy = sina.Id, Category = "آگهی تبلیغاتی", PriorityIndex = 11 };
             ConstantDictionaries points_reward_premium_video_ads = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "points_reward_premium_video_ads", ConstantValue = "200", IsActive = true, Description = "امتیاز ثبت آگهی تبلیغاتی ویدئویی", Created = DateTime.Now, CreatedBy = sina.Id, Category = "آگهی تبلیغاتی", PriorityIndex = 12 };
@@ -250,7 +252,7 @@ namespace SirooWebAPP.Infrastructure.Contexts
 
             ConstantDictionaries credit_for_image_ads = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "credit_for_image_ads", ConstantValue = "500", IsActive = true, Description = "اعتبار لازم برای ثبت آگهی تصویری", Created = DateTime.Now, CreatedBy = sina.Id, Category = "اعتبار", PriorityIndex = 28 };
             ConstantDictionaries credit_for_video_ads = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "credit_for_video_ads", ConstantValue = "1000", IsActive = true, Description = "اعتبار لازم برای ثبت آگهی ویدئویی", Created = DateTime.Now, CreatedBy = sina.Id, Category = "اعتبار", PriorityIndex = 29 };
-            
+
             ConstantDictionaries expire_dates_for_challenge_1 = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "expire_dates_for_challenge_1", ConstantValue = "30", IsActive = true, Description = "تعداد روزهای مجاز برای چالش نوع 1", Created = DateTime.Now, CreatedBy = sina.Id, Category = "چالش", PriorityIndex = 30 };
             ConstantDictionaries money_needed_to_attend_in_challenge_1 = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "money_needed_to_attend_in_challenge_1", ConstantValue = "300000", IsActive = true, Description = "موجودی ریالی برای شرکت در چالش نوع 1", Created = DateTime.Now, CreatedBy = sina.Id, Category = "چالش", PriorityIndex = 31 };
             ConstantDictionaries prize_for_invite_to_challenge_1 = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "prize_for_invite_to_challenge_1", ConstantValue = "100000", IsActive = true, Description = "کارمزد برای معرفی کاربران به چالش نوع 1", Created = DateTime.Now, CreatedBy = sina.Id, Category = "چالش", PriorityIndex = 32 };
@@ -271,14 +273,25 @@ namespace SirooWebAPP.Infrastructure.Contexts
             ConstantDictionaries order_of_prize_payment_3 = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "order_of_prize_payment_3", ConstantValue = "2,3,5", IsActive = true, Description = "ترتیب پرداخت کارمزدها نوع 3", Created = DateTime.Now, CreatedBy = sina.Id, Category = "چالش", PriorityIndex = 45 };
             ConstantDictionaries maximum_number_of_prize_payment_3 = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "maximum_number_of_prize_payment_3", ConstantValue = "1000", IsActive = true, Description = "حداکثر تعداد پرداخت کارمزدها نوع 3", Created = DateTime.Now, CreatedBy = sina.Id, Category = "چالش", PriorityIndex = 46 };
             ConstantDictionaries expire_dates_for_ads_3 = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "expire_dates_for_ads_3", ConstantValue = "20", IsActive = true, Description = "تعداد روزهای آگهی تجاری نوع 3", Created = DateTime.Now, CreatedBy = sina.Id, Category = "چالش", PriorityIndex = 47 };
-            
-            ConstantDictionaries money_needed_to_attend_in_insurance= new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "money_needed_to_attend_in_insurance", ConstantValue = "12000000", IsActive = true, Description = "موجودی ریالی برای خرید پکیج بیمه حوادث انفرادی", Created = DateTime.Now, CreatedBy = sina.Id, Category = "بیمه", PriorityIndex = 48 };
-            ConstantDictionaries prize_marketer_to_invite_in_insurance= new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "prize_marketer_to_invite_in_insurance", ConstantValue = "2000000", IsActive = true, Description = "پورسانت بازاریاب", Created = DateTime.Now, CreatedBy = sina.Id, Category = "بیمه", PriorityIndex = 49 };
-            ConstantDictionaries prize_zoneadmin_to_invite_in_insurance= new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "prize_zoneadmin_to_invite_in_insurance", ConstantValue = "2000000", IsActive = true, Description = "پورسانت مدیر منطقه", Created = DateTime.Now, CreatedBy = sina.Id, Category = "بیمه", PriorityIndex = 50 };
 
-            ConstantDictionaries money_needed_to_attend_in_insurance2= new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "money_needed_to_attend_in_insurance2", ConstantValue = "25000000", IsActive = true, Description = "موجودی ریالی برای خرید پکیج تخفیف بیمه‌ای و ثبت نام وام مهرامید", Created = DateTime.Now, CreatedBy = sina.Id, Category = "بیمه", PriorityIndex = 51 };
-            ConstantDictionaries prize_marketer_to_invite_in_insurance2= new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "prize_marketer_to_invite_in_insurance2", ConstantValue = "4000000", IsActive = true, Description = "پورسانت بازاریاب", Created = DateTime.Now, CreatedBy = sina.Id, Category = "بیمه", PriorityIndex = 52 };
-            ConstantDictionaries prize_zoneadmin_to_invite_in_insurance2= new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "prize_zoneadmin_to_invite_in_insurance2", ConstantValue = "4000000", IsActive = true, Description = "پورسانت مدیر منطقه", Created = DateTime.Now, CreatedBy = sina.Id, Category = "بیمه", PriorityIndex = 53 };
+            ConstantDictionaries money_needed_to_attend_in_insurance = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "money_needed_to_attend_in_insurance", ConstantValue = "12000000", IsActive = true, Description = "موجودی ریالی برای خرید پکیج بیمه حوادث انفرادی", Created = DateTime.Now, CreatedBy = sina.Id, Category = "بیمه", PriorityIndex = 48 };
+            ConstantDictionaries prize_marketer_to_invite_in_insurance = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "prize_marketer_to_invite_in_insurance", ConstantValue = "2000000", IsActive = true, Description = "پورسانت بازاریاب", Created = DateTime.Now, CreatedBy = sina.Id, Category = "بیمه", PriorityIndex = 49 };
+            ConstantDictionaries prize_zoneadmin_to_invite_in_insurance = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "prize_zoneadmin_to_invite_in_insurance", ConstantValue = "2000000", IsActive = true, Description = "پورسانت مدیر منطقه", Created = DateTime.Now, CreatedBy = sina.Id, Category = "بیمه", PriorityIndex = 50 };
+
+            ConstantDictionaries money_needed_to_attend_in_insurance2 = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "money_needed_to_attend_in_insurance2", ConstantValue = "25000000", IsActive = true, Description = "موجودی ریالی برای خرید پکیج تخفیف بیمه‌ای و ثبت نام وام مهرامید", Created = DateTime.Now, CreatedBy = sina.Id, Category = "بیمه", PriorityIndex = 51 };
+            ConstantDictionaries prize_marketer_to_invite_in_insurance2 = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "prize_marketer_to_invite_in_insurance2", ConstantValue = "4000000", IsActive = true, Description = "پورسانت بازاریاب", Created = DateTime.Now, CreatedBy = sina.Id, Category = "بیمه", PriorityIndex = 52 };
+            ConstantDictionaries prize_zoneadmin_to_invite_in_insurance2 = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "prize_zoneadmin_to_invite_in_insurance2", ConstantValue = "4000000", IsActive = true, Description = "پورسانت مدیر منطقه", Created = DateTime.Now, CreatedBy = sina.Id, Category = "بیمه", PriorityIndex = 53 };
+
+            ConstantDictionaries money_needed_to_attend_in_insurance3 = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "money_needed_to_attend_in_insurance3", ConstantValue = "60000000", IsActive = true, Description = "موجودی ریالی برای خرید پکیج تخفیف لوازم خانگی", Created = DateTime.Now, CreatedBy = sina.Id, Category = "بیمه", PriorityIndex = 54 };
+            ConstantDictionaries prize_marketer_to_invite_in_insurance3 = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "prize_marketer_to_invite_in_insurance3", ConstantValue = "4000000", IsActive = true, Description = "پورسانت بازاریاب", Created = DateTime.Now, CreatedBy = sina.Id, Category = "بیمه", PriorityIndex = 55 };
+            ConstantDictionaries prize_zoneadmin_to_invite_in_insurance3 = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "prize_zoneadmin_to_invite_in_insurance3", ConstantValue = "4000000", IsActive = true, Description = "پورسانت مدیر منطقه", Created = DateTime.Now, CreatedBy = sina.Id, Category = "بیمه", PriorityIndex = 56 };
+
+
+
+
+            ConstantDictionaries money_needed_to_attend_in_insurance4 = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "money_needed_to_attend_in_insurance4", ConstantValue = "50000000", IsActive = true, Description = "موجودی ریالی برای خرید پکیج 100 میلیونی", Created = DateTime.Now, CreatedBy = sina.Id, Category = "بیمه", PriorityIndex = 57 };
+            ConstantDictionaries prize_marketer_to_invite_in_insurance4 = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "prize_marketer_to_invite_in_insurance4", ConstantValue = "4000000", IsActive = true, Description = "پورسانت بازاریاب", Created = DateTime.Now, CreatedBy = sina.Id, Category = "بیمه", PriorityIndex = 58 };
+            ConstantDictionaries prize_zoneadmin_to_invite_in_insurance4 = new ConstantDictionaries { Id = Guid.NewGuid(), ConstantKey = "prize_zoneadmin_to_invite_in_insurance4", ConstantValue = "4000000", IsActive = true, Description = "پورسانت مدیر منطقه", Created = DateTime.Now, CreatedBy = sina.Id, Category = "بیمه", PriorityIndex = 59 };
 
 
 
@@ -303,7 +316,7 @@ namespace SirooWebAPP.Infrastructure.Contexts
             modelBuilder.Entity<ConstantDictionaries>().HasData(def_money_to_premium_image_ads);
             modelBuilder.Entity<ConstantDictionaries>().HasData(points_reward_premium_video_ads);
             modelBuilder.Entity<ConstantDictionaries>().HasData(points_reward_premium_image_ads);
-            
+
             modelBuilder.Entity<ConstantDictionaries>().HasData(diamond_first_priority);
             modelBuilder.Entity<ConstantDictionaries>().HasData(diamond_second_priority);
             modelBuilder.Entity<ConstantDictionaries>().HasData(diamond_third_priority);
@@ -340,7 +353,13 @@ namespace SirooWebAPP.Infrastructure.Contexts
             modelBuilder.Entity<ConstantDictionaries>().HasData(money_needed_to_attend_in_insurance2);
             modelBuilder.Entity<ConstantDictionaries>().HasData(prize_marketer_to_invite_in_insurance2);
             modelBuilder.Entity<ConstantDictionaries>().HasData(prize_zoneadmin_to_invite_in_insurance2);
-            
+            modelBuilder.Entity<ConstantDictionaries>().HasData(money_needed_to_attend_in_insurance3);
+            modelBuilder.Entity<ConstantDictionaries>().HasData(prize_marketer_to_invite_in_insurance3);
+            modelBuilder.Entity<ConstantDictionaries>().HasData(prize_zoneadmin_to_invite_in_insurance3);
+            modelBuilder.Entity<ConstantDictionaries>().HasData(money_needed_to_attend_in_insurance4);
+            modelBuilder.Entity<ConstantDictionaries>().HasData(prize_marketer_to_invite_in_insurance4);
+            modelBuilder.Entity<ConstantDictionaries>().HasData(prize_zoneadmin_to_invite_in_insurance4);
+
 
 
 

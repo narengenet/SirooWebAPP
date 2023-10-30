@@ -41,6 +41,8 @@ namespace SirooWebAPP.Infrastructure
             services.AddScoped<IFollowersRepository, FollowersRepository>();
             services.AddScoped<IInsuranceUserDataRepository, InsuranceUserDataRepository>();
             services.AddScoped<IInsuranceSecondUserDataRepository, InsuranceSecondUserDataRepository>();
+            services.AddScoped<IInsuranceThirdUserDataRepository, InsuranceThirdUserDataRepository>();
+            services.AddScoped<IInsuranceFourthUserDataRepository, InsuranceFourthUserDataRepository>();
 
 
             services.AddScoped<IUserServices, UsersServices>();

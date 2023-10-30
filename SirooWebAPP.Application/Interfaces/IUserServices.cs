@@ -34,14 +34,14 @@ namespace SirooWebAPP.Application.Interfaces
         bool CheckUserLogin(Guid userId, string token);
         void ClerarAllUserLogins(Guid userId);
         List<OnlineUsers> GetAllOnlineUsers();
-        
 
 
-        public Guid AddAvertise(Advertise advertise,Guid userId);
+
+        public Guid AddAvertise(Advertise advertise, Guid userId);
         public List<Advertise> GetAllPermenantAdvertises();
-        public List<DTOAdvertise> GetAdvertises(Guid userID, bool beforeDate,int pageIndex, DateTime? afterThisDate, string? username);
-        public List<DTOAdvertise> GetMyAdvertises(Guid userID,int page);
-        public List<DTOAdvertise> GetPendingAdvertises(Guid userID,int page);
+        public List<DTOAdvertise> GetAdvertises(Guid userID, bool beforeDate, int pageIndex, DateTime? afterThisDate, string? username);
+        public List<DTOAdvertise> GetMyAdvertises(Guid userID, int page);
+        public List<DTOAdvertise> GetPendingAdvertises(Guid userID, int page);
         public bool UpdateAdvertisement(Advertise ads);
         public Advertise GetAdvertise(Guid adsID);
         //string GetInviterUsername(int ID);
@@ -49,8 +49,8 @@ namespace SirooWebAPP.Application.Interfaces
         public bool RemoveLikeFromAdvertise(Guid advertiseID, Guid UserID);
         int DoLikeAdvertiseByUserID(Guid advertiseID, Guid UserID);
         DTOAdvertise WatchedAdvertiseByUserID(Guid advertiseID, Guid UserID);
-        bool DeleteAdvertise(Guid postID,Guid userId);
-        bool LogOut(Guid UserID,string GUID,bool killLogout=false);
+        bool DeleteAdvertise(Guid postID, Guid userId);
+        bool LogOut(Guid UserID, string GUID, bool killLogout = false);
 
         Roles AddRole(Roles roles);
         Roles GetRole(Guid roleId);
@@ -61,14 +61,14 @@ namespace SirooWebAPP.Application.Interfaces
         List<UsersRoles> GetAllUsersRoles();
         void UpdateUserRole(UsersRoles usersRoles);
         UsersRoles AddUserToRole(UsersRoles userRole);
-        bool RemoveUserFromRole(UsersRoles userRole,Guid removedBy);
+        bool RemoveUserFromRole(UsersRoles userRole, Guid removedBy);
 
         List<Draws> GetAllDraws();
         List<DTODraws> GetAllActiveDrawsByUser(Guid userId);
         List<DTODraws> GetAllActiveNotArchivedDrawsByUser(Guid userId);
         Draws AddDraw(Draws draw);
         bool UpdateDraw(Draws draw);
-        
+
         List<Prizes> GetAllPrizes();
         public List<Prizes> GetPrizesByDraw(Guid drawId);
         Prizes AddPrize(Prizes prize);
@@ -154,17 +154,27 @@ namespace SirooWebAPP.Application.Interfaces
         void UpdateChatBlocks(ChatBlocks chatBlock);
 
 
-        List<Followers> GetAllFollowers(bool forceAll=false);
+        List<Followers> GetAllFollowers(bool forceAll = false);
         void AddFollower(Followers follower);
         void UpdateFollower(Followers followers);
 
         List<InsuranceUserData> GetAllInsuranceUserData();
         void AddInsuranceUserData(InsuranceUserData insuranceUserData);
         void UpdateInsuranceUserData(InsuranceUserData insuranceUserData);
-        
+
         List<InsuranceSecondUserData> GetAllInsuranceSecondUserData();
         void AddInsuranceSecondUserData(InsuranceSecondUserData insuranceUserData);
         void UpdateInsuranceSecondUserData(InsuranceSecondUserData insuranceUserData);
+
+        List<InsuranceThirdUserData> GetAllInsuranceThirdUserData();
+        void AddInsuranceThirdUserData(InsuranceThirdUserData insuranceUserData);
+        void UpdateInsuranceThirdUserData(InsuranceThirdUserData insuranceUserData);
+
+
+
+        List<InsuranceFourthUserData> GetAllInsuranceFourthUserData();
+        void AddInsuranceFourthUserData(InsuranceFourthUserData insuranceUserData);
+        void UpdateInsuranceFourthUserData(InsuranceFourthUserData insuranceUserData);
 
     }
 }

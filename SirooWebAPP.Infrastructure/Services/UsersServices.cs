@@ -86,6 +86,8 @@ namespace SirooWebAPP.Infrastructure.Services
         private readonly IFollowersRepository _followersRepo;
         private readonly IInsuranceUserDataRepository _insuranceRepo;
         private readonly IInsuranceSecondUserDataRepository _insuranceSecondRepo;
+        private readonly IInsuranceThirdUserDataRepository _insuranceThirdRepo;
+        private readonly IInsuranceFourthUserDataRepository _insuranceFourthRepo;
 
 
         private readonly IChatMessagesRepository _chatMessagesRepo;
@@ -127,6 +129,8 @@ namespace SirooWebAPP.Infrastructure.Services
             IFollowersRepository followersRepo,
             IInsuranceUserDataRepository insuranceRepo,
             IInsuranceSecondUserDataRepository insuranceSecondRepo,
+            IInsuranceThirdUserDataRepository insuranceThirdRepo,
+            IInsuranceFourthUserDataRepository insuranceFourthRepo,
 
             IMapper mapper
             )
@@ -158,6 +162,8 @@ namespace SirooWebAPP.Infrastructure.Services
             _followersRepo = followersRepo;
             _insuranceRepo = insuranceRepo;
             _insuranceSecondRepo = insuranceSecondRepo;
+            _insuranceThirdRepo = insuranceThirdRepo;
+            _insuranceFourthRepo = insuranceFourthRepo;
 
             _mapper = mapper;
         }
@@ -306,10 +312,10 @@ namespace SirooWebAPP.Infrastructure.Services
         public bool UpdateUser(Users user)
         {
             _userRepo.Update(user);
-            
-            Users tmpUser= CachedContents.AllUsers.Where(u => u.Id == user.Id).FirstOrDefault();
+
+            Users tmpUser = CachedContents.AllUsers.Where(u => u.Id == user.Id).FirstOrDefault();
             CachedContents.AllUsers.Remove(tmpUser);
-            if (tmpUser!=null)
+            if (tmpUser != null)
             {
                 if (tmpUser.IsDeleted == false)
                 {
@@ -321,7 +327,7 @@ namespace SirooWebAPP.Infrastructure.Services
                 CachedContents.AllUsers.Add(user);
             }
 
-            
+
 
             return true;
         }
@@ -468,7 +474,7 @@ namespace SirooWebAPP.Infrastructure.Services
 
             if (CachedContents.Advertises.Count == 0)
             {
-                CachedContents.Followers = _followersRepo.GetAll().Where(f=>f.IsDeleted==false).ToList<Followers>();
+                CachedContents.Followers = _followersRepo.GetAll().Where(f => f.IsDeleted == false).ToList<Followers>();
                 CachedContents.AllUsers = _userRepo.GetAll().Where(u => u.IsDeleted == false).ToList<Users>();
                 // get all ads if owner quota is not ended and ads is not expired
 
@@ -1523,7 +1529,7 @@ namespace SirooWebAPP.Infrastructure.Services
             _chatBlocksRepo.Update(chatBlock);
         }
 
-        public List<Followers> GetAllFollowers(bool forceAll=false)
+        public List<Followers> GetAllFollowers(bool forceAll = false)
         {
             if (forceAll)
             {
@@ -1573,6 +1579,42 @@ namespace SirooWebAPP.Infrastructure.Services
         void IUserServices.UpdateInsuranceSecondUserData(InsuranceSecondUserData insuranceUserData)
         {
             _insuranceSecondRepo.Update(insuranceUserData);
+        }
+
+        List<InsuranceThirdUserData> IUserServices.GetAllInsuranceThirdUserData()
+        {
+            return _insuranceThirdRepo.GetAll().Where(x => x.IsDeleted == false).ToList<InsuranceThirdUserData>();
+        }
+
+        void IUserServices.AddInsuranceThirdUserData(InsuranceThirdUserData insuranceUserData)
+        {
+            _insuranceThirdRepo.Add(insuranceUserData);
+        }
+
+        void IUserServices.UpdateInsuranceThirdUserData(InsuranceThirdUserData insuranceUserData)
+        {
+            _insuranceThirdRepo.Update(insuranceUserData);
+        }
+
+
+
+
+
+
+
+        List<InsuranceFourthUserData> IUserServices.GetAllInsuranceFourthUserData()
+        {
+            return _insuranceFourthRepo.GetAll().Where(x => x.IsDeleted == false).ToList<InsuranceFourthUserData>();
+        }
+
+        void IUserServices.AddInsuranceFourthUserData(InsuranceFourthUserData insuranceUserData)
+        {
+            _insuranceFourthRepo.Add(insuranceUserData);
+        }
+
+        void IUserServices.UpdateInsuranceFourthUserData(InsuranceFourthUserData insuranceUserData)
+        {
+            _insuranceFourthRepo.Update(insuranceUserData);
         }
     }
 }

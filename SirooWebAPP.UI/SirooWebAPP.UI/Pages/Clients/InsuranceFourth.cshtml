@@ -1,0 +1,422 @@
+﻿@page
+@model SirooWebAPP.UI.Pages.Clients.InsuranceFourthModel
+@{
+    Layout = "_LayoutClients";
+}
+<style>
+
+    .MainDashboard {
+        display: none !important;
+    }
+
+</style>
+
+@if (Model.ResultMessage.Length > 1)
+{
+    <div class="alert alert-@Model.ResultMessageSuccess fade show" role="alert">
+        @Model.ResultMessage
+        <button type="button" class="close" data-dismiss="alert" onclick="closeAlert();" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+
+<div class="modal fade" id="confirmInviterModal" tabindex="-1" role="dialog" aria-labelledby="confirmInviterModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmInviterModal">معرف انتخاب شدهد</h5>
+                <button onclick="$('#finishdraw_'+finishId).css('opacity','1');$('#finishDrawModal').modal('toggle');" type="button" class="close" data-dismiss="modal" aria-label="بازگشت">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                شما معرف تعریف نکرده اید. آیا مطمئن هستید که بدون معرف میخواهید ثبت نام کنید؟
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="$('#confirmInviterModal').modal('toggle');" data-dismiss="modal">خیر</button>
+                <button type="button" class="btn btn-warning" onclick="_noInviter=true;$('#confirmInviterModal').modal('toggle');confirmWithoutInviter();">بلی</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@if (Model.IsSuccessfull == false)
+{
+
+    <div class="SirooRightBlockContainer">
+        <div class="mb-5 SirooRightBlock  col-12">
+            <div class="d-flex flex-row-reverse SirooRightBlockHeader">
+                <a class="profile-media col-2" href="#">
+                    <img src="~/uploads/assets/profile.jpg" />
+                </a>
+                <a href="#" class="col-6 profile-fullname">پکیج پیش‌پرداخت خرید لوازم خانگی</a>
+                <a href="#" class="col-2 profile-date">@string.Format("{0:C}", Model.currentMoney).Replace(".00","").Replace("$","") <span>ریال</span></a>
+            </div>
+            <div class="d-flex flex-column justify-content-center SirooContainer">
+                <div class="SirooItems">
+                    <div class="row justify-content-center mb-3">
+                        <div class="col-12 siroo-header">پیش‌پرداخت خرید لوازم خانگی</div>
+                    </div>
+                    <div class="row">&nbsp;</div>
+
+                    <form id="AddInsurance" method="post" class="addMoney row justify-content-center" enctype="multipart/form-data">
+
+                        @if (Model.HasHistory == false)
+                        {
+
+                            <div class="row justify-content-center">
+                                <div class="col-12 siroo-label">مبلغ مورد نیاز برای پیش‌پرداخت خرید لوازم خانگی</div>
+                            </div>
+                            <div class="row col-12 mb-2">
+                                <div class="col-12 siroo-header">@string.Format("{0:C}", Model.neededMoney1).Replace(".00","").Replace("$","") <span>ریال</span></div>
+                            </div>
+
+                            @if (Model.NeededMoneyToAttendInInsurance > 0)
+                            {
+                                <div class="row justify-content-center">
+                                    <div class="col-12 siroo-header-h2 text-warning">شما موجودی کافی برای خرید این پکیج ندارید</div>
+                                </div>
+                                <div class="row justify-content-center">
+                                    <div class="col-12 siroo-header-h2  text-warning">لطفا ابتدا موجودی کیف پول خود را افزایش دهید و سپس برای خرید این پکیج مراجعه نمایید</div>
+                                </div>
+                                <div class="row col-12 mb-3 justify-content-center">
+                                    <div class="col-8 SirooBtn">
+                                        <input id="theWallet" type="button" class="col-12" onclick="goToWallet();" value="کیف پول">
+                                    </div>
+                                </div>
+                            }
+                            @if (Model.NeededMoneyToAttendInInsurance == 0)
+                            {
+
+                                <div class="row justify-content-center mb-2">
+                                    <div class="col-12 siroo-header">پر کردن مشخصات فردی زیر الزامیست</div>
+                                </div>
+
+
+                                <div class="row justify-content-center">
+                                    <div class="col-12 siroo-label">نام کاربری معرف شما</div>
+                                </div>
+                                <div class="row col-12 mb-2">
+                                    <div class="col-12 Textbox fa fa-user">
+                                        <input type="text" class="col-12" asp-for="AddInsurance.Parent" />
+                                    </div>
+                                    <div class="col-12 text-warning">
+                                        <span asp-validation-for="AddInsurance.Parent"></span>
+                                    </div>
+                                </div>
+
+
+
+                                <div class="row justify-content-center">
+                                    <div class="col-12 siroo-label">نام</div>
+                                </div>
+                                <div class="row col-12 mb-2">
+                                    <div class="col-12 Textbox fa fa-user">
+                                        <input type="text" class="col-12" asp-for="AddInsurance.TheName" value="@Model.preDefinedInsurance.TheName" />
+                                    </div>
+                                    <div class="col-12 text-warning">
+                                        <span asp-validation-for="AddInsurance.TheName"></span>
+                                    </div>
+                                </div>
+
+                                <div class="row justify-content-center">
+                                    <div class="col-12 siroo-label">نام خانوادگی</div>
+                                </div>
+                                <div class="row col-12 mb-2">
+                                    <div class="col-12 Textbox fa fa-user">
+                                        <input type="text" class="col-12" asp-for="AddInsurance.TheFamily" value="@Model.preDefinedInsurance.TheFamily" />
+                                    </div>
+                                    <div class="col-12 text-warning">
+                                        <span asp-validation-for="AddInsurance.TheFamily"></span>
+                                    </div>
+                                </div>
+
+
+
+
+                                <div class="row justify-content-center">
+                                    <div class="col-12 siroo-label">کد ملی</div>
+                                </div>
+                                <div class="row col-12 mb-2">
+                                    <div class="col-12 Textbox fa fa-id-card">
+                                        <input type="text" class="col-12" asp-for="AddInsurance.TheNationalID" />
+                                    </div>
+                                    <div class="col-12 text-warning">
+                                        <span asp-validation-for="AddInsurance.TheNationalID"></span>
+                                    </div>
+                                </div>
+
+                                <div class="row justify-content-center">
+                                    <div class="col-12 siroo-label">شماره شناسنامه</div>
+                                </div>
+                                <div class="row col-12 mb-2">
+                                    <div class="col-12 Textbox fa fa-id-card">
+                                        <input type="text" class="col-12" asp-for="AddInsurance.TheIDNumber" />
+                                    </div>
+                                    <div class="col-12 text-warning">
+                                        <span asp-validation-for="AddInsurance.TheIDNumber"></span>
+                                    </div>
+                                </div>
+
+
+
+
+                                <div class="row justify-content-center">
+                                    <div class="col-12 siroo-label">نام پدر</div>
+                                </div>
+                                <div class="row col-12 mb-2">
+                                    <div class="col-12 Textbox fa fa-user">
+                                        <input type="text" class="col-12" asp-for="AddInsurance.TheFatherName" />
+                                    </div>
+                                    <div class="col-12 text-warning">
+                                        <span asp-validation-for="AddInsurance.TheFatherName"></span>
+                                    </div>
+                                </div>
+
+
+
+                                <div class="row justify-content-center">
+                                    <div class="col-12 siroo-label">شماره موبایل</div>
+                                </div>
+                                <div class="row col-12 mb-2">
+                                    <div class="col-12 Textbox fa fa-mobile">
+                                        <input type="text" class="col-12" asp-for="AddInsurance.TheMobileNumber" value="@Model.preDefinedInsurance.TheMobileNumber" />
+                                    </div>
+                                    <div class="col-12 text-warning">
+                                        <span asp-validation-for="AddInsurance.TheMobileNumber"></span>
+                                    </div>
+                                </div>
+
+
+
+                                <div class="row justify-content-center">
+                                    <div class="col-12 siroo-label">استان</div>
+                                </div>
+                                <div class="row col-12 mb-2">
+                                    <div class="col-12 Textbox fa fa-mobile">
+                                        <input type="text" class="col-12" asp-for="AddInsurance.TheAddressProvience" />
+                                    </div>
+                                    <div class="col-12 text-warning">
+                                        <span asp-validation-for="AddInsurance.TheAddressProvience"></span>
+                                    </div>
+                                </div>
+
+                                <div class="row justify-content-center">
+                                    <div class="col-12 siroo-label">شهر</div>
+                                </div>
+                                <div class="row col-12 mb-2">
+                                    <div class="col-12 Textbox fa fa-mobile">
+                                        <input type="text" class="col-12" asp-for="AddInsurance.TheAddressCity" />
+                                    </div>
+                                    <div class="col-12 text-warning">
+                                        <span asp-validation-for="AddInsurance.TheAddressCity"></span>
+                                    </div>
+                                </div>
+
+                                <div class="row justify-content-center">
+                                    <div class="col-12 siroo-label">نشانی</div>
+                                </div>
+                                <div class="row col-12 mb-2">
+                                    <div class="col-12 Textbox fa fa-mobile">
+                                        <input type="text" class="col-12" asp-for="AddInsurance.TheAddressDetails" />
+                                    </div>
+                                    <div class="col-12 text-warning">
+                                        <span asp-validation-for="AddInsurance.TheAddressDetails"></span>
+                                    </div>
+                                </div>
+
+                                <div class="row justify-content-center">
+                                    <div class="col-12 siroo-label">کدپستی</div>
+                                </div>
+                                <div class="row col-12 mb-2">
+                                    <div class="col-12 Textbox fa fa-mobile">
+                                        <input type="text" class="col-12" asp-for="AddInsurance.TheAddressPostalCode" />
+                                    </div>
+                                    <div class="col-12 text-warning">
+                                        <span asp-validation-for="AddInsurance.TheAddressPostalCode"></span>
+                                    </div>
+                                </div>
+
+
+
+
+
+                                <div class="row">&nbsp;</div>
+                                <div class="row">&nbsp;</div>
+                                <div class="row justify-content-center">
+                                    <div class="col-12 siroo-label">از صحت اطلاعات اطمینان دارید؟</div>
+@*                                    <div class="col-12 siroo-label text-warning">در صورت حرید بیمه نامه در قرعه کشی وام قرض الحسنه با کارمزد چهار درصد شرکت داده میشوید. مبلغ وام</div>
+                                    <div class="col-12 siroo-label text-warning">سال اول پنجاه میلیون تومان</div>
+                                    <div class="col-12 siroo-label text-warning">سال دوم شصت میلیون تومان</div>
+                                    <div class="col-12 siroo-label text-warning">سال سوم هفتاد میلیون تومان</div>
+                                    <div class="col-12 siroo-label text-warning">سال چهارم هشتاد میلیون تومان</div>
+                                    <div class="col-12 siroo-label text-warning">سال پنجم صد میلیون تومان</div>
+                                    <div class="col-12 siroo-label text-warning">در صورت برنده شدن در قرعه کشی وام گواهی پرداخت پنج میلیون در سال پنجم از بیمه گذار دریافت میشود</div>
+                                    <div class="col-12 siroo-label text-warning">وام ها قابل واگذاری به غیر نمی باشند. فقط در صورتی که فرد برنده شده شرایط دزیافت وام را نداشته باشد با تایید بانک میتواند به بستگان درجه یک خود واگذار نماید</div>
+                                    <div class="col-12 siroo-label text-warning">مبلغ پنج میلیون تومان در انتهای سال پنجم بازگشت داده میشود و تا آن زمان قابل استرداد نمی باشد</div>*@
+                                </div>
+
+                                <div class="row col-12 mb-2 mt-3">
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="radio" asp-for="AddInsurance.ThePolicy" value="1">
+                                        <label class="form-check-label" for="AddInsurance.TheMotherAlive">بلی</label>
+                                    </div>
+                                </div>
+                                <div class="row col-12 mb-2">
+                                    <div class="col-12 text-warning">
+                                        <span asp-validation-for="AddInsurance.ThePolicy"></span>
+                                    </div>
+                                </div>
+
+
+
+                                <div class="row col-12 mb-3 justify-content-center">
+                                    <div class="col-8 SirooBtn">
+                                        <input id="GoChallenge" type="submit" class="col-12" asp-page-handler="AddUserData" value="خرید پکیج">
+                                    </div>
+                                </div>
+                            }
+                        }
+
+                        @if (Model.HasHistory == true)
+                        {
+                            <div class="row justify-content-center mb-3">
+                                <div class="col-12 siroo-header">اطلاعات شما ثبت شده است. برای خرید پکیج تخفیف بیمه ای لطفا مبلغ زیر را پرداخت نمایید</div>
+                            </div>
+                        }
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
+@section Scripts{
+<script>
+
+        var neededMoney1='@string.Format("{0:C}", Model.neededMoney1).Replace(".00","").Replace("$","")';
+        var _neededMoney1=@Model.neededMoney1;
+
+        var currentMoney=@Model.currentMoney;
+
+        var walletURL="";
+
+        walletURL="/Clients/Wallet?reason=buyinsurance3";
+
+
+        function goToWallet(){
+            window.location=walletURL;
+        }
+
+    _noInviter=false;
+
+    function confirmWithoutInviter(){
+        _noInviter=true;
+        $('#GoChallenge').click();
+    }
+
+    $(document).ready(function () {
+
+
+
+            function dosomething() {
+              alert('here i am');
+              return false;
+              // if you want to submit the form here
+              //$('#AddInsurance').submit();
+            }
+
+            //$('#AddInsurance').submit(function(e) {
+
+            //    if(_noInviter==false){
+            //        if($('#AddInsurance_Parent').val()==''){
+            //            e.preventDefault();
+            //            $('#confirmInviterModal').modal('toggle');
+            //        }
+            //    }else{
+            //        return true;
+            //    }
+
+            //    return true;
+
+            //  });
+
+
+            $('.finalBTN2').hide();
+            $('.finalBTN').hide();
+
+            $("#ddlPackage").change(function () {
+
+                var end = $('#ddlPackage').val();
+
+                if(end!="0"){
+                    $('.challengeHidden').css('display','block');
+                }else{
+                    $('.challengeHidden').css('display','none');
+                    $('.finalBTN').hide();
+                }
+
+                if(end=="1"){
+                    $('#AddInsurance_NeededMoneyToAttendInChallenge').val(neededMoney1+" ریال");
+                    if(currentMoney<_neededMoney1){
+                        $('.finalBTN').hide();
+                        $('.finalBTN2').css('display','flex');
+                        walletURL="/Clients/Wallet?reason=buypackage&package=1";
+                        $('.challengeHidden').css('display','none');
+                        $('.challengeHidden2').css('display','none');
+                    }else{
+                        $('.finalBTN').show();
+                        $('.challengeHidden').css('display','block');
+                        $('.challengeHidden2').css('display','block');
+                        $('.finalBTN2').css('display','none');
+
+                    }
+                    console.log(1);
+                }
+
+                if(end=="2"){
+                    $('#AddInsurance_NeededMoneyToAttendInChallenge').val(neededMoney2+" ریال");
+                    if(currentMoney<_neededMoney2){
+                        $('.finalBTN').hide();
+                        $('.finalBTN2').css('display','flex');
+                        walletURL="/Clients/Wallet?reason=buypackage&package=2";
+                        $('.challengeHidden').css('display','none');
+                        $('.challengeHidden2').css('display','none');
+                    }else{
+                        $('.finalBTN').show();
+                        $('.challengeHidden').css('display','block');
+                        $('.challengeHidden2').css('display','block');
+                        $('.finalBTN2').css('display','none');
+
+                    }
+                    console.log(2);
+                }
+
+                if(end=="3"){
+                    $('#AddInsurance_NeededMoneyToAttendInChallenge').val(neededMoney3+" ریال");
+                    if(currentMoney<_neededMoney3){
+                        $('.finalBTN').hide();
+                        $('.finalBTN2').css('display','flex');
+                        walletURL="/Clients/Wallet?reason=buypackage&package=3";
+                        $('.challengeHidden').css('display','none');
+                        $('.challengeHidden2').css('display','none');
+                    }else{
+                        $('.finalBTN').show();
+                        $('.challengeHidden').css('display','block');
+                        $('.challengeHidden2').css('display','block');
+                        $('.finalBTN2').css('display','none');
+                    }
+                    console.log(3);
+                }
+
+            });
+
+
+
+
+    });
+</script>
+}

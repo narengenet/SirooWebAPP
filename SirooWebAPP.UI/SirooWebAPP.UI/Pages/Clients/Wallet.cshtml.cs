@@ -43,15 +43,15 @@ namespace SirooWebAPP.UI.Pages.Clients
             {
                 Amount = theUser.Money.ToString();
 
-                
+
 
 
                 Amount = string.Format("{0:C}", theUser.Money).Replace("$", "").Replace(".00", "");
 
-                if (Request.Query["reason"]== "buypackage")
+                if (Request.Query["reason"] == "buypackage")
                 {
                     // check validity to attend in new challenge
-                    long _neededMoneyToAttentdInChallenge = Convert.ToInt64(_usersServices.GetConstantDictionary("money_needed_to_attend_in_challenge_"+ Request.Query["package"]).ConstantValue);
+                    long _neededMoneyToAttentdInChallenge = Convert.ToInt64(_usersServices.GetConstantDictionary("money_needed_to_attend_in_challenge_" + Request.Query["package"]).ConstantValue);
                     if (theUser.Money >= _neededMoneyToAttentdInChallenge)
                     {
                         Graphs graphUser = _usersServices.GetAllGraphs().Where(g => g.User == creatorID).FirstOrDefault();
@@ -71,6 +71,37 @@ namespace SirooWebAPP.UI.Pages.Clients
                     if (theUser.Money >= _neededMoneyToAttentdInInsurance)
                     {
                         InsuranceUserData insuranceUser = _usersServices.GetAllInsuranceUserData().Where(g => g.User == creatorID).FirstOrDefault();
+                        if (insuranceUser == null)
+                        {
+                            IsValidToChallenge = true;
+                        }
+                    }
+                    RemainingMoneyToAttendChallenge = _neededMoneyToAttentdInInsurance - theUser.Money;
+
+                }
+
+                if (Request.Query["reason"] == "buyinsurance3")
+                {
+                    // check validity to attend in new challenge
+                    long _neededMoneyToAttentdInInsurance = Convert.ToInt64(_usersServices.GetConstantDictionary("money_needed_to_attend_in_insurance3").ConstantValue);
+                    if (theUser.Money >= _neededMoneyToAttentdInInsurance)
+                    {
+                        InsuranceThirdUserData insuranceUser = _usersServices.GetAllInsuranceThirdUserData().Where(g => g.User == creatorID).FirstOrDefault();
+                        if (insuranceUser == null)
+                        {
+                            IsValidToChallenge = true;
+                        }
+                    }
+                    RemainingMoneyToAttendChallenge = _neededMoneyToAttentdInInsurance - theUser.Money;
+
+                }
+                if (Request.Query["reason"] == "buyinsurance4")
+                {
+                    // check validity to attend in new challenge
+                    long _neededMoneyToAttentdInInsurance = Convert.ToInt64(_usersServices.GetConstantDictionary("money_needed_to_attend_in_insurance4").ConstantValue);
+                    if (theUser.Money >= _neededMoneyToAttentdInInsurance)
+                    {
+                        InsuranceFourthUserData insuranceUser = _usersServices.GetAllInsuranceFourthUserData().Where(g => g.User == creatorID).FirstOrDefault();
                         if (insuranceUser == null)
                         {
                             IsValidToChallenge = true;

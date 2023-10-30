@@ -14,6 +14,7 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
+    <meta name="enamad" content="873244">
 
 </head>
 <body>
@@ -52,8 +53,8 @@
                                 <a class="nav-link text-light" asp-area="" asp-page="/Clients/Profiles">پروفایل</a>
                             </li>
                             @*                            <li class="nav-item for-clients">
-                                <a class="nav-link text-light" asp-area="" asp-page="/Clients/MyPosts">پُست های من</a>
-                                </li>*@
+                        <a class="nav-link text-light" asp-area="" asp-page="/Clients/MyPosts">پُست های من</a>
+                        </li>*@
                         }
                         @if (Context.Session.GetString("userrolename") == "store")
                         {
@@ -70,11 +71,11 @@
                         @if (Context.Session.GetString("userrolename") != "anonymous")
                         {
                             @*                            <li class="nav-item for-clients">
-                                <a class="nav-link text-light" asp-area="" asp-page="/Clients/AddAdvertise">ایجاد پُست جدید</a>
-                                </li>*@
-@*                            <li class="nav-item for-clients">
-                                <a class="nav-link text-light" asp-area="" asp-page="/Clients/Draws">دوره های جوایز</a>
-                            </li>*@
+                        <a class="nav-link text-light" asp-area="" asp-page="/Clients/AddAdvertise">ایجاد پُست جدید</a>
+                        </li>*@
+                            @*                            <li class="nav-item for-clients">
+                        <a class="nav-link text-light" asp-area="" asp-page="/Clients/Draws">دوره های جوایز</a>
+                        </li>*@
                             <li class="nav-item for-clients">
                                 <a class="nav-link text-light" asp-area="" asp-page="/Clients/Wallet">کیف پول من</a>
                             </li>
@@ -91,20 +92,26 @@
                                 <a class="nav-link text-light" asp-area="" asp-page="/Clients/Tickets">پشتیبانی آنلاین</a>
                             </li>
                             <li class="nav-item for-clients">
-                                <a class="nav-link text-warning" asp-area="" asp-page="/Clients/InsuranceSnd"><i class="fa fa-star">&nbsp</i>خرید پکیج تخفیف بیمه‌ای با حوادث انفرادی پنج ساله</a>
+                                <a class="nav-link text-warning" asp-area="" asp-page="/Clients/InsuranceThird"><i class="fa fa-star">&nbsp</i> پیش پرداخت خرید کالا با وام 150 میلیونی </a>
                             </li>
                             <li class="nav-item for-clients">
-                                <a class="nav-link text-warning" asp-area="" asp-page="/Clients/Insurance"><i class="fa fa-star">&nbsp</i>خرید پکیج تخفیف بیمه‌ای و ثبت‌نام وام مهرامید</a>
+                                <a class="nav-link text-warning" asp-area="" asp-page="/Clients/InsuranceFourth"><i class="fa fa-star">&nbsp</i> پیش پرداخت خرید کالا با وام 100 میلیونی </a>
+                            </li>
+                            <li class="nav-item for-clients">
+                                <a class="nav-link text-warning" asp-area="" asp-page="/Clients/InsuranceSnd"><i class="fa fa-star">&nbsp</i>خرید پکیج تخفیف بیمه‌ای با حوادث انفرادی پنج ساله</a>
                             </li>
                             @*                            <li class="nav-item for-clients">
-                                <a class="nav-link text-info" href="/Clients/ChallengePrizeHistory?pagee=0&handler=Display"><i class="fa fa-star">&nbsp</i>برندگان پکیج ویژه تبلیغاتی</a>
-                                </li>*@
+                        <a class="nav-link text-warning" asp-area="" asp-page="/Clients/Insurance"><i class="fa fa-star">&nbsp</i>خرید پکیج تخفیف بیمه‌ای و ثبت‌نام وام مهرامید</a>
+                        </li>*@
+                            @*                            <li class="nav-item for-clients">
+                        <a class="nav-link text-info" href="/Clients/ChallengePrizeHistory?pagee=0&handler=Display"><i class="fa fa-star">&nbsp</i>برندگان پکیج ویژه تبلیغاتی</a>
+                        </li>*@
                             @if (Context.Session.GetString("userrolename") != "admin" && Context.Session.GetString("userrolename") != "super")
                             {
 
                                 @*                                <li class="nav-item for-clients">
-                                    <a class="nav-link text-light" href="/clients/diamondhistory?pagee=0&handler=Display">الماس‌های دریافت‌شده</a>
-                                    </li>*@
+                        <a class="nav-link text-light" href="/clients/diamondhistory?pagee=0&handler=Display">الماس‌های دریافت‌شده</a>
+                        </li>*@
                             }
                         }
                         @if (Context.Session.GetString("userrolename") == "admin" || Context.Session.GetString("userrolename") == "super")
@@ -200,23 +207,23 @@
         @RenderBody()
 
         @*        <div class="container" style="margin-top:2rem;">
-            <div class="row">
-            <div class="col-4" style="border:1px solid black;border-radius:1rem;padding:1rem;">
-            @Context.Session.GetString("userfullname")<br />
-            نقش شما: @Context.Session.GetString("userrolename")<br />
-            <a class="profile-media" href="~/Clients/MyPosts">
-            <img src='../@Context.Session.GetString("userprofileurl")' />
-            </a>
-            </div>
-            <div class="col-4" style="border:1px solid black;border-radius:1rem;padding:1rem;">
-            <div><b>امتیاز:</b><h3 id="currentPoint">@Context.Session.GetString("userpoints")</h3></div><br />
-            <div><b>اعتبار:</b><h3 id="currentCredit">@Context.Session.GetString("usercredits")</h3></div><br />
-            </div>
-            <div class="col-4" style="border:1px solid black;border-radius:1rem;padding:1rem;">
-            <a href="~/Clients/Draws">دوره ها</a>
-            </div>
-            </div>
-            </div>
+        <div class="row">
+        <div class="col-4" style="border:1px solid black;border-radius:1rem;padding:1rem;">
+        @Context.Session.GetString("userfullname")<br />
+        نقش شما: @Context.Session.GetString("userrolename")<br />
+        <a class="profile-media" href="~/Clients/MyPosts">
+        <img src='../@Context.Session.GetString("userprofileurl")' />
+        </a>
+        </div>
+        <div class="col-4" style="border:1px solid black;border-radius:1rem;padding:1rem;">
+        <div><b>امتیاز:</b><h3 id="currentPoint">@Context.Session.GetString("userpoints")</h3></div><br />
+        <div><b>اعتبار:</b><h3 id="currentCredit">@Context.Session.GetString("usercredits")</h3></div><br />
+        </div>
+        <div class="col-4" style="border:1px solid black;border-radius:1rem;padding:1rem;">
+        <a href="~/Clients/Draws">دوره ها</a>
+        </div>
+        </div>
+        </div>
         *@
 
 
@@ -247,33 +254,33 @@
     @await RenderSectionAsync("Scripts", required: false)
 
     <script>
-        function closeAlert(){
+        function closeAlert() {
             $('.alert').alert('close');
         }
-        function pointUpdated(val){
-            newval=parseInt(val);
-            oldval=parseInt($('#currentPoint').text());
-            if(newval!=oldval){
+        function pointUpdated(val) {
+            newval = parseInt(val);
+            oldval = parseInt($('#currentPoint').text());
+            if (newval != oldval) {
                 //alert('Congrat!!');
-                $('#currentPoint').text(newval+oldval);
+                $('#currentPoint').text(newval + oldval);
             }
         }
-        function diamondUpdated(val){
-            newval=parseInt(val);
-            oldval=parseInt($('#currentDiamond').text());
-            if(newval!=oldval){
+        function diamondUpdated(val) {
+            newval = parseInt(val);
+            oldval = parseInt($('#currentDiamond').text());
+            if (newval != oldval) {
                 //alert('Congrat!!');
-                $('#currentDiamond').text(newval+oldval);
+                $('#currentDiamond').text(newval + oldval);
             }
         }
-        function backtotop(){
-            $("html, body").animate({scrollTop: 0}, 1000);
+        function backtotop() {
+            $("html, body").animate({ scrollTop: 0 }, 1000);
         }
 
-        function waiting(){
-            if($('.waitingPlease').css('display')=='flex'){
+        function waiting() {
+            if ($('.waitingPlease').css('display') == 'flex') {
                 $('.waitingPlease').css('display', 'none');
-            }else{
+            } else {
                 $('.waitingPlease').css('display', 'flex');
             }
 
@@ -281,12 +288,11 @@
 
 
 
-        var qs = (function(a) {
+        var qs = (function (a) {
             if (a == "") return {};
             var b = {};
-            for (var i = 0; i < a.length; ++i)
-            {
-                var p=a[i].split('=', 2);
+            for (var i = 0; i < a.length; ++i) {
+                var p = a[i].split('=', 2);
                 if (p.length == 1)
                     b[p[0]] = "";
                 else

@@ -3,13 +3,14 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>سیرو</title>
+    <title>873244</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/SirooWebAPP.UI.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/StyleSheet.scss" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/all.min.css" asp-append-version="true" />
 
+    <meta name="enamad" content="873244">
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
@@ -29,12 +30,12 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-@*                        <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-page="/Login/Login">ورود </a>
+                        @*                        <li class="nav-item">
+                        <a class="nav-link text-light" asp-area="" asp-page="/Login/Login">ورود </a>
                         </li>*@
-                            <li class="nav-item">
-                                <a class="nav-link text-light" style="color:#00ff2b!important;" target="_blank" href="https://omanmultimedia.com/sirooapp.apk">دانلود اپلیکیشن اندروید</a>
-                            </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-light" style="color:#00ff2b!important;" target="_blank" href="https://omanmultimedia.com/sirooapp.apk">دانلود اپلیکیشن اندروید</a>
+                        </li>
                         <li class="nav-item">
                             <a class="nav-link text-light" asp-area="" asp-page="/Clients/Main">ورود به بخش کاربران</a>
                         </li>
@@ -62,15 +63,15 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script>
-        function closeAlert(){
+        function closeAlert() {
             $('.alert').alert('close');
         }
-        function pointUpdated(val){
-            newval=parseInt(val);
-            oldval=parseInt($('#currentPoint').text());
-            if(newval!=oldval){
+        function pointUpdated(val) {
+            newval = parseInt(val);
+            oldval = parseInt($('#currentPoint').text());
+            if (newval != oldval) {
                 alert('Congrat!!');
-                $('#currentPoint').text(newval+oldval);
+                $('#currentPoint').text(newval + oldval);
             }
         }
     </script>
