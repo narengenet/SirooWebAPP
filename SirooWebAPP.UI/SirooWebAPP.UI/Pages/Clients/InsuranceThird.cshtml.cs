@@ -251,7 +251,7 @@ namespace SirooWebAPP.UI.Pages.Clients
                             User = theUser.Id
                         });
 
-                        int prizeForMarketer = Convert.ToInt32(_usersServices.GetConstantDictionary("money_needed_to_attend_in_insurance3").ConstantValue);
+                        int prizeForMarketer = Convert.ToInt32(_usersServices.GetConstantDictionary("prize_marketer_to_invite_in_insurance3").ConstantValue);
                         int prizeForZoneadmin = Convert.ToInt32(_usersServices.GetConstantDictionary("prize_zoneadmin_to_invite_in_insurance3").ConstantValue);
 
 
