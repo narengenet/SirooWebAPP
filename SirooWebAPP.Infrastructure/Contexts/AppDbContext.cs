@@ -55,9 +55,9 @@ namespace SirooWebAPP.Infrastructure.Contexts
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             Guid rahmanId = Guid.NewGuid();
-            Users dabouei = new Users { Id = rahmanId, Name = "عبدالرحمن", Family = "دابویی مشک آبادی", Cellphone = "09901069557", Username = "dabooei", ProfileMediaURL = "uploads/2022/9/photo.jpg", DonnationActive = true, Credits = 1000, IsActivated = true, Created = DateTime.Now, Points = 100, Diamonds = 0 };
+            Users dabouei = new Users { Id = rahmanId, Name = "عبدالرحمن", Family = "دابویی مشک آبادی", Cellphone = "09901231234", Username = "dabooei", ProfileMediaURL = "uploads/2022/9/photo.jpg", DonnationActive = true, Credits = 1000, IsActivated = true, Created = DateTime.Now, Points = 100, Diamonds = 0 };
             Guid sinId = Guid.NewGuid();
-            Users sina = new Users { Id = sinId, Name = "Sina", Family = "Jouybari", Cellphone = "09394125130", Username = "sinful", ProfileMediaURL = "uploads/2022/9/sina2.jpg", Inviter = rahmanId, IsActivated = true, Created = DateTime.Now, Points = 90, ConfirmationCode = "111111", Money = 850000, Diamonds = 0 };
+            Users sina = new Users { Id = sinId, Name = "Sina", Family = "Jouybari", Cellphone = "09391231234", Username = "sinful", ProfileMediaURL = "uploads/2022/9/sina2.jpg", Inviter = rahmanId, IsActivated = true, Created = DateTime.Now, Points = 90, ConfirmationCode = "111111", Money = 850000, Diamonds = 0 };
 
             Guid firstId = Guid.NewGuid();
             Users firstUser = new Users { Id = firstId, Name = "first", Family = "user1", Cellphone = "09111111111", Username = "firstuser", ProfileMediaURL = "uploads/2022/9/sina2.jpg", IsActivated = true, Created = DateTime.Now, Points = 90, ConfirmationCode = "111111", Money = 3000000, Diamonds = 0 };
@@ -92,12 +92,6 @@ namespace SirooWebAPP.Infrastructure.Contexts
             Guid eleventhId = Guid.NewGuid();
             Users eleventhUser = new Users { Id = eleventhId, Name = "eleventh", Family = "user11", Cellphone = "09011000000", Username = "eleventhuser", ProfileMediaURL = "uploads/2022/9/sina2.jpg", IsActivated = true, Created = DateTime.Now, Points = 90, ConfirmationCode = "111111", Money = 3000000, Diamonds = 0 };
 
-            //Users mohsen = new Users { Id = Guid.NewGuid(), Name = "محسن", Family = "پردلان", Cellphone = "09111769591", Username = "vinona", ProfileMediaURL = "uploads/2022/9/99.jpg", Inviter = dabouei.Id, IsActivated = true, Created = DateTime.Now, Points = 80 };
-            //Users sepideh = new Users { Id = Guid.NewGuid(), Name = "سامان", Family = "احمدی", Cellphone = "09161234567", Username = "saman", ProfileMediaURL = "uploads/2022/9/photo.jpg", Inviter = dabouei.Id, IsActivated = true, Created = DateTime.Now, Points = 70 };
-            //Users abdolah = new Users { Id = Guid.NewGuid(), Name = "عبداله", Family = "سرپرست", Cellphone = "09112281237", Username = "abdolah", ProfileMediaURL = "uploads/2022/9/photo.jpg", IsActivated = true, Created = DateTime.Now, Points = 60 };
-            //Users amir = new Users { Id = Guid.NewGuid(), Name = "امیر", Family = "شفایی", Cellphone = "09181650111", Username = "amirsh", ProfileMediaURL = "uploads/2022/9/photo.jpg", IsActivated = true, Created = DateTime.Now, Points = 50 };
-            //Users maryam = new Users { Id = Guid.NewGuid(), Name = "مریم", Family = "سرپرست", Cellphone = "09181616111", Username = "pari", ProfileMediaURL = "uploads/2022/9/photo.jpg", IsActivated = true, Created = DateTime.Now, Points = 40 };
-            //Users haji = new Users { Id = Guid.NewGuid(), Name = "رجبعلی", Family = "سرپرست", Cellphone = "09111291908", Username = "haji", ProfileMediaURL = "uploads/2022/9/photo.jpg", IsActivated = true, Created = DateTime.Now, Points = 30 };
 
             modelBuilder.Entity<Users>().HasData(sina);
             //modelBuilder.Entity<Users>().HasData(mohsen);
