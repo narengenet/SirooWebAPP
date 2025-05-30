@@ -10,7 +10,7 @@ The front-end harnesses jQuery API and Razor C# technology, accompanied by SCSS 
 Database:
 Data storage is achieved through a code-first solution and Entity Framework, utilizing Microsoft SQL
 
-![image](https://github.com/user-attachments/assets/e691baa0-39ac-43fb-9c3d-3605eb4802b1)
+![image](https://github.com/user-attachments/assets/868fae39-60b7-46bf-8f83-d02462146a31)
 ![image](https://github.com/user-attachments/assets/49434eb1-c91d-4935-84f7-d5c911ebbe04)
 ![image](https://github.com/user-attachments/assets/f48dfbc6-8c97-4153-aed8-affcd90082ad)
 ![image](https://github.com/user-attachments/assets/29f727f8-9e04-464c-90b7-4aa38bbf6e3f)
