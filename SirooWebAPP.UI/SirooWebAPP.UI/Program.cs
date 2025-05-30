@@ -17,6 +17,9 @@ using System.Reflection;
 using SirooWebAPP.Application.DTO;
 using SirooWebAPP.Core.Domain;
 using SirooWebAPP.Application;
+using DotNetEnv;
+
+Env.Load(); // Load environment variables from .env file
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -35,7 +38,15 @@ builder.Services.AddIoCService();
 builder.Services.AddSingleton<UniqueCode>();
 builder.Services.AddSingleton<CustomIDataProtection>();
 
-builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer("name=ConnectionStrings:DefaultConnection"));
+var dbServer = Environment.GetEnvironmentVariable("DB_SERVER");
+var dbName = Environment.GetEnvironmentVariable("DB_NAME");
+var dbUser = Environment.GetEnvironmentVariable("DB_USER");
+var dbPassword = Environment.GetEnvironmentVariable("DB_PASSWORD");
+
+var connectionString = $"Server={dbServer};Initial Catalog={dbName};User ID={dbUser};Password={dbPassword}";
+
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlServer(connectionString));
 
 
 
